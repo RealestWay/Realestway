@@ -13,7 +13,9 @@ import { useAuth } from "../../contexts/AuthContext";
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-  const { fetchUsers, fetchAgents } = useAuth();
+  const { fetchUsers, fetchAgents, users } = useAuth();
+  const [checkUser, setCheckUser] = useState("");
+  const user = users.find((u) => u.email === formData.email);
   const [formData, setFormData] = useState({
     id: `u${Date.now()}`,
     name: "",
@@ -40,7 +42,10 @@ const Signup = () => {
       setError("Passwords do not match.");
       return;
     }
-
+    if (user) {
+      setCheckUser("User with this mail is already registered...");
+      return;
+    }
     try {
       const res = await fetch("http://localhost:9000/users", {
         method: "POST",
@@ -104,7 +109,7 @@ const Signup = () => {
                 className="w-[95%] pl-10 border-b border-gray-400 p-2 my-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
               />
             </div>
-
+            <p className="text-red-600 flex justify-center">{checkUser}</p>
             {/* Phone Number */}
             <div className="relative">
               <div className="absolute inset-y-0 left-3 flex items-center text-gray-500">

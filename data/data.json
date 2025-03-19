@@ -16,7 +16,11 @@
       "date_listed": "2025-03-19T09:16:56.900Z",
       "agent_id": "A002",
       "minTenancyPeriod": "1 year",
-      "amenities": ["Security", "Running Water", "Electricity"],
+      "amenities": [
+        "Security",
+        "Running Water",
+        "Electricity"
+      ],
       "location": {
         "latitude": 6.5568768,
         "longitude": 3.3325056,
@@ -35,16 +39,27 @@
       },
       "totalPrice": 550000,
       "images": [
-        { "src": "/img1f1.jpg" },
-        { "src": "/img1f2.jpg" },
-        { "src": "/img2f1.jpg" },
-        { "src": "/img1f3.jpg" },
-        { "src": "/img3n1.jpg" },
-        { "src": "/img2f1.jpg" }
+        {
+          "src": "/img1f1.jpg"
+        },
+        {
+          "src": "/img1f2.jpg"
+        },
+        {
+          "src": "/img2f1.jpg"
+        },
+        {
+          "src": "/img1f3.jpg"
+        },
+        {
+          "src": "/img3n1.jpg"
+        },
+        {
+          "src": "/img2f1.jpg"
+        }
       ],
       "video": null
     },
-
     {
       "id": "h1742375816901",
       "title": "Affordable Studio in Downtown",
@@ -61,7 +76,11 @@
       "date_listed": "2025-03-20T10:00:00.000Z",
       "agent_id": "A003",
       "minTenancyPeriod": "6 months",
-      "amenities": ["WiFi", "Air Conditioning", "Parking"],
+      "amenities": [
+        "WiFi",
+        "Air Conditioning",
+        "Parking"
+      ],
       "location": {
         "latitude": 40.7128,
         "longitude": -74.006,
@@ -80,12 +99,24 @@
       },
       "totalPrice": 1150,
       "images": [
-        { "src": "/img1a.jpg" },
-        { "src": "/img2a.jpg" },
-        { "src": "/img3a.jpg" },
-        { "src": "/img4a.jpg" },
-        { "src": "/img5a.jpg" },
-        { "src": "/img6a.jpg" }
+        {
+          "src": "/img1a.jpg"
+        },
+        {
+          "src": "/img2a.jpg"
+        },
+        {
+          "src": "/img3a.jpg"
+        },
+        {
+          "src": "/img4a.jpg"
+        },
+        {
+          "src": "/img5a.jpg"
+        },
+        {
+          "src": "/img6a.jpg"
+        }
       ],
       "video": null
     },
@@ -105,7 +136,12 @@
       "date_listed": "2025-03-20T11:00:00.000Z",
       "agent_id": "A004",
       "minTenancyPeriod": "1 year",
-      "amenities": ["Garden", "Garage", "Fireplace", "Dishwasher"],
+      "amenities": [
+        "Garden",
+        "Garage",
+        "Fireplace",
+        "Dishwasher"
+      ],
       "location": {
         "latitude": 40.7129,
         "longitude": -74.0059,
@@ -124,12 +160,73 @@
       },
       "totalPrice": 3150,
       "images": [
-        { "src": "/img1b.jpg" },
-        { "src": "/img2b.jpg" },
-        { "src": "/img3b.jpg" },
-        { "src": "/img4b.jpg" },
-        { "src": "/img5b.jpg" },
-        { "src": "/img6b.jpg" }
+        {
+          "src": "/img1b.jpg"
+        },
+        {
+          "src": "/img2b.jpg"
+        },
+        {
+          "src": "/img3b.jpg"
+        },
+        {
+          "src": "/img4b.jpg"
+        },
+        {
+          "src": "/img5b.jpg"
+        },
+        {
+          "src": "/img6b.jpg"
+        }
+      ],
+      "video": null
+    },
+    {
+      "id": "h1742401735293",
+      "title": "Sample form user",
+      "address": "Yaya quarters, Modakeke, Osun state",
+      "description": "Aare villa",
+      "bedrooms": "2",
+      "bathrooms": "3",
+      "dimension": "120 by 65ft",
+      "property_type": "2 Bedroom Apartment",
+      "year_built": "2025-02-28",
+      "furnishing": "Semi Furnished",
+      "caretaker_contact": "+234",
+      "price_type": "yearly",
+      "date_listed": "2025-03-19T16:28:55.293Z",
+      "agent_id": "A002",
+      "minTenancyPeriod": "3 years",
+      "amenities": [
+        "Security",
+        "Running Water",
+        "Electricity"
+      ],
+      "location": {
+        "latitude": 6.4474,
+        "longitude": 3.3903,
+        "address": "Nigeria",
+        "city": "Lagos",
+        "state": "Lagos",
+        "zipCode": "N/A",
+        "error": ""
+      },
+      "priceBreakdown": {
+        "basicRent": 200000,
+        "cautionFee": 10000,
+        "agentFee": 19999,
+        "otherFees": "",
+        "agreementFee": 10000
+      },
+      "totalPrice": 239999,
+      "images": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
       ],
       "video": null
     }
@@ -143,7 +240,9 @@
       "phone": "+1 555 123 4567",
       "company": "NYC Realty",
       "profile_picture": "/images/agent1.jpg",
-      "listings": ["H001"]
+      "listings": [
+        "H001"
+      ]
     },
     {
       "id": "A002",
@@ -153,7 +252,9 @@
       "phone": "+1 555 987 6543",
       "company": "Brooklyn Homes",
       "profile_picture": "/images/agent2.jpg",
-      "listings": ["H002"]
+      "listings": [
+        "H002"
+      ]
     }
   ],
   "users": [
@@ -163,7 +264,9 @@
       "email": "alice@example.com",
       "password": "Realest",
       "phone": "+1 555 123 9876",
-      "saved_houses": ["H001"],
+      "saved_houses": [
+        "H001"
+      ],
       "rented_houses": [],
       "role": "renter"
     },
@@ -173,8 +276,12 @@
       "email": "bob@example.com",
       "password": "Realest",
       "phone": "+1 555 321 4567",
-      "saved_houses": ["H002"],
-      "rented_houses": ["H002"],
+      "saved_houses": [
+        "H002"
+      ],
+      "rented_houses": [
+        "H002"
+      ],
       "role": "renter"
     },
     {

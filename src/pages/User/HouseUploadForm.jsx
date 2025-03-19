@@ -123,15 +123,7 @@ const HouseUploadForm = ({ agent }) => {
     } catch (err) {
       setError("There was an error signing up. Please try again.");
     }
-    fetchHouses();
-    console.log("Form Submitted!", {
-      ...formData,
-      location: locationData,
-      priceBreakdown,
-      totalPrice,
-      images,
-      video,
-    });
+
     alert("Form Submitted Successfully!");
 
     // Reset form
@@ -165,6 +157,7 @@ const HouseUploadForm = ({ agent }) => {
       agentFee: "",
       otherFees: "",
     });
+    fetchHouses();
   };
 
   return (
