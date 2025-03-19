@@ -11,12 +11,15 @@ const HouseDetails = () => {
   const agent = agents.find((a) => a.id === house.agent_id);
 
   const {
-    price_type,
-    details,
+    priceType,
+    bedrooms,
+    bathrooms,
+    dimension,
     description,
     title,
-    price,
-    location,
+    totalPrice,
+    address,
+    furnishing,
     date_listed,
     amenities,
     images,
@@ -35,10 +38,10 @@ const HouseDetails = () => {
           {/* Price & Location */}
           <div className="mb-4">
             <h3 className="text-2xl font-bold text-blue-700">
-              ${price}
-              <span className="text-sm ml-1">{price_type}</span>
+              ${totalPrice}
+              <span className="text-sm ml-1">{priceType}</span>
             </h3>
-            <p className="text-gray-500">{location.address}</p>
+            <p className="text-gray-500">{address}</p>
           </div>
 
           {/* Description */}
@@ -52,15 +55,15 @@ const HouseDetails = () => {
             </div>
             <div>
               <p className="text-sm text-gray-400">Bedrooms</p>
-              <p className="font-semibold">{details.bedrooms}</p>
+              <p className="font-semibold">{bedrooms}</p>
             </div>
             <div>
               <p className="text-sm text-gray-400">Bathrooms</p>
-              <p className="font-semibold">{details.bathrooms}</p>
+              <p className="font-semibold">{bathrooms}</p>
             </div>
             <div>
               <p className="text-sm text-gray-400">Dimension</p>
-              <p className="font-semibold">{details.square_feet} sqFt</p>
+              <p className="font-semibold">{dimension} sqFt</p>
             </div>
             <div>
               <p className="text-sm text-gray-400">Minimum Tenancy Period</p>
@@ -68,7 +71,7 @@ const HouseDetails = () => {
             </div>
             <div>
               <p className="text-sm text-gray-400">Furnished</p>
-              <p className="font-semibold">{details.furnishing}</p>
+              <p className="font-semibold">{furnishing}</p>
             </div>
           </div>
 
@@ -122,10 +125,10 @@ const HouseDetails = () => {
                 {images.map((img, index) => (
                   <img
                     key={index}
-                    src={`../src/images${img}`}
+                    src={`../src/images${img.src}`}
                     alt={`House ${index + 1}`}
                     className="w-full h-40 object-cover rounded-lg cursor-pointer"
-                    onClick={() => setSelectedImage(`../src/images${img}`)}
+                    onClick={() => setSelectedImage(`../src/images${img.src}`)}
                   />
                 ))}
               </div>

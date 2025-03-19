@@ -2,7 +2,7 @@
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 
 const Map = ({ house }) => {
-  const mapPosition = [house.location.lat, house.location.lng];
+  const mapPosition = [house.location.latitude, house.location.longitude];
 
   return (
     <div className="w-full h-[450px] overflow-hidden">

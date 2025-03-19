@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 
 const Items = ({ house }) => {
-  const { title, price, images, location, id } = house;
+  const { title, totalPrice, images, id } = house;
   const { isAuthenticated } = useAuth();
 
   const itemStyle = `rounded-xl w-full items-center justify-center h-[200px]`;
@@ -17,7 +17,7 @@ const Items = ({ house }) => {
       <div
         className={itemStyle}
         style={{
-          background: `url(../src/images${images[0]})`,
+          background: `url(../src/images${images[0].src})`,
           backgroundSize: "cover",
           overflow: "hidden",
         }}
@@ -31,7 +31,7 @@ const Items = ({ house }) => {
       </div>
       <div className="w-full flex justify-between text-sm py-2">
         <p>{title}</p>
-        <p>{location.address}</p>
+        <p>{house.address}</p>
       </div>
       <div className="flex justify-between py-2">
         {isAuthenticated ? (
@@ -59,7 +59,7 @@ const Items = ({ house }) => {
       </p>
       <div className="items-center flex py-3">
         <span className="m-auto">
-          <span className="text-2xl font-bold w-1/4">#{price}</span>
+          <span className="text-2xl font-bold w-1/4">#{totalPrice}</span>
           <span className="text-sm">/year</span>
         </span>
       </div>

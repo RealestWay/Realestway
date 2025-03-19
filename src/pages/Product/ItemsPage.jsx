@@ -15,14 +15,14 @@ const ItemsPage = () => {
   const filteredHouses = houses
     .filter((house) => {
       // ✅ Budget Constraint: Only show houses ≤ budget
-      if (budget && house.price > budget) return false;
+      if (budget && house.totalPrice > budget) return false;
       return true;
     })
     .map((house) => {
       let matchScore = 0;
 
       // ✅ Location Match (partial word match)
-      const houseLocation = house.location.address.toLowerCase();
+      const houseLocation = house.address.toLowerCase();
       const searchLocation = location?.toLowerCase();
       const locationMatches =
         searchLocation &&
@@ -31,13 +31,12 @@ const ItemsPage = () => {
       if (locationMatches) matchScore += 2;
 
       // ✅ Budget Match (house price ≤ budget)
-      const budgetMatches = budget ? house.price <= budget : true;
+      const budgetMatches = budget ? house.totalPrice <= budget : true;
       if (budgetMatches) matchScore += 1;
 
       // ✅ Property Type Match
       const typeMatches = propertyType
-        ? house.details.property_type.toLowerCase() ===
-          propertyType.toLowerCase()
+        ? house.propertyType.toLowerCase() === propertyType.toLowerCase()
         : true;
       if (typeMatches) matchScore += 1;
 

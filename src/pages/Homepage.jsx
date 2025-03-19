@@ -9,7 +9,7 @@ import ChatHelp from "../components/ChatHelp";
 const Homepage = () => {
   const { houses, isLoading } = UseHouses();
   return (
-    <>
+    <div className="max-w-[100vw]">
       {isLoading ? (
         <Spinner />
       ) : (
@@ -47,7 +47,7 @@ const Homepage = () => {
           <Footer />
         </div>
       )}
-    </>
+    </div>
   );
 };
 

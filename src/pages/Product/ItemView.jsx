@@ -42,7 +42,7 @@ const ItemView = () => {
         <div
           className="w-full py-4"
           style={{
-            background: `url('../src/images${images[0]}')`,
+            background: `url('../src/images${images[0].src}')`,
             backgroundSize: "cover",
             overflow: "hidden",
           }}
@@ -59,7 +59,7 @@ const ItemView = () => {
               {images.map((img, index) => (
                 <SwiperSlide key={index}>
                   <img
-                    src={`../src/images${img}`}
+                    src={`../src/images${img.src}`}
                     alt={`House image ${index + 1}`}
                     className="w-full h-full object-cover rounded-lg"
                   />
