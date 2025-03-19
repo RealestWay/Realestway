@@ -6,7 +6,7 @@ import {
   useState,
 } from "react";
 
-const BASEURL = "http://localhost:9000";
+const BASEURL = "https://realestway.netlify.app/.netlify/functions/api";
 const AuthContext = createContext();
 
 const initialState = { user: null, isAuthenticated: false };
