@@ -311,6 +311,13 @@
       "email": "adebayomichaelo01@gmail.com",
       "phone": "08120606547",
       "password": "Milkyink2!"
+    },
+    {
+      "id": "a0ed",
+      "name": "Adebayo Michael",
+      "email": "bob@example.com",
+      "phone": "08120606547",
+      "password": "Realest"
     }
   ],
   "transactions": [

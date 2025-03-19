@@ -15,7 +15,7 @@ const Signup = () => {
   const navigate = useNavigate();
   const { fetchUsers, fetchAgents, users } = useAuth();
   const [checkUser, setCheckUser] = useState("");
-  const user = users.find((u) => u.email === formData.email);
+
   const [formData, setFormData] = useState({
     id: `u${Date.now()}`,
     name: "",
@@ -24,7 +24,7 @@ const Signup = () => {
     password: "",
     confirmPassword: "",
   });
-
+  const user = users.find((u) => u.email === formData.email);
   const [error, setError] = useState("");
 
   // Handle input changes

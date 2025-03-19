@@ -14,7 +14,6 @@ const HouseProvider = ({ children }) => {
       const res = await fetch(`${BASEURL}/houses`);
       const data = await res.json();
       setHouses(data);
-      localStorage.setItem("houses", JSON.stringify(data));
     } catch {
       alert("there was an error loading your data...");
     } finally {
@@ -22,14 +21,7 @@ const HouseProvider = ({ children }) => {
     }
   }
   useEffect(() => {
-    const cachedHouses = localStorage.getItem("houses");
-
-    if (cachedHouses) {
-      setHouses(JSON.parse(cachedHouses));
-      setIsLoading(false);
-    } else {
-      fetchHouses();
-    }
+    fetchHouses();
   }, []);
   return (
     <HouseContext.Provider
