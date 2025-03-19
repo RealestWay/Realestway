@@ -6,6 +6,10 @@ import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 import { useEffect } from "react";
 import { UseHouses } from "../../contexts/HouseContext";
+import ChatHelp from "../../components/ChatHelp";
+import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowAltCircleLeft } from "@fortawesome/free-solid-svg-icons";
 
 const ItemView = () => {
   const { houses, fetchHouses } = UseHouses();
@@ -13,6 +17,7 @@ const ItemView = () => {
   const { id } = useParams();
   const house = houses.find((h) => h.id === id);
   const { images } = house;
+  const navigate = useNavigate();
 
   const navItems = [
     { name: "About", path: `/ItemView/${id}` },
@@ -25,6 +30,15 @@ const ItemView = () => {
   return (
     <div>
       <div>
+        <div className="w-full px-6sm:px-10 flex justify-between items-center">
+          <button
+            className="flex w-full items-center gap-2 px-4 py-2 bg-gray-200 text-gray-700 hover:bg-gray-300 transition-all"
+            onClick={() => navigate("/ItemsPage")}
+          >
+            <FontAwesomeIcon icon={faArrowAltCircleLeft} size="lg" />
+            <span>Back</span>
+          </button>
+        </div>
         <div
           className="w-full py-4"
           style={{
@@ -74,6 +88,7 @@ const ItemView = () => {
         </div>
         <div className="sm:flex py-4 w-full sm:flex-wrap gap-4">
           <Outlet />
+          <ChatHelp />
         </div>
       </div>
     </div>

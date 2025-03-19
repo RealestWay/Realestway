@@ -16,7 +16,7 @@ const SignIn = () => {
   const [showPassWord, setShowPassWord] = useState(false);
   const navigate = useNavigate();
 
-  const { login, isAuthenticated } = useAuth();
+  const { login, isAuthenticated, loginMsg } = useAuth();
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -67,6 +67,7 @@ const SignIn = () => {
                 <FontAwesomeIcon icon={showPassWord ? faEye : faEyeSlash} />
               </button>
             </div>
+            <p className="text-red-600 flex justify-center">{loginMsg}</p>
             <Link
               to="/forgotPassword"
               className="text-red-400 flex items-center justify-center my-5"

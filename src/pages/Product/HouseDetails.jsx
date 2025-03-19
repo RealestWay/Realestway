@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { UseHouses } from "../../contexts/HouseContext";
 import { useAuth } from "../../contexts/AuthContext";
 
 const HouseDetails = () => {
   const { houses } = UseHouses();
-  const { agents, fetchAgents } = useAuth();
+  const { agents, user, fetchAgents } = useAuth();
   const { id } = useParams();
   const house = houses.find((h) => h.id === id);
   const agent = agents.find((a) => a.id === house.agent_id);
@@ -62,14 +62,6 @@ const HouseDetails = () => {
               <p className="text-sm text-gray-400">Dimension</p>
               <p className="font-semibold">{details.square_feet} sqFt</p>
             </div>
-          </div>
-
-          {/* Date Listed */}
-          <p className="text-sm text-gray-400 mt-4">Added on {date_listed}</p>
-        </div>
-        {/* other info */}
-        <div className="w-[95%] max-w-4xl mx-auto bg-white rounded-lg shadow-lg border border-gray-200 p-6">
-          <div className="sm:grid sm:grid-cols-2 gap-4 border-t pt-4">
             <div>
               <p className="text-sm text-gray-400">Minimum Tenancy Period</p>
               <p className="font-semibold">1 year</p>
@@ -79,13 +71,28 @@ const HouseDetails = () => {
               <p className="font-semibold">{details.furnishing}</p>
             </div>
           </div>
+
+          {/* Date Listed */}
+          <p className="text-sm text-gray-400 mt-4">Added on {date_listed}</p>
+        </div>
+
+        <div className="w-[95%] max-w-4xl mx-auto bg-white rounded-lg shadow-lg border border-gray-200 p-6">
           {/* Agent Details */}
           <div className="mt-6 border-t pt-4">
             <h4 className="text-lg font-semibold">Agent Information</h4>
-            <p className="text-gray-700">{agent.name}</p>
-            <p className="text-blue-600">{agent.phone}</p>
-            <p className="text-gray-500">{agent.email}</p>
-            <p className="text-gray-500">{agent.company}</p>
+            <div className="flex justify-between">
+              <div>
+                <p className="text-gray-700">Name: {agent.name}</p>
+                <p className="text-gray-500">Company: {agent.company}</p>
+              </div>
+              {!user.company && (
+                <Link to={`/ChatPage/${house.id}`}>
+                  <button className="bg-blue-500 text-white font-bold rounded px-4 py-2">
+                    Contact Agent
+                  </button>
+                </Link>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -94,10 +101,10 @@ const HouseDetails = () => {
         style={{ height: !desc ? "25px" : "" }}
       >
         <button
-          className="bg-blue-400 w-full text-xl font-semibold text-white"
+          className="bg-blue-400 w-full text-xl font-semibold text-white py-2 rounded"
           onClick={() => setDescription(!desc)}
         >
-          View Full Description
+          View More Details
         </button>
         {desc ? (
           <div className="p-6">

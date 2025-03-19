@@ -29,25 +29,31 @@ const Banner = () => {
           <h1 className="sm:text-4xl text-3xl font-bold">
             Welcome <br />
             to <br />
-            RealEst Hub
+            RealEst Way
           </h1>
           <p className=" mt-2">Find your dream home effortlessly</p>
         </div>
         {isAuthenticated ? (
-          <button className="w-1/2 mb-10 sm:w-2/5 bg-blue-600 text-lg hover:bg-blue-800 py-3 rounded-xl text-white font-sm">
-            <Link to="/ItemsPage">
-              {" "}
-              <FontAwesomeIcon icon={faSearch} /> Search
-            </Link>
-          </button>
+          <Link
+            to="/ItemsPage"
+            className="w-1/2 mb-10 sm:w-2/5 bg-blue-600 text-lg hover:bg-blue-800 py-3 rounded-xl text-white font-sm"
+          >
+            <FontAwesomeIcon icon={faSearch} /> Search
+          </Link>
         ) : (
           <div className="w-4/6 mb-10 sm:flex justify-around">
-            <button className="w-full mb-4 sm:mb-0 sm:w-2/5 bg-blue-600 hover:bg-blue-800 py-3 rounded-xl text-white font-sm">
-              <Link to="/SignIn">Sign In</Link>
-            </button>
-            <button className="w-full sm:w-2/5 bg-green-600 hover:bg-green-800 py-3 rounded-xl text-white font-sm">
-              <Link to="/SignUp"> Sign Up</Link>
-            </button>
+            <Link
+              to="/SignIn"
+              className="w-full mb-4 sm:mb-0 sm:w-2/5 bg-blue-600 hover:bg-blue-800 py-3 rounded-xl text-white font-sm"
+            >
+              Sign In
+            </Link>
+            <Link
+              to="/SignUp"
+              className="w-full sm:w-2/5 bg-green-600 hover:bg-green-800 py-3 rounded-xl text-white font-sm"
+            >
+              Sign Up
+            </Link>
           </div>
         )}
       </div>

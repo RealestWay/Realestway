@@ -7,12 +7,16 @@ import {
 import { faLock, faPhone } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
+  const { fetchUsers, fetchAgents } = useAuth();
   const [formData, setFormData] = useState({
-    fullName: "",
+    id: `u${Date.now()}`,
+    name: "",
     email: "",
     phone: "",
     password: "",
@@ -38,13 +42,13 @@ const Signup = () => {
     }
 
     try {
-      const res = await fetch("http://localhost:9000/signup", {
+      const res = await fetch("http://localhost:9000/users", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          fullName: formData.fullName,
+          name: formData.name,
           email: formData.email,
           phone: formData.phone,
           password: formData.password,
@@ -52,11 +56,12 @@ const Signup = () => {
       });
 
       if (!res.ok) throw new Error("Failed to create account");
-
-      alert("Account created successfully!");
     } catch (err) {
       setError("There was an error signing up. Please try again.");
     }
+    fetchAgents();
+    fetchUsers();
+    navigate("/signIn");
   };
 
   return (
@@ -75,8 +80,8 @@ const Signup = () => {
               </div>
               <input
                 type="text"
-                name="fullName"
-                value={formData.fullName}
+                name="name"
+                value={formData.name}
                 onChange={handleChange}
                 placeholder="Full Name"
                 required

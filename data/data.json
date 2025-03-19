@@ -74,7 +74,11 @@
         "furnishing": "Semi-Furnished",
         "available_from": "2024-07-01"
       },
-      "amenities": ["High-Speed Internet", "24/7 Security", "Laundry Service"],
+      "amenities": [
+        "High-Speed Internet",
+        "24/7 Security",
+        "Laundry Service"
+      ],
       "agent_id": "A001",
       "status": "available",
       "date_listed": "2024-05-20"
@@ -110,7 +114,12 @@
         "furnishing": "Fully Furnished",
         "available_from": "2024-06-01"
       },
-      "amenities": ["Air Conditioning", "Gym", "24/7 Security", "Parking"],
+      "amenities": [
+        "Air Conditioning",
+        "Gym",
+        "24/7 Security",
+        "Parking"
+      ],
       "agent_id": "A001",
       "status": "available",
       "date_listed": "2024-05-15"
@@ -243,6 +252,54 @@
       "agent_id": "A001",
       "status": "available",
       "date_listed": "2024-05-15"
+    },
+    {
+      "id": "h1742375816900",
+      "title": "Conducive Selfcon for singles",
+      "address": "Obia/Akpor, Rumuodomaya , Nigeria",
+      "description": "It's a complete self contain with all necessary facilities, that is conducive and comfortable for singles. Kitchen and person restroom.",
+      "bedrooms": "1",
+      "bathrooms": "1",
+      "dimension": "20 by 60 ft",
+      "propertyType": "Self Contain",
+      "year_built": "2021-02-03",
+      "furnishing": "Not Furnished",
+      "caretaker_contact": "+2348120606547",
+      "price_type": "yearly",
+      "date_listed": "2025-03-19T09:16:56.900Z",
+      "agent_id": "A002",
+      "minTenancyPeriod": "1 year",
+      "amenities": [
+        "Security",
+        "Running Water",
+        "Electricity"
+      ],
+      "location": {
+        "latitude": 6.5568768,
+        "longitude": 3.3325056,
+        "address": "Nigeria",
+        "city": "Lagos",
+        "state": "Lagos",
+        "zipCode": "N/A",
+        "error": ""
+      },
+      "priceBreakdown": {
+        "basicRent": 400000,
+        "cautionFee": 50000,
+        "agentFee": 50000,
+        "otherFees": "",
+        "agreementFee": 50000
+      },
+      "totalPrice": 550000,
+      "images": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+      ],
+      "video": null
     }
   ],
   "agents": [
@@ -254,7 +311,9 @@
       "phone": "+1 555 123 4567",
       "company": "NYC Realty",
       "profile_picture": "/images/agent1.jpg",
-      "listings": ["H001"]
+      "listings": [
+        "H001"
+      ]
     },
     {
       "id": "A002",
@@ -264,7 +323,9 @@
       "phone": "+1 555 987 6543",
       "company": "Brooklyn Homes",
       "profile_picture": "/images/agent2.jpg",
-      "listings": ["H002"]
+      "listings": [
+        "H002"
+      ]
     }
   ],
   "users": [
@@ -274,7 +335,9 @@
       "email": "alice@example.com",
       "password": "Realest",
       "phone": "+1 555 123 9876",
-      "saved_houses": ["H001"],
+      "saved_houses": [
+        "H001"
+      ],
       "rented_houses": [],
       "role": "renter"
     },
@@ -284,9 +347,34 @@
       "email": "bob@example.com",
       "password": "Realest",
       "phone": "+1 555 321 4567",
-      "saved_houses": ["H002"],
-      "rented_houses": ["H002"],
+      "saved_houses": [
+        "H002"
+      ],
+      "rented_houses": [
+        "H002"
+      ],
       "role": "renter"
+    },
+    {
+      "id": "614b",
+      "name": "Adebayo Michael",
+      "email": "adebayomichaelo01@gmail.com",
+      "phone": "08120606547",
+      "password": "ademilk"
+    },
+    {
+      "id": "a740",
+      "name": "Ademilk",
+      "email": "adebayo@gmail.com",
+      "phone": "08120606547",
+      "password": "passme"
+    },
+    {
+      "id": "6b96",
+      "name": "Adebayo Michael",
+      "email": "adebayomichaelo01@gmail.com",
+      "phone": "08120606547",
+      "password": "milky"
     }
   ],
   "transactions": [

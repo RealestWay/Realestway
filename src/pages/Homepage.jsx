@@ -4,6 +4,7 @@ import Footer from "../components/Footer";
 import Items from "../components/Items";
 import { UseHouses } from "../contexts/HouseContext";
 import Spinner from "../components/Spinner";
+import ChatHelp from "../components/ChatHelp";
 
 const Homepage = () => {
   const { houses, isLoading } = UseHouses();
@@ -42,6 +43,7 @@ const Homepage = () => {
               <Items house={house} key={house.id} />
             ))}
           </div>
+          <ChatHelp />
           <Footer />
         </div>
       )}

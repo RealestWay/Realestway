@@ -14,9 +14,9 @@ import UserProfile from "./pages/User/UserProfile";
 import { AuthProvider } from "./contexts/AuthContext";
 import ItemsPage from "./pages/Product/ItemsPage";
 import { HouseProvider } from "./contexts/HouseContext";
-// import { AgentProvider } from "./contexts/AgentContext";
-// import { UserProvider } from "./contexts/UsersContext";
 import ProtectedRoutes from "./ProtectedRoutes";
+import OrderPage from "./pages/OrderPage";
+import ChatPage from "./pages/ChatPage";
 
 const App = () => {
   return (
@@ -33,6 +33,22 @@ const App = () => {
               element={
                 <ProtectedRoutes>
                   <UserProfile />
+                </ProtectedRoutes>
+              }
+            />
+            <Route
+              path="ChatPAge/:propertyId"
+              element={
+                <ProtectedRoutes>
+                  <ChatPage />
+                </ProtectedRoutes>
+              }
+            />
+            <Route
+              path="OrderPage/:propertyId"
+              element={
+                <ProtectedRoutes>
+                  <OrderPage />
                 </ProtectedRoutes>
               }
             />
@@ -60,6 +76,7 @@ const App = () => {
             <Route path="Verify" element={<Verify />} />
             <Route path="forgotPassword" element={<ForgotPassword />} />
             <Route path="*" element={<PageNotFound />} />
+            <Route path="Order" element={<OrderPage />}></Route>
           </Routes>
         </BrowserRouter>
       </HouseProvider>

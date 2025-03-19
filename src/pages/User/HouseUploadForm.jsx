@@ -1,49 +1,91 @@
 import { useState } from "react";
-import { useFormik } from "formik";
-import * as Yup from "yup";
+import { getCurrentLocation } from "../../service/getLocation";
+import { UseHouses } from "../../contexts/HouseContext";
 
 const HouseUploadForm = ({ agent }) => {
+  const { fetchHouses } = UseHouses();
+  const [formData, setFormData] = useState({
+    id: `h${Date.now()}`,
+    title: "",
+    address: "",
+    description: "",
+    bedrooms: "",
+    bathrooms: "",
+    dimension: "",
+    property_type: "",
+    year_built: "",
+    furnishing: "",
+    caretaker_contact: "+234",
+    price_type: "",
+    date_listed: new Date().toISOString(),
+    agent_id: agent.id,
+    minTenancyPeriod: "",
+    amenities: [],
+  });
+
   const [images, setImages] = useState([]);
   const [video, setVideo] = useState(null);
-
-  const formik = useFormik({
-    initialValues: {
-      title: "",
-      price: "",
-      price_type: "",
-      location: "",
-      description: "",
-      bedrooms: "",
-      bathrooms: "",
-      dimension: "",
-      propertyType: "",
-      year_built: "",
-      furnishing: "",
-      amenities: "",
-      date_listed: "",
-      agent_id: "",
-    },
-    validationSchema: Yup.object({
-      title: Yup.string().required("Required"),
-      price: Yup.string().required("Required"),
-      price_type: Yup.string().required("Required"),
-      location: Yup.string().required("Required"),
-      description: Yup.string().required("Required"),
-      bedrooms: Yup.number().min(1).required("Required"),
-      bathrooms: Yup.number().min(1).required("Required"),
-      dimension: Yup.string().required("Required"),
-      propertyType: Yup.string().required("Required"),
-      agent_id: Yup.string().required("Required"),
-      year_built: Yup.string().required("Required"),
-      furnishing: Yup.string().required("Required"),
-      amenities: Yup.string().notRequired("optinal"),
-      date_listed: Yup.string().required("Required"),
-    }),
-    onSubmit: (values) => {
-      console.log({ ...values, images, video });
-      alert("Form Submitted Successfully!");
-    },
+  const [locationData, setLocationData] = useState({
+    latitude: null,
+    longitude: null,
+    address: "",
+    city: "",
+    state: "",
+    zipCode: "",
+    error: "",
   });
+  const fetchLocation = async () => {
+    try {
+      const data = await getCurrentLocation();
+      setLocationData({
+        latitude: data.latitude,
+        longitude: data.longitude,
+        address: data.address,
+        city: data.city,
+        state: data.state,
+        zipCode: data.zipCode,
+        error: "",
+      });
+      console.log(locationData);
+    } catch (error) {
+      setLocationData({
+        ...locationData,
+        error: error,
+      });
+    }
+  };
+
+  const [priceBreakdown, setPriceBreakdown] = useState({
+    basicRent: "",
+    cautionFee: "",
+    agentFee: "",
+    otherFees: "",
+  });
+
+  const totalPrice = Object.values(priceBreakdown)
+    .filter((val) => val !== "")
+    .reduce((sum, val) => sum + parseFloat(val || 0), 0);
+
+  const handleInputChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handlePriceChange = (e) => {
+    setPriceBreakdown({
+      ...priceBreakdown,
+      [e.target.name]: e.target.value ? parseFloat(e.target.value) : "",
+    });
+  };
+
+  const handleCheckboxChange = (e) => {
+    const { value, checked } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      amenities: checked
+        ? [...prevData.amenities, value]
+        : prevData.amenities.filter((amenity) => amenity !== value),
+    }));
+  };
 
   const handleImageUpload = (e) => {
     const files = Array.from(e.target.files);
@@ -58,159 +100,330 @@ const HouseUploadForm = ({ agent }) => {
     setVideo(e.target.files[0]);
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await fetch("http://localhost:9000/houses", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...formData,
+          location: locationData,
+          priceBreakdown,
+          totalPrice,
+          images,
+          video,
+        }),
+      });
+
+      if (!res.ok) throw new Error("Failed to create account");
+    } catch (err) {
+      setError("There was an error signing up. Please try again.");
+    }
+    fetchHouses();
+    console.log("Form Submitted!", {
+      ...formData,
+      location: locationData,
+      priceBreakdown,
+      totalPrice,
+      images,
+      video,
+    });
+    alert("Form Submitted Successfully!");
+
+    // Reset form
+    setFormData({
+      title: "",
+      address: "",
+      description: "",
+      bedrooms: "",
+      bathrooms: "",
+      dimension: "",
+      property_type: "",
+      year_built: "",
+      furnishing: "",
+      caretaker_contact: "",
+      price_type: "",
+      date_listed: "",
+      agent_id: agent.id,
+      amenities: [],
+    });
+    setImages([]);
+    setVideo(null);
+    setLocationData({
+      ...locationData,
+      latitude: null,
+      longitude: null,
+      city: "",
+    });
+    setPriceBreakdown({
+      basicRent: "",
+      cautionFee: "",
+      agentFee: "",
+      otherFees: "",
+    });
+  };
+
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
-      <h2 className="text-2xl font-bold text-center mb-6">
+    <div className="max-w-4xl mx-auto p-8 bg-white shadow-lg rounded-lg">
+      <h2 className="text-2xl font-bold text-center mb-8 text-gray-800">
         Upload House Details
       </h2>
+      {locationData.error && (
+        <p className="text-red-500">{locationData.error}</p>
+      )}
+      <div className="w-full flex">
+        <button
+          className="p-4 rounded-md w-full sm:w-1/3 m-auto bg-slate-600 text-white font-semibold text-lg"
+          onClick={fetchLocation}
+        >
+          {locationData.latitude ? "Location Saved" : "Record Location"}
+        </button>
+      </div>
+      {locationData.latitude ? (
+        <p className="text-sm text-green-600 flex w-full justify-center my-2">
+          Location recorded! You can continue...
+        </p>
+      ) : (
+        <p className="text-sm text-red-600 flex w-full justify-center my-2">
+          Click to submit location before you proceed
+        </p>
+      )}
 
-      <form onSubmit={formik.handleSubmit} className="grid gap-4">
-        {/* Title */}
+      <form onSubmit={handleSubmit} className="grid gap-6">
+        {/* Title Input */}
         <input
           type="text"
           name="title"
-          placeholder="Title"
-          {...formik.getFieldProps("title")}
-          className="border p-2 rounded-md w-full"
+          placeholder="Enter the property title"
+          value={formData.title}
+          onChange={handleInputChange}
+          className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        {formik.touched.title && formik.errors.title && (
-          <p className="text-red-500">{formik.errors.title}</p>
-        )}
 
-        {/* Price */}
-
-        <input
-          type="text"
-          name="price"
-          placeholder="Price (#)"
-          {...formik.getFieldProps("price")}
-          className="border p-2 rounded-md w-full"
-        />
-        {formik.touched.price && formik.errors.price && (
-          <p className="text-red-500">{formik.errors.price}</p>
-        )}
-        {/* {Pricing type} */}
+        {/* Property Type Selector */}
         <select
-          name="price_type"
-          {...formik.getFieldProps("price_type")}
-          className="border p-2 rounded-md w-full"
+          name="property_type"
+          value={formData.property_type}
+          onChange={handleInputChange}
+          className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
-          <option value="">Select Pricing Type</option>
-          <option value="Apartment">daily</option>
-          <option value="House">monthly</option>
-          <option value="Condo">yearly</option>
+          <option value="">Select Property Type</option>
+          <option value="Self Contain">Self Contain</option>
+          <option value="1 Bedroom Apartment">1 Bedroom Apartment</option>
+          <option value="2 Bedroom Apartment">2 Bedroom Apartment</option>
+          <option value="3 Bedroom Apartment">3 Bedroom Apartment</option>
+          <option value="4 Bedroom Apartment">4 Bedroom Apartment</option>
+          <option value="Boysquarter">Boysquarter</option>
+          <option value="Duplex">Duplex</option>
         </select>
-        {/* Location */}
+
+        {/* Location Input */}
         <input
           type="text"
-          name="location"
-          placeholder="Location"
-          {...formik.getFieldProps("location")}
-          className="border p-2 rounded-md w-full"
+          name="address"
+          placeholder="Enter the address"
+          value={formData.address}
+          onChange={handleInputChange}
+          className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        {formik.touched.location && formik.errors.location && (
-          <p className="text-red-500">{formik.errors.location}</p>
-        )}
 
-        {/* Description */}
+        {/* Description Textarea */}
         <textarea
           name="description"
-          placeholder="Description"
-          {...formik.getFieldProps("description")}
-          className="border p-2 rounded-md w-full h-24"
+          placeholder="Describe the property in detail"
+          value={formData.description}
+          onChange={handleInputChange}
+          className="border border-gray-300 p-4 rounded-md w-full h-32 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        {formik.touched.description && formik.errors.description && (
-          <p className="text-red-500">{formik.errors.description}</p>
-        )}
 
-        {/* Bedrooms, Bathrooms, Dimensions */}
-        <div className="sm:flex gap-2">
+        {/* Bedrooms & Bathrooms Inputs */}
+        <div className="flex gap-4">
           <input
             type="number"
             name="bedrooms"
-            placeholder="Bedrooms"
-            {...formik.getFieldProps("bedrooms")}
-            className="border p-2 rounded-md w-full"
+            placeholder="No. of Bedrooms"
+            value={formData.bedrooms}
+            onChange={handleInputChange}
+            className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <input
             type="number"
             name="bathrooms"
-            placeholder="Bathrooms"
-            {...formik.getFieldProps("bathrooms")}
-            className="border p-2 rounded-md w-full"
+            placeholder="No. of Bathrooms"
+            value={formData.bathrooms}
+            onChange={handleInputChange}
+            className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-          <div className="flex sm:block">
-            <label className="text-xs">Year built:</label>
+        </div>
+
+        {/* Price Breakdown Section */}
+        <h3 className="text-lg font-semibold text-gray-800">
+          Price Details (₦)
+        </h3>
+        <select
+          name="price_type"
+          value={formData.price_type}
+          onChange={handleInputChange}
+          className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="">Select Pricing Type</option>
+          <option value="daily">Daily</option>
+          <option value="monthly">Monthly</option>
+          <option value="yearly">Yearly</option>
+        </select>
+
+        <div className="grid sm:grid-cols-2 gap-4">
+          <input
+            type="number"
+            name="basicRent"
+            placeholder="Basic Rent"
+            value={priceBreakdown.basicRent}
+            onChange={handlePriceChange}
+            className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <input
+            type="number"
+            name="cautionFee"
+            placeholder="Caution Fee"
+            value={priceBreakdown.cautionFee}
+            onChange={handlePriceChange}
+            className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <input
+            type="number"
+            name="agreementFee"
+            placeholder="Agreement Fee"
+            value={priceBreakdown.agreementFee}
+            onChange={handlePriceChange}
+            className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <input
+            type="number"
+            name="agentFee"
+            placeholder="Agent Fee"
+            value={priceBreakdown.agentFee}
+            onChange={handlePriceChange}
+            className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        {/* Total Price */}
+        <div className="text-lg font-bold text-gray-800">
+          Total Package:{" "}
+          <span className="text-green-600">₦{totalPrice.toLocaleString()}</span>
+        </div>
+
+        {/* Caretaker Contact */}
+        <div>
+          <label className="block text-gray-700">
+            Caretaker / Landlord's Contact
+          </label>
+          <input
+            type="text"
+            name="caretaker_contact"
+            placeholder="Enter contact details"
+            value={formData.caretaker_contact}
+            onChange={handleInputChange}
+            className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        {/* Amenities Checkboxes */}
+        <h3 className="text-lg font-semibold text-gray-800">Amenities</h3>
+        <div className="grid grid-cols-2 gap-4">
+          {[
+            "Security",
+            "Gym",
+            "Running Water",
+            "Electricity",
+            "Wi-Fi",
+            "Parking Space",
+            "24/7 Power Supply",
+            "CCTV",
+            "Swimming Pool",
+          ].map((amenity) => (
+            <label key={amenity} className="flex items-center text-gray-700">
+              <input
+                type="checkbox"
+                name="amenities"
+                value={amenity}
+                checked={formData.amenities.includes(amenity)}
+                onChange={handleCheckboxChange}
+                className="mr-2"
+              />
+              {amenity}
+            </label>
+          ))}
+        </div>
+
+        {/* Year Built, Furnishing, and Dimensions */}
+        <div className="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-gray-700 text-xs">Year Built:</label>
             <input
               type="date"
               name="year_built"
-              placeholder="Year Built"
-              {...formik.getFieldProps("year_built")}
-              className="border p-2 rounded-md w-full"
+              value={formData.year_built}
+              onChange={handleInputChange}
+              className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
+          <div>
+            <label className="block text-gray-700 text-xs">
+              Mininum Rent Period:
+            </label>
+            <select
+              name="minTenancyPeriod"
+              value={formData.minTenancyPeriod}
+              onChange={handleInputChange}
+              className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="">Mininum Rent Period</option>
+              <option value="1 month">1 month</option>
+              <option value="6 month">6 months</option>
+              <option value="1 year">1 year</option>
+              <option value="2 years">2 years</option>
+              <option value="3 years">3 years</option>
+              <option value="5 years">5 years</option>
+            </select>
+          </div>
 
-          <select
-            name="furnishing"
-            {...formik.getFieldProps("furnishing")}
-            className="border p-2 rounded-md w-full"
-          >
-            <option value="">Furnished?</option>
-            <option value="Apartment">Not furnished</option>
-            <option value="House">Semi Furnished</option>
-            <option value="Condo">Fully furnished</option>
-          </select>
+          <div>
+            <label className="block text-gray-700 text-xs">Furnishing:</label>
+            <select
+              name="furnishing"
+              value={formData.furnishing}
+              onChange={handleInputChange}
+              className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="">Select Furnishing Status</option>
+              <option value="Not Furnished">Not Furnished</option>
+              <option value="Semi Furnished">Semi Furnished</option>
+              <option value="Fully Furnished">Fully Furnished</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-gray-700 text-xs">
+              Room/House Dimensions (e.g., 1200 sq ft):
+            </label>
+            <input
+              type="text"
+              name="dimension"
+              placeholder="Dimensions"
+              value={formData.dimension}
+              onChange={handleInputChange}
+              className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
         </div>
-        <input
-          type="text"
-          name="dimension"
-          placeholder="Dimensions (e.g., 1200 sq ft)"
-          {...formik.getFieldProps("dimension")}
-          className="border p-2 rounded-md w-full"
-        />
-        {formik.touched.dimension && formik.errors.dimension && (
-          <p className="text-red-500">{formik.errors.dimension}</p>
-        )}
-        <input
-          type="text"
-          name="amenities"
-          placeholder="Amenities (e.g., gym, wifi, security... separate each item with a comma ',')"
-          {...formik.getFieldProps("amenities")}
-          className="border p-2 rounded-md w-full"
-        />
-        {formik.touched.dimension && formik.errors.dimension && (
-          <p className="text-red-500">{formik.errors.dimension}</p>
-        )}
-
-        {/* Property Type */}
-        <select
-          name="propertyType"
-          {...formik.getFieldProps("propertyType")}
-          className="border p-2 rounded-md w-full"
-        >
-          <option value="">Select Property Type</option>
-          <option value="Apartment">Apartment</option>
-          <option value="House">House</option>
-          <option value="Condo">Condo</option>
-          <option value="Condo">Office</option>
-          <option value="Villa">Villa</option>
-        </select>
-        {formik.touched.propertyType && formik.errors.propertyType && (
-          <p className="text-red-500">{formik.errors.propertyType}</p>
-        )}
-
-        {/* Agent Info */}
-
-        <input
-          type="text"
-          name="agent_id"
-          hidden
-          {...formik.getFieldProps("agent_id")}
-          value={agent.id}
-        />
 
         {/* Image Upload */}
-        <label className="block font-semibold mt-2">
+        <label className="block text-gray-700 font-semibold mt-4">
           Upload House Images (Min: 6, Max: 20)
         </label>
         <input
@@ -218,32 +431,34 @@ const HouseUploadForm = ({ agent }) => {
           accept="image/*"
           multiple
           onChange={handleImageUpload}
-          className="border p-2 w-full rounded-md"
+          className="border border-gray-300 p-4 w-full rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         {images.length < 6 && (
-          <p className="text-red-500">At least 6 images are required.</p>
+          <p className="text-red-500 text-sm mt-1">
+            At least 6 images are required.
+          </p>
         )}
 
         {/* Video Upload */}
-        <label className="block font-semibold mt-2">
+        <label className="block text-gray-700 font-semibold mt-4">
           Upload Short Video (Optional)
         </label>
         <input
           type="file"
           accept="video/*"
           onChange={handleVideoUpload}
-          className="border p-2 w-full rounded-md"
+          className="border border-gray-300 p-4 w-full rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
 
         {/* Preview Uploaded Images */}
         {images.length > 0 && (
-          <div className="grid grid-cols-3 gap-2 mt-2">
+          <div className="grid grid-cols-3 gap-2 mt-4">
             {images.map((img, index) => (
               <img
                 key={index}
                 src={URL.createObjectURL(img)}
                 alt="Preview"
-                className="w-full h-24 object-cover rounded-md"
+                className="w-full h-32 object-cover rounded-md"
               />
             ))}
           </div>
@@ -251,7 +466,7 @@ const HouseUploadForm = ({ agent }) => {
 
         {/* Preview Uploaded Video */}
         {video && (
-          <video controls className="w-full mt-2">
+          <video controls className="w-full mt-4">
             <source src={URL.createObjectURL(video)} type={video.type} />
           </video>
         )}
@@ -259,7 +474,7 @@ const HouseUploadForm = ({ agent }) => {
         {/* Submit Button */}
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700"
+          className="w-full bg-blue-600 text-white py-4 rounded-md mt-6 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           Submit Listing
         </button>
