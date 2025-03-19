@@ -16,7 +16,7 @@ const HouseDetails = () => {
     bathrooms,
     dimension,
     description,
-    title,
+    propertyType,
     totalPrice,
     address,
     furnishing,
@@ -51,7 +51,7 @@ const HouseDetails = () => {
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 border-t pt-4">
             <div>
               <p className="text-sm text-gray-400">Property Type</p>
-              <p className="font-semibold">{title}</p>
+              <p className="font-semibold">{propertyType}</p>
             </div>
             <div>
               <p className="text-sm text-gray-400">Bedrooms</p>
