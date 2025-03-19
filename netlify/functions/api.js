@@ -1,5 +1,6 @@
 // netlify/functions/api.js
 exports.handler = async function (event, context) {
+  const path = event.path.split("/").pop();
   // Example: serve some data
   const data = {
     houses: [
@@ -395,8 +396,15 @@ exports.handler = async function (event, context) {
     ],
   };
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify(data),
-  };
+  if (data[path]) {
+    return {
+      statusCode: 200,
+      body: JSON.stringify(data[path]),
+    };
+  } else {
+    return {
+      statusCode: 404,
+      body: JSON.stringify({ message: "Data not found" }),
+    };
+  }
 };
