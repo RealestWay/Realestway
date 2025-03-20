@@ -282,7 +282,22 @@
       "rented_houses": [
         "H002"
       ],
-      "role": "renter"
+      "role": "renter",
+      "savedItems": [
+        "h1742375816901",
+        "h1742375816901",
+        "h1742375816900",
+        "h1742375816902",
+        "h1742375816902",
+        "h1742375816902",
+        "h1742375816902",
+        "h1742375816902",
+        "h1742375816902",
+        "h1742375816902",
+        "h1742375816901",
+        "h1742375816901",
+        "h1742375816901"
+      ]
     },
     {
       "id": "614b",
@@ -318,6 +333,13 @@
       "email": "bob@example.com",
       "phone": "08120606547",
       "password": "Realest"
+    },
+    {
+      "id": "b81a",
+      "name": "micheal",
+      "email": "milkytechiegeek@gmail.com",
+      "phone": "08192037",
+      "password": "ademilk"
     }
   ],
   "transactions": [

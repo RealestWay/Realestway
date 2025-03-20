@@ -4,7 +4,8 @@ const ImageCarousel = ({ images }) => {
       {images.map((itm, index) => (
         <img
           key={index}
-          src={`../src/images${itm.src}`}
+          // src={`../src/images${itm.src}`}
+          src={itm.src}
           className="object-cover rounded-lg shadow-md snap-start"
           alt={`Gallery ${index + 1}`}
           sizes="cover"

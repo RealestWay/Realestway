@@ -38,7 +38,7 @@ const HouseDetails = () => {
           {/* Price & Location */}
           <div className="mb-4">
             <h3 className="text-2xl font-bold text-blue-700">
-              ${totalPrice}
+              #{totalPrice.toLocaleString()}
               <span className="text-sm ml-1">{priceType}</span>
             </h3>
             <p className="text-gray-500">{address}</p>
@@ -125,7 +125,8 @@ const HouseDetails = () => {
                 {images.map((img, index) => (
                   <img
                     key={index}
-                    src={`../src/images${img.src}`}
+                    // src={`../src/images${img.src}`}
+                    src={img.src}
                     alt={`House ${index + 1}`}
                     className="w-full h-40 object-cover rounded-lg cursor-pointer"
                     onClick={() => setSelectedImage(`../src/images${img.src}`)}

@@ -9,11 +9,13 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import { faFacebook, faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
+import { UseHouses } from "../../contexts/HouseContext";
 
 const SignIn = () => {
   const [email, setEmail] = useState("bob@example.com");
   const [password, setPassword] = useState("Realest");
   const [showPassWord, setShowPassWord] = useState(false);
+  const { fetchHouses } = UseHouses();
   const navigate = useNavigate();
 
   const { login, isAuthenticated, loginMsg } = useAuth();
@@ -21,6 +23,7 @@ const SignIn = () => {
     e.preventDefault();
 
     if (email && password) login(email, password);
+    fetchHouses();
   };
 
   useEffect(() => {
