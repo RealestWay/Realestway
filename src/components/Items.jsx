@@ -4,7 +4,13 @@ import { Link } from "react-router-dom";
 import ImageCarousel from "./ImageCarousel";
 import { useAuth } from "../contexts/AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLock, faSave } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCross,
+  faFirstAid,
+  faLock,
+  faPlusCircle,
+  faStarOfLife,
+} from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 
 const Items = ({ house }) => {
@@ -100,9 +106,9 @@ const Items = ({ house }) => {
             // removeItemFromSavedItems(id);
             setSaved(false);
           }}
-          className="text-red"
+          className="text-blue-700 py-3"
         >
-          <FontAwesomeIcon icon={faSave} />
+          <FontAwesomeIcon icon={faPlusCircle} /> saved
         </button>
       ) : (
         <button
@@ -110,8 +116,9 @@ const Items = ({ house }) => {
             // addItemToSavedItems(id);
             setSaved(true);
           }}
+          className=" py-3"
         >
-          <FontAwesomeIcon icon={faSave} />
+          <FontAwesomeIcon icon={faPlusCircle} /> save
         </button>
       )}
       <div className="items-center flex py-3">

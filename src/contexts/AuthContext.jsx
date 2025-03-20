@@ -5,8 +5,8 @@ import {
   useReducer,
   useState,
 } from "react";
-// const BASEURL ="https://realestway.com/.netlify/functions/api"
-const BASEURL = "http://localhost:9000";
+const BASEURL = "https://realestway.com/.netlify/functions/api";
+// const BASEURL = "http://localhost:9000";
 const AuthContext = createContext();
 
 const initialState = { user: null, isAuthenticated: false };
@@ -32,7 +32,7 @@ function AuthProvider({ children }) {
       const data = await res.json();
       setUsers(data);
     } catch {
-      alert("there was an error loading your data...");
+      alert("there was an error loading your data...users");
     }
   }
   useEffect(() => {
@@ -44,7 +44,7 @@ function AuthProvider({ children }) {
       const data = await res.json();
       setAgents(data);
     } catch {
-      alert("there was an error loading your data...");
+      alert("there was an error loading your data...agents");
     }
   }
   useEffect(() => {
