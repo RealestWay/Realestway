@@ -2,16 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-.scrollbar-hidden::-webkit-scrollbar {
-  display: none;
-}
-
-.scrollbar-hidden {
-  scrollbar-width: none;
-}
-.nav a:global(.active) {
-  background-color: "blue";
-}
 html,
 body {
   width: 100%;
