@@ -1,8 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-/* @import "https://unpkg.com/leaflet@1.9.3/dist/leaflet.css";
-@import "https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap"; */
 
 .scrollbar-hidden::-webkit-scrollbar {
   display: none;
@@ -13,4 +11,12 @@
 }
 .nav a:global(.active) {
   background-color: "blue";
+}
+html,
+body {
+  width: 100%;
+  overflow-x: hidden;
+}
+* {
+  box-sizing: border-box;
 }

@@ -4,18 +4,12 @@ import { Link } from "react-router-dom";
 import ImageCarousel from "./ImageCarousel";
 import { useAuth } from "../contexts/AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCross,
-  faFirstAid,
-  faLock,
-  faPlusCircle,
-  faStarOfLife,
-} from "@fortawesome/free-solid-svg-icons";
+import { faLock, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 
 const Items = ({ house }) => {
   // const { title, totalPrice, images, id } = house;
-  const { title, totalPrice, id } = house;
+  const { title, totalPrice, id, description } = house;
   const [saved, setSaved] = useState(false);
   const { isAuthenticated } = useAuth();
   const images = [
@@ -71,9 +65,14 @@ const Items = ({ house }) => {
           <ImageCarousel images={images} />
         </div>
       </div>
-      <div className="w-full flex justify-between text-sm py-2">
-        <p>{title}</p>
-        <p>{house.address}</p>
+      <div className="w-full justify-center flex text-sm py-2">
+        <div>
+          <p className="text-lg font-semibold">
+            {title.split(" ").slice(0, 4).join(" ")}{" "}
+            {title.split(" ").length > 4 ? "..." : ""}
+          </p>
+          <p className="text-sm text-gray-500">{house.address}</p>
+        </div>
       </div>
       <div className="flex justify-between py-2">
         {isAuthenticated ? (
@@ -96,8 +95,7 @@ const Items = ({ house }) => {
         <div>30 views</div>
       </div>
       <p className="text-xs py-2">
-        Exotic and more, kilo tun fe mo? kosewe kosegbo, intact and elegant.
-        Tadah!
+        {description.split(" ").slice(0, 10).join(" ")}...
       </p>
 
       {saved ? (
