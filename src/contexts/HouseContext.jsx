@@ -11,16 +11,18 @@ const HouseProvider = ({ children }) => {
   const [filter, setFilter] = useState({});
 
   async function fetchHouses() {
-    try {
-      setIsLoading(true);
-      const res = await fetch(`${BASEURL}/houses`);
-      const data = await res.json();
-      setHouses(data);
-    } catch {
-      alert("there was an error loading your data...");
-    } finally {
-      setIsLoading(false);
-    }
+    setIsLoading(true);
+    setTimeout(async () => {
+      try {
+        const res = await fetch(`${BASEURL}/houses`);
+        const data = await res.json();
+        setHouses(data);
+      } catch {
+        alert("there was an error loading your data...");
+      } finally {
+        setIsLoading(false);
+      }
+    }, 1000);
   }
   useEffect(() => {
     fetchHouses();

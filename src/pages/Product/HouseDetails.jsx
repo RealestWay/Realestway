@@ -23,6 +23,8 @@ const HouseDetails = () => {
     date_listed,
     amenities,
     images,
+    priceBreakdown,
+    minTenancyPeriod,
   } = house;
 
   const [selectedImage, setSelectedImage] = useState(null);
@@ -41,6 +43,9 @@ const HouseDetails = () => {
               #{totalPrice.toLocaleString()}
               <span className="text-sm ml-1">{priceType}</span>
             </h3>
+            <i className="text-gray-400 text-sm">
+              Renew with: #{priceBreakdown.basicRent.toLocaleString()}
+            </i>
             <p className="text-gray-500">{address}</p>
           </div>
 
@@ -67,7 +72,7 @@ const HouseDetails = () => {
             </div>
             <div>
               <p className="text-sm text-gray-400">Minimum Tenancy Period</p>
-              <p className="font-semibold">1 year</p>
+              <p className="font-semibold">{minTenancyPeriod}</p>
             </div>
             <div>
               <p className="text-sm text-gray-400">Furnished</p>

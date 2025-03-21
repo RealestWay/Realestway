@@ -65,7 +65,7 @@ exports.handler = async function (event, context) {
         caretaker_contact: "+12345678901",
         price_type: "monthly",
         date_listed: "2025-03-20T10:00:00.000Z",
-        agent_id: "A003",
+        agent_id: "A001",
         minTenancyPeriod: "6 months",
         amenities: ["WiFi", "Air Conditioning", "Parking"],
         location: {
@@ -110,7 +110,7 @@ exports.handler = async function (event, context) {
         caretaker_contact: "+12345678902",
         price_type: "yearly",
         date_listed: "2025-03-20T11:00:00.000Z",
-        agent_id: "A004",
+        agent_id: "A002",
         minTenancyPeriod: "1 year",
         amenities: ["Garden", "Garage", "Fireplace", "Dishwasher"],
         location: {
