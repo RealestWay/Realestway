@@ -36,7 +36,7 @@ const Homepage = () => {
             </div>
           </div>
           <div
-            className="flex gap-4 overflow-x-auto scroll-smooth scrollbar-hide snap-x pb-10"
+            className="flex gap-4 overflow-x-hidden scroll-smooth scrollbar-hide snap-x pb-10 max-w-100vw"
             style={{ scrollSnapType: "x mandatory" }}
           >
             {houses.map((house) => (
