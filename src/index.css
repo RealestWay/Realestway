@@ -2,6 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hidden {
+  scrollbar-width: none;
+  overflow-x: auto;
+  width: 100%; /* Limit to viewport width */
+  box-sizing: border-box;
+}
+
 html,
 body {
   width: 100%;
