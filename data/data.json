@@ -16,7 +16,11 @@
       "date_listed": "2025-03-19T09:16:56.900Z",
       "agent_id": "A002",
       "minTenancyPeriod": "1 year",
-      "amenities": ["Security", "Running Water", "Electricity"],
+      "amenities": [
+        "Security",
+        "Running Water",
+        "Electricity"
+      ],
       "location": {
         "latitude": 6.5568768,
         "longitude": 3.3325056,
@@ -72,7 +76,11 @@
       "date_listed": "2025-03-20T10:00:00.000Z",
       "agent_id": "A002",
       "minTenancyPeriod": "6 months",
-      "amenities": ["WiFi", "Air Conditioning", "Parking"],
+      "amenities": [
+        "WiFi",
+        "Air Conditioning",
+        "Parking"
+      ],
       "location": {
         "latitude": 40.7128,
         "longitude": -74.006,
@@ -128,7 +136,12 @@
       "date_listed": "2025-03-20T11:00:00.000Z",
       "agent_id": "A001",
       "minTenancyPeriod": "1 year",
-      "amenities": ["Garden", "Garage", "Fireplace", "Dishwasher"],
+      "amenities": [
+        "Garden",
+        "Garage",
+        "Fireplace",
+        "Dishwasher"
+      ],
       "location": {
         "latitude": 40.7129,
         "longitude": -74.0059,
@@ -184,7 +197,11 @@
       "date_listed": "2025-03-19T16:28:55.293Z",
       "agent_id": "A002",
       "minTenancyPeriod": "3 years",
-      "amenities": ["Security", "Running Water", "Electricity"],
+      "amenities": [
+        "Security",
+        "Running Water",
+        "Electricity"
+      ],
       "location": {
         "latitude": 6.4474,
         "longitude": 3.3903,
@@ -202,7 +219,59 @@
         "agreementFee": 10000
       },
       "totalPrice": 239999,
-      "images": [{}, {}, {}, {}, {}, {}, {}],
+      "images": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+      ],
+      "video": null
+    },
+    {
+      "id": "h1743542307000",
+      "title": "test",
+      "address": "kll",
+      "description": "",
+      "bedrooms": "1",
+      "bathrooms": "-17",
+      "dimension": "24982ft by 67904",
+      "property_type": "3 Bedroom Apartment",
+      "year_built": "2003-11-12",
+      "furnishing": "Semi Furnished",
+      "caretaker_contact": "08120606547",
+      "caretaker_bankAcct": "199997",
+      "caretaker_bankName": "300000",
+      "caretaker_acctName": "yuiopo2",
+      "price_type": "monthly",
+      "date_listed": "2025-04-01T21:18:27.000Z",
+      "agent_id": "A002",
+      "minTenancyPeriod": "1 year",
+      "amenities": [
+        "Security",
+        "Electricity",
+        "Parking Space"
+      ],
+      "location": {
+        "latitude": 6.537216,
+        "longitude": 3.3488896,
+        "address": "Nigeria",
+        "city": "Lagos",
+        "state": "Lagos",
+        "zipCode": "N/A",
+        "error": ""
+      },
+      "priceBreakdown": {
+        "basicRent": 4903849,
+        "cautionFee": 678904,
+        "agentFee": 7890,
+        "otherFees": "",
+        "agreementFee": 89032
+      },
+      "totalPrice": 5679675,
+      "images": [],
       "video": null
     }
   ],
@@ -215,7 +284,9 @@
       "phone": "+1 555 123 4567",
       "company": "NYC Realty",
       "profile_picture": "/images/agent1.jpg",
-      "listings": ["H001"]
+      "listings": [
+        "H001"
+      ]
     },
     {
       "id": "A002",
@@ -225,7 +296,9 @@
       "phone": "+1 555 987 6543",
       "company": "Brooklyn Homes",
       "profile_picture": "/images/agent2.jpg",
-      "listings": ["H002"]
+      "listings": [
+        "H002"
+      ]
     }
   ],
   "users": [
@@ -235,7 +308,9 @@
       "email": "alice@example.com",
       "password": "Realest",
       "phone": "+1 555 123 9876",
-      "saved_houses": ["H001"],
+      "saved_houses": [
+        "H001"
+      ],
       "rented_houses": [],
       "role": "renter"
     },
@@ -245,8 +320,12 @@
       "email": "bob@example.com",
       "password": "Realest",
       "phone": "+1 555 321 4567",
-      "saved_houses": ["H002"],
-      "rented_houses": ["H002"],
+      "saved_houses": [
+        "H002"
+      ],
+      "rented_houses": [
+        "H002"
+      ],
       "role": "renter",
       "savedItems": [
         "h1742375816901",

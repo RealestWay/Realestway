@@ -9,6 +9,7 @@ import { useState } from "react";
 
 const Items = ({ house }) => {
   // const { title, totalPrice, images, id } = house;
+
   const { title, totalPrice, id, description } = house;
   const [saved, setSaved] = useState(false);
   const { isAuthenticated } = useAuth();

@@ -2,8 +2,8 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 const HouseContext = createContext();
 
-const BASEURL = "https://realestway.com/.netlify/functions/api";
-// const BASEURL = "http://localhost:9000";
+// const BASEURL = "https://realestway.com/.netlify/functions/api";
+const BASEURL = "http://localhost:9000";
 
 const HouseProvider = ({ children }) => {
   const [houses, setHouses] = useState([]);

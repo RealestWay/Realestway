@@ -17,6 +17,7 @@ import { HouseProvider } from "./contexts/HouseContext";
 import ProtectedRoutes from "./ProtectedRoutes";
 import OrderPage from "./pages/OrderPage";
 import ChatPage from "./pages/ChatPage";
+import ScrollToTop from "./components/ScrollToTop";
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
     <AuthProvider>
       <HouseProvider>
         <BrowserRouter>
+          <ScrollToTop />
           <Routes>
             <Route path="/" element={<Homepage />} />
             <Route path="SignIn" element={<SignIn />} />

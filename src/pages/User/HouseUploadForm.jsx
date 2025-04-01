@@ -15,7 +15,10 @@ const HouseUploadForm = ({ agent }) => {
     property_type: "",
     year_built: "",
     furnishing: "",
-    caretaker_contact: "+234",
+    caretaker_contact: "",
+    caretaker_bankAcct: "",
+    caretaker_bankName: "",
+    caretaker_acctName: "",
     price_type: "",
     date_listed: new Date().toISOString(),
     agent_id: agent.id,
@@ -142,6 +145,9 @@ const HouseUploadForm = ({ agent }) => {
       date_listed: "",
       agent_id: agent.id,
       amenities: [],
+      caretaker_bankAcct: "",
+      caretaker_bankName: "",
+      caretaker_acctName: "",
     });
     setImages([]);
     setVideo(null);
@@ -311,15 +317,40 @@ const HouseUploadForm = ({ agent }) => {
         </div>
 
         {/* Caretaker Contact */}
-        <div>
-          <label className="block text-gray-700">
-            Caretaker / Landlord's Contact
-          </label>
+        <label className="block font-semibold text-gray-700 text-lg">
+          Caretaker / Landlord's Details
+        </label>
+        <div className="sm:grid-cols-2 grid gap-4">
           <input
             type="text"
             name="caretaker_contact"
-            placeholder="Enter contact details"
+            placeholder="Enter contact details(phone Number)"
             value={formData.caretaker_contact}
+            onChange={handleInputChange}
+            className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+
+          <input
+            type="number"
+            name="caretaker_bankAcct"
+            placeholder="Bank Account Number"
+            value={formData.caretaker_bankAcct}
+            onChange={handleInputChange}
+            className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <input
+            type="text"
+            name="caretaker_bankName"
+            placeholder="Bank Name"
+            value={formData.caretaker_bankName}
+            onChange={handleInputChange}
+            className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <input
+            type="text"
+            name="caretaker_acctName"
+            placeholder="Bank Account Name"
+            value={formData.caretaker_acctName}
             onChange={handleInputChange}
             className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
