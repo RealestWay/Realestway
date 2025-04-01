@@ -35,13 +35,15 @@ const Homepage = () => {
               </Link>
             </div>
           </div>
-          <div
-            className="flex gap-4 overflow-x-auto scroll-smooth scrollbar-hide snap-x pb-10 w-[100%]"
-            style={{ scrollSnapType: "x mandatory" }}
-          >
-            {houses.slice(0, 3).map((house) => (
-              <Items house={house} key={house.id} />
-            ))}
+          <div className="max-w-[100vw]">
+            <div
+              className="flex gap-4 overflow-x-auto scroll-smooth scrollbar-hide snap-x pb-10 w-[100%]"
+              style={{ scrollSnapType: "x mandatory" }}
+            >
+              {houses.slice(0, 3).map((house) => (
+                <Items house={house} key={house.id} />
+              ))}
+            </div>
           </div>
           <ChatHelp />
           <Footer />

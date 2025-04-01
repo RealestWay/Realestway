@@ -5,8 +5,8 @@ import {
   useReducer,
   useState,
 } from "react";
-// const BASEURL = "https://realestway.com/.netlify/functions/api";
-const BASEURL = "http://localhost:9000";
+const BASEURL = "https://realestway.com/.netlify/functions/api";
+// const BASEURL = "http://localhost:9000";
 const AuthContext = createContext();
 
 const initialState = { user: null, isAuthenticated: false };
