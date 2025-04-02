@@ -6,6 +6,7 @@ const HouseUploadForm = ({ agent }) => {
   const { fetchHouses } = UseHouses();
   const [formData, setFormData] = useState({
     id: `h${Date.now()}`,
+    availability: "Available",
     title: "",
     address: "",
     description: "",

@@ -6,6 +6,7 @@ exports.handler = async function (event, context) {
     houses: [
       {
         id: "h1742375816900",
+        availability: "Available",
         title: "Conducive Selfcon for singles",
         address: "Obia/Akpor, Rumuodomaya , Nigeria",
         description:
@@ -52,6 +53,7 @@ exports.handler = async function (event, context) {
 
       {
         id: "h1742375816901",
+        availability: "Available",
         title: "Affordable Studio in Downtown",
         address: "123 Downtown St, Cityville, USA",
         description:
@@ -97,6 +99,7 @@ exports.handler = async function (event, context) {
       },
       {
         id: "h1742375816902",
+        availability: "Available",
         title: "Spacious 3-Bedroom House in Suburbia",
         address: "456 Suburbia Ave, Suburbia Town, USA",
         description:
@@ -144,6 +147,7 @@ exports.handler = async function (event, context) {
     agents: [
       {
         id: "A001",
+
         name: "John Doe",
         email: "johndoe@example.com",
         password: "Realest",

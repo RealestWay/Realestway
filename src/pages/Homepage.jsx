@@ -13,7 +13,7 @@ const Homepage = () => {
 
   const styleclasses = isAuthenticated
     ? "flex gap-4  pb-10 w-[100%] overflow-x-auto scroll-smooth scrollbar-hide snap-x"
-    : "flex gap-4  pb-10 w-[100%]";
+    : "flex gap-4  pb-10 w-[100%] overflow-hidden";
   return (
     <div className="w-[100vw]">
       {isLoading ? (

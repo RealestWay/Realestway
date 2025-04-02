@@ -93,7 +93,7 @@ const Items = ({ house }) => {
             </span>
           </div>
         )}
-        <div>30 views</div>
+        <div className="text-green-500 text-sm">{house.availability}</div>
       </div>
       <p className="text-xs py-2">
         {description.split(" ").slice(0, 10).join(" ")}...
