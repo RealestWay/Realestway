@@ -5,9 +5,15 @@ import Items from "../components/Items";
 import { UseHouses } from "../contexts/HouseContext";
 import Spinner from "../components/Spinner";
 import ChatHelp from "../components/ChatHelp";
+import { useAuth } from "../contexts/AuthContext";
 
 const Homepage = () => {
   const { houses, isLoading } = UseHouses();
+  const { isAuthenticated } = useAuth();
+
+  const styleclasses = isAuthenticated
+    ? "flex gap-4  pb-10 w-[100%] overflow-x-auto scroll-smooth scrollbar-hide snap-x"
+    : "flex gap-4  pb-10 w-[100%]";
   return (
     <div className="w-[100vw]">
       {isLoading ? (
@@ -35,15 +41,11 @@ const Homepage = () => {
               </Link>
             </div>
           </div>
-          <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg mt-10 pb-2">
-            <div
-              className="flex gap-4 overflow-x-auto scroll-smooth scrollbar-hide snap-x pb-10 w-[100%]"
-              style={{ scrollSnapType: "x mandatory" }}
-            >
-              {houses.slice(0, 3).map((house) => (
-                <Items house={house} key={house.id} />
-              ))}
-            </div>
+
+          <div className={styleclasses}>
+            {houses.slice(0, 3).map((house) => (
+              <Items house={house} key={house.id} />
+            ))}
           </div>
           <ChatHelp />
           <Footer />
