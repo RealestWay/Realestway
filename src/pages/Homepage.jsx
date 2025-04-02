@@ -35,7 +35,7 @@ const Homepage = () => {
               </Link>
             </div>
           </div>
-          <div className="max-w-[100vw]">
+          <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg mt-10 pb-2">
             <div
               className="flex gap-4 overflow-x-auto scroll-smooth scrollbar-hide snap-x pb-10 w-[100%]"
               style={{ scrollSnapType: "x mandatory" }}
