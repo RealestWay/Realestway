@@ -12,8 +12,8 @@ import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { UseHouses } from "../../contexts/HouseContext";
 
 const SignIn = () => {
-  const [email, setEmail] = useState("bob@example.com");
-  const [password, setPassword] = useState("Realest");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassWord, setShowPassWord] = useState(false);
   const { fetchHouses } = UseHouses();
   const navigate = useNavigate();

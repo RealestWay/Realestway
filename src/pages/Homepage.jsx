@@ -43,9 +43,13 @@ const Homepage = () => {
           </div>
 
           <div className={styleclasses}>
-            {houses.slice(0, 3).map((house) => (
-              <Items house={house} key={house.id} />
-            ))}
+            {houses.data?.length === 0 ? (
+              <p>No houses available right now.</p>
+            ) : (
+              houses.data
+                .slice(0, 3)
+                .map((house) => <Items house={house} key={house?.id} />)
+            )}
           </div>
           <ChatHelp />
           <Footer />

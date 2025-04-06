@@ -5,8 +5,7 @@ import {
   useReducer,
   useState,
 } from "react";
-const BASEURL = "https://realestway.com/.netlify/functions/api";
-// const BASEURL = "http://localhost:9000";
+
 const AuthContext = createContext();
 
 const initialState = { user: null, isAuthenticated: false };
@@ -22,114 +21,105 @@ function reducer(state, action) {
 }
 
 function AuthProvider({ children }) {
-  const [users, setUsers] = useState();
-  const [agents, setAgents] = useState();
-  const [loginMsg, setLoginMsg] = useState("");
-
-  async function fetchUsers() {
-    try {
-      const res = await fetch(`${BASEURL}/users`);
-      const data = await res.json();
-      setUsers(data);
-    } catch {
-      alert("there was an error loading your data...users");
-    }
-  }
-  useEffect(() => {
-    fetchUsers();
-  }, []);
-  async function fetchAgents() {
-    try {
-      const res = await fetch(`${BASEURL}/agents`);
-      const data = await res.json();
-      setAgents(data);
-    } catch {
-      alert("there was an error loading your data...agents");
-    }
-  }
-  useEffect(() => {
-    fetchAgents();
-  }, []);
+  const [loginMsg, setLoginMsg] = useState(""); // Store login messages
 
   const [{ user, isAuthenticated }, dispatch] = useReducer(
     reducer,
     initialState
   );
-  function login(email, password) {
-    const user = users.find(
-      (u) => email === u.email && password === u.password
-    );
-    const agent = agents.find(
-      (a) => email === a.email && password === a.password
-    );
-    const ruser = user || agent;
-    if (ruser) {
-      dispatch({ type: "login", payload: ruser });
-      setLoginMsg("");
-    } else setLoginMsg("Incorrect details. Please check again.");
+
+  async function fetchUsers(email, password) {
+    try {
+      const res = await fetch(
+        "https://realestway-backend.up.railway.app/api/login", // User login API
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            email: email,
+            password: password,
+          }),
+        }
+      );
+
+      if (!res.ok) throw new Error("Failed to log in user");
+
+      const data = await res.json();
+      return data.user; // Return user data
+    } catch (err) {
+      return null; // If user login fails, return null
+    }
+  }
+
+  async function fetchAgents(email, password) {
+    try {
+      const res = await fetch(
+        "https://realestway-backend.up.railway.app/api/agents/login", // Agent login API
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            email: email,
+            password: password,
+          }),
+        }
+      );
+
+      if (!res.ok) throw new Error("Failed to log in as agent");
+
+      const data = await res.json();
+      return data.user; // Return agent data
+    } catch (err) {
+      return null; // If agent login fails, return null
+    }
+  }
+
+  // Login function to try both user and agent login
+  async function login(email, password) {
+    try {
+      // Try logging in as a user
+      const userData = await fetchUsers(email, password);
+      if (userData) {
+        // If user login is successful
+        dispatch({ type: "login", payload: userData });
+        setLoginMsg(""); // Clear any existing login messages
+        return; // Exit if user login is successful
+      }
+
+      // If user login fails, try logging in as an agent
+      const agentData = await fetchAgents(email, password);
+      if (agentData) {
+        // If agent login is successful
+        dispatch({ type: "login", payload: agentData });
+        setLoginMsg(""); // Clear any existing login messages
+      } else {
+        // If both user and agent login fail
+        setLoginMsg("Incorrect details. Please check again.");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      setLoginMsg("An error occurred during login. Please try again.");
+    }
   }
 
   function logout() {
     dispatch({ type: "logout" });
   }
 
-  // Function to update user details
-  async function updateUserDetails(updatedData) {
-    try {
-      const res = await fetch(`${BASEURL}/users/${ruser.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedData),
-      });
-      if (res.ok) {
-        const updatedUser = await res.json();
-        dispatch({ type: "update_user", payload: updatedUser });
-      } else {
-        throw new Error("Failed to update user data");
-      }
-    } catch (error) {
-      console.error("Error updating user data: ", error);
-    }
-  }
-
-  // Function to add new items to the user details object
-  async function addItemToUser(newItem) {
-    try {
-      const updatedUser = { ...user, ...newItem }; // Add new item to the user object
-      const res = await fetch(`${BASEURL}/users/${user.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedUser),
-      });
-      if (res.ok) {
-        const updatedUserData = await res.json();
-        dispatch({ type: "update_user", payload: updatedUserData });
-      } else {
-        throw new Error("Failed to add new item to user data");
-      }
-    } catch (error) {
-      console.error("Error adding new item to user data: ", error);
-    }
-  }
-
   return (
     <AuthContext.Provider
       value={{
-        users,
-        agents,
         user,
         isAuthenticated,
         login,
         logout,
         loginMsg,
-        fetchAgents,
-        fetchUsers,
-        updateUserDetails,
-        addItemToUser,
       }}
     >
       {children}

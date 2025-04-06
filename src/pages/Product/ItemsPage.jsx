@@ -12,7 +12,7 @@ const ItemsPage = () => {
   const [visibleCount, setVisibleCount] = useState(20); // Pagination state
 
   // 🏠 Apply Smart Filtering (Respect Budget!)
-  const filteredHouses = houses
+  const filteredHouses = houses.data
     .filter((house) => {
       // ✅ Budget Constraint: Only show houses ≤ budget
       if (budget && house.totalPrice > parseFloat(budget)) return false;

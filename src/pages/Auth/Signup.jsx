@@ -13,8 +13,8 @@ import { useAuth } from "../../contexts/AuthContext";
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-  const { fetchUsers, fetchAgents, users } = useAuth();
-  const [checkUser, setCheckUser] = useState("");
+  const { fetchUsers, fetchAgents } = useAuth(); // Accessing fetch methods from AuthContext
+  const [checkUser, setCheckUser] = useState(""); // State for error message on duplicate email
 
   const [formData, setFormData] = useState({
     id: `u${Date.now()}`,
@@ -24,13 +24,27 @@ const Signup = () => {
     password: "",
     confirmPassword: "",
   });
-  const user = users.find((u) => u.email === formData.email);
-  const [error, setError] = useState("");
+  const [error, setError] = useState(""); // Error state for validation messages
 
   // Handle input changes
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     setError(""); // Clear error message on input change
+  };
+
+  // Check if the email exists in either the user or agent system
+  const checkExistingUserOrAgent = async (email) => {
+    try {
+      const user = await fetchUsers(email, formData.password); // Fetch user based on email
+      const agent = await fetchAgents(email, formData.password); // Fetch agent based on email
+
+      if (user || agent) {
+        return true; // Return true if email exists in either system
+      }
+      return false; // Return false if no existing user or agent
+    } catch (err) {
+      return false; // Return false in case of error
+    }
   };
 
   // Handle form submission
@@ -42,31 +56,40 @@ const Signup = () => {
       setError("Passwords do not match.");
       return;
     }
-    if (user) {
-      setCheckUser("User with this mail is already registered...");
+
+    // Check if user already exists
+    const userOrAgentExists = await checkExistingUserOrAgent(formData.email);
+    if (userOrAgentExists) {
+      setCheckUser("User or agent with this email is already registered.");
       return;
     }
-    try {
-      const res = await fetch("http://localhost:9000/users", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          phone: formData.phone,
-          password: formData.password,
-        }),
-      });
 
+    try {
+      const res = await fetch(
+        "https://realestway-backend.up.railway.app/api/register", // User registration API
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            fullname: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            password: formData.password,
+            password_confirmation: formData.confirmPassword,
+          }),
+        }
+      );
+      console.log(formData);
       if (!res.ok) throw new Error("Failed to create account");
+
+      // If registration is successful, navigate to sign in page
+      navigate("/signIn");
     } catch (err) {
       setError("There was an error signing up. Please try again.");
     }
-    fetchAgents();
-    fetchUsers();
-    navigate("/signIn");
   };
 
   return (
@@ -110,6 +133,7 @@ const Signup = () => {
               />
             </div>
             <p className="text-red-600 flex justify-center">{checkUser}</p>
+
             {/* Phone Number */}
             <div className="relative">
               <div className="absolute inset-y-0 left-3 flex items-center text-gray-500">

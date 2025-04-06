@@ -18,7 +18,7 @@ const UserProfile = () => {
   const [settings, setSettings] = useState(false);
   const { houses } = UseHouses();
   const { user, logout } = useAuth();
-  const house = houses.find((h) => h.agent_id === user?.id);
+  const house = houses.data.find((h) => h.agent_id === user?.id);
   const navigate = useNavigate();
   if (!user) navigate("/");
 

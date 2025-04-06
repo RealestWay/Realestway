@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 const HouseContext = createContext();
 
-const BASEURL = "https://realestway.com/.netlify/functions/api";
+// const BASEURL = "https://realestway.com/.netlify/functions/api";
 // const BASEURL = "http://localhost:9000";
 
 const HouseProvider = ({ children }) => {
@@ -14,9 +14,13 @@ const HouseProvider = ({ children }) => {
     setIsLoading(true);
     setTimeout(async () => {
       try {
-        const res = await fetch(`${BASEURL}/houses`);
+        // const res = await fetch(`${BASEURL}/houses`);
+        const res = await fetch(
+          "https://realestway-backend.up.railway.app/api/listings"
+        );
         const data = await res.json();
         setHouses(data);
+        console.log(data);
       } catch {
         alert("there was an error loading your data...");
       } finally {
