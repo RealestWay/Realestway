@@ -55,7 +55,7 @@ const UserProfile = () => {
 
         <div className="mt-4">
           <p>
-            <strong>Name:</strong> {user?.name}
+            <strong>Name:</strong> {user?.fullname}
           </p>
           <p>
             <strong>Email:</strong> {user?.email}
