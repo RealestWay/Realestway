@@ -43,8 +43,8 @@ const Homepage = () => {
           </div>
 
           <div className={styleclasses}>
-            {houses.data?.length === 0 ? (
-              <p>No houses available right now.</p>
+            {houses.data.length === 0 ? (
+              <p>No houses available right now..</p>
             ) : (
               houses.data
                 .slice(0, 3)
