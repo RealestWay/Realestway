@@ -63,10 +63,10 @@ const ItemView = () => {
   return (
     <div>
       <div>
-        <div className="w-full px-6sm:px-10 flex justify-between items-center">
+        <div className="w-full px-6sm:px-10 flex justify-between items-center text-white bg-blue-700">
           <button
-            className="flex w-full items-center gap-2 px-4 py-2 bg-gray-200 text-gray-700 hover:bg-gray-300 transition-all"
-            onClick={() => navigate("/ItemsPage")}
+            className="flex items-center gap-2 px-4 py-2 bg-blue-700  hover:bg-blue-300 transition-all"
+            onClick={() => navigate(-1)}
           >
             <FontAwesomeIcon icon={faArrowAltCircleLeft} size="lg" />
             <span>Back</span>

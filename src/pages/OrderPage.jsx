@@ -1,4 +1,7 @@
+import { faArrowAltCircleLeft } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const OrderPage = () => {
   const [paymentStage, setPaymentStage] = useState(1); // 1: Initiated, 2: Processing, 3: Completed
@@ -6,7 +9,7 @@ const OrderPage = () => {
   const [paymentMethod, setPaymentMethod] = useState(null);
   const [isPaid, setIsPaid] = useState(false);
   const landlordContact = "+1234567890"; // Example contact (will be revealed after payment)
-
+  const navigate = useNavigate();
   // Countdown Timer
   useEffect(() => {
     if (paymentStage === 2 && countdown > 0) {
@@ -33,6 +36,15 @@ const OrderPage = () => {
 
   return (
     <div className="max-w-2xl mx-auto my-24  p-6 bg-white shadow-lg rounded-lg">
+      <div className="w-full px-6sm:px-10 flex justify-between items-center text-white bg-blue-700">
+        <button
+          className="flex items-center gap-2 px-4 py-2 bg-blue-700  hover:bg-blue-300 transition-all"
+          onClick={() => navigate(-1)}
+        >
+          <FontAwesomeIcon icon={faArrowAltCircleLeft} size="lg" />
+          <span>Back</span>
+        </button>
+      </div>
       <h2 className="text-2xl font-semibold text-gray-800 text-center">
         Payment Processing
       </h2>

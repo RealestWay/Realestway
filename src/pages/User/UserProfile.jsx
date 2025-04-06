@@ -8,21 +8,30 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowAltCircleLeft, faCog } from "@fortawesome/free-solid-svg-icons";
 import UserSettings from "./UserSettings";
 import ChatList from "./ChatList";
+import EditHouseForm from "./EditHouseForm";
 
 const UserProfile = () => {
   const [addItem, setAddItems] = useState(false);
   const [openChats, setOpenChats] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedHouse, setSelectedHouse] = useState(null);
   const [settings, setSettings] = useState(false);
   const { houses } = UseHouses();
   const { user, logout } = useAuth();
   const house = houses.find((h) => h.agent_id === user?.id);
   const navigate = useNavigate();
   if (!user) navigate("/");
+
+  // Function to handle opening the modal
+  const handleEditClick = (house) => {
+    setSelectedHouse(house);
+    setIsModalOpen(true);
+  };
   return (
     <div>
-      <div className="w-full px-6sm:px-10 flex justify-between items-center bg-gray-200">
+      <div className="w-full px-6sm:px-10 flex justify-between items-center text-white bg-blue-700">
         <button
-          className="flex items-center gap-2 px-4 py-2 bg-gray-200 text-gray-700 hover:bg-gray-300 transition-all"
+          className="flex items-center gap-2 px-4 py-2 bg-blue-700  hover:bg-blue-300 transition-all"
           onClick={() => navigate(-1)}
         >
           <FontAwesomeIcon icon={faArrowAltCircleLeft} size="lg" />
@@ -37,11 +46,11 @@ const UserProfile = () => {
           className="p-2 sm:pr-4 text-lg text-gray-700"
           onClick={() => setSettings(!settings)}
         >
-          <FontAwesomeIcon icon={faCog} />
+          <FontAwesomeIcon icon={faCog} color="white" />
         </button>
         <hr />
       </div>
-      <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg my-2">
+      <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg my-2 shadow-blue-700">
         <h2 className="text-2xl font-semibold text-gray-800">My Profile</h2>
 
         <div className="mt-4">
@@ -67,11 +76,11 @@ const UserProfile = () => {
       ) : (
         <>
           {user?.company && (
-            <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+            <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg rounded-b-none shadow-lg">
               <>
                 <button
                   onClick={() => setAddItems(!addItem)}
-                  className="w-full bg-blue-300 shadow border rounded-lg py-3 text-white"
+                  className="bg-green-500 text-white p-3 w-full rounded-lg hover:bg-green-600 transition duration-300"
                 >
                   {addItem ? "Close form" : "+ Post House"}
                 </button>
@@ -86,11 +95,11 @@ const UserProfile = () => {
               </>
             </div>
           )}{" "}
-          <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+          <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg rounded-t-none shadow-lg">
             <>
               <button
                 onClick={() => setOpenChats(!openChats)}
-                className="w-full bg-blue-300 shadow border rounded-lg py-3 text-white"
+                className="bg-blue-500 text-white p-3 w-full rounded-lg hover:bg-blue-600 transition duration-300"
               >
                 {!openChats ? "Open Messages" : "+ Close messages"}
               </button>
@@ -112,7 +121,17 @@ const UserProfile = () => {
             >
               {houses?.map((hous) =>
                 hous.agent_id === user?.id ? (
-                  <Items key={hous.id} house={hous} />
+                  <Items key={hous.id} house={hous}>
+                    <button
+                      className="bg-blue-500 text-white px-7 py-1 rounded-lg hover:bg-blue-600 transition duration-300"
+                      onClick={() => handleEditClick(hous)}
+                    >
+                      Edit
+                    </button>
+                    <button className="bg-red-500 text-white px-5 py-1 rounded-lg hover:bg-red-600 transition duration-300">
+                      Delete
+                    </button>
+                  </Items>
                 ) : (
                   ""
                 )
@@ -128,7 +147,7 @@ const UserProfile = () => {
       {!user.company && (
         <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg mt-10 pb-2">
           <p className="font-bold text-xl border-0 border-b-2 justify-center flex text-blue-700 w-full">
-            Your Recent Inspection
+            Your Saved Searches
           </p>
           {house ? (
             <div
@@ -149,6 +168,15 @@ const UserProfile = () => {
             </i>
           )}
         </div>
+      )}
+      {/* Edit House Modal */}
+      {isModalOpen && (
+        <EditHouseForm
+          house={selectedHouse}
+          isOpen={isModalOpen}
+          setIsOpen={setIsModalOpen}
+          setSelectedHouse={setSelectedHouse}
+        />
       )}
       <button
         onClick={logout}

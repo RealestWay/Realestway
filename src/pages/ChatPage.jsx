@@ -37,20 +37,22 @@ const ChatPage = () => {
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
       {/* Back Button */}
-      <button
-        className="flex items-center justify-around sm:justify-between gap-2 px-4 py-2 bg-gray-200 text-gray-700 hover:bg-gray-300 transition-all"
-        onClick={() => navigate(-1)}
-      >
-        <span className="flex justify-between sm:justify-around w-[18 %] sm:w-[5%]">
-          <FontAwesomeIcon icon={faArrowAltCircleLeft} size="lg" />
-          <span>Back</span>
-        </span>
-        <div className="sm:w-4/5 flex sm:pl-[20%]">
-          <h2 className="text-lg font-bold">
-            {user.company ? user.name : title}
-          </h2>
-        </div>
-      </button>
+      <div className="w-full px-6sm:px-10 flex justify-between items-center text-white bg-blue-700">
+        <button
+          className="flex items-center gap-2 px-4 py-2 bg-blue-700  hover:bg-blue-300 transition-all"
+          onClick={() => navigate(-1)}
+        >
+          <span className="flex justify-between sm:justify-around w-[18 %] sm:w-[5%]">
+            <FontAwesomeIcon icon={faArrowAltCircleLeft} size="lg" />
+            <span>Back</span>
+          </span>
+          <div className="sm:w-4/5 flex sm:pl-[20%]">
+            <h2 className="text-lg font-bold">
+              {user.company ? user.name : title}
+            </h2>
+          </div>
+        </button>
+      </div>
 
       <div className="sm:flex sm:mx-auto w-full max-w-6xl p-4">
         {/* Left Panel - Important Info */}

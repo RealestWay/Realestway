@@ -7,12 +7,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 
-const Items = ({ house }) => {
+const Items = ({ house, children }) => {
   // const { title, totalPrice, images, id } = house;
 
   const { title, totalPrice, id, description } = house;
   const [saved, setSaved] = useState(false);
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const images = [
     {
       src: "https://images.unsplash.com/photo-1613977257592-4871e5fcd7c4?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8aG91c2UlMjBleHRlcmlvcnxlbnwwfHwwfHx8MA%3D%3D",
@@ -99,26 +99,32 @@ const Items = ({ house }) => {
         {description.split(" ").slice(0, 10).join(" ")}...
       </p>
 
-      {saved ? (
-        <button
-          onClick={() => {
-            // removeItemFromSavedItems(id);
-            setSaved(false);
-          }}
-          className="text-blue-700 py-3"
-        >
-          <FontAwesomeIcon icon={faPlusCircle} /> saved
-        </button>
+      {!user?.company ? (
+        <>
+          {saved ? (
+            <button
+              onClick={() => {
+                // removeItemFromSavedItems(id);
+                setSaved(false);
+              }}
+              className="text-blue-700 py-3"
+            >
+              <FontAwesomeIcon icon={faPlusCircle} /> saved
+            </button>
+          ) : (
+            <button
+              onClick={() => {
+                // addItemToSavedItems(id);
+                setSaved(true);
+              }}
+              className=" py-3"
+            >
+              <FontAwesomeIcon icon={faPlusCircle} /> save
+            </button>
+          )}
+        </>
       ) : (
-        <button
-          onClick={() => {
-            // addItemToSavedItems(id);
-            setSaved(true);
-          }}
-          className=" py-3"
-        >
-          <FontAwesomeIcon icon={faPlusCircle} /> save
-        </button>
+        ""
       )}
       <div className="items-center flex py-3">
         <span className="m-auto">
@@ -128,6 +134,7 @@ const Items = ({ house }) => {
           <span className="text-sm">/year</span>
         </span>
       </div>
+      <div className="flex justify-around border-red-600">{children}</div>
     </div>
   );
 };

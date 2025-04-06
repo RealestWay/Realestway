@@ -15,7 +15,7 @@ const ItemsPage = () => {
   const filteredHouses = houses
     .filter((house) => {
       // ✅ Budget Constraint: Only show houses ≤ budget
-      if (budget && house.totalPrice > budget) return false;
+      if (budget && house.totalPrice > parseFloat(budget)) return false;
       return true;
     })
     .map((house) => {
@@ -31,7 +31,9 @@ const ItemsPage = () => {
       if (locationMatches) matchScore += 2;
 
       // ✅ Budget Match (house price ≤ budget)
-      const budgetMatches = budget ? house.totalPrice <= budget : true;
+      const budgetMatches = budget
+        ? house.totalPrice <= parseFloat(budget)
+        : true;
       if (budgetMatches) matchScore += 1;
 
       // ✅ Property Type Match

@@ -147,7 +147,6 @@ exports.handler = async function (event, context) {
     agents: [
       {
         id: "A001",
-
         name: "John Doe",
         email: "johndoe@example.com",
         password: "Realest",
