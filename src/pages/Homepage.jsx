@@ -43,11 +43,11 @@ const Homepage = () => {
           </div>
 
           <div className={styleclasses}>
-            {houses.data.length === 0 ? (
+            {houses.data?.length === 0 ? (
               <p>No houses available right now..</p>
             ) : (
               houses.data
-                .slice(0, 3)
+                ?.slice(0, 3)
                 .map((house) => <Items house={house} key={house?.id} />)
             )}
           </div>
