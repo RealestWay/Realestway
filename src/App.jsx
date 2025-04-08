@@ -18,6 +18,7 @@ import ProtectedRoutes from "./ProtectedRoutes";
 import OrderPage from "./pages/OrderPage";
 import ChatPage from "./pages/ChatPage";
 import ScrollToTop from "./components/ScrollToTop";
+import AgentEnrollmentPage from "./pages/AgentEnrollment";
 
 const App = () => {
   return (
@@ -79,6 +80,7 @@ const App = () => {
             <Route path="forgotPassword" element={<ForgotPassword />} />
             <Route path="*" element={<PageNotFound />} />
             <Route path="Order" element={<OrderPage />}></Route>
+            <Route path="onboard" element={<AgentEnrollmentPage />}></Route>
           </Routes>
         </BrowserRouter>
       </HouseProvider>

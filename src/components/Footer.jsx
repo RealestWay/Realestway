@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Footer = () => {
   return (
     <div className="bg-blue-900 text-white mt-10 px-5 sm:px-20 pt-20 h-1/3 sm:flex-col justify-between">
@@ -12,21 +14,24 @@ const Footer = () => {
             SubScribe
           </button>
         </div>
-        <div className="flex justify-around w-full sm:w-2/5">
-          <div>
-            <p>About us</p>
-            <p>Contact</p>
-            <p>Location</p>
-          </div>
-          <div>
-            <p>FAQ</p>
-            <p>Term of use</p>
-            <p>Privacy Policy</p>
-          </div>
-          <div>
-            <p>Service & Facilities</p>
-            <p>Careers</p>
-            <p>How to book</p>
+        <div>
+          <Link to={"/onboard"}>Become An Agent</Link>
+          <div className="flex justify-around w-full sm:w-2/5">
+            <div>
+              <p>About us</p>
+              <p>Contact</p>
+              <p>Location</p>
+            </div>
+            <div>
+              <p>FAQ</p>
+              <p>Term of use</p>
+              <p>Privacy Policy</p>
+            </div>
+            <div>
+              <p>Service & Facilities</p>
+              <p>Careers</p>
+              <p>How to book</p>
+            </div>
           </div>
         </div>
       </div>
