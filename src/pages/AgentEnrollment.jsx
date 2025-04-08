@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import PageNav from "../components/PageNav";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEnvelope, faPhone } from "@fortawesome/free-solid-svg-icons";
 
 const AgentEnrollmentPage = () => {
   const [email, setEmail] = useState("");
@@ -14,18 +16,15 @@ const AgentEnrollmentPage = () => {
   };
 
   return (
-    <div>
-      <header style={headerStyle}>
-        <PageNav />
-        <h1>Welcome to RealEstWay</h1>
-        <p>Your trusted partner for house renting and real estate services.</p>
-      </header>
-
-      <div style={containerStyle}>
+    <div className="bg-gray-100 min-h-screen">
+      <PageNav />
+      <div className="container mx-auto px-12 py-8">
         {/* Intro Section */}
-        <section style={sectionStyle}>
-          <h2>Join Our Real Estate Network</h2>
-          <p>
+        <section className="mb-12 text-center bg-blue-50 p-6 rounded-lg shadow-md text-gray-800">
+          <h2 className="text-3xl font-semibold text-gray-900 mb-6">
+            Join Our Real Estate Network
+          </h2>
+          <p className="text-lg leading-relaxed mb-6 text-justify">
             At RealEstWay, we are committed to creating a strong network of real
             estate agents who share our passion for excellence and customer
             satisfaction. Our vision is to revolutionize the real estate
@@ -33,137 +32,120 @@ const AgentEnrollmentPage = () => {
             perfect homes while providing agents with the tools and support they
             need to succeed.
           </p>
-          <p>
+          <p className="text-lg leading-relaxed mb-6 text-justify">
             Our mission is to provide innovative solutions for both agents and
             clients, fostering long-term relationships built on trust and
             professionalism.
           </p>
-          <p>
+          <p className="text-lg leading-relaxed mb-6 text-justify">
             Learn more about us and our story on our{" "}
-            <Link to={"/AboutUs"}>About Us</Link> page.
+            <Link to={"/AboutUs"} className="text-indigo-600 hover:underline">
+              About Us
+            </Link>{" "}
+            page.
           </p>
         </section>
 
         {/* Enrollment Form Section */}
         {!formSubmitted ? (
-          <section style={sectionStyle}>
-            <h2>Agent Enrollment</h2>
-            <p>
-              Please provide your email and phone number to get started in our
-              agent recruitment process:
-            </p>
-            <form onSubmit={handleSubmit}>
-              <div>
-                <label htmlFor="email">Email Address:</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  placeholder="Enter your email"
-                  style={inputStyle}
-                />
-              </div>
+          <section className="mb-12 flex justify-center">
+            <div className="bg-white shadow-xl rounded-lg p-8 w-full max-w-lg">
+              <h2 className="text-2xl font-semibold text-center text-gray-800 mb-6">
+                Agent Enrollment
+              </h2>
+              <p className="text-center text-gray-600 mb-6">
+                Please provide your email and phone number to get started in our
+                agent recruitment process:
+              </p>
+              <form className="space-y-6" onSubmit={handleSubmit}>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-3 flex items-center text-gray-500">
+                    <FontAwesomeIcon icon={faEnvelope} color="#5A67D8" />
+                  </div>
+                  <input
+                    type="email"
+                    placeholder="Enter your email"
+                    className="w-full py-3 pl-12 pr-4 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none placeholder:text-gray-500"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                </div>
 
-              <div>
-                <label htmlFor="phone">Phone Number:</label>
-                <input
-                  type="tel"
-                  id="phone"
-                  name="phone"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  required
-                  placeholder="Enter your phone number"
-                  style={inputStyle}
-                />
-              </div>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-3 flex items-center text-gray-500">
+                    <FontAwesomeIcon icon={faPhone} color="#5A67D8" />
+                  </div>
+                  <input
+                    type="tel"
+                    placeholder="Enter your phone number"
+                    className="w-full py-3 pl-12 pr-4 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none placeholder:text-gray-500"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    required
+                  />
+                </div>
 
-              <button type="submit" style={buttonStyle}>
-                Enroll Now
-              </button>
-            </form>
+                <button
+                  type="submit"
+                  className="w-full py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
+                >
+                  Enroll Now
+                </button>
+              </form>
+            </div>
           </section>
         ) : (
-          <section style={sectionStyle}>
-            <h2>Thank You for Enrolling!</h2>
-            <p>
+          <section className="mb-12 text-center">
+            <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+              Thank You for Enrolling!
+            </h2>
+            <p className="text-lg text-gray-600 mb-6">
               We have received your information. You will be contacted soon with
               the next steps in the recruitment process.
             </p>
-            <p>
+            <p className="text-lg text-gray-600">
               For more details, you can{" "}
-              <a href="/recruitment-process">view the full instructions</a>.
+              <Link
+                to="/recruitment-process"
+                className="text-indigo-600 hover:underline"
+              >
+                view the full instructions
+              </Link>
+              .
             </p>
           </section>
         )}
 
         {/* Instructions Section */}
-        <section style={sectionStyle}>
-          <h2>Recruitment Process</h2>
-          <p>
-            Once you submit your enrollment, we will contact through your
+        <section className="mb-12 text-center bg-green-50 p-6 rounded-lg shadow-md">
+          <h2 className="text-2xl font-semibold text-green-700 mb-4">
+            Recruitment Process
+          </h2>
+          <p className="text-lg text-gray-600 mb-4 text-justify">
+            Once you submit your enrollment, we will contact you through your
             details and guide you through the next steps in our recruitment
             process. You will receive an email with further instructions on how
             to proceed.
           </p>
-          <p>
+          <p className="text-lg text-gray-600 text-justify">
             For more details about the recruitment process, click here to{" "}
-            <a href="/recruitment-process">view the full instructions</a>.
+            <Link
+              to="/recruitment-process"
+              className="text-green-600 hover:underline"
+            >
+              view the full instructions
+            </Link>
+            .
           </p>
         </section>
       </div>
 
-      <footer style={footerStyle}>
-        <p>&copy; 2025 [Your Brand Name]. All rights reserved.</p>
+      <footer className="bg-gray-800 text-white text-center py-6 mt-12">
+        <p>&copy; 2025 RealEstWay. All rights reserved.</p>
       </footer>
     </div>
   );
-};
-
-// Styles for the components (inline styles)
-const headerStyle = {
-  backgroundColor: "#0044cc",
-  color: "white",
-  padding: "20px",
-  textAlign: "center",
-};
-
-const containerStyle = {
-  width: "80%",
-  margin: "0 auto",
-};
-
-const sectionStyle = {
-  margin: "30px 0",
-};
-
-const inputStyle = {
-  width: "100%",
-  padding: "10px",
-  margin: "10px 0",
-  fontSize: "16px",
-  border: "1px solid #ddd",
-  borderRadius: "5px",
-};
-
-const buttonStyle = {
-  padding: "10px 20px",
-  backgroundColor: "#28a745",
-  color: "white",
-  border: "none",
-  borderRadius: "5px",
-  cursor: "pointer",
-  fontSize: "16px",
-};
-
-const footerStyle = {
-  backgroundColor: "#333",
-  color: "white",
-  textAlign: "center",
-  padding: "20px",
 };
 
 export default AgentEnrollmentPage;

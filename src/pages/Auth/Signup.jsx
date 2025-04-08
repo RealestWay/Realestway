@@ -205,15 +205,10 @@ const Signup = () => {
             </button>
           </form>
 
-          <p className="mt-5 text-sm text-gray-500 text-center">
-            or sign in using
-          </p>
+          <p className="mt-5 text-sm text-gray-500 text-center">or</p>
           <div className="flex justify-around">
-            <button className="bg-blue-600 px-5 w-[40%] py-1 rounded-xl text-white">
-              Facebook
-            </button>
-            <button className="bg-red-600 px-5 py-1 w-[40%] rounded-xl text-white">
-              Google
+            <button className="bg-blue-600 px-5 text-xs py-1 rounded-xl text-white">
+              <Link to={"/onboard"}>Become An Agent</Link>
             </button>
           </div>
           <p className="flex justify-center mt-3 text-gray-500 text-sm">
