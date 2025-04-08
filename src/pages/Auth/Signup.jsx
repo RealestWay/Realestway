@@ -75,7 +75,7 @@ const Signup = () => {
           },
           body: JSON.stringify({
             fullname: formData.name,
-            email: formData.email,
+            email: formData.email.toLocaleLowerCase(),
             phone: formData.phone,
             password: formData.password,
             password_confirmation: formData.confirmPassword,

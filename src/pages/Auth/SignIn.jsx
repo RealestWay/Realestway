@@ -22,7 +22,7 @@ const SignIn = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (email && password) login(email, password);
+    if (email && password) login(email.toLocaleLowerCase(), password);
     fetchHouses();
   };
 
