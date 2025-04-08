@@ -93,7 +93,7 @@ const HouseDetails = () => {
                 <p className="text-gray-700">Name: {agent.name}</p>
                 <p className="text-gray-500">Company: {agent.company}</p>
               </div>
-              {!user.company && (
+              {!user.nin && (
                 <Link to={`/ChatPage/${house.id}`}>
                   <button className="bg-blue-500 text-white font-bold rounded px-4 py-2">
                     Contact Agent

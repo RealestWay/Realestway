@@ -99,7 +99,7 @@ const Items = ({ house, children }) => {
         {description.split(" ").slice(0, 10).join(" ")}...
       </p>
 
-      {!user?.company ? (
+      {!user?.nin ? (
         <>
           {saved ? (
             <button
