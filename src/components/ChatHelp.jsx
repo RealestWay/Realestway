@@ -51,7 +51,10 @@ const ChatHelp = () => {
         <div className="w-80 bg-white shadow-lg rounded-lg overflow-hidden">
           {/* Header */}
           <div className="bg-blue-600 text-white p-3 flex justify-between items-center">
-            <span className="font-semibold">Chat Support</span>
+            <div>
+              <span className="font-semibold block">Chat Support</span>
+              <span className="text-xs">support@realestway.com</span>
+            </div>
             <button onClick={() => setIsOpen(false)}>
               <FontAwesomeIcon icon={faTimes} />
             </button>
