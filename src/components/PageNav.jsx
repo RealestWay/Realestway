@@ -28,7 +28,7 @@ const PageNav = () => {
           className="md:hidden ml-auto text-xl focus:outline-none"
           onClick={() => setIsOpen(!isOpen)}
         >
-          <FontAwesomeIcon icon={isOpen ? faTimes : faBars} />
+          <FontAwesomeIcon icon={isOpen ? faTimes : faBars} color="#100073" />
         </button>
 
         {/* Navigation Links (Responsive) */}
@@ -40,7 +40,11 @@ const PageNav = () => {
           <li className="md:inline-block block p-3">
             <NavLink to="/" className="items-center">
               {isOpen ? (
-                <FontAwesomeIcon icon={faHome} color="blue" className="mr-2" />
+                <FontAwesomeIcon
+                  icon={faHome}
+                  color="#100073"
+                  className="mr-2"
+                />
               ) : (
                 ""
               )}
@@ -52,7 +56,7 @@ const PageNav = () => {
               {isOpen ? (
                 <FontAwesomeIcon
                   icon={faInfoCircle}
-                  color="blue"
+                  color="#100073"
                   className="mr-2"
                 />
               ) : (
@@ -64,7 +68,11 @@ const PageNav = () => {
           <li className="md:inline-block block p-3">
             <NavLink to="/ContactUs">
               {isOpen ? (
-                <FontAwesomeIcon icon={faPhone} color="blue" className="mr-2" />
+                <FontAwesomeIcon
+                  icon={faPhone}
+                  color="#100073"
+                  className="mr-2"
+                />
               ) : (
                 ""
               )}

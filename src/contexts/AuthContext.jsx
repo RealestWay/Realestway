@@ -110,7 +110,7 @@ function AuthProvider({ children }) {
 
   async function logout() {
     try {
-      const res = fetch(
+      const res = await fetch(
         "https://realestway-backend.up.railway.app/api/logout",
         {
           method: "POST",
@@ -119,10 +119,14 @@ function AuthProvider({ children }) {
           },
         }
       );
-    } catch {
-      alert("failed to logout");
+
+      if (!res.ok) throw new Error("Logout failed");
+
+      dispatch({ type: "logout" });
+    } catch (error) {
+      console.error(error);
+      alert("Failed to logout");
     }
-    dispatch({ type: "logout" });
   }
 
   return (
