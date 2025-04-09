@@ -17,9 +17,20 @@ html,
 body {
   width: 100%;
   overflow-x: hidden;
+  font-family: "Rockwell", "Georgia", serif;
 }
 * {
   box-sizing: border-box;
+}
+h1,
+h2,
+h3 {
+  font-family: "Poppins", sans-serif;
+}
+
+p,
+button {
+  font-family: "Lora", serif;
 }
 
 /* styles.css */

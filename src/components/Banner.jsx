@@ -26,7 +26,10 @@ const Banner = () => {
       <div className="absolute top-0 left-0 w-full h-full flex flex-col justify-between items-center bg-black bg-opacity-50 text-white text-center">
         <PageNav />
         <div className="my-30">
-          <h1 className="sm:text-4xl text-3xl font-bold">
+          <h1
+            className="sm:text-4xl text-3xl font-bold"
+            style={{ fontFamily: "Poppins, sans-serif" }}
+          >
             Welcome <br />
             to <br />
             RealEst Way
