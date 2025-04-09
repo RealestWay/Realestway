@@ -37,9 +37,9 @@ const ChatPage = () => {
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
       {/* Back Button */}
-      <div className="w-full px-6sm:px-10 flex justify-between items-center text-white bg-blue-700">
+      <div className="w-full px-6sm:px-10 flex justify-between items-center text-white bg-[#100073]">
         <button
-          className="flex items-center gap-2 px-4 py-2 bg-blue-700  hover:bg-blue-300 transition-all"
+          className="flex items-center gap-2 px-4 py-2 bg-[#100073]  hover:bg-blue-700 transition-all"
           onClick={() => navigate(-1)}
         >
           <span className="flex justify-between sm:justify-around w-[18 %] sm:w-[5%]">

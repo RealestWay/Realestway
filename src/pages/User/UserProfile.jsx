@@ -29,9 +29,9 @@ const UserProfile = () => {
   };
   return (
     <div>
-      <div className="w-full px-6sm:px-10 flex justify-between items-center text-white bg-blue-700">
+      <div className="w-full px-6sm:px-10 flex justify-between items-center text-white bg-[#100073]">
         <button
-          className="flex items-center gap-2 px-4 py-2 bg-blue-700  hover:bg-blue-300 transition-all"
+          className="flex items-center gap-2 px-4 py-2 bg-[#100073]  hover:bg-blue-700 transition-all"
           onClick={() => navigate(-1)}
         >
           <FontAwesomeIcon icon={faArrowAltCircleLeft} size="lg" />
@@ -51,9 +51,9 @@ const UserProfile = () => {
         <hr />
       </div>
       <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg my-2 shadow-blue-700">
-        <h2 className="text-2xl font-semibold text-gray-800">My Profile</h2>
+        <h2 className="text-2xl font-semibold text-[#100073]">My Profile</h2>
 
-        <div className="mt-4">
+        <div className="mt-4 text-[#100073]">
           <p>
             <strong>Name:</strong> {user?.fullname}
           </p>
@@ -111,7 +111,7 @@ const UserProfile = () => {
       )}
       {user?.nin && (
         <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg mt-10 pb-2">
-          <p className="font-bold text-xl border-0 border-b-2 justify-center flex text-blue-700 w-full">
+          <p className="font-bold text-xl border-0 border-b-2 justify-center flex text-[#100073] w-full">
             Your Listed Houses
           </p>
           {house ? (

@@ -36,7 +36,7 @@ const Banner = () => {
         {isAuthenticated ? (
           <Link
             to="/ItemsPage"
-            className="w-1/2 mb-10 sm:w-2/5 bg-blue-600 text-lg hover:bg-blue-800 py-3 rounded-xl text-white font-sm"
+            className="w-1/2 mb-10 sm:w-2/5 bg-[#100073] text-lg hover:bg-blue-800 py-3 rounded-xl text-white font-sm"
           >
             <FontAwesomeIcon icon={faSearch} /> Search
           </Link>
@@ -44,13 +44,13 @@ const Banner = () => {
           <div className="w-4/6 mb-10 sm:flex justify-around">
             <Link
               to="/SignIn"
-              className="w-full mb-4 block sm:mb-0 sm:w-2/5 bg-blue-600 hover:bg-blue-800 py-3 rounded-xl text-white font-sm"
+              className="w-full mb-4 block sm:mb-0 sm:w-2/5 bg-[#100073] hover:bg-blue-800 py-3 rounded-xl text-white font-sm"
             >
               Sign In
             </Link>
             <Link
               to="/SignUp"
-              className="w-full block sm:w-2/5 bg-green-600 hover:bg-green-800 py-3 rounded-xl text-white font-sm"
+              className="w-full block sm:w-2/5 bg-[#00A256] hover:bg-green-800 py-3 rounded-xl text-white font-sm"
             >
               Sign Up
             </Link>

@@ -30,7 +30,7 @@ const SignIn = () => {
     if (isAuthenticated) navigate("/ItemsPage");
   }, [isAuthenticated]);
   return (
-    <div className="bg-gradient-to-b from-green-500 min-h-screen to-blue-800 py-10 items-center justify-center flex">
+    <div className="bg-gradient-to-b from-[#00A256] min-h-screen to-[#100073] py-10 items-center justify-center flex">
       <div className="sm:w-[30%] w-[90%]">
         <h2 className="my-2 text-white text-lg mb-2 font-semibold">Sign In</h2>
         <div className="rounded-2xl bg-white p-3 w-full pt-8">
@@ -65,7 +65,7 @@ const SignIn = () => {
               <button
                 type="button"
                 onClick={() => setShowPassWord(!showPassWord)}
-                className="absolute inset-y-0 right-3 flex items-center text-gray-500"
+                className="absolute inset-y-0 right-5 flex items-center text-gray-500"
               >
                 <FontAwesomeIcon icon={showPassWord ? faEye : faEyeSlash} />
               </button>
@@ -77,7 +77,7 @@ const SignIn = () => {
             >
               Forget Password?
             </Link>
-            <button className="w-[95%] bg-gradient-to-r from-green-500 to-blue-600 text-white rounded-xl p-2">
+            <button className="w-[95%] bg-gradient-to-r from-[#00A256] to-[#100073] text-white rounded-xl p-2">
               Sign In
             </button>
           </form>

@@ -108,7 +108,20 @@ function AuthProvider({ children }) {
     }
   }
 
-  function logout() {
+  async function logout() {
+    try {
+      const res = fetch(
+        "https://realestway-backend.up.railway.app/api/logout",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    } catch {
+      alert("failed to logout");
+    }
     dispatch({ type: "logout" });
   }
 

@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <div className="bg-blue-900 text-white mt-10 px-5 sm:px-20 pt-20 h-1/3 sm:flex-col justify-between">
+    <div className="bg-[#100073] text-white mt-10 px-5 sm:px-20 pt-20 h-1/3 sm:flex-col justify-between">
       <Link to={"/onboard"} className="w-2/3 flex justify-end m-auto mr-0">
         Become An Agent
       </Link>

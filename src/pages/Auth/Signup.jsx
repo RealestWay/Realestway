@@ -93,7 +93,7 @@ const Signup = () => {
   };
 
   return (
-    <div className="bg-gradient-to-b from-green-500 min-h-screen to-blue-800 py-10 flex items-center justify-center">
+    <div className="bg-gradient-to-b from-[#00A256] min-h-screen to-[#100073] py-10 flex items-center justify-center">
       <div className="sm:w-[30%] w-[90%]">
         <h2 className="my-2 text-white text-lg mb-2 font-semibold">Sign Up</h2>
         <div className="rounded-2xl bg-white p-3 w-full pt-8">
@@ -200,14 +200,14 @@ const Signup = () => {
             {error && <p className="text-red-500 text-center">{error}</p>}
 
             {/* Submit Button */}
-            <button className="w-[95%] bg-gradient-to-r from-green-500 to-blue-600 text-white rounded-xl p-2 mt-3">
+            <button className="w-[95%] bg-gradient-to-r from-green-500 to-[#100073] text-white rounded-xl p-2 mt-3">
               Create Account
             </button>
           </form>
 
           <p className="mt-5 text-sm text-gray-500 text-center">or</p>
           <div className="flex justify-around">
-            <button className="bg-blue-600 px-5 text-xs py-1 rounded-xl text-white">
+            <button className="bg-[#100073] px-5 text-xs py-1 rounded-xl text-white">
               <Link to={"/onboard"}>Become An Agent</Link>
             </button>
           </div>
