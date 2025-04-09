@@ -82,7 +82,7 @@ const SignIn = () => {
             </button>
           </form>
 
-          <p className="mt-5 text-sm text-gray-500 justify-center w-full flex">
+          {/* <p className="mt-5 text-sm text-gray-500 justify-center w-full flex">
             or sign in using
           </p>
           <div className="flex justify-around">
@@ -92,7 +92,7 @@ const SignIn = () => {
             <button className="bg-red-600 px-5 py-1 w-[40%] rounded-xl text-white">
               <FontAwesomeIcon icon={faGoogle} /> Google
             </button>
-          </div>
+          </div> */}
           <p className="flex justify-center mt-3 text-gray-500 text-sm">
             By creating an account, you agree to our
             <span className="text-green-500 px-1">Terms</span>

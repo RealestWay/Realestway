@@ -1,15 +1,15 @@
-import { useNavigate } from "react-router-dom";
+// components/ProtectedRoute.js
+import { Navigate } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
-import { useEffect } from "react";
 
-const ProtectedRoutes = ({ children }) => {
-  const { isAuthenticated } = useAuth();
-  const navigate = useNavigate();
+function ProtectedRoutes({ children }) {
+  const { user, isAuthenticated } = useAuth();
 
-  useEffect(() => {
-    if (!isAuthenticated) navigate("/");
-  }, [isAuthenticated, navigate]);
+  if (!user && !isAuthenticated) {
+    return <Navigate to="/SignIn" replace />;
+  }
+
   return children;
-};
+}
 
 export default ProtectedRoutes;
