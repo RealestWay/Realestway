@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -19,9 +19,9 @@ const PageNav = () => {
     <nav className="w-full my-10 px-50 h-20">
       <ul className="shadow flex items-center min-h-12 py-2 p-3 w-2/3 m-auto bg-white text-black rounded-3xl border border-gray-500 border-1 relative">
         {/* Logo Section (Fixed in Place) */}
-        <div className="flex flex-shrink-0">
-          <img src="/simple-logo-REW.png" alt="logo" width={60} height={60} />
-        </div>
+        <Link to={"/"} className="flex flex-shrink-0">
+          <img src="/half-logo-alt1.png" alt="logo" width={170} height={100} />
+        </Link>
 
         {/* Mobile Menu Toggle Button */}
         <button

@@ -108,26 +108,29 @@ function AuthProvider({ children }) {
     }
   }
 
-  async function logout() {
-    try {
-      const res = await fetch(
-        "https://realestway-backend.up.railway.app/api/logout",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (!res.ok) throw new Error("Logout failed");
-
-      dispatch({ type: "logout" });
-    } catch (error) {
-      console.error(error);
-      alert("Failed to logout");
-    }
+  function logout() {
+    dispatch({ type: "logout" });
   }
+  // async function logout() {
+  //   try {
+  //     const res = await fetch(
+  //       "https://realestway-backend.up.railway.app/api/logout",
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     );
+
+  //     if (!res.ok) throw new Error("Logout failed");
+
+  //     dispatch({ type: "logout" });
+  //   } catch (error) {
+  //     console.error(error);
+  //     alert("Failed to logout");
+  //   }
+  // }
 
   return (
     <AuthContext.Provider

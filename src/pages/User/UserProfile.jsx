@@ -37,7 +37,7 @@ const UserProfile = () => {
           <FontAwesomeIcon icon={faArrowAltCircleLeft} size="lg" />
           <span>Back</span>
         </button>
-        <div className="w-4/5 sm:px-[25%] px-[10%]">
+        <div className="w-4/5 md:px-[34%] sm:px-[28%] px-[12%]">
           <span className="text-3xl sm:text-3xl font-bold color-blue-700">
             PROFILE
           </span>

@@ -94,7 +94,7 @@ const Signup = () => {
 
   return (
     <div className="bg-gradient-to-b from-[#00A256] min-h-screen to-[#100073] py-10 flex items-center justify-center">
-      <div className="sm:w-[30%] w-[90%]">
+      <div className="md:w-[45%] sm:w-[40%] w-[90%] lg:w-[30%]">
         <h2 className="my-2 text-white text-lg mb-2 font-semibold">Sign Up</h2>
         <div className="rounded-2xl bg-white p-3 w-full pt-8">
           <form
