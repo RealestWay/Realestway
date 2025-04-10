@@ -20,7 +20,7 @@ const PageNav = () => {
       <ul className="shadow flex items-center min-h-12 py-2 p-3 w-2/3 m-auto bg-white text-black rounded-3xl border border-gray-500 border-1 relative">
         {/* Logo Section (Fixed in Place) */}
         <Link to={"/"} className="flex flex-shrink-0">
-          <img src="/half-logo-alt1.png" alt="logo" width={170} height={100} />
+          <img src="/full-logo.png" alt="logo" width={170} height={100} />
         </Link>
 
         {/* Mobile Menu Toggle Button */}
@@ -37,7 +37,7 @@ const PageNav = () => {
             isOpen ? "block" : "hidden"
           }`}
         >
-          <li className="md:inline-block block p-3">
+          <li className="md:inline-block block p-3 font-bold">
             <NavLink to="/" className="items-center">
               {isOpen ? (
                 <FontAwesomeIcon
@@ -51,7 +51,7 @@ const PageNav = () => {
               Home
             </NavLink>
           </li>
-          <li className="md:inline-block block p-3">
+          <li className="md:inline-block block p-3 font-bold">
             <NavLink to="/AboutUs">
               {isOpen ? (
                 <FontAwesomeIcon
@@ -65,7 +65,7 @@ const PageNav = () => {
               About
             </NavLink>
           </li>
-          <li className="md:inline-block block p-3">
+          <li className="md:inline-block block p-3 font-bold">
             <NavLink to="/ContactUs">
               {isOpen ? (
                 <FontAwesomeIcon
