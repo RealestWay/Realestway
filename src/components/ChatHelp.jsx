@@ -39,10 +39,10 @@ const ChatHelp = () => {
       {/* Chat Button */}
       {!isOpen && (
         <button
-          className="bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition"
+          className="bg-[#100073] text-white p-4 rounded-full shadow-lg hover:bg-[#4331bdd8] transition"
           onClick={() => setIsOpen(true)}
         >
-          <FontAwesomeIcon icon={faCommentDots} size="lg" />
+          <FontAwesomeIcon icon={faCommentDots} size="xl" />
         </button>
       )}
 
@@ -50,10 +50,18 @@ const ChatHelp = () => {
       {isOpen && (
         <div className="w-80 bg-white shadow-lg rounded-lg overflow-hidden">
           {/* Header */}
-          <div className="bg-blue-600 text-white p-3 flex justify-between items-center">
-            <div>
-              <span className="font-semibold block">Chat Support</span>
-              <span className="text-xs">support@realestway.com</span>
+          <div className="bg-[#100073] text-white p-3 flex justify-between items-center">
+            <div className="flex justify-between gap-3">
+              <img
+                src="/cs-realestway.png"
+                width={50}
+                height={50}
+                style={{ borderRadius: "100px" }}
+              />
+              <div>
+                <span className="font-semibold block">Chat Support</span>
+                <span className="text-xs">support@realestway.com</span>
+              </div>
             </div>
             <button onClick={() => setIsOpen(false)}>
               <FontAwesomeIcon icon={faTimes} />
@@ -67,8 +75,8 @@ const ChatHelp = () => {
                 key={index}
                 className={`p-2 rounded-lg max-w-xs ${
                   msg.sender === "user"
-                    ? "bg-blue-500 text-white self-end"
-                    : "bg-gray-200 text-black self-start"
+                    ? "bg-[#100073] text-white self-end"
+                    : "bg-[#00A256] text-white self-start"
                 }`}
               >
                 {msg.text}
@@ -87,7 +95,7 @@ const ChatHelp = () => {
               onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
             />
             <button
-              className="bg-blue-600 text-white px-4 rounded-r-lg"
+              className="bg-[#100073] text-white px-4 rounded-r-lg"
               onClick={handleSendMessage}
             >
               <FontAwesomeIcon icon={faPaperPlane} />

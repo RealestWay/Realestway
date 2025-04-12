@@ -1,10 +1,4 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useReducer,
-  useState,
-} from "react";
+import { createContext, useContext, useReducer, useState } from "react";
 
 const AuthContext = createContext();
 
@@ -22,7 +16,7 @@ function reducer(state, action) {
 
 function AuthProvider({ children }) {
   const [loginMsg, setLoginMsg] = useState(""); // Store login messages
-
+  const [isLoading, setIsLoading] = useState(false);
   const [{ user, isAuthenticated }, dispatch] = useReducer(
     reducer,
     initialState
@@ -48,6 +42,7 @@ function AuthProvider({ children }) {
       if (!res.ok) throw new Error("Failed to log in user");
 
       const data = await res.json();
+      setIsLoading(false);
       return data.user; // Return user data
     } catch (err) {
       return null; // If user login fails, return null
@@ -56,6 +51,7 @@ function AuthProvider({ children }) {
 
   async function fetchAgents(email, password) {
     try {
+      setIsLoading(true);
       const res = await fetch(
         "https://realestway-backend.up.railway.app/api/agents/login", // Agent login API
         {
@@ -74,6 +70,7 @@ function AuthProvider({ children }) {
       if (!res.ok) throw new Error("Failed to log in as agent");
 
       const data = await res.json();
+      setIsLoading(false);
       return data.user; // Return agent data
     } catch (err) {
       return null; // If agent login fails, return null
@@ -84,10 +81,12 @@ function AuthProvider({ children }) {
   async function login(email, password) {
     try {
       // Try logging in as a user
+      setIsLoading(true);
       const userData = await fetchUsers(email, password);
       if (userData) {
         // If user login is successful
         dispatch({ type: "login", payload: userData });
+        setIsLoading(false);
         setLoginMsg(""); // Clear any existing login messages
         return; // Exit if user login is successful
       }
@@ -101,9 +100,11 @@ function AuthProvider({ children }) {
       } else {
         // If both user and agent login fail
         setLoginMsg("Incorrect details. Please check again.");
+        setIsLoading(false);
       }
     } catch (error) {
       console.error("Login error:", error);
+      setIsLoading(false);
       setLoginMsg("An error occurred during login. Please try again.");
     }
   }
@@ -140,6 +141,7 @@ function AuthProvider({ children }) {
         login,
         logout,
         loginMsg,
+        isLoading,
       }}
     >
       {children}

@@ -9,13 +9,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
+import Spinner2 from "../../components/Spinner2";
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const { fetchUsers, fetchAgents } = useAuth(); // Accessing fetch methods from AuthContext
   const [checkUser, setCheckUser] = useState(""); // State for error message on duplicate email
-
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     id: `u${Date.now()}`,
     name: "",
@@ -35,12 +36,14 @@ const Signup = () => {
   // Check if the email exists in either the user or agent system
   const checkExistingUserOrAgent = async (email) => {
     try {
+      setIsLoading(true);
       const user = await fetchUsers(email, formData.password); // Fetch user based on email
       const agent = await fetchAgents(email, formData.password); // Fetch agent based on email
 
       if (user || agent) {
         return true; // Return true if email exists in either system
       }
+      setIsLoading(false);
       return false; // Return false if no existing user or agent
     } catch (err) {
       return false; // Return false in case of error
@@ -65,6 +68,7 @@ const Signup = () => {
     }
 
     try {
+      setIsLoading(true);
       const res = await fetch(
         "https://realestway-backend.up.railway.app/api/register", // User registration API
         {
@@ -82,7 +86,7 @@ const Signup = () => {
           }),
         }
       );
-      console.log(formData);
+      setIsLoading(false);
       if (!res.ok) throw new Error("Failed to create account");
 
       // If registration is successful, navigate to sign in page
@@ -218,7 +222,7 @@ const Signup = () => {
           <p className="flex text-gray-500 justify-center mt-9 text-sm">
             Already have an account?{" "}
             <Link to={"/signIn"} className="text-green-500 px-1">
-              Sign In
+              {isLoading ? <Spinner2 /> : "Sign In"}
             </Link>
           </p>
         </div>

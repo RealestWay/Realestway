@@ -17,15 +17,15 @@ const AgentEnrollmentPage = () => {
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen">
+    <div className="bg-gray-100 pt-2 min-h-screen">
       <PageNav />
-      <div className="container mx-auto px-12 py-8">
+      <div className="container mx-auto sm:px-4 md:px-12 py-8">
         {/* Intro Section */}
         <section className="mb-12 text-center bg-blue-50 p-6 rounded-lg shadow-md text-gray-800">
           <h2 className="text-3xl font-semibold text-gray-900 mb-6">
             Join Our Real Estate Network
           </h2>
-          <p className="text-lg leading-relaxed mb-6 text-justify">
+          <p className="leading-relaxed mb-6 text-justify">
             At RealEstWay, we are committed to creating a strong network of real
             estate agents who share our passion for excellence and customer
             satisfaction. Our vision is to revolutionize the real estate
@@ -91,7 +91,7 @@ const AgentEnrollmentPage = () => {
                   type="submit"
                   className="w-full py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
                 >
-                  Enroll Now
+                  Apply
                 </button>
               </form>
             </div>

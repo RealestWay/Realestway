@@ -7,9 +7,9 @@ import {
   faEye,
   faEyeSlash,
 } from "@fortawesome/free-regular-svg-icons";
-import { faFacebook, faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { UseHouses } from "../../contexts/HouseContext";
+import Spinner2 from "../../components/Spinner2";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -18,7 +18,7 @@ const SignIn = () => {
   const { fetchHouses } = UseHouses();
   const navigate = useNavigate();
 
-  const { login, isAuthenticated, loginMsg } = useAuth();
+  const { login, isAuthenticated, loginMsg, isLoading } = useAuth();
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -78,7 +78,7 @@ const SignIn = () => {
               Forget Password?
             </Link>
             <button className="w-[95%] bg-gradient-to-r from-[#00A256] to-[#100073] text-white rounded-xl p-2">
-              Sign In
+              {isLoading ? <Spinner2 /> : "Sign In"}
             </button>
           </form>
 
