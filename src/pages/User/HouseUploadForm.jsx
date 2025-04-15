@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { getCurrentLocation } from "../../service/getLocation";
 import { UseHouses } from "../../contexts/HouseContext";
+import { useAuth } from "../../contexts/AuthContext";
 
-const HouseUploadForm = ({ agent }) => {
+const HouseUploadForm = () => {
   const { fetchHouses } = UseHouses();
+  const { token } = useAuth();
+  const [error, setError] = useState();
   const [formData, setFormData] = useState({
-    id: `h${Date.now()}`,
     availability: "Available",
     title: "",
     address: "",
@@ -20,10 +22,9 @@ const HouseUploadForm = ({ agent }) => {
     caretaker_bankAcct: "",
     caretaker_bankName: "",
     caretaker_acctName: "",
-    price_type: "",
+    pricing_type: "",
     date_listed: new Date().toISOString(),
-    agent_id: agent.id,
-    minTenancyPeriod: "",
+    min_tenancy_period: "",
     amenities: [],
   });
 
@@ -66,7 +67,7 @@ const HouseUploadForm = ({ agent }) => {
     otherFees: "",
   });
 
-  const totalPrice = Object.values(priceBreakdown)
+  const total_price = Object.values(priceBreakdown)
     .filter((val) => val !== "")
     .reduce((sum, val) => sum + parseFloat(val || 0), 0);
 
@@ -106,31 +107,55 @@ const HouseUploadForm = ({ agent }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log({
+      ...formData,
+      latitude: locationData.latitude,
+      longitude: locationData.longitude,
+      city: locationData.city,
+      state: locationData.state,
+      zipCode: locationData.zipCode,
+      basic_rent: priceBreakdown.basicRent,
+      caution_fee: priceBreakdown.cautionFee,
+      agent_fee: priceBreakdown.agentFee,
+      other_fees: priceBreakdown.otherFees,
+      total_price,
+      images,
+      video,
+    });
+    // try {
+    //   const res = await fetch(
+    //     "https://realestway-backend.up.railway.app/api/listings",
+    //     {
+    //       method: "POST",
+    //       headers: {
+    //         Accept: "application/json",
+    //         Authorization: `Bearer ${token}`,
+    //       },
+    //       body: JSON.stringify({
+    //         ...formData,
+    //         latitude: locationData.latitude,
+    //         longitude: locationData.longitude,
+    //         city: locationData.city,
+    //         state: locationData.state,
+    //         zipCode: locationData.zipCode,
+    //         basic_rent: priceBreakdown.basicRent,
+    //         caution_fee: priceBreakdown.cautionFee,
+    //         agent_fee: priceBreakdown.agentFee,
+    //         other_fees: priceBreakdown.otherFees,
+    //         images,
+    //         video,
+    //       }),
+    //     }
+    //   );
 
-    try {
-      const res = await fetch("http://localhost:9000/houses", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...formData,
-          location: locationData,
-          priceBreakdown,
-          totalPrice,
-          images,
-          video,
-        }),
-      });
+    //   if (!res.ok) throw new Error("Failed to create account");
+    // } catch (err) {
+    //   setError("There was an error signing up. Please try again.");
+    // }
 
-      if (!res.ok) throw new Error("Failed to create account");
-    } catch (err) {
-      setError("There was an error signing up. Please try again.");
-    }
+    // alert("Form Submitted Successfully!");
 
-    alert("Form Submitted Successfully!");
-
-    // Reset form
+    // // Reset form
     setFormData({
       title: "",
       address: "",
@@ -142,7 +167,7 @@ const HouseUploadForm = ({ agent }) => {
       year_built: "",
       furnishing: "",
       caretaker_contact: "",
-      price_type: "",
+      pricing_type: "",
       date_listed: "",
       agent_id: agent.id,
       amenities: [],
@@ -166,7 +191,7 @@ const HouseUploadForm = ({ agent }) => {
     });
     fetchHouses();
   };
-
+  console.log(error);
   return (
     <div className="max-w-4xl mx-auto p-8 bg-white shadow-lg rounded-lg">
       <h2 className="text-2xl font-bold text-center mb-8 text-gray-800">
@@ -265,8 +290,8 @@ const HouseUploadForm = ({ agent }) => {
           Price Details (₦)
         </h3>
         <select
-          name="price_type"
-          value={formData.price_type}
+          name="pricing_type"
+          value={formData.pricing_type}
           onChange={handleInputChange}
           className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
@@ -314,7 +339,9 @@ const HouseUploadForm = ({ agent }) => {
         {/* Total Price */}
         <div className="text-lg font-bold text-gray-800">
           Total Package:{" "}
-          <span className="text-green-600">₦{totalPrice.toLocaleString()}</span>
+          <span className="text-green-600">
+            ₦{total_price.toLocaleString()}
+          </span>
         </div>
 
         {/* Caretaker Contact */}
@@ -402,8 +429,8 @@ const HouseUploadForm = ({ agent }) => {
               Mininum Rent Period:
             </label>
             <select
-              name="minTenancyPeriod"
-              value={formData.minTenancyPeriod}
+              name="min_tenancy_period"
+              value={formData.min_tenancy_period}
               onChange={handleInputChange}
               className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
@@ -498,6 +525,7 @@ const HouseUploadForm = ({ agent }) => {
 
         {/* Submit Button */}
         <button
+          onClick={(e) => handleSubmit(e)}
           type="submit"
           className="w-full bg-blue-600 text-white py-4 rounded-md mt-6 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >

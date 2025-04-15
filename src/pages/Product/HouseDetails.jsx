@@ -5,11 +5,10 @@ import { useAuth } from "../../contexts/AuthContext";
 
 const HouseDetails = () => {
   const { houses } = UseHouses();
-  const { agents, user, fetchAgents } = useAuth();
+  const { user } = useAuth();
   const { id } = useParams();
-  const house = houses.find((h) => h.id === id);
-  const agent = agents.find((a) => a.id === house.agent_id);
-
+  const house = houses.data.find((h) => h.id === id);
+  console.log(house);
   const {
     priceType,
     bedrooms,
@@ -29,9 +28,6 @@ const HouseDetails = () => {
 
   const [selectedImage, setSelectedImage] = useState(null);
   const [desc, setDescription] = useState(false);
-  useEffect(() => {
-    if (!agents) fetchAgents();
-  }, [agents]);
 
   return (
     <div className="sm:flex w-full">

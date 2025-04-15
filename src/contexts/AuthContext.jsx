@@ -17,6 +17,7 @@ function reducer(state, action) {
 function AuthProvider({ children }) {
   const [loginMsg, setLoginMsg] = useState(""); // Store login messages
   const [isLoading, setIsLoading] = useState(false);
+  const [token, setToken] = useState("");
   const [{ user, isAuthenticated }, dispatch] = useReducer(
     reducer,
     initialState
@@ -43,6 +44,7 @@ function AuthProvider({ children }) {
 
       const data = await res.json();
       setIsLoading(false);
+      setToken(data.token);
       return data.user; // Return user data
     } catch (err) {
       return null; // If user login fails, return null
@@ -142,6 +144,7 @@ function AuthProvider({ children }) {
         logout,
         loginMsg,
         isLoading,
+        token,
       }}
     >
       {children}

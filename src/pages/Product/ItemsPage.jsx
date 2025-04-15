@@ -13,16 +13,16 @@ const ItemsPage = () => {
 
   // 🏠 Apply Smart Filtering (Respect Budget!)
   const filteredHouses = houses.data
-    .filter((house) => {
+    ?.filter((house) => {
       // ✅ Budget Constraint: Only show houses ≤ budget
-      if (budget && house.totalPrice > parseFloat(budget)) return false;
+      if (budget && house?.totalPrice > parseFloat(budget)) return false;
       return true;
     })
     .map((house) => {
       let matchScore = 0;
 
       // ✅ Location Match (partial word match)
-      const houseLocation = house.address.toLowerCase();
+      const houseLocation = house.address?.toLowerCase();
       const searchLocation = location?.toLowerCase();
       const locationMatches =
         searchLocation &&
@@ -32,7 +32,7 @@ const ItemsPage = () => {
 
       // ✅ Budget Match (house price ≤ budget)
       const budgetMatches = budget
-        ? house.totalPrice <= parseFloat(budget)
+        ? house?.totalPrice <= parseFloat(budget)
         : true;
       if (budgetMatches) matchScore += 1;
 
@@ -49,7 +49,7 @@ const ItemsPage = () => {
     .map(({ house }) => house);
 
   // Slice results for pagination
-  const paginatedHouses = filteredHouses.slice(0, visibleCount);
+  const paginatedHouses = filteredHouses?.slice(0, visibleCount);
 
   return (
     <div>
@@ -62,8 +62,8 @@ const ItemsPage = () => {
         <Spinner />
       ) : (
         <div className="w-full md:grid-cols-3 lg:grid-cols-4 sm:grid-cols-2 md:gap-2 px-0 sm:px-10">
-          {paginatedHouses.length > 0 ? (
-            paginatedHouses.map((house) => (
+          {paginatedHouses?.length > 0 ? (
+            paginatedHouses?.map((house) => (
               <Items house={house} key={house.id} />
             ))
           ) : (
@@ -93,7 +93,7 @@ const ItemsPage = () => {
       </div>
 
       {/* ✅ View More Button */}
-      {filteredHouses.length > visibleCount && (
+      {filteredHouses?.length > visibleCount && (
         <div className="text-center my-5">
           <button
             onClick={() => setVisibleCount(visibleCount + 10)}
