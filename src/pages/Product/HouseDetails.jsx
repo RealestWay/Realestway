@@ -1,14 +1,13 @@
-import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import { UseHouses } from "../../contexts/HouseContext";
+import { useState } from "react";
+import { Link, useOutletContext } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 
 const HouseDetails = () => {
-  const { houses } = UseHouses();
   const { user } = useAuth();
-  const { id } = useParams();
-  const house = houses.data.find((h) => h.id === id);
+
+  const { house } = useOutletContext();
   console.log(house);
+
   const {
     priceType,
     bedrooms,
@@ -28,6 +27,10 @@ const HouseDetails = () => {
 
   const [selectedImage, setSelectedImage] = useState(null);
   const [desc, setDescription] = useState(false);
+  if (!house)
+    return (
+      <p className="text-center text-gray-400">Loading house details...</p>
+    );
 
   return (
     <div className="sm:flex w-full">
@@ -40,7 +43,7 @@ const HouseDetails = () => {
               <span className="text-sm ml-1">{priceType}</span>
             </h3>
             <i className="text-gray-400 text-sm">
-              Renew with: #{priceBreakdown.basicRent.toLocaleString()}
+              Renew with: #{priceBreakdown.basicRent?.toLocaleString()}
             </i>
             <p className="text-gray-500">{address}</p>
           </div>
@@ -83,12 +86,10 @@ const HouseDetails = () => {
         <div className="w-[95%] max-w-4xl mx-auto bg-white rounded-lg shadow-lg border border-gray-200 p-6">
           {/* Agent Details */}
           <div className="mt-6 border-t pt-4">
-            <h4 className="text-lg font-semibold">Agent Information</h4>
+            <h4 className="text-lg font-semibold">Agent Rating</h4>
+
             <div className="flex justify-between">
-              <div>
-                <p className="text-gray-700">Name: {agent.name}</p>
-                <p className="text-gray-500">Company: {agent.company}</p>
-              </div>
+              <div>Very Good</div>
               {!user.nin && (
                 <Link to={`/ChatPage/${house.id}`}>
                   <button className="bg-blue-500 text-white font-bold rounded px-4 py-2">
@@ -164,3 +165,19 @@ const HouseDetails = () => {
 };
 
 export default HouseDetails;
+// import { useOutletContext } from "react-router-dom";
+
+// const HouseDetails = () => {
+//   const { house } = useOutletContext();
+
+//   return (
+//     <div>
+//       <h2 className="text-xl font-semibold mb-2">Overview</h2>
+//       <p>Description: {house.description}</p>
+//       <p>Bedrooms: {house.bedrooms}</p>
+//       <p>Bathrooms: {house.bathrooms}</p>
+//     </div>
+//   );
+// };
+
+// export default HouseDetails;

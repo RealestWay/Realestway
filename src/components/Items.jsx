@@ -13,6 +13,7 @@ const Items = ({ house, children }) => {
   const { title, totalPrice, id, description } = house;
   const [saved, setSaved] = useState(false);
   const { isAuthenticated, user } = useAuth();
+
   const images = [
     {
       src: "https://images.unsplash.com/photo-1613977257592-4871e5fcd7c4?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8aG91c2UlMjBleHRlcmlvcnxlbnwwfHwwfHx8MA%3D%3D",
@@ -72,7 +73,7 @@ const Items = ({ house, children }) => {
             {title.split(" ").slice(0, 4).join(" ")}{" "}
             {title.split(" ").length > 4 ? "..." : ""}
           </p>
-          <p className="text-sm text-gray-500">{house.address}</p>
+          <p className="text-sm text-gray-500">{house?.address}</p>
         </div>
       </div>
       <div className="flex justify-between py-2">

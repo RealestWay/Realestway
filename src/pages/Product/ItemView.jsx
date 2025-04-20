@@ -4,19 +4,37 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
-import { useEffect } from "react";
-import { UseHouses } from "../../contexts/HouseContext";
+import { useEffect, useState } from "react";
 import ChatHelp from "../../components/ChatHelp";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowAltCircleLeft } from "@fortawesome/free-solid-svg-icons";
+import Spinner from "../../components/Spinner";
 
 const ItemView = () => {
-  const { houses, fetchHouses } = UseHouses();
   const location = useLocation();
   const { id } = useParams();
-  // const house = houses.find((h) => h.id === id);
-  // const { images } = house;
+  const [house, setHouse] = useState();
+  const [loading, setLoading] = useState(true);
+  // fetch a particular house
+
+  useEffect(() => {
+    const fetchHouse = async () => {
+      try {
+        const res = await fetch(
+          `https://realestway-backend.up.railway.app/api/listings/${id}`
+        );
+        const data = await res.json();
+        setHouse(data.data);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchHouse();
+  }, []);
+
   const images = [
     {
       src: "https://images.unsplash.com/photo-1613977257592-4871e5fcd7c4?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8aG91c2UlMjBleHRlcmlvcnxlbnwwfHwwfHx8MA%3D%3D",
@@ -56,10 +74,8 @@ const ItemView = () => {
     { name: "About", path: `/ItemView/${id}` },
     { name: "On map", path: `/ItemView/${id}/mapDetails` },
   ];
-  useEffect(() => {
-    if (!houses) console.log("there's no house in cached");
-    fetchHouses();
-  }, [houses]);
+
+  if (loading) return <Spinner />;
   return (
     <div>
       <div>
@@ -103,18 +119,18 @@ const ItemView = () => {
             </Swiper>
           </div>
         </div>
-        <div className="w-3/5 m-auto mt-5 justify-between flex border border-blue-500 border-[2px] rounded-xl">
+        <div className="w-3/5 m-auto mt-5 justify-between flex border-blue-500 border-[2px] rounded-xl">
           {navItems.map((item) => (
             <NavLink
               key={item.name}
               to={item.path}
               className={`w-[50%] text-center text-blue-500 ${
                 location.pathname && item.path === `/ItemView/${id}`
-                  ? "py-2 border border-r-2 border-blue-500 border-0 rounded-l-lg"
-                  : "py-2 border rounded-r-lg border-l-2 border-0 border-blue-500"
+                  ? "py-2 border-r-2 border-blue-500 border-0 rounded-l-lg"
+                  : "py-2 rounded-r-lg border-l-2 border-0 border-blue-500"
               } ${
                 location.pathname === item.path ? "text-white bg-blue-500" : ""
-              } py-2 border border-blue-500 border-0`}
+              } py-2 border-blue-500 border-0`}
             >
               {" "}
               {item.name}
@@ -122,7 +138,7 @@ const ItemView = () => {
           ))}
         </div>
         <div className="sm:flex py-4 w-full sm:flex-wrap gap-4">
-          <Outlet />
+          <Outlet context={{ house }} />
           <ChatHelp />
         </div>
       </div>
@@ -131,3 +147,39 @@ const ItemView = () => {
 };
 
 export default ItemView;
+// import { useEffect, useState } from "react";
+// import { useParams, Outlet } from "react-router-dom";
+
+// const ItemView = () => {
+//   const { id } = useParams();
+//   const [house, setHouse] = useState(null);
+//   const [loading, setLoading] = useState(true);
+
+//   useEffect(() => {
+//     const fetchHouse = async () => {
+//       const res = await fetch(
+//         `https://realestway-backend.up.railway.app/api/listings/${id}`
+//       );
+//       const data = await res.json();
+//       setHouse(data.data);
+//       setLoading(false);
+//     };
+
+//     fetchHouse();
+//   }, [id]);
+
+//   if (loading) return <p>Loading house details...</p>;
+
+//   return (
+//     <div className="p-6">
+//       <h1 className="text-3xl font-bold mb-4">{house.propertyType}</h1>
+//       <p className="text-gray-600">{house.address}</p>
+//       <div className="mt-4">
+//         {/* You can pass house as context or prop */}
+//         <Outlet context={{ house }} />
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default ItemView;

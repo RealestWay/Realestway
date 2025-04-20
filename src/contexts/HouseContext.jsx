@@ -2,14 +2,12 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 const HouseContext = createContext();
 
-// const BASEURL = "https://realestway.com/.netlify/functions/api";
-// const BASEURL = "http://localhost:9000";
-
 const HouseProvider = ({ children }) => {
   const [houses, setHouses] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [filter, setFilter] = useState({});
 
+  // fetch all houses
   async function fetchHouses() {
     setIsLoading(true);
     setTimeout(async () => {
@@ -27,6 +25,23 @@ const HouseProvider = ({ children }) => {
       }
     }, 5000);
   }
+
+  // fetch a particular house
+  // const fetchHouse = async (id) => {
+  //   setIsLoading(true);
+  //   try {
+  //     const res = await fetch(
+  //       `https://realestway-backend.up.railway.app/api/listings/${id}`
+  //     );
+  //     const data = await res.json();
+  //     setHouse(data.data);
+  //     console.log(house);
+  //     setIsLoading(false);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+
   useEffect(() => {
     fetchHouses();
   }, []);
