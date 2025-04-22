@@ -6,13 +6,13 @@ import { useAuth } from "../contexts/AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
+import { UseHouses } from "../contexts/HouseContext";
 
 const Items = ({ house, children }) => {
   // const { title, totalPrice, images, id } = house;
-
-  const { title, totalPrice, id, description } = house;
-  const [saved, setSaved] = useState(false);
-  const { isAuthenticated, user } = useAuth();
+  const { favoritedHouse, removeFavoritedHouse } = UseHouses();
+  const { title, totalPrice, id, description, is_favourited } = house;
+  const { isAuthenticated, user, token } = useAuth();
 
   const images = [
     {
@@ -94,7 +94,7 @@ const Items = ({ house, children }) => {
             </span>
           </div>
         )}
-        <div className="text-green-500 text-sm">{house.availability}</div>
+        <div className="text-green-500 text-sm">{house?.availability}</div>
       </div>
       <p className="text-xs py-2">
         {description.split(" ").slice(0, 10).join(" ")}...
@@ -102,11 +102,11 @@ const Items = ({ house, children }) => {
 
       {!user?.nin ? (
         <>
-          {saved ? (
+          {is_favourited ? (
             <button
               onClick={() => {
                 // removeItemFromSavedItems(id);
-                setSaved(false);
+                removeFavoritedHouse(id, token);
               }}
               className="text-blue-700 py-3"
             >
@@ -116,7 +116,7 @@ const Items = ({ house, children }) => {
             <button
               onClick={() => {
                 // addItemToSavedItems(id);
-                setSaved(true);
+                favoritedHouse(id, token);
               }}
               className=" py-3"
             >
@@ -130,7 +130,7 @@ const Items = ({ house, children }) => {
       <div className="items-center flex py-3">
         <span className="m-auto">
           <span className="text-2xl font-bold w-1/4">
-            #{totalPrice.toLocaleString()}
+            #{totalPrice?.toLocaleString()}
           </span>
           <span className="text-sm">/year</span>
         </span>

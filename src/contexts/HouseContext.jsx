@@ -6,13 +6,13 @@ const HouseProvider = ({ children }) => {
   const [houses, setHouses] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [filter, setFilter] = useState({});
+  const [favHouse, setFavHouse] = useState();
 
   // fetch all houses
   async function fetchHouses() {
     setIsLoading(true);
     setTimeout(async () => {
       try {
-        // const res = await fetch(`${BASEURL}/houses`);
         const res = await fetch(
           "https://realestway-backend.up.railway.app/api/listings"
         );
@@ -26,21 +26,74 @@ const HouseProvider = ({ children }) => {
     }, 5000);
   }
 
-  // fetch a particular house
-  // const fetchHouse = async (id) => {
-  //   setIsLoading(true);
-  //   try {
-  //     const res = await fetch(
-  //       `https://realestway-backend.up.railway.app/api/listings/${id}`
-  //     );
-  //     const data = await res.json();
-  //     setHouse(data.data);
-  //     console.log(house);
-  //     setIsLoading(false);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
+  // Add house to favorite
+  const favoritedHouse = async (id, token) => {
+    try {
+      const res = await fetch(
+        `https://realestway-backend.up.railway.app/api/favourite/${id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `bearer ${token}`,
+          },
+          body: JSON.stringify({}),
+        }
+      );
+      if (!res.ok) {
+        console.log("error trying");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  // Remove House from Favorite
+  const removeFavoritedHouse = async (id, token) => {
+    try {
+      const res = await fetch(
+        `https://realestway-backend.up.railway.app/api/favourite/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `bearer ${token}`,
+          },
+        }
+      );
+      if (!res.ok) {
+        console.log("something went wrong");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  // Show all favorite houses
+  const [loadingFav, setLoadingFav] = useState(false);
+  const showFavoritedHouse = async (token) => {
+    setLoadingFav(true);
+    try {
+      const res = await fetch(
+        `https://realestway-backend.up.railway.app/api/favourites`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `bearer ${token}`,
+          },
+        }
+      );
+      const data = await res.json();
+      setFavHouse(data.favourites);
+      setLoadingFav(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   useEffect(() => {
     fetchHouses();
@@ -53,6 +106,11 @@ const HouseProvider = ({ children }) => {
         fetchHouses,
         filter,
         setFilter,
+        favoritedHouse,
+        removeFavoritedHouse,
+        favHouse,
+        showFavoritedHouse,
+        loadingFav,
       }}
     >
       {children}

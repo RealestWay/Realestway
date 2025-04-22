@@ -1,6 +1,6 @@
 import Items from "../../components/Items";
 import { UseHouses } from "../../contexts/HouseContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import HouseUploadForm from "./HouseUploadForm";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +9,7 @@ import { faArrowAltCircleLeft, faCog } from "@fortawesome/free-solid-svg-icons";
 import UserSettings from "./UserSettings";
 import ChatList from "./ChatList";
 import EditHouseForm from "./EditHouseForm";
+import Spinner2 from "../../components/Spinner2";
 
 const UserProfile = () => {
   const [addItem, setAddItems] = useState(false);
@@ -16,12 +17,15 @@ const UserProfile = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedHouse, setSelectedHouse] = useState(null);
   const [settings, setSettings] = useState(false);
-  const { houses } = UseHouses();
-  const { user, logout } = useAuth();
+  const { houses, favHouse, showFavoritedHouse, loadingfav } = UseHouses();
+  const { user, logout, token } = useAuth();
   const house = houses.data.find((h) => h.agent_id === user?.id);
   const navigate = useNavigate();
-  if (!user) navigate("/");
 
+  if (!user) navigate("/");
+  useEffect(() => {
+    showFavoritedHouse(token);
+  }, []);
   // Function to handle opening the modal
   const handleEditClick = (house) => {
     setSelectedHouse(house);
@@ -149,17 +153,15 @@ const UserProfile = () => {
           <p className="font-bold text-xl border-0 border-b-2 justify-center flex text-blue-700 w-full">
             Your Saved Searches
           </p>
-          {house ? (
+          {favHouse ? (
             <div
               className="flex gap-4 overflow-x-auto scroll-smooth scrollbar-hide snap-x pb-10"
               style={{ scrollSnapType: "x mandatory" }}
             >
-              {houses?.map((hous) =>
-                hous.agent_id === user?.id ? (
-                  <Items key={hous.id} house={hous} />
-                ) : (
-                  ""
-                )
+              {loadingfav ? (
+                <Spinner2 />
+              ) : (
+                favHouse?.map((hous) => <Items key={hous.id} house={hous} />)
               )}
             </div>
           ) : (
