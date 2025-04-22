@@ -1,16 +1,24 @@
 import { useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import {
+  faEye,
+  faEyeSlash,
+  faLock,
+  faTimesCircle,
+} from "@fortawesome/free-solid-svg-icons";
 
 // eslint-disable-next-line react/prop-types
 const UserSettings = ({ set, setSet }) => {
-  const { user, updateUser, changePassword } = useAuth();
+  const { user, updateUser } = useAuth();
+  const [showPassWord, setShowPassWord] = useState(false);
+  const [updating, setUpdating] = useState(false);
   const [settings, setSettings] = useState({
     email: user?.email || "",
     phone: user?.phone || "",
     oldPassword: "",
     newPassword: "",
+    confirmNewPassword: "",
   });
   const [message, setMessage] = useState("");
 
@@ -18,6 +26,31 @@ const UserSettings = ({ set, setSet }) => {
     setSettings({ ...settings, [e.target.name]: e.target.value });
   };
 
+  const updatePassword = async () => {
+    setUpdating(true);
+    try {
+      const res = await fetch(
+        `https://realestway-backend.up.railway.app/api/users/${user.id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            password: settings.newPassword,
+            password_confirmation: settings.confirmNewPassword,
+          }),
+        }
+      );
+
+      if (!res.ok) throw new Error("Failed to create account");
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setUpdating(false);
+    }
+  };
   const handleUpdateProfile = () => {
     updateUser({ email: settings.email, phone: settings.phone });
     setMessage("Profile updated successfully!");
@@ -28,13 +61,17 @@ const UserSettings = ({ set, setSet }) => {
       setMessage("Please fill in all password fields.");
       return;
     }
-    changePassword(settings.oldPassword, settings.newPassword);
+    if (settings.newPassword !== settings.confirmNewPassword) {
+      setMessage("New password does not match, check again.");
+      return;
+    }
+    updatePassword();
     setMessage("Password updated successfully!");
     setSettings({ ...settings, oldPassword: "", newPassword: "" });
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 p-6 shadow-lg max-w-4xl mx-auto bg-white rounded-lg  my-2">
+    <div className="bg-white dark:bg-gray-800 p-6 shadow-lg max-w-4xl mx-auto rounded-lg  my-2">
       <div className="flex justify-between">
         <h2 className="text-xl font-semibold mb-4">User Settings</h2>
         <button onClick={() => setSet(!set)} className="text-red-600 text-lg">
@@ -85,21 +122,40 @@ const UserSettings = ({ set, setSet }) => {
         onChange={handleChange}
         className="w-full p-2 border rounded mb-2"
       />
-
+      <div className="relative">
+        <div className="absolute inset-y-0 left-3 flex items-center text-gray-500">
+          <FontAwesomeIcon icon={faLock} color="lightblue" />
+        </div>
+        <input
+          type={showPassWord ? "text" : "password"}
+          name="newPassword"
+          placeholder="New Password"
+          value={settings.newPassword}
+          onChange={handleChange}
+          className="w-full p-2 border rounded mb-2"
+        />
+        <button
+          type="button"
+          onClick={() => setShowPassWord(!showPassWord)}
+          className="absolute inset-y-0 right-5 flex items-center text-gray-500"
+        >
+          <FontAwesomeIcon icon={showPassWord ? faEye : faEyeSlash} />
+        </button>
+      </div>
       <input
         type="password"
-        name="newPassword"
-        placeholder="New Password"
-        value={settings.newPassword}
+        name="confirmNewPassword"
+        placeholder="Confirm New Password"
+        value={settings.confirmNewPassword}
         onChange={handleChange}
         className="w-full p-2 border rounded mb-4"
       />
 
       <button
-        onClick={handleChangePassword}
+        onClick={() => handleChangePassword}
         className="w-full bg-red-500 text-white py-2 rounded"
       >
-        Update Password
+        {updating ? "updating..." : "Update Password"}
       </button>
     </div>
   );

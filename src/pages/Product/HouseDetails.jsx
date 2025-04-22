@@ -6,7 +6,6 @@ const HouseDetails = () => {
   const { user } = useAuth();
 
   const { house } = useOutletContext();
-  console.log(house);
 
   const {
     priceType,
@@ -165,19 +164,3 @@ const HouseDetails = () => {
 };
 
 export default HouseDetails;
-// import { useOutletContext } from "react-router-dom";
-
-// const HouseDetails = () => {
-//   const { house } = useOutletContext();
-
-//   return (
-//     <div>
-//       <h2 className="text-xl font-semibold mb-2">Overview</h2>
-//       <p>Description: {house.description}</p>
-//       <p>Bedrooms: {house.bedrooms}</p>
-//       <p>Bathrooms: {house.bathrooms}</p>
-//     </div>
-//   );
-// };
-
-// export default HouseDetails;

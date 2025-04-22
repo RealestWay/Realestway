@@ -2,18 +2,53 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import PageNav from "../components/PageNav";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEnvelope, faPhone } from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope, faPhone, faUser } from "@fortawesome/free-solid-svg-icons";
 import Footer from "../components/Footer";
+import Spinner2 from "../components/Spinner2";
 
 const AgentEnrollmentPage = () => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [fullname, setFullname] = useState("");
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [enrolling, setEnrolling] = useState(false);
+
+  const enrollAgent = async () => {
+    setEnrolling(true);
+
+    try {
+      const res = await fetch(
+        "https://realestway-backend.up.railway.app/api/agents/onboard",
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            fullname: fullname,
+            email: email,
+            phone: phone,
+          }),
+        }
+      );
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Failed to enroll");
+
+      console.log("Agent onboarded:", data);
+    } catch (err) {
+      console.error("Enrollment error:", err.message);
+    } finally {
+      setEnrolling(false);
+      setFormSubmitted(true);
+    }
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Handle form submission (you can add your API request or state handling here)
-    setFormSubmitted(true);
+
+    enrollAgent();
   };
 
   return (
@@ -61,6 +96,19 @@ const AgentEnrollmentPage = () => {
               <form className="space-y-6" onSubmit={handleSubmit}>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-3 flex items-center text-gray-500">
+                    <FontAwesomeIcon icon={faUser} color="#5A67D8" />
+                  </div>
+                  <input
+                    type="name"
+                    placeholder="Enter your Full Names"
+                    className="w-full py-3 pl-12 pr-4 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none placeholder:text-gray-500"
+                    value={fullname}
+                    onChange={(e) => setFullname(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-3 flex items-center text-gray-500">
                     <FontAwesomeIcon icon={faEnvelope} color="#5A67D8" />
                   </div>
                   <input
@@ -91,7 +139,7 @@ const AgentEnrollmentPage = () => {
                   type="submit"
                   className="w-full py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
                 >
-                  Apply
+                  {enrolling ? <Spinner2 /> : "Apply"}
                 </button>
               </form>
             </div>

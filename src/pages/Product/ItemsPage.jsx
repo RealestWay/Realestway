@@ -7,7 +7,7 @@ import Spinner from "../../components/Spinner";
 import { UseHouses } from "../../contexts/HouseContext";
 
 const ItemsPage = () => {
-  const { houses, isLoading, filter, fetchHouse } = UseHouses();
+  const { houses, isLoading, filter } = UseHouses();
   const { location, budget, propertyType } = filter;
   const [visibleCount, setVisibleCount] = useState(20); // Pagination state
 

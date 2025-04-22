@@ -51,7 +51,6 @@ const HouseUploadForm = () => {
         zipCode: data.zipCode,
         error: "",
       });
-      console.log(locationData);
     } catch (error) {
       setLocationData({
         ...locationData,
@@ -107,17 +106,14 @@ const HouseUploadForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!locationData) {
+      setError("Please record the house location");
+      return;
+    }
     console.log({
       ...formData,
-      latitude: locationData.latitude,
-      longitude: locationData.longitude,
-      city: locationData.city,
-      state: locationData.state,
-      zipCode: locationData.zipCode,
-      basic_rent: priceBreakdown.basicRent,
-      caution_fee: priceBreakdown.cautionFee,
-      agent_fee: priceBreakdown.agentFee,
-      other_fees: priceBreakdown.otherFees,
+      locationData,
+      priceBreakdown,
       total_price,
       images,
       video,
@@ -155,7 +151,7 @@ const HouseUploadForm = () => {
 
     // alert("Form Submitted Successfully!");
 
-    // // Reset form
+    // Reset form
     setFormData({
       title: "",
       address: "",
@@ -169,7 +165,6 @@ const HouseUploadForm = () => {
       caretaker_contact: "",
       pricing_type: "",
       date_listed: "",
-      agent_id: agent.id,
       amenities: [],
       caretaker_bankAcct: "",
       caretaker_bankName: "",
@@ -227,10 +222,12 @@ const HouseUploadForm = () => {
           value={formData.title}
           onChange={handleInputChange}
           className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+          required
         />
 
         {/* Property Type Selector */}
         <select
+          required
           name="property_type"
           value={formData.property_type}
           onChange={handleInputChange}
@@ -248,6 +245,7 @@ const HouseUploadForm = () => {
 
         {/* Location Input */}
         <input
+          required
           type="text"
           name="address"
           placeholder="Enter the address"
@@ -274,6 +272,7 @@ const HouseUploadForm = () => {
             value={formData.bedrooms}
             onChange={handleInputChange}
             className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
           />
           <input
             type="number"
@@ -282,6 +281,7 @@ const HouseUploadForm = () => {
             value={formData.bathrooms}
             onChange={handleInputChange}
             className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
           />
         </div>
 
@@ -293,6 +293,7 @@ const HouseUploadForm = () => {
           name="pricing_type"
           value={formData.pricing_type}
           onChange={handleInputChange}
+          required
           className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="">Select Pricing Type</option>
@@ -309,6 +310,7 @@ const HouseUploadForm = () => {
             value={priceBreakdown.basicRent}
             onChange={handlePriceChange}
             className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
           />
           <input
             type="number"
@@ -356,6 +358,7 @@ const HouseUploadForm = () => {
             value={formData.caretaker_contact}
             onChange={handleInputChange}
             className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
           />
 
           <input
@@ -365,6 +368,7 @@ const HouseUploadForm = () => {
             value={formData.caretaker_bankAcct}
             onChange={handleInputChange}
             className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
           />
           <input
             type="text"
@@ -373,6 +377,7 @@ const HouseUploadForm = () => {
             value={formData.caretaker_bankName}
             onChange={handleInputChange}
             className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
           />
           <input
             type="text"
@@ -381,6 +386,7 @@ const HouseUploadForm = () => {
             value={formData.caretaker_acctName}
             onChange={handleInputChange}
             className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
           />
         </div>
 
@@ -433,6 +439,7 @@ const HouseUploadForm = () => {
               value={formData.min_tenancy_period}
               onChange={handleInputChange}
               className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
             >
               <option value="">Mininum Rent Period</option>
               <option value="1 month">1 month</option>
@@ -451,6 +458,7 @@ const HouseUploadForm = () => {
               value={formData.furnishing}
               onChange={handleInputChange}
               className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
             >
               <option value="">Select Furnishing Status</option>
               <option value="Not Furnished">Not Furnished</option>
@@ -484,6 +492,7 @@ const HouseUploadForm = () => {
           multiple
           onChange={handleImageUpload}
           className="border border-gray-300 p-4 w-full rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          required
         />
         {images.length < 6 && (
           <p className="text-red-500 text-sm mt-1">
