@@ -21,6 +21,34 @@ const Homepage = () => {
       ) : (
         <div>
           <Banner />
+          <div className="my-10">
+            <div className="flex justify-center">
+              <div className="items-center">
+                <h2 className="font-bold text-3xl">Explore Locations</h2>
+                <p className="text-sm">
+                  Check houses available in different locations
+                </p>
+              </div>
+            </div>
+
+            <div className="flex w-3/5 mx-auto gap-6 p-2 justify-center overflow-hidden">
+              {Array(5)
+                .fill()
+                .map((_, index) => (
+                  <div key={index} className="flex">
+                    <div className="my-3 mx-auto inline-block justify-center items-center">
+                      <div className="bg-[url('https://images.unsplash.com/photo-1614607242094-b1b2cf769ff3?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDJ8fGhvdXNlJTIwZXh0ZXJpb3J8ZW58MHx8MHx8fDA%3D')] rounded-full w-[80px] h-[80px] bg-cover bg-center"></div>
+                      <div className="flex justify-center">
+                        <p className="font-bold text-gray-800 text-sm">Lagos</p>
+                      </div>
+                      <div className="flex justify-center">
+                        <p className="text-xs">2409 listings</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+            </div>
+          </div>
           <div className="flex">
             <div className="w-full sm:flex justify-between p-10">
               <div className="sm:w-3/5 w-full">

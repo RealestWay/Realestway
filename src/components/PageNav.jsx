@@ -47,7 +47,7 @@ const PageNav = () => {
               {isOpen ? (
                 <FontAwesomeIcon
                   icon={faHome}
-                  color="#100073"
+                  color="#00A256"
                   className="mr-2"
                 />
               ) : (
@@ -61,7 +61,7 @@ const PageNav = () => {
               {isOpen ? (
                 <FontAwesomeIcon
                   icon={faInfoCircle}
-                  color="#100073"
+                  color="#00A256"
                   className="mr-2"
                 />
               ) : (
@@ -75,7 +75,7 @@ const PageNav = () => {
               {isOpen ? (
                 <FontAwesomeIcon
                   icon={faPhone}
-                  color="#100073"
+                  color="#00A256"
                   className="mr-2"
                 />
               ) : (
@@ -89,7 +89,7 @@ const PageNav = () => {
               <NavLink to="/Profile">
                 <FontAwesomeIcon
                   icon={faUser}
-                  color="#100073"
+                  color="#00A256"
                   className={`${isOpen ? "mr-2" : ""}`}
                 />
                 {isOpen ? "Profile" : ""}
