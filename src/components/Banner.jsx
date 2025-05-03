@@ -32,7 +32,7 @@ const Banner = () => {
           >
             Welcome <br />
             to <br />
-            RealEst Way
+            Realestway
           </h1>
           <p className=" mt-2">Find your dream home effortlessly</p>
         </div>
