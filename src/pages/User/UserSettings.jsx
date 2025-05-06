@@ -30,7 +30,7 @@ const UserSettings = ({ set, setSet }) => {
     setUpdating(true);
     try {
       const res = await fetch(
-        `https://realestway-backend.up.railway.app/api/users/${user.id}`,
+        `https://backend.realestway.com/api/users/${user.id}`,
         {
           method: "PATCH",
           headers: {

@@ -18,7 +18,7 @@ const AgentEnrollmentPage = () => {
 
     try {
       const res = await fetch(
-        "https://realestway-backend.up.railway.app/api/agents/onboard",
+        "https://backend.realestway.com/api/agents/onboard",
         {
           method: "POST",
           headers: {
@@ -36,7 +36,7 @@ const AgentEnrollmentPage = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Failed to enroll");
 
-      console.log("Agent onboarded:", data);
+      // console.log("Agent onboarded:", data);
     } catch (err) {
       console.error("Enrollment error:", err.message);
     } finally {
@@ -47,7 +47,6 @@ const AgentEnrollmentPage = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
     enrollAgent();
   };
 

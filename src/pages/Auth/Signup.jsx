@@ -70,7 +70,7 @@ const Signup = () => {
     try {
       setIsLoading(true);
       const res = await fetch(
-        "https://realestway-backend.up.railway.app/api/register", // User registration API
+        "https://backend.realestway.com/api/register", // User registration API
         {
           method: "POST",
           headers: {

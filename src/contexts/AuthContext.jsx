@@ -26,7 +26,7 @@ function AuthProvider({ children }) {
   async function fetchUsers(email, password) {
     try {
       const res = await fetch(
-        "https://realestway-backend.up.railway.app/api/login", // User login API
+        "https://backend.realestway.com/api/login", // User login API
         {
           method: "POST",
           headers: {
@@ -55,7 +55,7 @@ function AuthProvider({ children }) {
     try {
       setIsLoading(true);
       const res = await fetch(
-        "https://realestway-backend.up.railway.app/api/agents/login", // Agent login API
+        "https://backend.realestway.com/api/agents/login", // Agent login API
         {
           method: "POST",
           headers: {
@@ -73,6 +73,7 @@ function AuthProvider({ children }) {
 
       const data = await res.json();
       setIsLoading(false);
+      setToken(data.token);
       return data.user; // Return agent data
     } catch (err) {
       return null; // If agent login fails, return null

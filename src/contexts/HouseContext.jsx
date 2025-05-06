@@ -13,9 +13,7 @@ const HouseProvider = ({ children }) => {
     setIsLoading(true);
     setTimeout(async () => {
       try {
-        const res = await fetch(
-          "https://realestway-backend.up.railway.app/api/listings"
-        );
+        const res = await fetch("https://backend.realestway.com/api/listings");
         const data = await res.json();
         setHouses(data);
       } catch {
@@ -23,14 +21,14 @@ const HouseProvider = ({ children }) => {
       } finally {
         setIsLoading(false);
       }
-    }, 5000);
+    }, 3000);
   }
 
   // Add house to favorite
   const favoritedHouse = async (id, token) => {
     try {
       const res = await fetch(
-        `https://realestway-backend.up.railway.app/api/favourite/${id}`,
+        `https://backend.realestway.com/api/favourite/${id}`,
         {
           method: "POST",
           headers: {
@@ -53,7 +51,7 @@ const HouseProvider = ({ children }) => {
   const removeFavoritedHouse = async (id, token) => {
     try {
       const res = await fetch(
-        `https://realestway-backend.up.railway.app/api/favourite/${id}`,
+        `https://backend.realestway.com/api/favourite/${id}`,
         {
           method: "DELETE",
           headers: {
@@ -76,17 +74,14 @@ const HouseProvider = ({ children }) => {
   const showFavoritedHouse = async (token) => {
     setLoadingFav(true);
     try {
-      const res = await fetch(
-        `https://realestway-backend.up.railway.app/api/favourites`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            Authorization: `bearer ${token}`,
-          },
-        }
-      );
+      const res = await fetch(`https://backend.realestway.com/api/favourites`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `bearer ${token}`,
+        },
+      });
       const data = await res.json();
       setFavHouse(data.favourites);
       setLoadingFav(false);
