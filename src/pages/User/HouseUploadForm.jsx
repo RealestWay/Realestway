@@ -7,6 +7,9 @@ const HouseUploadForm = () => {
   const { fetchHouses } = UseHouses();
   const { token } = useAuth();
   const [error, setError] = useState();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+
   const [formData, setFormData] = useState({
     title: "",
     address: "",
@@ -18,11 +21,10 @@ const HouseUploadForm = () => {
     year_build: "",
     furnishing: "",
     caretaker_contact: "",
-    caretaker_bankAcct: "",
-    caretaker_bankName: "",
-    caretaker_acctName: "",
+    caretaker_acc_number: "",
+    caretaker_bank_name: "",
+    caretaker_acc_name: "",
     pricing_type: "",
-    date_listed: new Date().toISOString(),
     min_tenancy_period: "",
     amenities: [],
   });
@@ -35,7 +37,7 @@ const HouseUploadForm = () => {
     address: "",
     city: "",
     state: "",
-    zipCode: "",
+    zipCode: null,
     error: "",
   });
   const fetchLocation = async () => {
@@ -105,40 +107,63 @@ const HouseUploadForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!locationData) {
+    if (!locationData.latitude || !locationData.longitude) {
       setError("Please record the house location");
       return;
     }
-
+    // if (!validateForm()) {
+    //   setError("Please fill in all required fields");
+    //   return;
+    // }
     try {
+      const data = new FormData();
+      setIsSubmitting(true);
+      // Append scalar values
+      Object.entries({
+        ...formData,
+        latitude: locationData.latitude,
+        longitude: locationData.longitude,
+        location_address: locationData.address,
+        city: locationData.city,
+        state: locationData.state,
+        zipcode: null,
+        basic_rent: priceBreakdown.basicRent,
+        caution_fee: priceBreakdown.cautionFee,
+        agent_fee: priceBreakdown.agentFee,
+        other_fees: priceBreakdown.otherFees,
+        amenities: formData.amenities.join(", "), // ✅ string
+      }).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+          data.append(key, value);
+        }
+      });
+
+      // Append media
+      images.forEach((image, i) => {
+        data.append(`images[${i}]`, image);
+      });
+
+      if (video) {
+        data.append("video", video);
+      }
+
       const res = await fetch("https://backend.realestway.com/api/listings", {
         method: "POST",
         headers: {
-          Accept: "application/json",
           Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+          // Do not set Content-Type — let browser set it with boundary
         },
-        body: JSON.stringify({
-          ...formData,
-          latitude: locationData.latitude,
-          longitude: locationData.longitude,
-          location_address: locationData.address,
-          city: locationData.city,
-          state: locationData.state,
-          zip_code: locationData.zipCode,
-          basic_rent: priceBreakdown.basicRent,
-          caution_fee: priceBreakdown.cautionFee,
-          agent_fee: priceBreakdown.agentFee,
-          other_fees: priceBreakdown.otherFees,
-          images,
-          video,
-        }),
+        body: data,
       });
 
-      if (!res.ok) throw new Error("Failed to create account");
-    } catch (err) {
-      setError("There was an error signing up. Please try again.");
-    } finally {
-      alert("Form Submitted Successfully!");
+      if (!res.ok) {
+        const errorData = await res.json();
+        console.error(errorData);
+        throw new Error("Failed to submit");
+      }
+      setSuccessMessage("Form Submitted Successfully!");
+      setIsSubmitting(false);
 
       // Reset form
       setFormData({
@@ -149,15 +174,14 @@ const HouseUploadForm = () => {
         bathrooms: "",
         dimension: "",
         property_type: "",
-        year_built: "",
+        year_build: "",
         furnishing: "",
         caretaker_contact: "",
         pricing_type: "",
-        date_listed: "",
         amenities: [],
-        caretaker_bankAcct: "",
-        caretaker_bankName: "",
-        caretaker_acctName: "",
+        caretaker_acc_number: "",
+        caretaker_bank_name: "",
+        caretaker_acc_name: "",
       });
       setImages([]);
       setVideo(null);
@@ -166,6 +190,7 @@ const HouseUploadForm = () => {
         latitude: null,
         longitude: null,
         city: "",
+        zipCode: null,
       });
       setPriceBreakdown({
         basicRent: "",
@@ -173,8 +198,12 @@ const HouseUploadForm = () => {
         agentFee: "",
         otherFees: "",
       });
+
+      fetchHouses();
+    } catch (err) {
+      console.error(err);
+      setError(err);
     }
-    fetchHouses();
   };
 
   return (
@@ -182,6 +211,7 @@ const HouseUploadForm = () => {
       <h2 className="text-2xl font-bold text-center mb-8 text-gray-800">
         Upload House Details
       </h2>
+      {/* <p>{error.toISOString()}</p> */}
       {locationData.error && (
         <p className="text-red-500">{locationData.error}</p>
       )}
@@ -189,6 +219,7 @@ const HouseUploadForm = () => {
         <button
           className="p-4 rounded-md w-full sm:w-1/3 m-auto bg-slate-600 text-white font-semibold text-lg"
           onClick={fetchLocation}
+          disabled={!!locationData.latitude}
         >
           {locationData.latitude ? "Location Saved" : "Record Location"}
         </button>
@@ -260,7 +291,7 @@ const HouseUploadForm = () => {
               type="number"
               name="bedrooms"
               placeholder="No. of Bedrooms"
-              value={formData.bedrooms}
+              value={formData.bedrooms || ""}
               onChange={handleInputChange}
               className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
@@ -269,7 +300,7 @@ const HouseUploadForm = () => {
               type="number"
               name="bathrooms"
               placeholder="No. of Bathrooms"
-              value={formData.bathrooms}
+              value={formData.bathrooms || ""}
               onChange={handleInputChange}
               className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
@@ -354,27 +385,27 @@ const HouseUploadForm = () => {
 
             <input
               type="number"
-              name="caretaker_bankAcct"
+              name="caretaker_acc_number"
               placeholder="Bank Account Number"
-              value={formData.caretaker_bankAcct}
+              value={formData.caretaker_acc_number}
               onChange={handleInputChange}
               className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
             <input
               type="text"
-              name="caretaker_bankName"
+              name="caretaker_bank_name"
               placeholder="Bank Name"
-              value={formData.caretaker_bankName}
+              value={formData.caretaker_bank_name}
               onChange={handleInputChange}
               className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
             <input
               type="text"
-              name="caretaker_acctName"
+              name="caretaker_acc_name"
               placeholder="Bank Account Name"
-              value={formData.caretaker_acctName}
+              value={formData.caretaker_acc_name}
               onChange={handleInputChange}
               className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
@@ -415,8 +446,9 @@ const HouseUploadForm = () => {
               <label className="block text-gray-700 text-xs">Year Built:</label>
               <input
                 type="date"
-                name="year_built"
-                value={formData.year_built}
+                required
+                name="year_build"
+                value={formData.year_build}
                 onChange={handleInputChange}
                 className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
@@ -433,12 +465,12 @@ const HouseUploadForm = () => {
                 required
               >
                 <option value="">Mininum Rent Period</option>
-                <option value="1 month">1 month</option>
-                <option value="6 month">6 months</option>
-                <option value="1 year">1 year</option>
-                <option value="2 years">2 years</option>
-                <option value="3 years">3 years</option>
-                <option value="5 years">5 years</option>
+                <option value={1}>1 month</option>
+                <option value={6}>6 months</option>
+                <option value={1}>1 year</option>
+                <option value={2}>2 years</option>
+                <option value={3}>3 years</option>
+                <option value={5}>5 years</option>
               </select>
             </div>
 
@@ -452,9 +484,9 @@ const HouseUploadForm = () => {
                 required
               >
                 <option value="">Select Furnishing Status</option>
-                <option value="Not Furnished">Not Furnished</option>
+                <option value="not-furnished">Not Furnished</option>
                 <option value="Semi Furnished">Semi Furnished</option>
-                <option value="Fully Furnished">Fully Furnished</option>
+                <option value="furnished">Fully Furnished</option>
               </select>
             </div>
 
@@ -463,6 +495,7 @@ const HouseUploadForm = () => {
                 Room/House Dimensions (e.g., 1200 sq ft):
               </label>
               <input
+                required
                 type="text"
                 name="dimension"
                 placeholder="Dimensions"
@@ -537,4 +570,7 @@ const HouseUploadForm = () => {
   );
 };
 
+// const Status =({error, })=>{
+//   return<div></div>
+// }
 export default HouseUploadForm;

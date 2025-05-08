@@ -68,9 +68,9 @@ const UserProfile = () => {
             <strong>Phone:</strong> {user?.phone}
           </p>
 
-          {user?.nin && (
+          {user?.company_name && (
             <p>
-              <strong>NIN:</strong> {user?.nin}
+              <strong>Company:</strong> {user?.company_name}
             </p>
           )}
         </div>
@@ -113,7 +113,7 @@ const UserProfile = () => {
           </div>
         </>
       )}
-      {user?.nin && (
+      {user?.company_name && (
         <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg mt-10 pb-2">
           <p className="font-bold text-xl border-0 border-b-2 justify-center flex text-[#100073] w-full">
             Your Listed Houses
@@ -148,7 +148,7 @@ const UserProfile = () => {
           )}
         </div>
       )}
-      {!user.nin && (
+      {!user.company_name && (
         <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg mt-10 pb-2">
           <p className="font-bold text-xl border-0 border-b-2 justify-center flex text-blue-700 w-full">
             Your Saved Searches
