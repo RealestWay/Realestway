@@ -221,7 +221,7 @@ const Signup = () => {
           </p>
           <p className="flex text-gray-500 justify-center mt-9 text-sm">
             Already have an account?{" "}
-            <Link to={"/signIn"} className="text-green-500 px-1">
+            <Link to={"/login"} className="text-green-500 px-1">
               {isLoading ? <Spinner2 /> : "Sign In"}
             </Link>
           </p>

@@ -27,7 +27,7 @@ const SignIn = () => {
   };
 
   useEffect(() => {
-    if (isAuthenticated) navigate("/ItemsPage");
+    if (isAuthenticated) navigate("/search");
   }, [isAuthenticated]);
   return (
     <div className="bg-gradient-to-b from-[#00A256] min-h-screen to-[#100073] py-10 items-center justify-center flex">
@@ -99,7 +99,7 @@ const SignIn = () => {
           </p>
           <p className="flex text-gray-500 justify-center mt-9 text-sm  ">
             Don`t have an account?
-            <Link to={"/SignUp"} className="text-green-500 px-1">
+            <Link to={"/register"} className="text-green-500 px-1">
               Sign Up
             </Link>
           </p>

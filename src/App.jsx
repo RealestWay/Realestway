@@ -29,8 +29,8 @@ const App = () => {
           <ScrollToTop />
           <Routes>
             <Route path="/" element={<Homepage />} />
-            <Route path="SignIn" element={<SignIn />} />
-            <Route path="SignUp" element={<Signup />} />
+            <Route path="login" element={<SignIn />} />
+            <Route path="register" element={<Signup />} />
             <Route
               path="Profile"
               element={
@@ -58,7 +58,7 @@ const App = () => {
             <Route path="AboutUs" element={<AboutUs />} />
             <Route path="ContactUs" element={<ContactUs />} />
             <Route
-              path="/ItemsPage"
+              path="/search"
               element={
                 <ProtectedRoutes>
                   <ItemsPage />

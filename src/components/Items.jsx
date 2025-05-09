@@ -5,13 +5,12 @@ import ImageCarousel from "./ImageCarousel";
 import { useAuth } from "../contexts/AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
 import { UseHouses } from "../contexts/HouseContext";
 
 const Items = ({ house, children }) => {
   // const { title, totalPrice, images, id } = house;
   const { favoritedHouse, removeFavoritedHouse } = UseHouses();
-  const { title, totalPrice, id, description, is_favourited } = house;
+  const { title, totalPrice, id, description, isFavourited } = house;
   const { isAuthenticated, user, token } = useAuth();
 
   const images = [
@@ -102,7 +101,7 @@ const Items = ({ house, children }) => {
 
       {!user?.nin ? (
         <>
-          {is_favourited ? (
+          {isFavourited ? (
             <button
               onClick={() => {
                 // removeItemFromSavedItems(id);

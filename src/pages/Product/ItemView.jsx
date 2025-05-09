@@ -22,7 +22,7 @@ const ItemView = () => {
     const fetchHouse = async () => {
       try {
         const res = await fetch(
-          `https://realestway-backend.up.railway.app/api/listings/${id}`
+          `https://backend.realestway.com/api/listings/${id}`
         );
         const data = await res.json();
         setHouse(data.data);
