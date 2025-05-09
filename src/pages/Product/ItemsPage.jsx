@@ -61,7 +61,7 @@ const ItemsPage = () => {
       {isLoading ? (
         <Spinner />
       ) : (
-        <div className="w-full md:px-24 md:grid-cols-3 lg:grid-cols-4 sm:grid-cols-2 md:gap-2 px-0 sm:px-10">
+        <div className="w-full grid md:px-20 md:grid-cols-3 lg:grid-cols-4 sm:flex md:gap-2 px-0 sm:px-10">
           {paginatedHouses?.length > 0 ? (
             paginatedHouses?.map((house) => (
               <Items house={house} key={house.id} />

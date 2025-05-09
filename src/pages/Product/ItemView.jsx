@@ -10,12 +10,14 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowAltCircleLeft } from "@fortawesome/free-solid-svg-icons";
 import Spinner from "../../components/Spinner";
+import { UseHouses } from "../../contexts/HouseContext";
 
 const ItemView = () => {
   const location = useLocation();
   const { id } = useParams();
   const [house, setHouse] = useState();
   const [loading, setLoading] = useState(true);
+  const { setRemoteHouse } = UseHouses();
 
   // fetch a particular house
 
@@ -27,6 +29,7 @@ const ItemView = () => {
         );
         const data = await res.json();
         setHouse(data.data);
+        setRemoteHouse(data.data);
       } catch (err) {
         console.log(err);
       } finally {

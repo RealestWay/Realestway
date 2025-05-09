@@ -9,6 +9,7 @@ const HouseProvider = ({ children }) => {
   const [filter, setFilter] = useState({});
   const [favHouse, setFavHouse] = useState();
   const [agentHouses, setAgentHouse] = useState();
+  const [house, setRemoteHouse] = useState();
 
   // fetch all houses
   async function fetchHouses() {
@@ -170,6 +171,8 @@ const HouseProvider = ({ children }) => {
         showFavoritedHouse,
         loadingFav,
         success,
+        house,
+        setRemoteHouse,
       }}
     >
       {children}

@@ -12,13 +12,12 @@ import {
 
 const ChatPage = () => {
   const { propertyId } = useParams();
-  const { user, agents } = useAuth();
+  const { user } = useAuth();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
-  const { houses } = UseHouses();
-  const house = houses.find((h) => h.id === propertyId);
-  const agent = agents.find((a) => a.id === house.agent_id);
-  const { price_type, title, price, location, images } = house;
+  const { house } = UseHouses();
+
+  const { priceType, title, price, location, images } = house;
   const navigate = useNavigate();
 
   const handleChat = () => {
@@ -44,7 +43,6 @@ const ChatPage = () => {
         >
           <span className="flex justify-between sm:justify-around w-[18 %] sm:w-[5%]">
             <FontAwesomeIcon icon={faArrowAltCircleLeft} size="lg" />
-            <span>Back</span>
           </span>
           <div className="sm:w-4/5 flex sm:pl-[20%]">
             <h2 className="text-lg font-bold">
@@ -85,11 +83,11 @@ const ChatPage = () => {
               <div className="sm:flex sm:justify-between mt-2 text-sm">
                 <p>
                   <FontAwesomeIcon icon={faPhone} className="mr-2" />
-                  {agent.phone}
+                  {user.phone}
                 </p>
                 <p>
                   <FontAwesomeIcon icon={faEnvelope} className="mr-2" />
-                  {agent.email}
+                  {user.email}
                 </p>
               </div>
             </div>
@@ -145,7 +143,7 @@ const ChatPage = () => {
           />
           <h3 className="text-2xl font-bold text-blue-700 mt-3">
             ${price}
-            <span className="text-sm ml-1">{price_type}</span>
+            <span className="text-sm ml-1">{priceType}</span>
           </h3>
           <p className="text-gray-500">{location.address}</p>
           <div className="w-full flex justify-around my-5">

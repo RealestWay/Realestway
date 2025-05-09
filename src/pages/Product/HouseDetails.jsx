@@ -94,11 +94,11 @@ const HouseDetails = () => {
             <div className="flex justify-between">
               <div>Very Good</div>
               {!user.nin && (
-                // <Link to={`/ChatPage/${house.id}`}>
-                <button className="bg-[#00a256] text-white font-bold rounded px-4 py-2">
-                  Contact Agent
-                </button>
-                // </Link>
+                <Link to={`/ChatPage/${house.id}`}>
+                  <button className="bg-[#00a256] text-white font-bold rounded px-4 py-2">
+                    Contact Agent
+                  </button>
+                </Link>
               )}
             </div>
           </div>
