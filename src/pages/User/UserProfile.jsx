@@ -177,7 +177,7 @@ const UserProfile = () => {
           <p className="font-bold text-xl border-0 border-b-2 justify-center flex text-blue-700 w-full">
             Your Saved Searches
           </p>
-          {favHouse ? (
+          {/* {favHouse ? (
             <div
               className="flex gap-4 overflow-x-auto scroll-smooth scrollbar-hide snap-x pb-10"
               style={{ scrollSnapType: "x mandatory" }}
@@ -188,11 +188,10 @@ const UserProfile = () => {
                 favHouse?.map((hous) => <Items key={hous.id} house={hous} />)
               )}
             </div>
-          ) : (
-            <i className="flex justify-center w-full text-gray-400">
-              No house view yet
-            </i>
-          )}
+          ) : ( )}*/}
+          <i className="flex justify-center w-full text-gray-400">
+            No house view yet
+          </i>
         </div>
       )}
       {/* Edit House Modal */}
