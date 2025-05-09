@@ -15,9 +15,8 @@ const HouseDetails = () => {
     description,
     propertyType,
     totalPrice,
-    address,
     furnishing,
-    date_listed,
+    createdAt,
     amenities,
     images,
     priceBreakdown,
@@ -39,12 +38,17 @@ const HouseDetails = () => {
           <div className="mb-4">
             <h3 className="text-2xl font-bold text-blue-700">
               #{totalPrice.toLocaleString()}
-              <span className="text-sm ml-1">{priceType}</span>
+              <i className="text-sm ml-1">{"Total Package"}</i>
             </h3>
-            <i className="text-gray-400 text-sm">
-              Renew with: #{priceBreakdown.basicRent?.toLocaleString()}
-            </i>
-            <p className="text-gray-500">{address}</p>
+            <div className="flex flex-col">
+              <i className="text-gray-400 text-sm">
+                Renew with: #{priceBreakdown.basicRent?.toLocaleString()}
+                {" /"}
+                <span className="text-sm ml-1">{priceType}</span>
+              </i>
+            </div>
+
+            <p className="text-gray-500">{house.location.address}</p>
           </div>
 
           {/* Description */}
@@ -79,7 +83,7 @@ const HouseDetails = () => {
           </div>
 
           {/* Date Listed */}
-          <p className="text-sm text-gray-400 mt-4">Added on {date_listed}</p>
+          <p className="text-sm text-gray-400 mt-4">Added on {createdAt}</p>
         </div>
 
         <div className="w-[95%] max-w-4xl mx-auto bg-white rounded-lg shadow-lg border border-gray-200 p-6">
@@ -91,7 +95,7 @@ const HouseDetails = () => {
               <div>Very Good</div>
               {!user.nin && (
                 <Link to={`/ChatPage/${house.id}`}>
-                  <button className="bg-blue-500 text-white font-bold rounded px-4 py-2">
+                  <button className="bg-[#00a256] text-white font-bold rounded px-4 py-2">
                     Contact Agent
                   </button>
                 </Link>
@@ -105,13 +109,38 @@ const HouseDetails = () => {
         style={{ height: !desc ? "25px" : "" }}
       >
         <button
-          className="bg-blue-400 w-full text-xl font-semibold text-white py-2 rounded"
+          className="bg-[#100073] w-full text-xl font-semibold text-white py-2 rounded"
           onClick={() => setDescription(!desc)}
         >
           View More Details
         </button>
         {desc ? (
           <div className="p-6">
+            <h3 className="font-semibold text-lg">Price Breakdown</h3>
+            <ul className="flex flex-col mb-5">
+              {" "}
+              {priceBreakdown?.basicRent && (
+                <li className="text-gray-600 text-sm ">
+                  Basic Rent: #{priceBreakdown.basicRent?.toLocaleString()}
+                </li>
+              )}
+              {priceBreakdown?.agreementFee && (
+                <li className="text-gray-600 text-sm ">
+                  Agreement Fee: #
+                  {priceBreakdown.agreementFee?.toLocaleString()}
+                </li>
+              )}
+              {priceBreakdown?.cautionFee && (
+                <li className="text-gray-600 text-sm ">
+                  Caution Fee: #{priceBreakdown.agentFee?.toLocaleString()}
+                </li>
+              )}
+              {priceBreakdown?.agentFee && (
+                <li className="text-gray-600 text-sm ">
+                  Agent Fee: #{priceBreakdown.agentFee?.toLocaleString()}
+                </li>
+              )}
+            </ul>
             <h3 className="font-semibold text-lg">Key Features</h3>
             <ul className="text-gray-600 text-sm mb-5">
               {amenities.map((item) => (

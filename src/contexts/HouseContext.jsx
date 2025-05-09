@@ -16,7 +16,6 @@ const HouseProvider = ({ children }) => {
         const res = await fetch("https://backend.realestway.com/api/listings");
         const data = await res.json();
         setHouses(data);
-        console.log(data);
       } catch {
         alert("there was an error loading your data...");
       } finally {
