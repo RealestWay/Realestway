@@ -2,9 +2,12 @@ import { useState } from "react";
 import { getCurrentLocation } from "../../service/getLocation";
 import { UseHouses } from "../../contexts/HouseContext";
 import { useAuth } from "../../contexts/AuthContext";
+import Spinner2 from "../../components/Spinner2";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
 const HouseUploadForm = () => {
-  const { fetchHouses } = UseHouses();
+  const { fetchHouses, fetchAgentHouses } = UseHouses();
   const { token } = useAuth();
   const [error, setError] = useState();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -111,10 +114,7 @@ const HouseUploadForm = () => {
       setError("Please record the house location");
       return;
     }
-    // if (!validateForm()) {
-    //   setError("Please fill in all required fields");
-    //   return;
-    // }
+
     try {
       const data = new FormData();
       setIsSubmitting(true);
@@ -162,7 +162,7 @@ const HouseUploadForm = () => {
         console.error(errorData);
         throw new Error("Failed to submit");
       }
-      setSuccessMessage("Form Submitted Successfully!");
+      setSuccessMessage("Submitted Successfully!");
       setIsSubmitting(false);
 
       // Reset form
@@ -198,11 +198,11 @@ const HouseUploadForm = () => {
         agentFee: "",
         otherFees: "",
       });
-
       fetchHouses();
+      fetchAgentHouses();
     } catch (err) {
       console.error(err);
-      setError(err);
+      setError("Failed to submit, please check your network and try again");
     }
   };
 
@@ -211,6 +211,14 @@ const HouseUploadForm = () => {
       <h2 className="text-2xl font-bold text-center mb-8 text-gray-800">
         Upload House Details
       </h2>
+      {successMessage && (
+        <Status
+          error={error}
+          successMessage={successMessage}
+          setError={setError}
+          setSuccessMessage={setSuccessMessage}
+        />
+      )}
       {/* <p>{error.toISOString()}</p> */}
       {locationData.error && (
         <p className="text-red-500">{locationData.error}</p>
@@ -234,343 +242,377 @@ const HouseUploadForm = () => {
         </p>
       )}
 
-      {locationData.latitude && (
-        <form onSubmit={handleSubmit} className="grid gap-6">
-          {/* Title Input */}
-          <input
-            type="text"
-            name="title"
-            placeholder="Enter the property title"
-            value={formData.title}
-            onChange={handleInputChange}
-            className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
-
-          {/* Property Type Selector */}
-          <select
-            required
-            name="property_type"
-            value={formData.property_type}
-            onChange={handleInputChange}
-            className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="">Select Property Type</option>
-            <option value="Self Contain">Self Contain</option>
-            <option value="1 Bedroom Apartment">1 Bedroom Apartment</option>
-            <option value="2 Bedroom Apartment">2 Bedroom Apartment</option>
-            <option value="3 Bedroom Apartment">3 Bedroom Apartment</option>
-            <option value="4 Bedroom Apartment">4 Bedroom Apartment</option>
-            <option value="Boysquarter">Boysquarter</option>
-            <option value="Duplex">Duplex</option>
-          </select>
-
-          {/* Location Input */}
-          <input
-            required
-            type="text"
-            name="address"
-            placeholder="Enter the address"
-            value={formData.address}
-            onChange={handleInputChange}
-            className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-
-          {/* Description Textarea */}
-          <textarea
-            name="description"
-            placeholder="Describe the property in detail"
-            value={formData.description}
-            onChange={handleInputChange}
-            className="border border-gray-300 p-4 rounded-md w-full h-32 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-
-          {/* Bedrooms & Bathrooms Inputs */}
-          <div className="flex gap-4">
-            <input
-              type="number"
-              name="bedrooms"
-              placeholder="No. of Bedrooms"
-              value={formData.bedrooms || ""}
-              onChange={handleInputChange}
-              className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
-            <input
-              type="number"
-              name="bathrooms"
-              placeholder="No. of Bathrooms"
-              value={formData.bathrooms || ""}
-              onChange={handleInputChange}
-              className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
-          </div>
-
-          {/* Price Breakdown Section */}
-          <h3 className="text-lg font-semibold text-gray-800">
-            Price Details (₦)
-          </h3>
-          <select
-            name="pricing_type"
-            value={formData.pricing_type}
-            onChange={handleInputChange}
-            required
-            className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="">Select Pricing Type</option>
-            <option value="daily">Daily</option>
-            <option value="monthly">Monthly</option>
-            <option value="yearly">Yearly</option>
-          </select>
-
-          <div className="grid sm:grid-cols-2 gap-4">
-            <input
-              type="number"
-              name="basicRent"
-              placeholder="Basic Rent"
-              value={priceBreakdown.basicRent}
-              onChange={handlePriceChange}
-              className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
-            <input
-              type="number"
-              name="cautionFee"
-              placeholder="Caution Fee"
-              value={priceBreakdown.cautionFee}
-              onChange={handlePriceChange}
-              className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            <input
-              type="number"
-              name="agreementFee"
-              placeholder="Agreement Fee"
-              value={priceBreakdown.agreementFee}
-              onChange={handlePriceChange}
-              className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            <input
-              type="number"
-              name="agentFee"
-              placeholder="Agent Fee"
-              value={priceBreakdown.agentFee}
-              onChange={handlePriceChange}
-              className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          {/* Total Price */}
-          <div className="text-lg font-bold text-gray-800">
-            Total Package:{" "}
-            <span className="text-green-600">
-              ₦{total_price.toLocaleString()}
-            </span>
-          </div>
-
-          {/* Caretaker Contact */}
-          <label className="block font-semibold text-gray-700 text-lg">
-            Caretaker / Landlord's Details
-          </label>
-          <div className="sm:grid-cols-2 grid gap-4">
-            <input
-              type="text"
-              name="caretaker_contact"
-              placeholder="Enter contact details(phone Number)"
-              value={formData.caretaker_contact}
-              onChange={handleInputChange}
-              className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
-
-            <input
-              type="number"
-              name="caretaker_acc_number"
-              placeholder="Bank Account Number"
-              value={formData.caretaker_acc_number}
-              onChange={handleInputChange}
-              className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
-            <input
-              type="text"
-              name="caretaker_bank_name"
-              placeholder="Bank Name"
-              value={formData.caretaker_bank_name}
-              onChange={handleInputChange}
-              className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
-            <input
-              type="text"
-              name="caretaker_acc_name"
-              placeholder="Bank Account Name"
-              value={formData.caretaker_acc_name}
-              onChange={handleInputChange}
-              className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
-          </div>
-
-          {/* Amenities Checkboxes */}
-          <h3 className="text-lg font-semibold text-gray-800">Amenities</h3>
-          <div className="grid grid-cols-2 gap-4">
-            {[
-              "Security",
-              "Gym",
-              "Running Water",
-              "Electricity",
-              "Wi-Fi",
-              "Parking Space",
-              "24/7 Power Supply",
-              "CCTV",
-              "Swimming Pool",
-            ].map((amenity) => (
-              <label key={amenity} className="flex items-center text-gray-700">
-                <input
-                  type="checkbox"
-                  name="amenities"
-                  value={amenity}
-                  checked={formData.amenities.includes(amenity)}
-                  onChange={handleCheckboxChange}
-                  className="mr-2"
-                />
-                {amenity}
-              </label>
-            ))}
-          </div>
-
-          {/* Year Built, Furnishing, and Dimensions */}
-          <div className="grid sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-gray-700 text-xs">Year Built:</label>
+      {isSubmitting ? (
+        <Spinner2 />
+      ) : (
+        <>
+          {" "}
+          {locationData.latitude && (
+            <form onSubmit={handleSubmit} className="grid gap-6">
+              {/* Title Input */}
               <input
-                type="date"
-                required
-                name="year_build"
-                value={formData.year_build}
+                type="text"
+                name="title"
+                placeholder="Enter the property title"
+                value={formData.title}
                 onChange={handleInputChange}
                 className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
               />
-            </div>
-            <div>
-              <label className="block text-gray-700 text-xs">
-                Mininum Rent Period:
-              </label>
+
+              {/* Property Type Selector */}
               <select
-                name="min_tenancy_period"
-                value={formData.min_tenancy_period}
+                required
+                name="property_type"
+                value={formData.property_type}
                 onChange={handleInputChange}
                 className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
               >
-                <option value="">Mininum Rent Period</option>
-                <option value={1}>1 month</option>
-                <option value={6}>6 months</option>
-                <option value={1}>1 year</option>
-                <option value={2}>2 years</option>
-                <option value={3}>3 years</option>
-                <option value={5}>5 years</option>
+                <option value="">Select Property Type</option>
+                <option value="Self Contain">Self Contain</option>
+                <option value="1 Bedroom Apartment">1 Bedroom Apartment</option>
+                <option value="2 Bedroom Apartment">2 Bedroom Apartment</option>
+                <option value="3 Bedroom Apartment">3 Bedroom Apartment</option>
+                <option value="4 Bedroom Apartment">4 Bedroom Apartment</option>
+                <option value="Boysquarter">Boysquarter</option>
+                <option value="Duplex">Duplex</option>
               </select>
-            </div>
 
-            <div>
-              <label className="block text-gray-700 text-xs">Furnishing:</label>
-              <select
-                name="furnishing"
-                value={formData.furnishing}
-                onChange={handleInputChange}
-                className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
-              >
-                <option value="">Select Furnishing Status</option>
-                <option value="not-furnished">Not Furnished</option>
-                <option value="Semi Furnished">Semi Furnished</option>
-                <option value="furnished">Fully Furnished</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-gray-700 text-xs">
-                Room/House Dimensions (e.g., 1200 sq ft):
-              </label>
+              {/* Location Input */}
               <input
                 required
                 type="text"
-                name="dimension"
-                placeholder="Dimensions"
-                value={formData.dimension}
+                name="address"
+                placeholder="Enter the address"
+                value={formData.address}
                 onChange={handleInputChange}
                 className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
-            </div>
-          </div>
 
-          {/* Image Upload */}
-          <label className="block text-gray-700 font-semibold mt-4">
-            Upload House Images (Min: 6, Max: 20)
-          </label>
-          <input
-            type="file"
-            accept="image/*"
-            multiple
-            onChange={handleImageUpload}
-            className="border border-gray-300 p-4 w-full rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
-          {images.length < 6 && (
-            <p className="text-red-500 text-sm mt-1">
-              At least 6 images are required.
-            </p>
-          )}
+              {/* Description Textarea */}
+              <textarea
+                name="description"
+                placeholder="Describe the property in detail"
+                value={formData.description}
+                onChange={handleInputChange}
+                className="border border-gray-300 p-4 rounded-md w-full h-32 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
 
-          {/* Video Upload */}
-          <label className="block text-gray-700 font-semibold mt-4">
-            Upload Short Video (Optional)
-          </label>
-          <input
-            type="file"
-            accept="video/*"
-            onChange={handleVideoUpload}
-            className="border border-gray-300 p-4 w-full rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-
-          {/* Preview Uploaded Images */}
-          {images.length > 0 && (
-            <div className="grid grid-cols-3 gap-2 mt-4">
-              {images.map((img, index) => (
-                <img
-                  key={index}
-                  src={URL.createObjectURL(img)}
-                  alt="Preview"
-                  className="w-full h-32 object-cover rounded-md"
+              {/* Bedrooms & Bathrooms Inputs */}
+              <div className="flex gap-4">
+                <input
+                  type="number"
+                  name="bedrooms"
+                  placeholder="No. of Bedrooms"
+                  value={formData.bedrooms || ""}
+                  onChange={handleInputChange}
+                  className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
                 />
-              ))}
-            </div>
-          )}
+                <input
+                  type="number"
+                  name="bathrooms"
+                  placeholder="No. of Bathrooms"
+                  value={formData.bathrooms || ""}
+                  onChange={handleInputChange}
+                  className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                />
+              </div>
 
-          {/* Preview Uploaded Video */}
-          {video && (
-            <video controls className="w-full mt-4">
-              <source src={URL.createObjectURL(video)} type={video.type} />
-            </video>
-          )}
+              {/* Price Breakdown Section */}
+              <h3 className="text-lg font-semibold text-gray-800">
+                Price Details (₦)
+              </h3>
+              <select
+                name="pricing_type"
+                value={formData.pricing_type}
+                onChange={handleInputChange}
+                required
+                className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="">Select Pricing Type</option>
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+                <option value="monthly">Monthly</option>
+                <option value="yearly">Yearly</option>
+              </select>
 
-          {/* Submit Button */}
-          <button
-            onClick={(e) => handleSubmit(e)}
-            type="submit"
-            className="w-full bg-blue-600 text-white py-4 rounded-md mt-6 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            Submit Listing
-          </button>
-        </form>
+              <div className="grid sm:grid-cols-2 gap-4">
+                <input
+                  type="number"
+                  name="basicRent"
+                  placeholder="Basic Rent"
+                  value={priceBreakdown.basicRent}
+                  onChange={handlePriceChange}
+                  className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                />
+                <input
+                  type="number"
+                  name="cautionFee"
+                  placeholder="Caution Fee"
+                  value={priceBreakdown.cautionFee}
+                  onChange={handlePriceChange}
+                  className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <input
+                  type="number"
+                  name="agreementFee"
+                  placeholder="Agreement Fee"
+                  value={priceBreakdown.agreementFee}
+                  onChange={handlePriceChange}
+                  className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <input
+                  type="number"
+                  name="agentFee"
+                  placeholder="Agent Fee"
+                  value={priceBreakdown.agentFee}
+                  onChange={handlePriceChange}
+                  className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
+              {/* Total Price */}
+              <div className="text-lg font-bold text-gray-800">
+                Total Package:{" "}
+                <span className="text-green-600">
+                  ₦{total_price.toLocaleString()}
+                </span>
+              </div>
+
+              {/* Caretaker Contact */}
+              <label className="block font-semibold text-gray-700 text-lg">
+                Caretaker / Landlord's Details
+              </label>
+              <div className="sm:grid-cols-2 grid gap-4">
+                <input
+                  type="text"
+                  name="caretaker_contact"
+                  placeholder="Enter contact details(phone Number)"
+                  value={formData.caretaker_contact}
+                  onChange={handleInputChange}
+                  className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                />
+
+                <input
+                  type="number"
+                  name="caretaker_acc_number"
+                  placeholder="Bank Account Number"
+                  value={formData.caretaker_acc_number}
+                  onChange={handleInputChange}
+                  className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                />
+                <input
+                  type="text"
+                  name="caretaker_bank_name"
+                  placeholder="Bank Name"
+                  value={formData.caretaker_bank_name}
+                  onChange={handleInputChange}
+                  className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                />
+                <input
+                  type="text"
+                  name="caretaker_acc_name"
+                  placeholder="Bank Account Name"
+                  value={formData.caretaker_acc_name}
+                  onChange={handleInputChange}
+                  className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                />
+              </div>
+
+              {/* Amenities Checkboxes */}
+              <h3 className="text-lg font-semibold text-gray-800">Amenities</h3>
+              <div className="grid grid-cols-2 gap-4">
+                {[
+                  "Security",
+                  "Gym",
+                  "Running Water",
+                  "Electricity",
+                  "Wi-Fi",
+                  "Parking Space",
+                  "24/7 Power Supply",
+                  "CCTV",
+                  "Swimming Pool",
+                ].map((amenity) => (
+                  <label
+                    key={amenity}
+                    className="flex items-center text-gray-700"
+                  >
+                    <input
+                      type="checkbox"
+                      name="amenities"
+                      value={amenity}
+                      checked={formData.amenities.includes(amenity)}
+                      onChange={handleCheckboxChange}
+                      className="mr-2"
+                    />
+                    {amenity}
+                  </label>
+                ))}
+              </div>
+
+              {/* Year Built, Furnishing, and Dimensions */}
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-gray-700 text-xs">
+                    Year Built:
+                  </label>
+                  <input
+                    type="date"
+                    required
+                    name="year_build"
+                    value={formData.year_build}
+                    onChange={handleInputChange}
+                    className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-700 text-xs">
+                    Mininum Rent Period:
+                  </label>
+                  <select
+                    name="min_tenancy_period"
+                    value={formData.min_tenancy_period}
+                    onChange={handleInputChange}
+                    className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    required
+                  >
+                    <option value="">Mininum Rent Period</option>
+                    <option value={1}>1 month</option>
+                    <option value={6}>6 months</option>
+                    <option value={1}>1 year</option>
+                    <option value={2}>2 years</option>
+                    <option value={3}>3 years</option>
+                    <option value={5}>5 years</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-gray-700 text-xs">
+                    Furnishing:
+                  </label>
+                  <select
+                    name="furnishing"
+                    value={formData.furnishing}
+                    onChange={handleInputChange}
+                    className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    required
+                  >
+                    <option value="">Select Furnishing Status</option>
+                    <option value="not-furnished">Not Furnished</option>
+                    <option value="furnished">Furnished</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-gray-700 text-xs">
+                    Room/House Dimensions (e.g., 1200 sq ft):
+                  </label>
+                  <input
+                    required
+                    type="text"
+                    name="dimension"
+                    placeholder="Dimensions"
+                    value={formData.dimension}
+                    onChange={handleInputChange}
+                    className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+              </div>
+
+              {/* Image Upload */}
+              <label className="block text-gray-700 font-semibold mt-4">
+                Upload House Images (Min: 6, Max: 20)
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={handleImageUpload}
+                className="border border-gray-300 p-4 w-full rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
+              />
+              {images.length < 6 && (
+                <p className="text-red-500 text-sm mt-1">
+                  At least 6 images are required.
+                </p>
+              )}
+
+              {/* Video Upload */}
+              <label className="block text-gray-700 font-semibold mt-4">
+                Upload Short Video (Optional)
+              </label>
+              <input
+                type="file"
+                accept="video/*"
+                onChange={handleVideoUpload}
+                className="border border-gray-300 p-4 w-full rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+
+              {/* Preview Uploaded Images */}
+              {images.length > 0 && (
+                <div className="grid grid-cols-3 gap-2 mt-4">
+                  {images.map((img, index) => (
+                    <img
+                      key={index}
+                      src={URL.createObjectURL(img)}
+                      alt="Preview"
+                      className="w-full h-32 object-cover rounded-md"
+                    />
+                  ))}
+                </div>
+              )}
+
+              {/* Preview Uploaded Video */}
+              {video && (
+                <video controls className="w-full mt-4">
+                  <source src={URL.createObjectURL(video)} type={video.type} />
+                </video>
+              )}
+
+              {/* Submit Button */}
+              <button
+                onClick={(e) => handleSubmit(e)}
+                type="submit"
+                className="w-full bg-blue-600 text-white py-4 rounded-md mt-6 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                Submit Listing
+              </button>
+            </form>
+          )}
+        </>
       )}
     </div>
   );
 };
 
-// const Status =({error, })=>{
-//   return<div></div>
-// }
+const Status = ({ error, successMessage, setError, setSuccessMessage }) => {
+  return (
+    <div className="w-full z-1000 bg-(rgba(1, 15, 89, 0.1)) flex justify-center items-center fixed top-0 left-0 right-0">
+      <div className="w-[300px] text-center rounded-sm p-3">
+        <div className="w-full flex  items-end">
+          <FontAwesomeIcon
+            icon={faTimes}
+            color="red"
+            className="flex flex-end"
+            onClick={() => {
+              setError("");
+              setSuccessMessage("");
+            }}
+          />
+        </div>
+        <div>
+          {error && <p className="text-red-600">{error}</p>}
+          {successMessage && <p className="text-[#00a256]">{successMessage}</p>}
+        </div>
+      </div>
+    </div>
+  );
+};
 export default HouseUploadForm;

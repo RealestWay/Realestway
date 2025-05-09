@@ -92,7 +92,7 @@ const ItemView = () => {
           className="w-full py-4"
           style={{
             // background: `url('../src/images${images[0].src}')`,
-            background: `url(backend.realestway.com/${house.images[0].src})`,
+            background: `url(https://backend.realestway.com/storage/${house.images[0].src})`,
             backgroundSize: "cover",
             overflow: "hidden",
           }}

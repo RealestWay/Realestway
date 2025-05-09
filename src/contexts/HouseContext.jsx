@@ -1,21 +1,38 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
 const HouseContext = createContext();
-
+const BASE = "https://backend.realestway.com/api";
 const HouseProvider = ({ children }) => {
   const [houses, setHouses] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [success, setSuccess] = useState("");
   const [filter, setFilter] = useState({});
   const [favHouse, setFavHouse] = useState();
+  const [agentHouses, setAgentHouse] = useState();
 
   // fetch all houses
   async function fetchHouses() {
     setIsLoading(true);
     setTimeout(async () => {
       try {
-        const res = await fetch("https://backend.realestway.com/api/listings");
+        const res = await fetch(`${BASE}/listings`);
         const data = await res.json();
         setHouses(data);
+      } catch {
+        alert("there was an error loading your data...");
+      } finally {
+        setIsLoading(false);
+      }
+    }, 3000);
+  }
+  // fetch agent's houses
+  async function fetchAgentHouses(id) {
+    setIsLoading(true);
+    setTimeout(async () => {
+      try {
+        const res = await fetch(`${BASE}/listings/agents/${id}`);
+        const data = await res.json();
+        setAgentHouse(data.data);
       } catch {
         alert("there was an error loading your data...");
       } finally {
@@ -27,18 +44,15 @@ const HouseProvider = ({ children }) => {
   // Add house to favorite
   const favoritedHouse = async (id, token) => {
     try {
-      const res = await fetch(
-        `https://backend.realestway.com/api/favourite/${id}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            Authorization: `bearer ${token}`,
-          },
-          body: JSON.stringify({}),
-        }
-      );
+      const res = await fetch(`${BASE}/favourite/${id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `bearer ${token}`,
+        },
+        body: JSON.stringify({}),
+      });
       if (!res.ok) {
         console.log("error trying");
       }
@@ -50,17 +64,14 @@ const HouseProvider = ({ children }) => {
   // Remove House from Favorite
   const removeFavoritedHouse = async (id, token) => {
     try {
-      const res = await fetch(
-        `https://backend.realestway.com/api/favourite/${id}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            Authorization: `bearer ${token}`,
-          },
-        }
-      );
+      const res = await fetch(`${BASE}/favourite/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `bearer ${token}`,
+        },
+      });
       if (!res.ok) {
         console.log("something went wrong");
       }
@@ -69,12 +80,35 @@ const HouseProvider = ({ children }) => {
     }
   };
 
+  // Delete House
+
+  const deleteHouse = async (id, token) => {
+    setIsLoading(true);
+    try {
+      const res = await fetch(`${BASE}/listings/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `bearer ${token}`,
+        },
+      });
+      if (!res.ok) {
+        console.log("something went wrong");
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoading(false);
+      setSuccess("Successful!");
+    }
+  };
   // Show all favorite houses
   const [loadingFav, setLoadingFav] = useState(false);
   const showFavoritedHouse = async (token) => {
     setLoadingFav(true);
     try {
-      const res = await fetch(`https://backend.realestway.com/api/favourites`, {
+      const res = await fetch(`${BASE}/favourites`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -84,11 +118,36 @@ const HouseProvider = ({ children }) => {
       });
       const data = await res.json();
       setFavHouse(data.favourites);
+
       setLoadingFav(false);
     } catch (err) {
       console.log(err);
     }
   };
+
+  //  Update House
+  async function updateHouse(id, formData) {
+    setIsLoading(true);
+    try {
+      const res = await fetch(`${BASE}/listings/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `bearer ${token}`,
+        },
+        body: formData,
+      });
+      if (!res.ok) {
+        console.log("something went wrong");
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoading(false);
+      setSuccess("Successful!");
+    }
+  }
 
   useEffect(() => {
     fetchHouses();
@@ -99,6 +158,10 @@ const HouseProvider = ({ children }) => {
         houses,
         isLoading,
         fetchHouses,
+        fetchAgentHouses,
+        agentHouses,
+        deleteHouse,
+        updateHouse,
         filter,
         setFilter,
         favoritedHouse,
@@ -106,6 +169,7 @@ const HouseProvider = ({ children }) => {
         favHouse,
         showFavoritedHouse,
         loadingFav,
+        success,
       }}
     >
       {children}

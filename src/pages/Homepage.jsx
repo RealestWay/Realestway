@@ -62,7 +62,7 @@ const Homepage = () => {
                 </p>
               </div>
               <Link
-                to={"/ItemsPage"}
+                to={"/search"}
                 className="text-blue-400 font-semibold text-2xl"
               >
                 View All
