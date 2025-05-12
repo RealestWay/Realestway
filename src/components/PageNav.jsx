@@ -97,7 +97,7 @@ const PageNav = () => {
             </li>
           ) : (
             <li className="md:inline-block block p-3 bg-[#100073] py-2 px-4 rounded-xl text-white">
-              <NavLink to="/SignIn">Sign In</NavLink>
+              <NavLink to="/login">Sign In</NavLink>
             </li>
           )}
         </div>

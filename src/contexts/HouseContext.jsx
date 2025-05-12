@@ -20,7 +20,9 @@ const HouseProvider = ({ children }) => {
         const data = await res.json();
         setHouses(data);
       } catch {
-        alert("there was an error loading your data...");
+        alert(
+          "Please check your network, there was an error loading houses..."
+        );
       } finally {
         setIsLoading(false);
       }
@@ -35,7 +37,9 @@ const HouseProvider = ({ children }) => {
         const data = await res.json();
         setAgentHouse(data.data);
       } catch {
-        alert("there was an error loading your data...");
+        alert(
+          "Please check your network, there was an error loading your listed houses..."
+        );
       } finally {
         setIsLoading(false);
       }

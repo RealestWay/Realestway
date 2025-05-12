@@ -10,14 +10,15 @@ import {
 
 // eslint-disable-next-line react/prop-types
 const UserSettings = ({ set, setSet }) => {
-  const { user, updateUser } = useAuth();
+  const { user, updateUser, token } = useAuth();
   const [showPassWord, setShowPassWord] = useState(false);
+  const [showconPassWord, setShowconPassWord] = useState(false);
   const [updating, setUpdating] = useState(false);
   const [settings, setSettings] = useState({
     email: user?.email || "",
     phone: user?.phone || "",
-    oldPassword: "",
-    newPassword: "",
+    oldPassword: user.password || "",
+    newPassword: user.password || "",
     confirmNewPassword: "",
   });
   const [message, setMessage] = useState("");
@@ -36,6 +37,7 @@ const UserSettings = ({ set, setSet }) => {
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
             password: settings.newPassword,
@@ -46,12 +48,14 @@ const UserSettings = ({ set, setSet }) => {
 
       if (!res.ok) throw new Error("Failed to create account");
     } catch (err) {
-      console.log(err);
+      console.log(err.toString());
+      setMessage(err.Error);
     } finally {
       setUpdating(false);
     }
   };
-  const handleUpdateProfile = () => {
+  const handleUpdateProfile = (e) => {
+    e.preventDefault();
     updateUser({ email: settings.email, phone: settings.phone });
     setMessage("Profile updated successfully!");
   };
@@ -66,8 +70,13 @@ const UserSettings = ({ set, setSet }) => {
       return;
     }
     updatePassword();
-    setMessage("Password updated successfully!");
-    setSettings({ ...settings, oldPassword: "", newPassword: "" });
+
+    setSettings({
+      ...settings,
+      oldPassword: "",
+      newPassword: "",
+      confirmNewPassword: "",
+    });
   };
 
   return (
@@ -120,7 +129,7 @@ const UserSettings = ({ set, setSet }) => {
         placeholder="Current Password"
         value={settings.oldPassword}
         onChange={handleChange}
-        className="w-full p-2 border rounded mb-2"
+        className="w-full p-2 px-8 border rounded mb-2"
       />
       <div className="relative">
         <div className="absolute inset-y-0 left-3 flex items-center text-gray-500">
@@ -132,7 +141,7 @@ const UserSettings = ({ set, setSet }) => {
           placeholder="New Password"
           value={settings.newPassword}
           onChange={handleChange}
-          className="w-full p-2 border rounded mb-2"
+          className="w-full p-2 px-8 border rounded mb-2"
         />
         <button
           type="button"
@@ -142,17 +151,28 @@ const UserSettings = ({ set, setSet }) => {
           <FontAwesomeIcon icon={showPassWord ? faEye : faEyeSlash} />
         </button>
       </div>
-      <input
-        type="password"
-        name="confirmNewPassword"
-        placeholder="Confirm New Password"
-        value={settings.confirmNewPassword}
-        onChange={handleChange}
-        className="w-full p-2 border rounded mb-4"
-      />
-
+      <div className="relative mb-3">
+        <div className="absolute inset-y-0 left-3 flex items-center text-gray-500">
+          <FontAwesomeIcon icon={faLock} color="lightblue" />
+        </div>
+        <input
+          type={showconPassWord ? "text" : "password"}
+          name="confirmNewPassword"
+          placeholder="Confirm New Password"
+          value={settings.confirmNewPassword}
+          onChange={handleChange}
+          className="w-full p-2 px-8 border rounded mb-2"
+        />
+        <button
+          type="button"
+          onClick={() => setShowconPassWord(!showconPassWord)}
+          className="absolute inset-y-0 right-5 flex items-center text-gray-500"
+        >
+          <FontAwesomeIcon icon={showconPassWord ? faEye : faEyeSlash} />
+        </button>
+      </div>
       <button
-        onClick={() => handleChangePassword}
+        onClick={handleChangePassword}
         className="w-full bg-red-500 text-white py-2 rounded"
       >
         {updating ? "updating..." : "Update Password"}
