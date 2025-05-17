@@ -45,6 +45,7 @@ function AuthProvider({ children }) {
       const data = await res.json();
       setIsLoading(false);
       setToken(data.token);
+      console.log(data);
       return data.user; // Return user data
     } catch (err) {
       return null; // If user login fails, return null
@@ -74,6 +75,7 @@ function AuthProvider({ children }) {
       const data = await res.json();
       setIsLoading(false);
       setToken(data.token);
+
       return data.user; // Return agent data
     } catch (err) {
       return null; // If agent login fails, return null

@@ -12,51 +12,51 @@ import {
 import { UseHouses } from "../contexts/HouseContext";
 
 const Items = ({ house, children }) => {
-  // const { title, totalPrice, images, id } = house;
+  // const { title, totalPrice, images, uniqueId } = house;
   const { favoritedHouse, removeFavoritedHouse } = UseHouses();
   const {
     title,
     priceBreakdown,
     priceType,
-    id,
+    uniqueId,
     description,
-    // images,
+    images,
     isFavourited,
   } = house;
   const { isAuthenticated, user, token } = useAuth();
 
-  const images = [
-    {
-      src: "https://images.unsplash.com/photo-1613977257592-4871e5fcd7c4?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8aG91c2UlMjBleHRlcmlvcnxlbnwwfHwwfHx8MA%3D%3D",
-    },
-    {
-      src: "https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fGhvdXNlJTIwaW50ZXJpb3J8ZW58MHx8MHx8fDA%3D",
-    },
-    {
-      src: "https://images.unsplash.com/photo-1616593918824-4fef16054381?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGhvdXNlJTIwaW50ZXJpb3J8ZW58MHx8MHx8fDA%3D",
-    },
-    {
-      src: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGhvdXNlJTIwaW50ZXJpb3J8ZW58MHx8MHx8fDA%3D",
-    },
-    {
-      src: "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fGhvdXNlJTIwaW50ZXJpb3J8ZW58MHx8MHx8fDA%3D",
-    },
-    {
-      scr: "https://images.unsplash.com/photo-1523217582562-09d0def993a6?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGhvdXNlJTIwZXh0ZXJpb3J8ZW58MHx8MHx8fDA%3D",
-    },
-    {
-      scr: "https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    {
-      src: "https://images.unsplash.com/photo-1606402179428-a57976d71fa4?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGhvdXNlJTIwZXh0ZXJpb3J8ZW58MHx8MHx8fDA%3D",
-    },
-    {
-      src: "https://images.unsplash.com/photo-1628744448839-a475cc0e90c3?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjN8fGhvdXNlJTIwZXh0ZXJpb3J8ZW58MHx8MHx8fDA%3D",
-    },
-    {
-      src: "https://images.unsplash.com/photo-1614607242094-b1b2cf769ff3?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDJ8fGhvdXNlJTIwZXh0ZXJpb3J8ZW58MHx8MHx8fDA%3D",
-    },
-  ];
+  // const images = [
+  //   {
+  //     src: "https://images.unsplash.com/photo-1613977257592-4871e5fcd7c4?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8aG91c2UlMjBleHRlcmlvcnxlbnwwfHwwfHx8MA%3D%3D",
+  //   },
+  //   {
+  //     src: "https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fGhvdXNlJTIwaW50ZXJpb3J8ZW58MHx8MHx8fDA%3D",
+  //   },
+  //   {
+  //     src: "https://images.unsplash.com/photo-1616593918824-4fef16054381?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGhvdXNlJTIwaW50ZXJpb3J8ZW58MHx8MHx8fDA%3D",
+  //   },
+  //   {
+  //     src: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGhvdXNlJTIwaW50ZXJpb3J8ZW58MHx8MHx8fDA%3D",
+  //   },
+  //   {
+  //     src: "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fGhvdXNlJTIwaW50ZXJpb3J8ZW58MHx8MHx8fDA%3D",
+  //   },
+  //   {
+  //     scr: "https://images.unsplash.com/photo-1523217582562-09d0def993a6?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGhvdXNlJTIwZXh0ZXJpb3J8ZW58MHx8MHx8fDA%3D",
+  //   },
+  //   {
+  //     scr: "https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  //   },
+  //   {
+  //     src: "https://images.unsplash.com/photo-1606402179428-a57976d71fa4?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGhvdXNlJTIwZXh0ZXJpb3J8ZW58MHx8MHx8fDA%3D",
+  //   },
+  //   {
+  //     src: "https://images.unsplash.com/photo-1628744448839-a475cc0e90c3?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjN8fGhvdXNlJTIwZXh0ZXJpb3J8ZW58MHx8MHx8fDA%3D",
+  //   },
+  //   {
+  //     src: "https://images.unsplash.com/photo-1614607242094-b1b2cf769ff3?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDJ8fGhvdXNlJTIwZXh0ZXJpb3J8ZW58MHx8MHx8fDA%3D",
+  //   },
+  // ];
 
   const itemStyle = `rounded-xl w-full items-center justify-center h-[200px]`;
 
@@ -66,7 +66,7 @@ const Items = ({ house, children }) => {
         className={itemStyle}
         style={{
           // background: `url(../src/images${images[0].src})`,
-          background: `url(${images[0].src})`,
+          background: `url(https://backend.realestway.com/storage/${images[0].src})`,
           backgroundSize: "cover",
           overflow: "hidden",
         }}
@@ -90,7 +90,7 @@ const Items = ({ house, children }) => {
       <div className="flex justify-between py-2">
         {isAuthenticated ? (
           <Link
-            to={`/ItemView/${id}`}
+            to={`/ItemView/${uniqueId}`}
             className="text-lg sm:text-xl text-[#00A256] font-bold hover:text-green-300"
           >
             Views Details
@@ -116,7 +116,7 @@ const Items = ({ house, children }) => {
           {isFavourited ? (
             <button
               onClick={() => {
-                removeFavoritedHouse(id, token);
+                removeFavoritedHouse(uniqueId, token);
               }}
               style={{ alignItems: "center" }}
               className="flex gap-2 justify-center text-[#00A256] py-3"
@@ -127,7 +127,7 @@ const Items = ({ house, children }) => {
           ) : (
             <button
               onClick={() => {
-                favoritedHouse(id, token);
+                favoritedHouse(uniqueId, token);
               }}
               style={{ alignItems: "center" }}
               className="flex gap-1 justify-center py-3 text-[#100073]"

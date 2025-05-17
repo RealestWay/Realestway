@@ -31,7 +31,7 @@ const UserSettings = ({ set, setSet }) => {
     setUpdating(true);
     try {
       const res = await fetch(
-        `https://backend.realestway.com/api/users/${user.id}`,
+        `https://backend.realestway.com/api/users/${user.unique_id}`,
         {
           method: "PATCH",
           headers: {
@@ -48,7 +48,7 @@ const UserSettings = ({ set, setSet }) => {
 
       if (!res.ok) throw new Error("Failed to create account");
     } catch (err) {
-      console.log(err.toString());
+      console.log(err);
       setMessage(err.Error);
     } finally {
       setUpdating(false);

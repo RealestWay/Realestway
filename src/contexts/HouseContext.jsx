@@ -36,10 +36,9 @@ const HouseProvider = ({ children }) => {
         const res = await fetch(`${BASE}/listings/agents/${id}`);
         const data = await res.json();
         setAgentHouse(data.data);
-      } catch {
-        alert(
-          "Please check your network, there was an error loading your listed houses..."
-        );
+        console.log(data.data);
+      } catch (err) {
+        console.log(err);
       } finally {
         setIsLoading(false);
       }

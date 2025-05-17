@@ -94,7 +94,6 @@ const ItemView = () => {
         <div
           className="w-full py-4"
           style={{
-            // background: `url('../src/images${images[0].src}')`,
             background: `url(https://backend.realestway.com/storage/${house.images[0].src})`,
             backgroundSize: "cover",
             overflow: "hidden",
@@ -112,7 +111,7 @@ const ItemView = () => {
               {house?.images.map((img, index) => (
                 <SwiperSlide key={index}>
                   <img
-                    src={img.src}
+                    src={`https://backend.realestway.com/storage/${img.src}`}
                     alt={`House image ${index + 1}`}
                     className="w-full h-full object-cover rounded-lg"
                   />

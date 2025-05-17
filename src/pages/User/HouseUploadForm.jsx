@@ -21,7 +21,7 @@ const HouseUploadForm = () => {
     bathrooms: "",
     dimension: "",
     property_type: "",
-    year_build: "",
+    year_built: "",
     furnishing: "",
     caretaker_contact: "",
     caretaker_acc_number: "",
@@ -30,6 +30,7 @@ const HouseUploadForm = () => {
     pricing_type: "",
     min_tenancy_period: "",
     amenities: [],
+    availability: "available",
   });
 
   const [images, setImages] = useState([]);
@@ -174,7 +175,7 @@ const HouseUploadForm = () => {
         bathrooms: "",
         dimension: "",
         property_type: "",
-        year_build: "",
+        year_built: "",
         furnishing: "",
         caretaker_contact: "",
         pricing_type: "",
@@ -203,6 +204,8 @@ const HouseUploadForm = () => {
     } catch (err) {
       console.error(err);
       setError("Failed to submit, please check your network and try again");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -466,8 +469,8 @@ const HouseUploadForm = () => {
                   <input
                     type="date"
                     required
-                    name="year_build"
-                    value={formData.year_build}
+                    name="year_built"
+                    value={formData.year_built}
                     onChange={handleInputChange}
                     className="border border-gray-300 p-4 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
@@ -506,6 +509,7 @@ const HouseUploadForm = () => {
                   >
                     <option value="">Select Furnishing Status</option>
                     <option value="not-furnished">Not Furnished</option>
+                    <option value="semi-furnished">Semi Furnished</option>
                     <option value="furnished">Furnished</option>
                   </select>
                 </div>

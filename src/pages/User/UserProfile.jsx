@@ -40,7 +40,7 @@ const UserProfile = () => {
   if (!user) navigate("/");
   useEffect(() => {
     showFavoritedHouse(token);
-    fetchAgentHouses(user.id);
+    fetchAgentHouses(user.unique_id);
   }, []);
   // Function to handle opening the modal
   const handleEditClick = (house) => {
@@ -144,7 +144,7 @@ const UserProfile = () => {
                   style={{ scrollSnapType: "x mandatory" }}
                 >
                   {agentHouses?.map((hous) => (
-                    <Items key={hous.id} house={hous}>
+                    <Items key={hous.uniqueId} house={hous}>
                       <button
                         className="bg-blue-500 text-white px-7 py-1 rounded-lg hover:bg-blue-600 transition duration-300"
                         onClick={() => handleEditClick(hous)}
@@ -155,7 +155,7 @@ const UserProfile = () => {
                         className="bg-red-500 text-white px-5 py-1 rounded-lg hover:bg-red-600 transition duration-300"
                         onClick={() => {
                           setOpenDelete(true);
-                          setDeleteHouseId(hous.id);
+                          setDeleteHouseId(hous.uniqueId);
                         }}
                       >
                         Delete

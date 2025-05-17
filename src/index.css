@@ -5,7 +5,15 @@
 .scrollbar-hidden::-webkit-scrollbar {
   display: none;
 }
+/* Global CSS or Tailwind config */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
 
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
 .scrollbar-hidden {
   scrollbar-width: none;
   overflow-x: auto;
