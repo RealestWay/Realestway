@@ -509,7 +509,7 @@ const HouseUploadForm = () => {
                   >
                     <option value="">Select Furnishing Status</option>
                     <option value="not-furnished">Not Furnished</option>
-                    <option value="semi-furnished">Semi Furnished</option>
+                    {/* <option value="semi-furnished">Semi Furnished</option> */}
                     <option value="furnished">Furnished</option>
                   </select>
                 </div>

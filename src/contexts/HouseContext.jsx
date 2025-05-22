@@ -36,7 +36,6 @@ const HouseProvider = ({ children }) => {
         const res = await fetch(`${BASE}/listings/agents/${id}`);
         const data = await res.json();
         setAgentHouse(data.data);
-        console.log(data.data);
       } catch (err) {
         console.log(err);
       } finally {
@@ -122,10 +121,10 @@ const HouseProvider = ({ children }) => {
       });
       const data = await res.json();
       setFavHouse(data.favourites);
-
-      setLoadingFav(false);
     } catch (err) {
       console.log(err);
+    } finally {
+      setLoadingFav(false);
     }
   };
 

@@ -24,7 +24,7 @@ const HouseDetails = () => {
   } = house;
 
   const [selectedImage, setSelectedImage] = useState(null);
-  const [desc, setDescription] = useState(false);
+  const [desc, setDescription] = useState(true);
   if (!house)
     return (
       <p className="text-center text-gray-400">Loading house details...</p>
@@ -112,7 +112,7 @@ const HouseDetails = () => {
           className="bg-[#100073] w-full text-xl font-semibold text-white py-2 rounded"
           onClick={() => setDescription(!desc)}
         >
-          View More Details
+          {desc ? "More Details" : "View More Details"}
         </button>
         {desc ? (
           <div className="p-6">
@@ -156,7 +156,7 @@ const HouseDetails = () => {
                   <img
                     key={index}
                     // src={`../src/images${img.src}`}
-                    src={img.src}
+                    src={`https://backend.realestway.com/storage/${img.src}`}
                     alt={`House ${index + 1}`}
                     className="w-full h-40 object-cover rounded-lg cursor-pointer"
                     onClick={() => setSelectedImage(`../src/images${img.src}`)}

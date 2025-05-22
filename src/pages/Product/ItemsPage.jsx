@@ -57,7 +57,6 @@ const ItemsPage = () => {
       <div className="w-full">
         <Filter />
       </div>
-
       {isLoading ? (
         <Spinner />
       ) : (
@@ -73,7 +72,6 @@ const ItemsPage = () => {
           )}
         </div>
       )}
-
       {/* ✅ Active Filters Feedback */}
       <div className="text-center my-5">
         {location && (
@@ -91,7 +89,6 @@ const ItemsPage = () => {
           </span>
         )}
       </div>
-
       {/* ✅ View More Button */}
       {filteredHouses?.length > visibleCount && (
         <div className="text-center my-5">
@@ -103,7 +100,6 @@ const ItemsPage = () => {
           </button>
         </div>
       )}
-
       <ChatHelp />
     </div>
   );

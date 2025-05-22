@@ -78,7 +78,7 @@ const Signup = () => {
             Accept: "application/json",
           },
           body: JSON.stringify({
-            fullname: formData.name,
+            full_name: formData.name,
             email: formData.email.toLocaleLowerCase(),
             phone: formData.phone,
             password: formData.password,

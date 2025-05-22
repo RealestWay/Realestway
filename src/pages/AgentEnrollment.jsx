@@ -26,7 +26,7 @@ const AgentEnrollmentPage = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            fullname: fullname,
+            full_name: fullname,
             email: email,
             phone: phone,
           }),

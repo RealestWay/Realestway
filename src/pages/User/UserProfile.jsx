@@ -40,7 +40,7 @@ const UserProfile = () => {
   if (!user) navigate("/");
   useEffect(() => {
     showFavoritedHouse(token);
-    fetchAgentHouses(user.unique_id);
+    fetchAgentHouses(user.id);
   }, []);
   // Function to handle opening the modal
   const handleEditClick = (house) => {
@@ -75,7 +75,7 @@ const UserProfile = () => {
 
         <div className="mt-4 text-[#100073]">
           <p>
-            <strong>Name:</strong> {user?.fullname}
+            <strong>Name:</strong> {user?.fullName}
           </p>
           <p>
             <strong>Email:</strong> {user?.email}
@@ -129,7 +129,7 @@ const UserProfile = () => {
           </div>
         </>
       )}
-      {user?.company_name && (
+      {user?.companyName && (
         <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg mt-10 pb-2">
           <p className="font-bold text-xl border-0 border-b-2 justify-center flex text-[#100073] w-full">
             Your Listed Houses
@@ -144,7 +144,7 @@ const UserProfile = () => {
                   style={{ scrollSnapType: "x mandatory" }}
                 >
                   {agentHouses?.map((hous) => (
-                    <Items key={hous.uniqueId} house={hous}>
+                    <Items key={hous.id} house={hous}>
                       <button
                         className="bg-blue-500 text-white px-7 py-1 rounded-lg hover:bg-blue-600 transition duration-300"
                         onClick={() => handleEditClick(hous)}
@@ -172,26 +172,35 @@ const UserProfile = () => {
           )}
         </div>
       )}
-      {!user?.company_name && (
+      {!user?.companyName && (
         <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg mt-10 pb-2">
           <p className="font-bold text-xl border-0 border-b-2 justify-center flex text-blue-700 w-full">
             Your Saved Searches
           </p>
-          {/* {favHouse ? (
-            <div
-              className="flex gap-4 overflow-x-auto scroll-smooth scrollbar-hide snap-x pb-10"
-              style={{ scrollSnapType: "x mandatory" }}
-            >
-              {loadingfav ? (
-                <Spinner2 />
+          {isLoading ? (
+            <Spinner2 />
+          ) : (
+            <>
+              {favHouse ? (
+                <div
+                  className="flex gap-4 overflow-x-auto scroll-smooth scrollbar-hide snap-x pb-10"
+                  style={{ scrollSnapType: "x mandatory" }}
+                >
+                  {loadingfav ? (
+                    <Spinner2 />
+                  ) : (
+                    favHouse?.map((hous) => (
+                      <Items key={hous.id} house={hous} />
+                    ))
+                  )}
+                </div>
               ) : (
-                favHouse?.map((hous) => <Items key={hous.id} house={hous} />)
+                <i className="flex justify-center w-full text-gray-400">
+                  No house view yet
+                </i>
               )}
-            </div>
-          ) : ( )}*/}
-          <i className="flex justify-center w-full text-gray-400">
-            No house view yet
-          </i>
+            </>
+          )}
         </div>
       )}
       {/* Edit House Modal */}
