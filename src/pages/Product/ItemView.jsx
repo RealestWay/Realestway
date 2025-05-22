@@ -36,7 +36,6 @@ const ItemView = () => {
         const data = await res.json();
         setHouse(data.data);
         setRemoteHouse(data.data);
-        console.log(data.data);
       } catch (err) {
         console.log(err);
       } finally {

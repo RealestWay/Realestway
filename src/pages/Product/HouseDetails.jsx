@@ -132,7 +132,7 @@ const HouseDetails = () => {
               )}
               {priceBreakdown?.cautionFee && (
                 <li className="text-gray-600 text-sm ">
-                  Caution Fee: #{priceBreakdown.agentFee?.toLocaleString()}
+                  Caution Fee: #{priceBreakdown.cautionFee?.toLocaleString()}
                 </li>
               )}
               {priceBreakdown?.agentFee && (
@@ -159,19 +159,23 @@ const HouseDetails = () => {
                     src={`https://backend.realestway.com/storage/${img.src}`}
                     alt={`House ${index + 1}`}
                     className="w-full h-40 object-cover rounded-lg cursor-pointer"
-                    onClick={() => setSelectedImage(`../src/images${img.src}`)}
+                    onClick={() =>
+                      setSelectedImage(
+                        `https://backend.realestway.com/storage/${img.src}`
+                      )
+                    }
                   />
                 ))}
               </div>
 
               {/* Modal */}
               {selectedImage && (
-                <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center">
+                <div className="fixed inset-0 bg-black z-[999] bg-opacity-75 flex items-center justify-center">
                   <div className="relative">
                     <img
                       src={selectedImage}
                       alt="Selected"
-                      className="max-w-full max-h-[80vh] rounded-lg"
+                      className="max-w-full max-h-[90vh] rounded-lg"
                     />
                     <button
                       onClick={() => setSelectedImage(null)}
