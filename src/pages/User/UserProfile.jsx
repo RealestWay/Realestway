@@ -155,7 +155,7 @@ const UserProfile = () => {
                         className="bg-red-500 text-white px-5 py-1 rounded-lg hover:bg-red-600 transition duration-300"
                         onClick={() => {
                           setOpenDelete(true);
-                          setDeleteHouseId(hous.uniqueId);
+                          setDeleteHouseId(hous.id);
                         }}
                       >
                         Delete
