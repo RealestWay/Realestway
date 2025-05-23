@@ -92,7 +92,7 @@ const PageNav = () => {
                   color="#00A256"
                   className={`${isOpen ? "mr-2" : ""}`}
                 />
-                {isOpen ? "Profile" : ""}
+                {isOpen ? <span className="font-bold">Profile</span> : ""}
               </NavLink>
             </li>
           ) : (

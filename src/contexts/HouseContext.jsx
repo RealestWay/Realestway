@@ -173,6 +173,7 @@ const HouseProvider = ({ children }) => {
         showFavoritedHouse,
         loadingFav,
         success,
+        setSuccess,
         house,
         setRemoteHouse,
       }}

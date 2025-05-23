@@ -115,7 +115,8 @@ const UserSettings = ({ set, setSet }) => {
 
       <button
         onClick={handleUpdateProfile}
-        className="w-full bg-blue-500 text-white py-2 rounded mb-4"
+        className="w-full bg-gray-500 text-white py-2 rounded mb-4"
+        disabled
       >
         Update Profile
       </button>

@@ -32,6 +32,7 @@ const UserProfile = () => {
     fetchAgentHouses,
     agentHouses,
     success,
+    setSuccess,
   } = UseHouses();
   const { user, logout, token } = useAuth();
 
@@ -39,8 +40,9 @@ const UserProfile = () => {
 
   if (!user) navigate("/");
   useEffect(() => {
-    showFavoritedHouse(token);
-    fetchAgentHouses(user.id);
+    user.id.startsWith("U")
+      ? showFavoritedHouse(token)
+      : fetchAgentHouses(user.id);
   }, []);
   // Function to handle opening the modal
   const handleEditClick = (house) => {
@@ -84,9 +86,9 @@ const UserProfile = () => {
             <strong>Phone:</strong> {user?.phone}
           </p>
 
-          {user?.company_name && (
+          {user?.companyName && (
             <p>
-              <strong>Company:</strong> {user?.company_name}
+              <strong>Company:</strong> {user?.companyName}
             </p>
           )}
         </div>
@@ -148,6 +150,7 @@ const UserProfile = () => {
                       <button
                         className="bg-blue-500 text-white px-7 py-1 rounded-lg hover:bg-blue-600 transition duration-300"
                         onClick={() => handleEditClick(hous)}
+                        disabled
                       >
                         Edit
                       </button>
@@ -226,6 +229,7 @@ const UserProfile = () => {
           token={token}
           fetchAgentHouses={fetchAgentHouses}
           success={success}
+          setSuccess={setSuccess}
           isLoading={isLoading}
         />
       )}
@@ -240,6 +244,7 @@ const Confirm = ({
   setOpenDelete,
   fetchAgentHouses,
   success,
+  setSuccess,
   isLoading,
 }) => {
   return (
@@ -273,6 +278,7 @@ const Confirm = ({
             className="flex flex-end"
             onClick={() => {
               setOpenDelete(false);
+              setSuccess("");
             }}
           />
         </div>
@@ -291,6 +297,7 @@ const Confirm = ({
                       className="bg-red-600 text-white py-2 px-4"
                       onClick={() => {
                         deleteHouse(deleteHouseId, token);
+                        console.log(deleteHouseId);
                         fetchAgentHouses();
                       }}
                     >
