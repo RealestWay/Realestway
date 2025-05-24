@@ -88,7 +88,7 @@ const UserSettings = ({ set, setSet }) => {
         </button>
       </div>
 
-      {message && <p className="text-green-500">{message}</p>}
+      {/* {message && <p className="text-green-500">{message}</p>} */}
 
       {/* Email & Phone Update */}
       <div className="mb-4">
@@ -99,6 +99,7 @@ const UserSettings = ({ set, setSet }) => {
           value={settings.email}
           onChange={handleChange}
           className="w-full p-2 border rounded"
+          disabled
         />
       </div>
 
@@ -110,6 +111,7 @@ const UserSettings = ({ set, setSet }) => {
           value={settings.phone}
           onChange={handleChange}
           className="w-full p-2 border rounded"
+          disabled
         />
       </div>
 
@@ -123,7 +125,7 @@ const UserSettings = ({ set, setSet }) => {
 
       {/* Change Password */}
       <h3 className="text-lg font-semibold mb-2">Change Password</h3>
-
+      {message && <p className="text-green-500">{message}</p>}
       <input
         type="password"
         name="oldPassword"

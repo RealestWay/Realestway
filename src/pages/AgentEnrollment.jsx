@@ -60,7 +60,7 @@ const AgentEnrollmentPage = () => {
             Join Our Real Estate Network
           </h2>
           <p className="leading-relaxed mb-6 text-justify">
-            At RealEstWay, we are committed to creating a strong network of real
+            At Realestway, we are committed to creating a strong network of real
             estate agents who share our passion for excellence and customer
             satisfaction. Our vision is to revolutionize the real estate
             experience, making it easier for buyers and renters to find their

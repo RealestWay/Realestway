@@ -17,32 +17,44 @@ const Homepage = () => {
     {
       location: "Lagos",
       img: "https://images.unsplash.com/photo-1618828665011-0abd973f7bb8?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      listings: houses.data?.includes(),
+      listings: houses.data?.filter((house) =>
+        house.location.address.toLowerCase().includes("lagos")
+      ).length,
     },
     {
       location: "Abuja",
       img: "https://images.unsplash.com/photo-1721642472312-cd30e9bd7cac?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8YWJ1amF8ZW58MHx8MHx8fDA%3D",
-      listings: houses.data?.includes(),
+      listings: houses.data?.filter((house) =>
+        house.location.address.toLowerCase().includes("abuja")
+      ).length,
     },
     {
       location: "Port-Harcourt",
       img: "https://media.gettyimages.com/id/86045164/photo/aerial-view-dated-on-april-14-2009-shows-port-harcourt-in-river-state-the-commercial-capital.jpg?s=612x612&w=0&k=20&c=O1orhME7wgpUnlTCdb0mOuBiSbQ68ulVjwEiH_qAmcU=",
-      listings: houses.data?.includes(),
+      listings: houses.data?.filter((house) =>
+        house.location.address.toLowerCase().includes("port-harcourt")
+      ).length,
     },
     {
       location: "Akure",
       img: "https://media.istockphoto.com/id/1043971852/photo/idanre-hill-ondo-state-nigeria.webp?a=1&b=1&s=612x612&w=0&k=20&c=URNMDb2LzKyqAjGVvqdfMH5Iokun1ASh0NgPsSckd8g=",
-      listings: houses.data?.includes(),
+      listings: houses.data?.filter((house) =>
+        house.location.address.toLowerCase().includes("akure")
+      ).length,
     },
     {
       location: "Ibadan",
       img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTM89r5waaMC3n5Dktq6dNC3nH0dGMPBrYNkQ&s",
-      listings: houses.data?.includes(),
+      listings: houses.data?.filter((house) =>
+        house.location.address.toLowerCase().includes("ibadan")
+      ).length,
     },
     {
       location: "Ife",
       img: "",
-      listings: houses.data?.includes(),
+      listings: houses.data?.filter((house) =>
+        house.location.address.toLowerCase().includes("ife")
+      ).length,
     },
   ];
   const styleclasses = isAuthenticated
@@ -84,7 +96,7 @@ const Homepage = () => {
                       {itm.location}
                     </p>
                     <p className="text-xs text-gray-500">
-                      {itm.listingsCount || 2409} listings
+                      {itm.listings} listings
                     </p>
                   </div>
                 </div>

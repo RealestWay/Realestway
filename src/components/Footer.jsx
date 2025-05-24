@@ -18,7 +18,7 @@ const Footer = () => {
               className="p-3 text-sm rounded-sm w-3/5 text-black focus:outline-none border-5 rounded-r-none border-white"
             />
             <button className="p-3 text-white bg-[#00A256] text-sm rounded-0 rounded-r border-0">
-              SubScribe
+              Subscribe
             </button>
           </div>
         </div>

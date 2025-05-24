@@ -44,17 +44,17 @@ const ChatPage = () => {
           <span className="flex justify-between sm:justify-around w-[18 %] sm:w-[5%]">
             <FontAwesomeIcon icon={faArrowAltCircleLeft} size="lg" />
           </span>
-          <div className="sm:w-4/5 flex sm:pl-[20%]">
-            <h2 className="text-lg font-bold">
-              {user.company ? user.name : title}
-            </h2>
-          </div>
         </button>
+        <div className="sm:w-4/5 flex sm:pl-[20%]">
+          <h2 className="text-lg font-bold">
+            {user.companyName ? user.fullame : title}
+          </h2>
+        </div>
       </div>
 
       <div className="sm:flex sm:mx-auto w-full max-w-6xl p-4">
         {/* Left Panel - Important Info */}
-        <div className="m-4 sm:w-[20%] bg-blue-600 text-white px-4 py-6 rounded-lg shadow-md">
+        <div className="m-4 sm:w-[20%] bg-[#100073] text-white px-4 py-6 rounded-lg shadow-md">
           <h3 className="text-xl font-bold text-center mb-3">
             Important Information
           </h3>
@@ -102,8 +102,8 @@ const ChatPage = () => {
                   key={msg.id}
                   className={`my-2 p-3 max-w-xs text-sm shadow-md ${
                     msg.sender_id === user.id
-                      ? "bg-blue-500 text-white ml-auto rounded-bl-xl rounded-tl-xl rounded-tr-xl"
-                      : "bg-gray-200 text-black rounded-br-xl rounded-tr-xl rounded-tl-xl"
+                      ? "bg-[#00A256] text-white ml-auto rounded-bl-xl rounded-tl-xl rounded-tr-xl"
+                      : "bg-[#100073] text-white rounded-br-xl rounded-tr-xl rounded-tl-xl"
                   }`}
                 >
                   {msg.message}
@@ -127,7 +127,7 @@ const ChatPage = () => {
             />
             <button
               onClick={handleChat}
-              className="ml-2 px-5 py-2 bg-blue-500 text-white rounded-lg shadow-lg transform transition-all duration-200 hover:scale-105 hover:shadow-xl active:scale-95"
+              className="ml-2 px-5 py-2 bg-[#100073] text-white rounded-lg shadow-lg transform transition-all duration-200 hover:scale-105 hover:shadow-xl active:scale-95"
             >
               Send
             </button>
@@ -137,7 +137,7 @@ const ChatPage = () => {
         {/* Right Panel - Property Details */}
         <div className="m-4 sm:w-[20%] bg-white shadow-md p-4 rounded-lg">
           <img
-            src={`../src/images${images[0]}`}
+            src={`https://backend.realestway.com/storage/${images[0].src}`}
             className="rounded-xl w-full h-40 object-cover"
             alt="Apartment"
           />
