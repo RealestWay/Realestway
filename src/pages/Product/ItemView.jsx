@@ -48,8 +48,8 @@ const ItemView = () => {
   const navigate = useNavigate();
 
   const navItems = [
-    { name: "About", path: `/ItemView/${id}` },
-    { name: "On map", path: `/ItemView/${id}/mapDetails` },
+    { name: "About", path: `/property/${id}` },
+    { name: "On map", path: `/property/${id}/mapDetails` },
   ];
 
   if (loading) return <Spinner />;
@@ -99,7 +99,7 @@ const ItemView = () => {
               key={item.name}
               to={item.path}
               className={`w-[50%] text-center text-[#100073] ${
-                location.pathname && item.path === `/ItemView/${id}`
+                location.pathname && item.path === `/property/${id}`
                   ? "py-2 border-r-2 border-0 rounded-l-lg"
                   : "py-2 rounded-r-lg border-l-2 border-0 "
               } ${

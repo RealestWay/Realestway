@@ -57,7 +57,7 @@ const PageNav = () => {
             </NavLink>
           </li>
           <li className="md:inline-block block p-3 font-bold">
-            <NavLink to="/AboutUs">
+            <NavLink to="/about">
               {isOpen ? (
                 <FontAwesomeIcon
                   icon={faInfoCircle}
@@ -71,7 +71,7 @@ const PageNav = () => {
             </NavLink>
           </li>
           <li className="md:inline-block block p-3 font-bold">
-            <NavLink to="/ContactUs">
+            <NavLink to="/contact">
               {isOpen ? (
                 <FontAwesomeIcon
                   icon={faPhone}

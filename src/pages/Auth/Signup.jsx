@@ -90,7 +90,7 @@ const Signup = () => {
       if (!res.ok) throw new Error("Failed to create account");
 
       // If registration is successful, navigate to sign in page
-      navigate("/login");
+      navigate("/check-email");
     } catch (err) {
       setError("There was an error signing up. Please try again.");
     }

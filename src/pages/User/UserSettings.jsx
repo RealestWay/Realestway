@@ -83,7 +83,10 @@ const UserSettings = ({ set, setSet }) => {
     <div className="bg-white dark:bg-gray-800 p-6 shadow-lg max-w-4xl mx-auto rounded-lg  my-2">
       <div className="flex justify-between">
         <h2 className="text-xl font-semibold mb-4">User Settings</h2>
-        <button onClick={() => setSet(!set)} className="text-red-600 text-lg">
+        <button
+          onClick={() => setSet(!set)}
+          className="text-red-600 font-montserrat text-lg"
+        >
           <FontAwesomeIcon icon={faTimesCircle} /> Close
         </button>
       </div>
@@ -149,7 +152,7 @@ const UserSettings = ({ set, setSet }) => {
         <button
           type="button"
           onClick={() => setShowPassWord(!showPassWord)}
-          className="absolute inset-y-0 right-5 flex items-center text-gray-500"
+          className="absolute inset-y-0 right-5 flex items-center font-montserrat text-gray-500"
         >
           <FontAwesomeIcon icon={showPassWord ? faEye : faEyeSlash} />
         </button>
@@ -169,14 +172,14 @@ const UserSettings = ({ set, setSet }) => {
         <button
           type="button"
           onClick={() => setShowconPassWord(!showconPassWord)}
-          className="absolute inset-y-0 right-5 flex items-center text-gray-500"
+          className="absolute font-montserrat inset-y-0 right-5 flex items-center text-gray-500"
         >
           <FontAwesomeIcon icon={showconPassWord ? faEye : faEyeSlash} />
         </button>
       </div>
       <button
         onClick={handleChangePassword}
-        className="w-full bg-red-500 text-white py-2 rounded"
+        className="w-full font-montserrat bg-red-500 text-white py-2 rounded"
       >
         {updating ? "updating..." : "Update Password"}
       </button>

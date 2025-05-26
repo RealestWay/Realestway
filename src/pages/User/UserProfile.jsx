@@ -102,7 +102,7 @@ const UserProfile = () => {
               <>
                 <button
                   onClick={() => setAddItems(!addItem)}
-                  className="bg-green-500 text-white p-3 w-full rounded-lg hover:bg-green-600 transition duration-300"
+                  className="bg-green-500 font-montserrat text-white p-3 w-full rounded-lg hover:bg-green-600 transition duration-300"
                 >
                   {addItem ? "Close form" : "+ Post House"}
                 </button>
@@ -121,7 +121,7 @@ const UserProfile = () => {
             <>
               <button
                 onClick={() => setOpenChats(!openChats)}
-                className="bg-blue-500 text-white p-3 w-full rounded-lg hover:bg-blue-600 transition duration-300"
+                className="bg-blue-500 font-montserrat text-white p-3 w-full rounded-lg hover:bg-blue-600 transition duration-300"
               >
                 {!openChats ? "Open Messages" : "+ Close messages"}
               </button>
@@ -148,14 +148,14 @@ const UserProfile = () => {
                   {agentHouses?.map((hous) => (
                     <Items key={hous.id} house={hous}>
                       <button
-                        className="bg-blue-500 text-white px-7 py-1 rounded-lg hover:bg-blue-600 transition duration-300"
+                        className="bg-blue-500 font-montserrat text-white px-7 py-1 rounded-lg hover:bg-blue-600 transition duration-300"
                         onClick={() => handleEditClick(hous)}
                         disabled
                       >
                         Edit
                       </button>
                       <button
-                        className="bg-red-500 text-white px-5 py-1 rounded-lg hover:bg-red-600 transition duration-300"
+                        className="bg-red-500 font-montserrat text-white px-5 py-1 rounded-lg hover:bg-red-600 transition duration-300"
                         onClick={() => {
                           setOpenDelete(true);
                           setDeleteHouseId(hous.id);
@@ -294,7 +294,7 @@ const Confirm = ({
                 ) : (
                   <>
                     <button
-                      className="bg-red-600 text-white py-2 px-4"
+                      className="bg-red-600 font-montserrat text-white py-2 px-4"
                       onClick={() => {
                         deleteHouse(deleteHouseId, token);
                         console.log(deleteHouseId);
@@ -304,7 +304,7 @@ const Confirm = ({
                       Delete
                     </button>
                     <button
-                      className="border-[#100073] text-[#100073] border-1 py-2 px-4"
+                      className="border-[#100073] font-montserrat text-[#100073] border-1 py-2 px-4"
                       onClick={() => setOpenDelete(false)}
                     >
                       Close

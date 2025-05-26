@@ -53,7 +53,7 @@ const AgentEnrollmentPage = () => {
   return (
     <div className="bg-gray-100 pt-2 min-h-screen">
       <PageNav />
-      <div className="container mx-auto sm:px-4 md:px-12 py-8">
+      <div className="container mx-auto sm:px-4 md:px-12 py-5 animate-fade-in">
         {/* Intro Section */}
         <section className="mb-12 text-center bg-blue-50 p-6 rounded-lg shadow-md text-gray-800">
           <h2 className="text-3xl font-semibold text-gray-900 mb-6">

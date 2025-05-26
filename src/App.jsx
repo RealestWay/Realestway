@@ -19,6 +19,14 @@ import OrderPage from "./pages/OrderPage";
 import ChatPage from "./pages/ChatPage";
 import ScrollToTop from "./components/ScrollToTop";
 import AgentEnrollmentPage from "./pages/AgentEnrollment";
+import CheckEmail from "./pages/Auth/CheckEmail";
+import EmailVerified from "./pages/Auth/EmailVerified";
+import ProtectedAuthRoutes from "./ProtectedAuthRoutes";
+import FaqPage from "./pages/Faqs";
+import TermsOfUse from "./pages/Terms-of-use";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import ServicesAndFacilities from "./pages/S&F";
+import Careers from "./pages/Careers";
 
 const App = () => {
   return (
@@ -29,8 +37,22 @@ const App = () => {
           <ScrollToTop />
           <Routes>
             <Route path="/" element={<Homepage />} />
-            <Route path="login" element={<SignIn />} />
-            <Route path="register" element={<Signup />} />
+            <Route
+              path="login"
+              element={
+                <ProtectedAuthRoutes>
+                  <SignIn />
+                </ProtectedAuthRoutes>
+              }
+            />
+            <Route
+              path="register"
+              element={
+                <ProtectedAuthRoutes>
+                  <Signup />
+                </ProtectedAuthRoutes>
+              }
+            />
             <Route
               path="Profile"
               element={
@@ -55,8 +77,8 @@ const App = () => {
                 </ProtectedRoutes>
               }
             />
-            <Route path="AboutUs" element={<AboutUs />} />
-            <Route path="ContactUs" element={<ContactUs />} />
+            <Route path="about" element={<AboutUs />} />
+            <Route path="contact" element={<ContactUs />} />
             <Route
               path="/search"
               element={
@@ -66,7 +88,7 @@ const App = () => {
               }
             />
             <Route
-              path="ItemView/:id"
+              path="property/:id"
               element={
                 <ProtectedRoutes>
                   <ItemView />
@@ -76,11 +98,53 @@ const App = () => {
               <Route index element={<HouseDetails />} />
               <Route path="mapDetails" element={<MapDetails />} />
             </Route>
-            <Route path="Verify" element={<Verify />} />
-            <Route path="forgotPassword" element={<ForgotPassword />} />
+            <Route
+              path="Verify"
+              element={
+                <ProtectedAuthRoutes>
+                  <Verify />
+                </ProtectedAuthRoutes>
+              }
+            />{" "}
+            <Route
+              path="forgotPassword"
+              element={
+                <ProtectedAuthRoutes>
+                  <ForgotPassword />
+                </ProtectedAuthRoutes>
+              }
+            />{" "}
+            <Route
+              path="check-email"
+              element={
+                <ProtectedAuthRoutes>
+                  <CheckEmail />
+                </ProtectedAuthRoutes>
+              }
+            />{" "}
+            <Route
+              path="email-verified"
+              element={
+                <ProtectedAuthRoutes>
+                  <EmailVerified />
+                </ProtectedAuthRoutes>
+              }
+            />{" "}
             <Route path="*" element={<PageNotFound />} />
-            <Route path="Order" element={<OrderPage />}></Route>
+            <Route
+              path="Order"
+              element={
+                <ProtectedRoutes>
+                  <OrderPage />
+                </ProtectedRoutes>
+              }
+            ></Route>
             <Route path="onboard" element={<AgentEnrollmentPage />}></Route>
+            <Route path="faqs" element={<FaqPage />}></Route>
+            <Route path="terms" element={<TermsOfUse />}></Route>
+            <Route path="privacy" element={<PrivacyPolicy />} />
+            <Route path="services" element={<ServicesAndFacilities />} />
+            <Route path="careers" element={<Careers />} />
           </Routes>
         </BrowserRouter>
       </HouseProvider>

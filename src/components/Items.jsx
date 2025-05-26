@@ -58,7 +58,7 @@ const Items = ({ house, children }) => {
       <div className="flex justify-between py-2">
         {isAuthenticated ? (
           <Link
-            to={`/ItemView/${id}`}
+            to={`/property/${id}`}
             className="text-lg sm:text-xl text-[#00A256] font-bold hover:text-green-300"
           >
             Views Details

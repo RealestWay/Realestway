@@ -17,7 +17,7 @@ const Footer = () => {
               placeholder="Enter your email here"
               className="p-3 text-sm rounded-sm w-3/5 text-black focus:outline-none border-5 rounded-r-none border-white"
             />
-            <button className="p-3 text-white bg-[#00A256] text-sm rounded-0 rounded-r border-0">
+            <button className="p-3 font-montserrat text-white bg-[#00A256] text-sm rounded-0 rounded-r border-0">
               Subscribe
             </button>
           </div>
@@ -25,24 +25,43 @@ const Footer = () => {
 
         <div className="flex justify-around w-full sm:w-2/5">
           <div>
-            <p>About us</p>
-            <p>Contact</p>
-            <p>Location</p>
+            <p>
+              <Link to={"/about"}>About us</Link>
+            </p>
+            <p>
+              <Link to={"/contact"}>Contact</Link>
+            </p>
+            <p>
+              <Link to={"/contact"}>Location</Link>
+            </p>
           </div>
           <div>
-            <p>FAQ</p>
-            <p>Term of use</p>
-            <p>Privacy Policy</p>
+            <p>
+              <Link to={"/faqs"}>FAQ</Link>
+            </p>
+            <p>
+              <Link to={"/terms"}>Term of use</Link>
+            </p>
+            <p>
+              <Link to={"/privacy"}>Privacy Policy</Link>
+            </p>
           </div>
           <div>
-            <p>Service & Facilities</p>
-            <p>Careers</p>
-            <p>How to book</p>
+            <p>
+              <Link to={"/services"}>Service & Facilities</Link>
+            </p>
+            <p>
+              <Link to={"/careers"}>Careers</Link>
+            </p>
+            <p>
+              {" "}
+              <Link to={"/onboard"}>Become An Agent</Link>
+            </p>
           </div>
         </div>
       </div>
       <p className="flex justify-center p-4">
-        &copy; Copyright {new Date().getFullYear()} by RealestWay
+        &copy; Copyright {new Date().getFullYear()} by Realestway
       </p>
     </div>
   );

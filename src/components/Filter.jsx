@@ -95,13 +95,13 @@ const Filter = () => {
       {/* Buttons */}
       <div className="flex justify-around items-center space-x-4">
         <button
-          className="bg-[#100073] text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition duration-300"
+          className="bg-[#100073] font-montserrat text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition duration-300"
           onClick={handleFilter}
         >
           Apply Filter
         </button>
         <button
-          className="bg-[#00A256] text-white py-3 px-6 rounded-lg hover:bg-green-700 transition duration-300"
+          className="bg-[#00A256] font-montserrat text-white py-3 px-6 rounded-lg hover:bg-green-700 transition duration-300"
           onClick={clearFilter}
         >
           Clear Filters
