@@ -5,7 +5,7 @@ const MapDetails = () => {
   const { house } = useOutletContext();
   return (
     <div className="w-full">
-      <div className="flex my-5 w-full justify-between bg-blue-600">
+      <div className=" my-5 w-full ">
         <Map house={house} />
       </div>
     </div>
