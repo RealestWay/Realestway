@@ -47,7 +47,7 @@ const HouseUploadForm = () => {
   const fetchLocation = async () => {
     try {
       const data = await getCurrentLocation();
-      console.log(data);
+
       setLocationData({
         latitude: data.latitude,
         longitude: data.longitude,

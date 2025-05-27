@@ -44,7 +44,7 @@ const Map = ({ house }) => {
       });
     });
   }, [mapPosition.lat, mapPosition.lng]);
-  console.log(mapPosition.lat, mapPosition.lng);
+
   return (
     <div className="w-full h-[450px] relative">
       <div ref={mapContainer} className="absolute w-full h-full" />
