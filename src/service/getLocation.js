@@ -16,8 +16,6 @@ export const getCurrentLocation = async () => {
       async (position) => {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
-        console.log(position);
-        console.log("Accuracy (meters):", position.coords.accuracy);
 
         try {
           const response = await fetch(

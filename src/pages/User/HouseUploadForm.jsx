@@ -47,6 +47,7 @@ const HouseUploadForm = () => {
   const fetchLocation = async () => {
     try {
       const data = await getCurrentLocation();
+      console.log(data);
       setLocationData({
         latitude: data.latitude,
         longitude: data.longitude,
@@ -207,6 +208,9 @@ const HouseUploadForm = () => {
     } finally {
       setIsSubmitting(false);
     }
+  };
+  const removeImage = (indexToRemove) => {
+    setImages(images.filter((_, index) => index !== indexToRemove));
   };
 
   return (
@@ -489,10 +493,10 @@ const HouseUploadForm = () => {
                     <option value="">Mininum Rent Period</option>
                     <option value={1}>1 month</option>
                     <option value={6}>6 months</option>
-                    <option value={1}>1 year</option>
-                    <option value={2}>2 years</option>
-                    <option value={3}>3 years</option>
-                    <option value={5}>5 years</option>
+                    <option value={10}>1 year</option>
+                    <option value={20}>2 years</option>
+                    <option value={30}>3 years</option>
+                    <option value={50}>5 years</option>
                   </select>
                 </div>
 
@@ -561,14 +565,23 @@ const HouseUploadForm = () => {
 
               {/* Preview Uploaded Images */}
               {images.length > 0 && (
-                <div className="grid grid-cols-3 gap-2 mt-4">
+                <div className="grid grid-cols-3 sm:grid-cols-4 gap-3 mt-4">
                   {images.map((img, index) => (
-                    <img
-                      key={index}
-                      src={URL.createObjectURL(img)}
-                      alt="Preview"
-                      className="w-full h-32 object-cover rounded-md"
-                    />
+                    <div key={index} className="relative">
+                      <img
+                        src={URL.createObjectURL(img)}
+                        alt={`Preview ${index + 1}`}
+                        className="w-full h-32 object-cover rounded-md"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => removeImage(index)}
+                        className="absolute top-1 right-1 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs"
+                        title="Remove"
+                      >
+                        ×
+                      </button>
+                    </div>
                   ))}
                 </div>
               )}

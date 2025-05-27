@@ -279,6 +279,7 @@ const Confirm = ({
             onClick={() => {
               setOpenDelete(false);
               setSuccess("");
+              fetchAgentHouses();
             }}
           />
         </div>
@@ -297,8 +298,6 @@ const Confirm = ({
                       className="bg-red-600 font-montserrat text-white py-2 px-4"
                       onClick={() => {
                         deleteHouse(deleteHouseId, token);
-                        console.log(deleteHouseId);
-                        fetchAgentHouses();
                       }}
                     >
                       Delete

@@ -25,8 +25,8 @@ const Map = ({ house }) => {
   const map = useRef(null);
 
   const mapPosition = {
-    lat: house.location.longitude, // Google Maps uses (lat, lng), make sure this is not swapped
-    lng: house.location.latitude,
+    lat: house.location.latitude, // Google Maps uses (lat, lng), make sure this is not swapped
+    lng: house.location.longitude,
   };
 
   useEffect(() => {
@@ -44,7 +44,7 @@ const Map = ({ house }) => {
       });
     });
   }, [mapPosition.lat, mapPosition.lng]);
-
+  console.log(mapPosition.lat, mapPosition.lng);
   return (
     <div className="w-full h-[450px] relative">
       <div ref={mapContainer} className="absolute w-full h-full" />

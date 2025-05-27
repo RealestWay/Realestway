@@ -98,21 +98,19 @@ const ItemsPage = () => {
               No exact matches found. Showing related properties:
             </div>
           )}
-          <div className="w-full grid md:px-20 md:grid-cols-3 lg:grid-cols-4 sm:flex md:gap-2 px-0 sm:px-10">
-            {paginatedHouses.length > 0 ? (
-              <>
-                {paginatedHouses.map((house) => (
-                  <Items house={house} key={house.id} />
-                ))}
-              </>
-            ) : (
-              <div className="text-center text-red-600 font-semibold my-10 col-span-full">
-                {hasFilters
-                  ? "❌ No properties match your criteria. Try adjusting filters."
-                  : "🏠 No filters applied. Showing all properties."}
-              </div>
-            )}
-          </div>
+          {paginatedHouses.length > 0 ? (
+            <div className="w-full grid md:px-20 md:grid-cols-3 lg:grid-cols-3 sm:flex sm:flex-wrap md:gap-2 px-0 sm:px-10">
+              {paginatedHouses.map((house) => (
+                <Items house={house} key={house.id} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center text-red-600 font-semibold my-10 col-span-full">
+              {hasFilters
+                ? "❌ No properties match your criteria. Try adjusting filters."
+                : "🏠 No filters applied. Showing all properties."}
+            </div>
+          )}
         </div>
       )}
 
