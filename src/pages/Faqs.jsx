@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronDown,
@@ -179,7 +179,7 @@ const FaqPage = () => {
   return (
     <div>
       <PageNav />
-      <div className="min-h-screen bg-[#f9f9f9] px-4">
+      <div className="min-h-screen bg-[#f9f9f9] px-4 animate-fade-in">
         <div className="max-w-3xl mx-auto bg-white shadow-lg rounded-lg p-8">
           <h1 className="text-3xl font-bold text-center text-[#100073] mb-8">
             Frequently Asked Questions

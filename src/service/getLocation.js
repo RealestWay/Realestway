@@ -5,13 +5,20 @@ export const getCurrentLocation = async () => {
       return;
     }
 
-    // Get the user's current position
+    // Add high-accuracy options
+    const options = {
+      enableHighAccuracy: true,
+      timeout: 10000,
+      maximumAge: 0,
+    };
+
     navigator.geolocation.getCurrentPosition(
       async (position) => {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
+        console.log(position);
+        console.log("Accuracy (meters):", position.coords.accuracy);
 
-        // Make the reverse geocoding API request
         try {
           const response = await fetch(
             `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}`
@@ -24,7 +31,6 @@ export const getCurrentLocation = async () => {
             const state = data.localityInfo.administrative[1]?.name || "N/A";
             const zipCode = data.postcode || "N/A";
 
-            // Return the location data
             resolve({
               latitude,
               longitude,
@@ -37,13 +43,15 @@ export const getCurrentLocation = async () => {
           } else {
             reject("Unable to retrieve address.");
           }
+          // eslint-disable-next-line no-unused-vars
         } catch (error) {
           reject("Failed to fetch address from coordinates.");
         }
       },
       (error) => {
         reject(`Error fetching location: ${error.message}`);
-      }
+      },
+      options // <-- Pass the high accuracy options here
     );
   });
 };

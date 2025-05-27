@@ -6,7 +6,7 @@ const Careers = () => {
   return (
     <div>
       <PageNav />
-      <div className="min-h-screen bg-[#f9f9f9] px-4 ">
+      <div className="min-h-screen bg-[#f9f9f9] px-4 animate-fade-in">
         <div className="max-w-4xl mx-auto bg-white shadow-xl rounded-lg p-10 text-gray-800">
           <h1 className="text-4xl font-bold text-[#100073] text-center mb-8">
             Join the Realestway Team

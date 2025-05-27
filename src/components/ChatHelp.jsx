@@ -35,7 +35,7 @@ const ChatHelp = () => {
   };
 
   return (
-    <div className="fixed bottom-5 right-5 flex flex-col items-end">
+    <div className="fixed bottom-5 right-5 flex flex-col items-end animate-fade-in">
       {/* Chat Button */}
       {!isOpen && (
         <button
