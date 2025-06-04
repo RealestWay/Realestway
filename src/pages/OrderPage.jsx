@@ -39,7 +39,7 @@ const OrderPage = () => {
     try {
       setLoading(true);
       const response = await fetch(
-        `https:/backend.realestway.com/api/listings/${house.uniqueId}/pay`,
+        `https://backend.realestway.com/api/listings/${house.uniqueId}/pay`,
         {
           method: "POST",
           headers: {
@@ -72,7 +72,7 @@ const OrderPage = () => {
     try {
       setLoading(true);
       const response = await fetch(
-        `https:/backend.realestway.com/api/listings/payment/verify/${reference}`,
+        `https://backend.realestway.com/api/listings/payment/verify/${reference}`,
         {
           method: "GET",
           headers: {

@@ -36,7 +36,7 @@ const ChatProvider = ({ children }) => {
   const createChat = async (agentId) => {
     setIsLoading(true);
     try {
-      const response = await fetch("https:/backend.realestway.com/api/chats", {
+      const response = await fetch("https://backend.realestway.com/api/chats", {
         method: "POST",
         headers: {
           Accept: "application/json",

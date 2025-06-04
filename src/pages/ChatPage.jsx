@@ -43,7 +43,7 @@ const ChatPage = () => {
 
     try {
       const response = await fetch(
-        `https:/backend.realestway.com/api/chats/${chat.data.id}/messages`,
+        `https://backend.realestway.com/api/chats/${chat.data.id}/messages`,
         {
           method: "POST",
           headers: {
