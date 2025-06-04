@@ -14,28 +14,61 @@ import { useChats } from "../contexts/ChatsContext";
 
 const ChatPage = () => {
   const { propertyId } = useParams();
-  const { user } = useAuth();
+  const { user, token } = useAuth();
+  const { chat, isLoading } = useChats();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const { house } = UseHouses();
-
-  const { priceType, title, price, location, images } = house;
+  const { propertyType, totalPrice, location, images } = house;
   const navigate = useNavigate();
 
-  const handleChat = () => {
+  useEffect(() => {
+    if (chat?.data?.messages && Array.isArray(chat.data.messages)) {
+      setMessages(chat.data.messages);
+    }
+  }, [chat]);
+
+  const handleChat = async () => {
     if (!newMessage.trim()) return;
-    setMessages([
-      ...messages,
-      {
-        sender_id: user.id,
-        id: messages.length + 1, // Unique ID for messages
-        message: newMessage,
-      },
-    ]);
-    setNewMessage(""); // Clear input field after sending
+
+    const newMsg = {
+      sender_id: user.id,
+      id: messages?.length + 1,
+      message: newMessage,
+    };
+
+    // Optimistically update UI
+    setMessages([...messages, newMsg]);
+    setNewMessage("");
+
+    try {
+      const response = await fetch(
+        `https:/backend.realestway.com/api/chats/${chat.data.id}/messages`,
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `bearer ${token}`,
+          },
+          body: JSON.stringify({
+            message: newMessage,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        console.error("Failed to send message");
+      } else {
+        const result = await response.json();
+        console.log("Message sent:", result);
+      }
+    } catch (error) {
+      console.error("Error sending message:", error);
+    }
   };
 
-  if (loading) return <Spinner />;
+  if (isLoading || !chat?.data) return <Spinner />;
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
@@ -49,9 +82,9 @@ const ChatPage = () => {
             <FontAwesomeIcon icon={faArrowAltCircleLeft} size="lg" />
           </span>
         </button>
-        <div className="sm:w-4/5 flex sm:pl-[20%]">
+        <div className="sm:w-4/5 flex sm:pl-[20%] w-[70%]">
           <h2 className="text-lg font-bold">
-            {user.companyName ? user.fullame : title}
+            {user.companyName ? user.fullName : propertyType}
           </h2>
         </div>
       </div>
@@ -100,7 +133,7 @@ const ChatPage = () => {
           {/* Chat Messages */}
           <div className="h-80 overflow-y-auto bg-gray-100 p-4 rounded-lg shadow-inner">
             {/* Chat Messages */}
-            {messages.length > 0 ? (
+            {messages?.length > 0 ? (
               messages.map((msg) => (
                 <div
                   key={msg.id}
@@ -146,8 +179,8 @@ const ChatPage = () => {
             alt="Apartment"
           />
           <h3 className="text-2xl font-bold text-blue-700 mt-3">
-            ${price}
-            <span className="text-sm ml-1">{priceType}</span>
+            ${totalPrice.toLocaleString()}
+            <span className="text-sm ml-1">{"Total Package"}</span>
           </h3>
           <p className="text-gray-500">{location.address}</p>
           <div className="w-full flex justify-around my-5">

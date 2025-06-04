@@ -6,9 +6,10 @@ import { useChats } from "../../contexts/ChatsContext";
 const HouseDetails = () => {
   const { user } = useAuth();
   const { house } = useOutletContext();
-  const { chats, fetchChat } = useChats();
-  const exChat = chats.filter((chat) => chat.agent_id === house.agentId);
-  console.log(house.agentId);
+  const { fetchChat, setChat } = useChats();
+
+  // const exChat = chats.filter((chat) => chat.agent_id === house.agentId);
+
   const {
     priceType,
     bedrooms,
@@ -98,7 +99,10 @@ const HouseDetails = () => {
               <div>Very Good</div>
               {!user.nin && (
                 <Link to={`/ChatPage/${house.id}`}>
-                  <button className="bg-[#00a256] text-white font-bold rounded px-4 py-2">
+                  <button
+                    className="bg-[#00a256] text-white font-bold rounded px-4 py-2"
+                    onClick={() => fetchChat(4)}
+                  >
                     Contact Agent
                   </button>
                 </Link>

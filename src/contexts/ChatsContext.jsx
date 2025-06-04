@@ -33,7 +33,7 @@ const ChatProvider = ({ children }) => {
 
   // Create a Chat
 
-  const fetchChat = async (agentId) => {
+  const createChat = async (agentId) => {
     setIsLoading(true);
     try {
       const response = await fetch("https:/backend.realestway.com/api/chats", {
@@ -57,18 +57,47 @@ const ChatProvider = ({ children }) => {
     }
   };
 
-  // fetch an Agent
-  const fetchAgent = async (id) => {
+  // fetch a chat
+
+  async function fetchChat(chatId, channelName = "private-chat") {
+    setIsLoading(true);
     try {
-      const res = await fetch(
-        `https://backend.realestway.com/api/agents/${id}`,
+      const response = await fetch(
+        `${BASE}/chats/${chatId}?channel_name=${channelName}`,
         {
+          method: "GET",
           headers: {
-            "Content-Type": "application/json",
             Accept: "application/json",
+            Authorization: `bearer ${token}`,
           },
         }
       );
+
+      if (!response.ok) {
+        throw new Error(`Error ${response.status}: Failed to fetch chat`);
+      }
+
+      const data = await response.json();
+      setChat(data);
+
+      return data;
+    } catch (error) {
+      console.error("Fetch error:", error.message);
+      return null;
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  // fetch an Agent
+  const fetchAgent = async (id) => {
+    try {
+      const res = await fetch(`${BASE}/agents/${id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      });
       const data = await res.json();
       setAgent(data);
       console.log(data);
@@ -82,10 +111,12 @@ const ChatProvider = ({ children }) => {
         chats,
         isLoading,
         fetchChats,
+        createChat,
         fetchChat,
         chat,
         fetchAgent,
         agent,
+        setChat,
       }}
     >
       {children}

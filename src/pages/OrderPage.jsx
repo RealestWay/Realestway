@@ -2,15 +2,21 @@ import { faArrowAltCircleLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { UseHouses } from "../contexts/HouseContext";
+import { useAuth } from "../contexts/AuthContext";
 
 const OrderPage = () => {
   const [paymentStage, setPaymentStage] = useState(1); // 1: Initiated, 2: Processing, 3: Completed
   const [countdown, setCountdown] = useState(300); // 5 minutes countdown
   const [paymentMethod, setPaymentMethod] = useState(null);
   const [isPaid, setIsPaid] = useState(false);
-  const landlordContact = "+1234567890"; // Example contact (will be revealed after payment)
+  const [loading, setLoading] = useState(false);
+  const landlordContact = "+1234567890"; // Replace this dynamically after verification if needed
+  const { house } = UseHouses();
+  const { token } = useAuth();
   const navigate = useNavigate();
-  // Countdown Timer
+
+  // Countdown for optional UX timer
   useEffect(() => {
     if (paymentStage === 2 && countdown > 0) {
       const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
@@ -18,34 +24,96 @@ const OrderPage = () => {
     }
   }, [countdown, paymentStage]);
 
-  // Simulate Payment Completion after 10 seconds
+  // Auto verify if Paystack redirects back with reference
   useEffect(() => {
-    if (paymentStage === 2) {
-      setTimeout(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const ref = urlParams.get("reference");
+
+    if (ref) {
+      verifyPayment(ref);
+    }
+  }, []);
+
+  // 🧠 Step 1: Start payment (calls your backend, gets Paystack URL)
+  const handlePayment = async (method) => {
+    try {
+      setLoading(true);
+      const response = await fetch(
+        `https:/backend.realestway.com/api/listings/${house.uniqueId}/pay`,
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            Authorization: `bearer ${token}`,
+          },
+        }
+      );
+
+      const data = await response.json();
+
+      if (data?.authorization_url) {
+        setPaymentMethod(method);
+        setPaymentStage(2);
+        console.log(data.data);
+        window.location.href = data.authorization_url;
+      } else {
+        alert("Unable to initialize payment.");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error starting payment.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 🧠 Step 2: Verify after redirect from Paystack
+  const verifyPayment = async (reference) => {
+    try {
+      setLoading(true);
+      const response = await fetch(
+        `https:/backend.realestway.com/api/listings/payment/verify/${reference}`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+          },
+        }
+      );
+
+      const result = await response.json();
+      if (
+        result?.status === true ||
+        result?.data?.status?.toLowerCase() === "success"
+      ) {
         setPaymentStage(3);
         setIsPaid(true);
-      }, 10000);
+      } else {
+        alert("Payment verification failed. Please contact support.");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error verifying payment.");
+    } finally {
+      setLoading(false);
     }
-  }, [paymentStage]);
-
-  // Handle Payment Selection
-  const handlePayment = (method) => {
-    setPaymentMethod(method);
-    setPaymentStage(2);
   };
 
   return (
-    <div className="max-w-2xl mx-auto my-24  p-6 bg-white shadow-lg rounded-lg">
-      <div className="w-full px-6sm:px-10 flex justify-between items-center text-white bg-[#100073]">
+    <div className="max-w-2xl mx-auto my-24 p-6 bg-white shadow-lg rounded-lg">
+      {/* Top Bar */}
+      <div className="w-full px-6 sm:px-10 flex justify-between items-center text-white bg-[#100073]">
         <button
-          className="flex items-center gap-2 px-4 py-2 bg-[#100073]  hover:bg-blue-700 transition-all"
+          className="flex items-center gap-2 px-4 py-2 bg-[#100073] hover:bg-blue-700 transition-all"
           onClick={() => navigate(-1)}
         >
           <FontAwesomeIcon icon={faArrowAltCircleLeft} size="lg" />
           <span>Back</span>
         </button>
       </div>
-      <h2 className="text-2xl font-semibold text-gray-800 text-center">
+
+      {/* Title */}
+      <h2 className="text-2xl font-semibold text-gray-800 text-center mt-6">
         Payment Processing
       </h2>
 
@@ -55,8 +123,7 @@ const OrderPage = () => {
           <div key={index} className="flex flex-col items-center">
             <div
               className={`w-8 h-8 rounded-full text-white flex items-center justify-center font-semibold 
-                ${paymentStage > index ? "bg-green-500" : "bg-gray-400"}
-              `}
+              ${paymentStage > index ? "bg-green-500" : "bg-gray-400"}`}
             >
               {index + 1}
             </div>
@@ -65,30 +132,35 @@ const OrderPage = () => {
         ))}
       </div>
 
-      {/* Payment Method Selection */}
+      {/* Step 1: Choose Payment Method */}
       {paymentStage === 1 && (
         <div className="text-center">
           <p className="mb-4">Choose a payment method:</p>
-          <button
-            onClick={() => handlePayment("Card")}
-            className="bg-blue-500 text-white px-4 py-2 rounded-lg mx-2"
-          >
-            Pay with Card
-          </button>
-          <button
-            onClick={() => handlePayment("Bank Transfer")}
-            className="bg-gray-500 text-white px-4 py-2 rounded-lg mx-2"
-          >
-            Pay via Bank Transfer
-          </button>
+          <div className="flex justify-center gap-4">
+            {" "}
+            <button
+              onClick={() => handlePayment("Card")}
+              className="bg-blue-500 text-white px-4 py-2 rounded-lg mx-2"
+              disabled={loading}
+            >
+              {loading ? "Redirecting..." : "With Card"}
+            </button>
+            <button
+              onClick={() => handlePayment("Bank Transfer")}
+              className="bg-gray-500 text-white px-4 py-2 rounded-lg mx-2"
+              disabled={loading}
+            >
+              {loading ? "Redirecting..." : "Bank Transfer"}
+            </button>
+          </div>
         </div>
       )}
 
-      {/* Payment Processing */}
+      {/* Step 2: Processing */}
       {paymentStage === 2 && (
         <div className="text-center">
           <p className="text-gray-600">
-            Processing your {paymentMethod} payment...
+            Redirecting for your {paymentMethod} payment...
           </p>
           <p className="text-red-500 font-semibold mt-2">
             Time left: {Math.floor(countdown / 60)}:
@@ -96,13 +168,13 @@ const OrderPage = () => {
           </p>
           {countdown === 0 && (
             <p className="text-red-600 font-bold mt-4">
-              If payment isnt completed, contact support.
+              If payment isn't completed, please contact support.
             </p>
           )}
         </div>
       )}
 
-      {/* Payment Success */}
+      {/* Step 3: Success */}
       {isPaid && (
         <div className="text-center mt-6">
           <h3 className="text-green-600 text-lg font-bold">
