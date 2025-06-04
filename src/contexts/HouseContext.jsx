@@ -129,7 +129,7 @@ const HouseProvider = ({ children }) => {
   };
 
   //  Update House
-  async function updateHouse(id, formData) {
+  async function updateHouse(id, formData, token) {
     setIsLoading(true);
     try {
       const res = await fetch(`${BASE}/listings/${id}`, {

@@ -47,7 +47,6 @@ const HouseUploadForm = () => {
   const fetchLocation = async () => {
     try {
       const data = await getCurrentLocation();
-
       setLocationData({
         latitude: data.latitude,
         longitude: data.longitude,
@@ -220,12 +219,11 @@ const HouseUploadForm = () => {
       </h2>
       {successMessage && (
         <Status
-          error={error}
           successMessage={successMessage}
-          setError={setError}
           setSuccessMessage={setSuccessMessage}
         />
       )}
+      {error && <Status error={error} setError={setError} />}
       {/* <p>{error.toISOString()}</p> */}
       {locationData.error && (
         <p className="text-red-500">{locationData.error}</p>

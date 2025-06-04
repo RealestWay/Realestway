@@ -101,7 +101,7 @@ const ItemsPage = () => {
           {paginatedHouses.length > 0 ? (
             <div className="w-full grid md:px-20 md:grid-cols-3 lg:grid-cols-3 sm:flex sm:flex-wrap md:gap-2 px-0 sm:px-10">
               {paginatedHouses.map((house) => (
-                <Items house={house} key={house.id} />
+                <Items house={house} key={house.uniqueId} />
               ))}
             </div>
           ) : (

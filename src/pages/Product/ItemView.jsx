@@ -11,6 +11,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowAltCircleLeft } from "@fortawesome/free-solid-svg-icons";
 import Spinner from "../../components/Spinner";
 import { UseHouses } from "../../contexts/HouseContext";
+import { useChats } from "../../contexts/ChatsContext";
 
 const ItemView = () => {
   const location = useLocation();
@@ -18,7 +19,7 @@ const ItemView = () => {
   const [house, setHouse] = useState();
   const [loading, setLoading] = useState(true);
   const { setRemoteHouse } = UseHouses();
-
+  const { fetchChats } = useChats();
   // fetch a particular house
 
   useEffect(() => {
@@ -43,6 +44,7 @@ const ItemView = () => {
       }
     };
     fetchHouse();
+    fetchChats();
   }, []);
 
   const navigate = useNavigate();

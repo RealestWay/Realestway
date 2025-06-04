@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { Link, useOutletContext } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
+import { useChats } from "../../contexts/ChatsContext";
 
 const HouseDetails = () => {
   const { user } = useAuth();
-
   const { house } = useOutletContext();
-
+  const { chats, fetchChat } = useChats();
+  const exChat = chats.filter((chat) => chat.agent_id === house.agentId);
+  console.log(house.agentId);
   const {
     priceType,
     bedrooms,
@@ -88,6 +90,7 @@ const HouseDetails = () => {
 
         <div className="w-[95%] max-w-4xl mx-auto bg-white rounded-lg shadow-lg border border-gray-200 p-6">
           {/* Agent Details */}
+
           <div className="mt-6 border-t pt-4">
             <h4 className="text-lg font-semibold">Agent Rating</h4>
 

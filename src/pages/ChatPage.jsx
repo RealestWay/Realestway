@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { UseHouses } from "../contexts/HouseContext";
@@ -9,6 +9,8 @@ import {
   faPhone,
   faWarning,
 } from "@fortawesome/free-solid-svg-icons";
+import Spinner from "../components/Spinner";
+import { useChats } from "../contexts/ChatsContext";
 
 const ChatPage = () => {
   const { propertyId } = useParams();
@@ -32,6 +34,8 @@ const ChatPage = () => {
     ]);
     setNewMessage(""); // Clear input field after sending
   };
+
+  if (loading) return <Spinner />;
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">

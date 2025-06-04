@@ -19,7 +19,7 @@ const Items = ({ house, children }) => {
     title,
     priceBreakdown,
     priceType,
-    id,
+    uniqueId,
     description,
     images,
     isFavourited,
@@ -58,7 +58,7 @@ const Items = ({ house, children }) => {
       <div className="flex justify-between py-2">
         {isAuthenticated ? (
           <Link
-            to={`/property/${id}`}
+            to={`/property/${uniqueId}`}
             className="text-lg sm:text-xl text-[#00A256] font-bold hover:text-green-300"
           >
             Views Details
@@ -84,7 +84,7 @@ const Items = ({ house, children }) => {
           {isFav ? (
             <button
               onClick={() => {
-                removeFavoritedHouse(id, token);
+                removeFavoritedHouse(uniqueId, token);
                 setIsFav(false);
               }}
               style={{ alignItems: "center" }}
@@ -96,7 +96,7 @@ const Items = ({ house, children }) => {
           ) : (
             <button
               onClick={() => {
-                favoritedHouse(id, token);
+                favoritedHouse(uniqueId, token);
                 setIsFav(true);
               }}
               style={{ alignItems: "center" }}

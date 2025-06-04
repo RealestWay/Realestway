@@ -27,126 +27,129 @@ import TermsOfUse from "./pages/Terms-of-use";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import ServicesAndFacilities from "./pages/S&F";
 import Careers from "./pages/Careers";
+import { ChatProvider } from "./contexts/ChatsContext";
 
 const App = () => {
   return (
     //Passing Context values
     <AuthProvider>
       <HouseProvider>
-        <BrowserRouter>
-          <ScrollToTop />
-          <Routes>
-            <Route path="/" element={<Homepage />} />
-            <Route
-              path="login"
-              element={
-                <ProtectedAuthRoutes>
-                  <SignIn />
-                </ProtectedAuthRoutes>
-              }
-            />
-            <Route
-              path="register"
-              element={
-                <ProtectedAuthRoutes>
-                  <Signup />
-                </ProtectedAuthRoutes>
-              }
-            />
-            <Route
-              path="Profile"
-              element={
-                <ProtectedRoutes>
-                  <UserProfile />
-                </ProtectedRoutes>
-              }
-            />
-            <Route
-              path="ChatPAge/:propertyId"
-              element={
-                <ProtectedRoutes>
-                  <ChatPage />
-                </ProtectedRoutes>
-              }
-            />
-            <Route
-              path="OrderPage/:propertyId"
-              element={
-                <ProtectedRoutes>
-                  <OrderPage />
-                </ProtectedRoutes>
-              }
-            />
-            <Route path="about" element={<AboutUs />} />
-            <Route path="contact" element={<ContactUs />} />
-            <Route
-              path="/search"
-              element={
-                <ProtectedRoutes>
-                  <ItemsPage />
-                </ProtectedRoutes>
-              }
-            />
-            <Route
-              path="property/:id"
-              element={
-                <ProtectedRoutes>
-                  <ItemView />
-                </ProtectedRoutes>
-              }
-            >
-              <Route index element={<HouseDetails />} />
-              <Route path="mapDetails" element={<MapDetails />} />
-            </Route>
-            <Route
-              path="Verify"
-              element={
-                <ProtectedAuthRoutes>
-                  <Verify />
-                </ProtectedAuthRoutes>
-              }
-            />{" "}
-            <Route
-              path="forgotPassword"
-              element={
-                <ProtectedAuthRoutes>
-                  <ForgotPassword />
-                </ProtectedAuthRoutes>
-              }
-            />{" "}
-            <Route
-              path="check-email"
-              element={
-                <ProtectedAuthRoutes>
-                  <CheckEmail />
-                </ProtectedAuthRoutes>
-              }
-            />{" "}
-            <Route
-              path="email-verified"
-              element={
-                <ProtectedAuthRoutes>
-                  <EmailVerified />
-                </ProtectedAuthRoutes>
-              }
-            />{" "}
-            <Route path="*" element={<PageNotFound />} />
-            <Route
-              path="Order"
-              element={
-                <ProtectedRoutes>
-                  <OrderPage />
-                </ProtectedRoutes>
-              }
-            ></Route>
-            <Route path="onboard" element={<AgentEnrollmentPage />}></Route>
-            <Route path="faqs" element={<FaqPage />}></Route>
-            <Route path="terms" element={<TermsOfUse />}></Route>
-            <Route path="privacy" element={<PrivacyPolicy />} />
-            <Route path="services" element={<ServicesAndFacilities />} />
-            <Route path="careers" element={<Careers />} />
-          </Routes>
-        </BrowserRouter>
+        <ChatProvider>
+          <BrowserRouter>
+            <ScrollToTop />
+            <Routes>
+              <Route path="/" element={<Homepage />} />
+              <Route
+                path="login"
+                element={
+                  <ProtectedAuthRoutes>
+                    <SignIn />
+                  </ProtectedAuthRoutes>
+                }
+              />
+              <Route
+                path="register"
+                element={
+                  <ProtectedAuthRoutes>
+                    <Signup />
+                  </ProtectedAuthRoutes>
+                }
+              />
+              <Route
+                path="Profile"
+                element={
+                  <ProtectedRoutes>
+                    <UserProfile />
+                  </ProtectedRoutes>
+                }
+              />
+              <Route
+                path="ChatPAge/:propertyId"
+                element={
+                  <ProtectedRoutes>
+                    <ChatPage />
+                  </ProtectedRoutes>
+                }
+              />
+              <Route
+                path="OrderPage/:propertyId"
+                element={
+                  <ProtectedRoutes>
+                    <OrderPage />
+                  </ProtectedRoutes>
+                }
+              />
+              <Route path="about" element={<AboutUs />} />
+              <Route path="contact" element={<ContactUs />} />
+              <Route
+                path="/search"
+                element={
+                  <ProtectedRoutes>
+                    <ItemsPage />
+                  </ProtectedRoutes>
+                }
+              />
+              <Route
+                path="property/:id"
+                element={
+                  <ProtectedRoutes>
+                    <ItemView />
+                  </ProtectedRoutes>
+                }
+              >
+                <Route index element={<HouseDetails />} />
+                <Route path="mapDetails" element={<MapDetails />} />
+              </Route>
+              <Route
+                path="Verify"
+                element={
+                  <ProtectedAuthRoutes>
+                    <Verify />
+                  </ProtectedAuthRoutes>
+                }
+              />{" "}
+              <Route
+                path="forgotPassword"
+                element={
+                  <ProtectedAuthRoutes>
+                    <ForgotPassword />
+                  </ProtectedAuthRoutes>
+                }
+              />{" "}
+              <Route
+                path="check-email"
+                element={
+                  <ProtectedAuthRoutes>
+                    <CheckEmail />
+                  </ProtectedAuthRoutes>
+                }
+              />{" "}
+              <Route
+                path="email-verified"
+                element={
+                  <ProtectedAuthRoutes>
+                    <EmailVerified />
+                  </ProtectedAuthRoutes>
+                }
+              />{" "}
+              <Route path="*" element={<PageNotFound />} />
+              <Route
+                path="Order"
+                element={
+                  <ProtectedRoutes>
+                    <OrderPage />
+                  </ProtectedRoutes>
+                }
+              ></Route>
+              <Route path="onboard" element={<AgentEnrollmentPage />}></Route>
+              <Route path="faqs" element={<FaqPage />}></Route>
+              <Route path="terms" element={<TermsOfUse />}></Route>
+              <Route path="privacy" element={<PrivacyPolicy />} />
+              <Route path="services" element={<ServicesAndFacilities />} />
+              <Route path="careers" element={<Careers />} />
+            </Routes>
+          </BrowserRouter>
+        </ChatProvider>
       </HouseProvider>
     </AuthProvider>
   );
