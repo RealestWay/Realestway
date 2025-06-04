@@ -137,7 +137,6 @@ const OrderPage = () => {
         <div className="text-center">
           <p className="mb-4">Choose a payment method:</p>
           <div className="flex justify-center gap-4">
-            {" "}
             <button
               onClick={() => handlePayment("Card")}
               className="bg-blue-500 text-white px-4 py-2 rounded-lg mx-2"
