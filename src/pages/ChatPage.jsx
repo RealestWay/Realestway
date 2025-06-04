@@ -184,7 +184,7 @@ const ChatPage = () => {
           </h3>
           <p className="text-gray-500">{location.address}</p>
           <div className="w-full flex justify-around my-5">
-            <Link to={`/OrderPage/${propertyId}`}>
+            <Link to={"/order"}>
               {" "}
               <button className="bg-gradient-to-b from-green-500 to-green-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform transition-all duration-200 hover:scale-105 hover:shadow-xl active:scale-95">
                 Secure Apartment

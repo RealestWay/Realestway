@@ -133,7 +133,7 @@ const App = () => {
                 }
               />{" "}
               <Route path="*" element={<PageNotFound />} />
-              <Route path="Order" element={<OrderPage />}></Route>
+              <Route path="order" element={<OrderPage />}></Route>
               <Route path="onboard" element={<AgentEnrollmentPage />}></Route>
               <Route path="faqs" element={<FaqPage />}></Route>
               <Route path="terms" element={<TermsOfUse />}></Route>
