@@ -6,6 +6,7 @@ const BASE = "https://backend.realestway.com/api";
 const ChatProvider = ({ children }) => {
   const [chats, setchats] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [loadingChat, setLoadingChat] = useState(false);
   const [agent, setAgent] = useState("");
   const [chat, setChat] = useState([]);
   const { token } = useAuth();
@@ -34,7 +35,7 @@ const ChatProvider = ({ children }) => {
   // Create a Chat
 
   const createChat = async (agentId) => {
-    setIsLoading(true);
+    setLoadingChat(true);
     try {
       const response = await fetch("https://backend.realestway.com/api/chats", {
         method: "POST",
@@ -53,7 +54,7 @@ const ChatProvider = ({ children }) => {
     } catch (error) {
       console.error("Failed to fetch chats:", error);
     } finally {
-      setIsLoading(false);
+      setLoadingChat(false);
     }
   };
 
@@ -117,6 +118,7 @@ const ChatProvider = ({ children }) => {
         fetchAgent,
         agent,
         setChat,
+        loadingChat,
       }}
     >
       {children}

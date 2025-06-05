@@ -15,7 +15,7 @@ const OrderPage = () => {
   const { house } = UseHouses();
   const { token } = useAuth();
   const navigate = useNavigate();
-
+  console.log(token);
   // Countdown for optional UX timer
   useEffect(() => {
     if (paymentStage === 2 && countdown > 0) {
@@ -69,35 +69,36 @@ const OrderPage = () => {
 
   //  Step 2: Verify after redirect from Paystack
   const verifyPayment = async (reference) => {
-    try {
-      setLoading(true);
-      const response = await fetch(
-        `https://backend.realestway.com/api/listings/payment/verify/${reference}`,
-        {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-            Authorization: `bearer ${token}`,
-          },
-        }
-      );
+    setLoading(true);
+    if (token)
+      try {
+        const response = await fetch(
+          `https://backend.realestway.com/api/listings/payment/verify/${reference}`,
+          {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+              Authorization: `bearer ${token}`,
+            },
+          }
+        );
 
-      const result = await response.json();
-      if (
-        result?.status === true ||
-        result?.data?.status?.toLowerCase() === "success"
-      ) {
-        setPaymentStage(3);
-        setIsPaid(true);
-      } else {
-        alert("Payment verification failed. Please contact support.");
+        const result = await response.json();
+        if (
+          result?.status === true ||
+          result?.data?.status?.toLowerCase() === "success"
+        ) {
+          setPaymentStage(3);
+          setIsPaid(true);
+        } else {
+          alert("Payment verification failed. Please contact support.");
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Error verifying payment.");
+      } finally {
+        setLoading(false);
       }
-    } catch (err) {
-      console.error(err);
-      alert("Error verifying payment.");
-    } finally {
-      setLoading(false);
-    }
   };
 
   return (

@@ -14,7 +14,7 @@ import { useChats } from "../contexts/ChatsContext";
 
 const ChatPage = () => {
   const { user, token } = useAuth();
-  const { chat, isLoading, fetchChat } = useChats();
+  const { chat, loadingChat, fetchChat } = useChats();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const { house } = UseHouses();
@@ -70,7 +70,7 @@ const ChatPage = () => {
     }
   };
 
-  if (!chat?.data) return <Spinner />;
+  if (loadingChat || !chat?.data) return <Spinner />;
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
