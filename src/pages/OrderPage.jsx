@@ -90,6 +90,7 @@ const OrderPage = () => {
       ) {
         setPaymentStage(3);
         setIsPaid(true);
+        console.log("verified");
       } else {
         alert("Payment verification failed. Please contact support.");
       }
