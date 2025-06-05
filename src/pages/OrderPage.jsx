@@ -106,7 +106,7 @@ const OrderPage = () => {
       <div className="w-full px-6 sm:px-10 flex justify-between items-center text-white bg-[#100073]">
         <button
           className="flex items-center gap-2 px-4 py-2 bg-[#100073] hover:bg-blue-700 transition-all"
-          onClick={() => navigate(-1)}
+          onClick={() => (paymentStage === 3 ? navigate("/") : navigate(-1))}
         >
           <FontAwesomeIcon icon={faArrowAltCircleLeft} size="lg" />
           <span>Back</span>
