@@ -67,7 +67,7 @@ const OrderPage = () => {
     }
   };
 
-  // 🧠 Step 2: Verify after redirect from Paystack
+  //  Step 2: Verify after redirect from Paystack
   const verifyPayment = async (reference) => {
     try {
       setLoading(true);

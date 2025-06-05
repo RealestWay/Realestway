@@ -13,9 +13,8 @@ import Spinner from "../components/Spinner";
 import { useChats } from "../contexts/ChatsContext";
 
 const ChatPage = () => {
-  const { propertyId } = useParams();
   const { user, token } = useAuth();
-  const { chat, isLoading } = useChats();
+  const { chat, isLoading, fetchChat } = useChats();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const { house } = UseHouses();
@@ -26,6 +25,9 @@ const ChatPage = () => {
     if (chat?.data?.messages && Array.isArray(chat.data.messages)) {
       setMessages(chat.data.messages);
     }
+    const interval = setInterval(fetchChat(chat?.data?.id), 5000); // Fetch every 5 seconds
+
+    return () => clearInterval(interval);
   }, [chat]);
 
   const handleChat = async () => {
@@ -68,7 +70,7 @@ const ChatPage = () => {
     }
   };
 
-  if (isLoading || !chat?.data) return <Spinner />;
+  if (!chat?.data) return <Spinner />;
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
