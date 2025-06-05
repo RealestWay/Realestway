@@ -28,11 +28,10 @@ const OrderPage = () => {
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const ref = urlParams.get("reference");
-
-    if (ref) {
-      if (token) verifyPayment(ref);
+    if (ref && token) {
+      verifyPayment(ref);
     }
-  }, []);
+  }, [token]);
 
   // 🧠 Step 1: Start payment (calls your backend, gets Paystack URL)
   const handlePayment = async (method) => {
@@ -90,7 +89,6 @@ const OrderPage = () => {
       ) {
         setPaymentStage(3);
         setIsPaid(true);
-        console.log("verified");
       } else {
         alert("Payment verification failed. Please contact support.");
       }
