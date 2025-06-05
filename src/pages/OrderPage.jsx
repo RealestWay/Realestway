@@ -30,7 +30,7 @@ const OrderPage = () => {
     const ref = urlParams.get("reference");
 
     if (ref) {
-      verifyPayment(ref);
+      if (token) verifyPayment(ref);
     }
   }, []);
 
@@ -70,35 +70,35 @@ const OrderPage = () => {
   //  Step 2: Verify after redirect from Paystack
   const verifyPayment = async (reference) => {
     setLoading(true);
-    if (token)
-      try {
-        const response = await fetch(
-          `https://backend.realestway.com/api/listings/payment/verify/${reference}`,
-          {
-            method: "GET",
-            headers: {
-              Accept: "application/json",
-              Authorization: `bearer ${token}`,
-            },
-          }
-        );
 
-        const result = await response.json();
-        if (
-          result?.status === true ||
-          result?.data?.status?.toLowerCase() === "success"
-        ) {
-          setPaymentStage(3);
-          setIsPaid(true);
-        } else {
-          alert("Payment verification failed. Please contact support.");
+    try {
+      const response = await fetch(
+        `https://backend.realestway.com/api/listings/payment/verify/${reference}`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            Authorization: `bearer ${token}`,
+          },
         }
-      } catch (err) {
-        console.error(err);
-        alert("Error verifying payment.");
-      } finally {
-        setLoading(false);
+      );
+
+      const result = await response.json();
+      if (
+        result?.status === true ||
+        result?.data?.status?.toLowerCase() === "success"
+      ) {
+        setPaymentStage(3);
+        setIsPaid(true);
+      } else {
+        alert("Payment verification failed. Please contact support.");
       }
+    } catch (err) {
+      console.error(err);
+      alert("Error verifying payment.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
