@@ -14,6 +14,7 @@ import UserSettings from "./UserSettings";
 import ChatList from "./ChatList";
 import EditHouseForm from "./EditHouseForm";
 import Spinner2 from "../../components/Spinner2";
+import { useChats } from "../../contexts/ChatsContext";
 
 const UserProfile = () => {
   const [addItem, setAddItems] = useState(false);
@@ -35,6 +36,7 @@ const UserProfile = () => {
     setSuccess,
   } = UseHouses();
   const { user, logout, token } = useAuth();
+  const { chats } = useChats();
 
   const navigate = useNavigate();
 

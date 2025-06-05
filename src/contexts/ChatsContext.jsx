@@ -106,6 +106,7 @@ const ChatProvider = ({ children }) => {
       console.log(err);
     }
   };
+
   return (
     <ChatContext.Provider
       value={{

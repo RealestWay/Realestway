@@ -15,7 +15,7 @@ const OrderPage = () => {
   const { house } = UseHouses();
   const { token } = useAuth();
   const navigate = useNavigate();
-  console.log(token);
+
   // Countdown for optional UX timer
   useEffect(() => {
     if (paymentStage === 2 && countdown > 0) {

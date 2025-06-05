@@ -8,11 +8,13 @@ import ChatHelp from "../components/ChatHelp";
 import { useAuth } from "../contexts/AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { useChats } from "../contexts/ChatsContext";
+import { useEffect } from "react";
 
 const Homepage = () => {
   const { houses, isLoading } = UseHouses();
   const { isAuthenticated } = useAuth();
-
+  const { fetchChats } = useChats();
   const loactionsListings = [
     {
       location: "Lagos",
@@ -60,6 +62,9 @@ const Homepage = () => {
   const styleclasses = isAuthenticated
     ? "flex gap-4  pb-10 w-[100%] overflow-x-auto scroll-smooth scrollbar-hide snap-x"
     : "flex gap-4  pb-10 w-[100%] overflow-hidden";
+  useEffect(() => {
+    fetchChats();
+  }, []);
   return (
     <div className="w-[100vw]">
       {isLoading ? (

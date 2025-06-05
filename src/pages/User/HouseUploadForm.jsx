@@ -11,7 +11,7 @@ const HouseUploadForm = () => {
   const { token } = useAuth();
   const [error, setError] = useState();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState();
 
   const [formData, setFormData] = useState({
     title: "",

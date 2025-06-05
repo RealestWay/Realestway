@@ -1,26 +1,11 @@
-import { useState, useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { useChats } from "../../contexts/ChatsContext";
 
 const ChatList = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const [chats, setChats] = useState([]);
-
-  useEffect(() => {
-    // Fetch user's chats from API or state
-    const fetchChats = async () => {
-      try {
-        const response = await fetch(`/api/chats?userId=${user?.id}`);
-        const data = await response.json();
-        setChats(data);
-      } catch (error) {
-        console.error("Error fetching chats:", error);
-      }
-    };
-
-    if (user) fetchChats();
-  }, [user]);
+  const { chats } = useChats();
 
   if (!user) return <p>Please log in to view your chats.</p>;
 
@@ -39,11 +24,12 @@ const ChatList = () => {
               onClick={() => navigate(`/ChatPage/${chat.id}`)}
             >
               <p className="text-blue-600 font-semibold">
-                Chat with {chat.agentName}
+                Chat with {chat?.agent_id}
               </p>
-              <p className="text-gray-500 text-sm">House: {chat.houseTitle}</p>
+              <p className="text-gray-500 text-sm">House: {chat?.houseTitle}</p>
               <p className="text-gray-400 text-xs">
-                Last message: {chat.lastMessage}
+                Last message:{" "}
+                {chat?.messages.filter((message) => console.log(message[0]))}
               </p>
             </li>
           ))}

@@ -1,16 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ChatHelp from "../../components/ChatHelp";
 import Filter from "../../components/Filter";
 import Items from "../../components/Items";
 import PageNav from "../../components/PageNav";
 import Spinner from "../../components/Spinner";
 import { UseHouses } from "../../contexts/HouseContext";
+import { useChats } from "../../contexts/ChatsContext";
 
 const ItemsPage = () => {
   const { houses, isLoading, filter } = UseHouses();
   const { location, budget, propertyType } = filter;
   const [visibleCount, setVisibleCount] = useState(20);
-
+  const { fetchChats } = useChats();
   // Determine active filters
   const hasLocation = Boolean(location);
   const hasBudget = Boolean(budget);
@@ -81,7 +82,9 @@ const ItemsPage = () => {
 
   // Pagination
   const paginatedHouses = filteredHouses.slice(0, visibleCount);
-
+  useEffect(() => {
+    fetchChats();
+  }, []);
   return (
     <div>
       <PageNav />
