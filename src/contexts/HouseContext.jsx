@@ -128,20 +128,6 @@ const HouseProvider = ({ children }) => {
     }
   };
 
-  async function favh() {
-    try {
-      const res = await fetch(`${BASE}/favourite/check`, {
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-      });
-      const data = await res.json();
-      console.log(data);
-    } catch (err) {
-      console.log(err);
-    }
-  }
   //  Update House
   async function updateHouse(id, formData, token) {
     setIsLoading(true);
@@ -168,7 +154,6 @@ const HouseProvider = ({ children }) => {
 
   useEffect(() => {
     fetchHouses();
-    // favh();
   }, []);
   return (
     <HouseContext.Provider

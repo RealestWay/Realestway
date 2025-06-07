@@ -75,9 +75,7 @@ const Homepage = () => {
           <div className="my-10">
             <div className="flex justify-center">
               <div className="items-center">
-                <h2 className="font-bold text-3xl">
-                  Explore Popular Locations
-                </h2>
+                <h2 className="font-bold text-3xl">Explore Locations</h2>
                 <p className="text-sm">
                   Check houses available in different locations
                 </p>

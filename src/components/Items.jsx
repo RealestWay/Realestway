@@ -5,27 +5,44 @@ import ImageCarousel from "./ImageCarousel";
 import { useAuth } from "../contexts/AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faBookmark as farBookmark,
   faBookmark,
   faLock,
-  faRemove,
 } from "@fortawesome/free-solid-svg-icons";
 import { UseHouses } from "../contexts/HouseContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+const BASE = "https://backend.realestway.com/api";
 
 const Items = ({ house, children }) => {
   // const { title, totalPrice, images, uniqueId } = house;
   const { favoritedHouse, removeFavoritedHouse } = UseHouses();
-  const {
-    title,
-    priceBreakdown,
-    priceType,
-    uniqueId,
-    description,
-    images,
-    isFavourited,
-  } = house;
+  const { title, priceBreakdown, priceType, uniqueId, description, images } =
+    house;
+  const [isFav, setIsFav] = useState(false);
   const { isAuthenticated, user, token } = useAuth();
-  const [isFav, setIsFav] = useState(isFavourited);
+
+  async function favh(id, tok) {
+    try {
+      const res = await fetch(`${BASE}/favourite/check/${id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `bearer ${tok}`,
+        },
+      });
+      const data = await res.json();
+      setIsFav(data.isFavourited);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  useEffect(() => {
+    favh(uniqueId, token);
+  }, [token, uniqueId]);
+
   const itemStyle = `rounded-xl w-full items-center justify-center h-[200px]`;
 
   return (
@@ -90,7 +107,7 @@ const Items = ({ house, children }) => {
               style={{ alignItems: "center" }}
               className="flex gap-2 justify-center text-[#00A256] py-3"
             >
-              <FontAwesomeIcon icon={faRemove} color="#00A256" />
+              <FontAwesomeIcon icon={faBookmark} color="#00A256" />
               <span> saved</span>
             </button>
           ) : (
@@ -102,7 +119,11 @@ const Items = ({ house, children }) => {
               style={{ alignItems: "center" }}
               className="flex gap-1 justify-center py-3 text-[#100073]"
             >
-              <FontAwesomeIcon icon={faBookmark} color="#100073" />{" "}
+              <FontAwesomeIcon
+                icon={faBookmark}
+                color="#100073"
+                fontVariant={"outline"}
+              />{" "}
               <span>save</span>
             </button>
           )}
@@ -113,7 +134,7 @@ const Items = ({ house, children }) => {
       <div className="items-center flex py-3">
         <span className="m-auto text-[#100073]">
           <span className="text-2xl font-bold w-1/4">
-            #{priceBreakdown.basicRent?.toLocaleString()}
+            #{Number(priceBreakdown.basicRent).toLocaleString()}
           </span>
           <span className="text-sm">
             /{priceType === "yearly" && "year"}
