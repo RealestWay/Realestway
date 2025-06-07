@@ -8,13 +8,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowAltCircleLeft,
   faCog,
+  faLink,
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import UserSettings from "./UserSettings";
 import ChatList from "./ChatList";
 import EditHouseForm from "./EditHouseForm";
 import Spinner2 from "../../components/Spinner2";
-import { useChats } from "../../contexts/ChatsContext";
 
 const UserProfile = () => {
   const [addItem, setAddItems] = useState(false);
@@ -36,7 +36,6 @@ const UserProfile = () => {
     setSuccess,
   } = UseHouses();
   const { user, logout, token } = useAuth();
-  const { chats } = useChats();
 
   const navigate = useNavigate();
 
@@ -149,12 +148,21 @@ const UserProfile = () => {
                 >
                   {agentHouses?.map((hous) => (
                     <Items key={hous.id} house={hous}>
-                      <button
+                      {/* <button
                         className="bg-blue-500 font-montserrat text-white px-7 py-1 rounded-lg hover:bg-blue-600 transition duration-300"
                         onClick={() => handleEditClick(hous)}
                         disabled
                       >
                         Edit
+                      </button> */}
+                      <button
+                        onClick={() => {
+                          navigator.clipboard.writeText(window.location.href);
+                          alert("Link copied to clipboard!");
+                        }}
+                        className="bg-[#00a256] w-max-[100px] text-xs text-white p-2 py-2 rounded-lg"
+                      >
+                        <FontAwesomeIcon icon={faLink} /> Share Link
                       </button>
                       <button
                         className="bg-red-500 font-montserrat text-white px-5 py-1 rounded-lg hover:bg-red-600 transition duration-300"

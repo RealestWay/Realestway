@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { Link, useOutletContext } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { useChats } from "../../contexts/ChatsContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLink } from "@fortawesome/free-solid-svg-icons";
 
 const HouseDetails = () => {
   const { user, isAuthenticated } = useAuth();
@@ -51,10 +53,24 @@ const HouseDetails = () => {
       <div className="sm:w-2/3">
         <div className="w-[95%] max-w-4xl mx-auto bg-white rounded-lg shadow-lg border border-gray-200 p-6">
           <div className="mb-4">
-            <h3 className="text-2xl font-bold text-blue-700">
-              #{totalPrice.toLocaleString()}
-              <i className="text-sm ml-1">Total Package</i>
-            </h3>
+            <div className="flex justify-between">
+              {" "}
+              <h3 className="text-2xl font-bold text-blue-700">
+                #{totalPrice.toLocaleString()}
+                <i className="text-sm ml-1">Total Package</i>
+              </h3>
+              <div className="w-[30%] flex justify-end">
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText(window.location.href);
+                    alert("Link copied to clipboard!");
+                  }}
+                  className="bg-[#00a256] w-max-[100px] text-xs text-white p-2 py-2 rounded-lg"
+                >
+                  <FontAwesomeIcon icon={faLink} /> Copy Link
+                </button>
+              </div>
+            </div>
             <div className="flex flex-col">
               <i className="text-gray-400 text-sm">
                 Renew with: #{priceBreakdown?.basicRent?.toLocaleString()} /{" "}
@@ -101,7 +117,11 @@ const HouseDetails = () => {
                   )}
                 </>
               ) : (
-                ""
+                <Link to={`/login`}>
+                  <button className="bg-[#100073] text-white font-bold rounded px-4 py-2">
+                    Sign In
+                  </button>
+                </Link>
               )}
             </div>
           </div>
