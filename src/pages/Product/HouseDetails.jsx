@@ -4,21 +4,21 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useChats } from "../../contexts/ChatsContext";
 
 const HouseDetails = () => {
-  const { user } = useAuth();
-  const { house } = useOutletContext();
+  const { user, isAuthenticated } = useAuth();
+  const { house, loadingChats } = useOutletContext();
   const { fetchChat, setChat, chats, createChat } = useChats();
 
   const [selectedImage, setSelectedImage] = useState(null);
   const [desc, setDescription] = useState(true);
 
   useEffect(() => {
-    if (chats && house?.agentId) {
-      const existingChat = chats.find(
+    if (!loadingChats && chats && house?.agentId) {
+      const existingChat = chats?.find(
         (chat) => chat.agent_id === house.agentId
       );
       if (existingChat) setChat(existingChat);
     }
-  }, [chats, house, setChat]);
+  }, [loadingChats, chats, house, setChat]);
 
   if (!house) {
     return (
@@ -42,10 +42,9 @@ const HouseDetails = () => {
     minTenancyPeriod,
     location,
     agentId,
-    id,
   } = house;
 
-  const existingChat = chats.find((chat) => chat.agent_id === agentId);
+  const existingChat = chats?.find((chat) => chat.agent_id === agentId);
 
   return (
     <div className="sm:flex w-full">
@@ -84,19 +83,25 @@ const HouseDetails = () => {
             <h4 className="text-lg font-semibold mb-4">Agent Rating</h4>
             <div className="flex justify-between items-center">
               <div>Very Good</div>
-              {!user?.nin && (
-                <Link to={`/ChatPage/${id}`}>
-                  <button
-                    className="bg-[#00a256] text-white font-bold rounded px-4 py-2"
-                    onClick={() => {
-                      existingChat
-                        ? fetchChat(existingChat.id)
-                        : createChat(agentId);
-                    }}
-                  >
-                    Contact Agent
-                  </button>
-                </Link>
+              {isAuthenticated ? (
+                <>
+                  {!user?.nin && (
+                    <Link to={`/Chat`}>
+                      <button
+                        className="bg-[#00a256] text-white font-bold rounded px-4 py-2"
+                        onClick={() => {
+                          existingChat
+                            ? fetchChat(existingChat.id)
+                            : createChat(agentId);
+                        }}
+                      >
+                        Contact Agent
+                      </button>
+                    </Link>
+                  )}
+                </>
+              ) : (
+                ""
               )}
             </div>
           </div>

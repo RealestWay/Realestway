@@ -12,15 +12,32 @@ import { faArrowAltCircleLeft } from "@fortawesome/free-solid-svg-icons";
 import Spinner from "../../components/Spinner";
 import { UseHouses } from "../../contexts/HouseContext";
 import { useChats } from "../../contexts/ChatsContext";
+import { useAuth } from "../../contexts/AuthContext";
 
 const ItemView = () => {
   const location = useLocation();
+  const { token } = useAuth();
   const { id } = useParams();
   const [house, setHouse] = useState();
   const [loading, setLoading] = useState(true);
   const { setRemoteHouse } = UseHouses();
   const { fetchChats } = useChats();
+  const [loadingChats, setLoadingChats] = useState(true);
+
+  useEffect(() => {
+    const fetchAllChats = async () => {
+      await fetchChats();
+      setLoadingChats(false);
+    };
+    fetchAllChats();
+  }, [token]);
   // fetch a particular house
+
+  useEffect(() => {
+    if (house?.location?.address) {
+      document.title = `${house.location.address} - Realestway`;
+    }
+  }, [house]);
 
   useEffect(() => {
     const fetchHouse = async () => {
@@ -44,8 +61,7 @@ const ItemView = () => {
       }
     };
     fetchHouse();
-    fetchChats();
-  }, []);
+  }, [id]);
 
   const navigate = useNavigate();
 
@@ -69,7 +85,9 @@ const ItemView = () => {
         <div
           className="w-full py-4"
           style={{
-            background: `url(https://backend.realestway.com/storage/${house.images[0].src})`,
+            background: house?.images?.[0]?.src
+              ? `url(https://backend.realestway.com/storage/${house.images[0].src})`
+              : "#f2f2f2", // fallback background
             backgroundSize: "cover",
             overflow: "hidden",
           }}
@@ -113,7 +131,7 @@ const ItemView = () => {
           ))}
         </div>
         <div className="sm:flex py-4 w-full sm:flex-wrap gap-4">
-          <Outlet context={{ house }} />
+          <Outlet context={{ house, loadingChats }} />
           <ChatHelp />
         </div>
       </div>

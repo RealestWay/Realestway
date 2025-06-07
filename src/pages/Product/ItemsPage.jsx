@@ -6,28 +6,28 @@ import PageNav from "../../components/PageNav";
 import Spinner from "../../components/Spinner";
 import { UseHouses } from "../../contexts/HouseContext";
 import { useChats } from "../../contexts/ChatsContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHouse, faHouseCircleCheck } from "@fortawesome/free-solid-svg-icons";
 
 const ItemsPage = () => {
   const { houses, isLoading, filter } = UseHouses();
-  const { location, budget, propertyType } = filter;
+  const { location, minBudget, budget: maxBudget, propertyType } = filter;
   const [visibleCount, setVisibleCount] = useState(20);
   const { fetchChats } = useChats();
-  // Determine active filters
-  const hasLocation = Boolean(location);
-  const hasBudget = Boolean(budget);
-  const hasPropertyType = Boolean(propertyType);
-  const hasFilters = hasLocation || hasBudget || hasPropertyType;
 
-  // Calculate maximum possible score based on active filters
-  const maxPossibleScore =
-    (hasLocation ? 2 : 0) + (hasBudget ? 1 : 0) + (hasPropertyType ? 1 : 0);
+  const hasLocation = Boolean(location);
+  const hasMinBudget = minBudget !== null && minBudget !== undefined;
+  const hasMaxBudget = maxBudget !== null && maxBudget !== undefined;
+  const hasBudgetRange = hasMinBudget || hasMaxBudget;
+  const hasPropertyType = Boolean(propertyType);
+  const hasFilters = hasLocation || hasBudgetRange || hasPropertyType;
 
   // Filtering and scoring logic
-  let filteredHouses = [];
-  let exactMatchesCount = 0;
+  let exactMatches = [];
+  let relatedMatches = [];
 
   if (!hasFilters) {
-    filteredHouses = houses.data || [];
+    exactMatches = houses.data || [];
   } else {
     const scoredHouses = (houses.data || []).map((house) => {
       let matchScore = 0;
@@ -46,8 +46,11 @@ const ItemsPage = () => {
       }
 
       // Budget matching
-      if (hasBudget) {
-        budgetMatches = house.totalPrice <= parseFloat(budget);
+      const housePrice = house.totalPrice;
+      if (hasBudgetRange) {
+        budgetMatches =
+          (!hasMinBudget || housePrice >= parseFloat(minBudget)) &&
+          (!hasMaxBudget || housePrice <= parseFloat(maxBudget));
         if (budgetMatches) matchScore += 1;
       }
 
@@ -58,33 +61,35 @@ const ItemsPage = () => {
         if (typeMatches) matchScore += 1;
       }
 
-      // Check exact match
       const isExactMatch =
         (!hasLocation || locationMatches) &&
-        (!hasBudget || budgetMatches) &&
+        (!hasBudgetRange || budgetMatches) &&
         (!hasPropertyType || typeMatches);
 
       return { ...house, matchScore, isExactMatch };
     });
 
-    // Split into exact and related matches
-    const exactMatches = scoredHouses
+    exactMatches = scoredHouses
       .filter((item) => item.isExactMatch)
       .sort((a, b) => b.matchScore - a.matchScore);
 
-    const relatedMatches = scoredHouses
+    relatedMatches = scoredHouses
       .filter((item) => !item.isExactMatch && item.matchScore > 0)
       .sort((a, b) => b.matchScore - a.matchScore);
-
-    exactMatchesCount = exactMatches.length;
-    filteredHouses = [...exactMatches, ...relatedMatches];
   }
 
-  // Pagination
-  const paginatedHouses = filteredHouses.slice(0, visibleCount);
+  const exactMatchesCount = exactMatches.length;
+  const totalMatches = [...exactMatches, ...relatedMatches];
+  const paginatedExact = exactMatches.slice(0, visibleCount);
+  const paginatedRelated = relatedMatches.slice(
+    0,
+    Math.max(0, visibleCount - exactMatchesCount)
+  );
+
   useEffect(() => {
     fetchChats();
   }, []);
+
   return (
     <div>
       <PageNav />
@@ -96,40 +101,83 @@ const ItemsPage = () => {
         <Spinner />
       ) : (
         <div>
-          {hasFilters && exactMatchesCount === 0 && (
-            <div className="col-span-full text-center text-orange-500 my-4">
-              No exact matches found. Showing related properties:
-            </div>
-          )}
-          {paginatedHouses.length > 0 ? (
-            <div className="w-full grid md:px-20 md:grid-cols-3 lg:grid-cols-3 sm:flex sm:flex-wrap md:gap-2 px-0 sm:px-10">
-              {paginatedHouses.map((house) => (
-                <Items house={house} key={house.uniqueId} />
-              ))}
-            </div>
-          ) : (
+          {/* No results */}
+          {exactMatchesCount === 0 && relatedMatches.length === 0 && (
             <div className="text-center text-red-600 font-semibold my-10 col-span-full">
               {hasFilters
                 ? "❌ No properties match your criteria. Try adjusting filters."
                 : "🏠 No filters applied. Showing all properties."}
             </div>
           )}
+
+          {/* Exact Matches */}
+          {paginatedExact.length > 0 && (
+            <div className="mb-10">
+              <h2 className="text-xl font-bold text-center mb-4 flex gap-4 justify-center text-[#00a256] p-5 border mt-2 border-1">
+                {hasFilters ? (
+                  <>
+                    <FontAwesomeIcon icon={faHouseCircleCheck} />
+                    {"Search Matches"}
+                  </>
+                ) : (
+                  <>
+                    <FontAwesomeIcon icon={faHouse} />
+                    {"All Properties"}
+                  </>
+                )}
+              </h2>
+              <div className="w-full grid md:px-20 md:grid-cols-3 lg:grid-cols-3 sm:flex sm:flex-wrap md:gap-2 px-0 sm:px-10">
+                {paginatedExact.map((house) => (
+                  <Items house={house} key={house.uniqueId} />
+                ))}
+              </div>
+            </div>
+          )}
+          {exactMatchesCount === 0 && (
+            <div className="text-center text-red-600 font-semibold my-10 col-span-full p-10">
+              {hasFilters
+                ? "❌ Sorry, No exact match for your search criteria. Please check back later."
+                : "🏠 No filters applied. Showing all properties."}
+            </div>
+          )}
+          {/* Related Matches */}
+          {paginatedRelated.length > 0 && (
+            <div className="mb-10">
+              <h2 className="text-xl font-bold text-center mb-4 text-blue-700 p-5">
+                🔍 Related Houses
+              </h2>
+              <div className="w-full grid md:px-20 md:grid-cols-3 lg:grid-cols-3 sm:flex sm:flex-wrap md:gap-2 px-0 sm:px-10">
+                {paginatedRelated.map((house) => (
+                  <Items house={house} key={house.uniqueId} />
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       )}
 
-      {/* Active filters display */}
+      {/* Active filter tags */}
       <div className="text-center my-5">
         {hasLocation && (
           <span className="text-green-600 mx-2">📍 {location}</span>
         )}
-        {hasBudget && <span className="text-green-600 mx-2">💰 ₦{budget}</span>}
+        {hasMinBudget && (
+          <span className="text-green-600 mx-2">
+            💸 Min: ₦{Number(minBudget).toLocaleString()}
+          </span>
+        )}
+        {hasMaxBudget && (
+          <span className="text-green-600 mx-2">
+            💰 Max: ₦{Number(maxBudget).toLocaleString()}
+          </span>
+        )}
         {hasPropertyType && (
           <span className="text-green-600 mx-2">🏘 {propertyType}</span>
         )}
       </div>
 
-      {/* View more button */}
-      {filteredHouses.length > visibleCount && (
+      {/* View More */}
+      {totalMatches.length > visibleCount && (
         <div className="text-center my-5">
           <button
             onClick={() => setVisibleCount((prev) => prev + 10)}

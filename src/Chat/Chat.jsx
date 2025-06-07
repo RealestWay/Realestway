@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { UseHouses } from "../contexts/HouseContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,13 +12,12 @@ import {
 import Spinner from "../components/Spinner";
 import { useChats } from "../contexts/ChatsContext";
 
-const ChatPage = () => {
+const Chat = () => {
   const { user, token } = useAuth();
-  const { chat, loadingChat, fetchChat } = useChats();
+  const { chat, loadingChat, fetchChat, setChat } = useChats();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
-  const { house } = UseHouses();
-  const { propertyType, totalPrice, location, images } = house;
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -78,7 +77,10 @@ const ChatPage = () => {
       <div className="w-full px-6sm:px-10 flex justify-between items-center text-white bg-[#100073]">
         <button
           className="flex items-center gap-2 px-4 py-2 bg-[#100073]  hover:bg-blue-700 transition-all"
-          onClick={() => navigate(-1)}
+          onClick={() => {
+            navigate(-1);
+            setChat([]);
+          }}
         >
           <span className="flex justify-between sm:justify-around w-[18 %] sm:w-[5%]">
             <FontAwesomeIcon icon={faArrowAltCircleLeft} size="lg" />
@@ -86,7 +88,7 @@ const ChatPage = () => {
         </button>
         <div className="sm:w-4/5 flex sm:pl-[20%] w-[70%]">
           <h2 className="text-lg font-bold">
-            {user.companyName ? user.fullName : propertyType}
+            {user.companyName ? user.fullName : chat?.id}
           </h2>
         </div>
       </div>
@@ -172,31 +174,9 @@ const ChatPage = () => {
             </button>
           </div>
         </div>
-
-        {/* Right Panel - Property Details */}
-        <div className="m-4 sm:w-[20%] bg-white shadow-md p-4 rounded-lg">
-          <img
-            src={`https://backend.realestway.com/storage/${images[0].src}`}
-            className="rounded-xl w-full h-40 object-cover"
-            alt="Apartment"
-          />
-          <h3 className="text-2xl font-bold text-blue-700 mt-3">
-            ${totalPrice.toLocaleString()}
-            <span className="text-sm ml-1">{"Total Package"}</span>
-          </h3>
-          <p className="text-gray-500">{location.address}</p>
-          <div className="w-full flex justify-around my-5">
-            <Link to={"/order"}>
-              {" "}
-              <button className="bg-gradient-to-b from-green-500 to-green-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform transition-all duration-200 hover:scale-105 hover:shadow-xl active:scale-95">
-                Secure Apartment
-              </button>
-            </Link>
-          </div>
-        </div>
       </div>
     </div>
   );
 };
 
-export default ChatPage;
+export default Chat;

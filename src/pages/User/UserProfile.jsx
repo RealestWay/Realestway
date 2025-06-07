@@ -125,10 +125,10 @@ const UserProfile = () => {
                 onClick={() => setOpenChats(!openChats)}
                 className="bg-blue-500 font-montserrat text-white p-3 w-full rounded-lg hover:bg-blue-600 transition duration-300"
               >
-                {!openChats ? "Open Messages" : "+ Close messages"}
+                {openChats ? "Open Messages" : "+ Close messages"}
               </button>
 
-              {openChats ? <ChatList /> : ""}
+              {!openChats ? <ChatList /> : ""}
             </>
           </div>
         </>

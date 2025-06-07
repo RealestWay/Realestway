@@ -13,7 +13,7 @@ import { useEffect } from "react";
 
 const Homepage = () => {
   const { houses, isLoading } = UseHouses();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, token } = useAuth();
   const { fetchChats } = useChats();
   const loactionsListings = [
     {
@@ -64,7 +64,7 @@ const Homepage = () => {
     : "flex gap-4  pb-10 w-[100%] overflow-hidden";
   useEffect(() => {
     fetchChats();
-  }, []);
+  }, [token]);
   return (
     <div className="w-[100vw]">
       {isLoading ? (

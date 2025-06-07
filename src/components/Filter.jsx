@@ -4,24 +4,28 @@ import { UseHouses } from "../contexts/HouseContext";
 const Filter = () => {
   const { filter, setFilter } = UseHouses();
   const [location, setLocation] = useState("");
-  const [budget, setBudget] = useState("");
+  const [minBudget, setMinBudget] = useState("");
+  const [maxBudget, setMaxBudget] = useState("");
   const [propertyType, setPropertyType] = useState("");
 
   const handleFilter = () => {
-    const parsedBudget = budget ? parseFloat(budget) : null; // Convert budget to number or null
+    const parsedMin = minBudget ? parseFloat(minBudget) : null;
+    const parsedMax = maxBudget ? parseFloat(maxBudget) : null;
 
     setFilter({
       ...filter,
-      location: location ? location.toLowerCase() : null, // Normalize for partial matching
-      budget: parsedBudget, // Convert budget to number or null
-      propertyType: propertyType !== "Select" ? propertyType : null, // Ensure valid property type
+      location: location ? location.toLowerCase() : null,
+      minBudget: parsedMin,
+      maxBudget: parsedMax,
+      propertyType: propertyType !== "Select" ? propertyType : null,
     });
   };
 
   const clearFilter = () => {
     setFilter({});
     setLocation("");
-    setBudget("");
+    setMinBudget("");
+    setMaxBudget("");
     setPropertyType("");
   };
 
@@ -52,18 +56,35 @@ const Filter = () => {
 
         <div>
           <label
-            htmlFor="budget"
+            htmlFor="minBudget"
+            className="text-gray-700 font-medium mb-2 block"
+          >
+            Min Budget (₦)
+          </label>
+          <input
+            type="number"
+            id="minBudget"
+            placeholder="Minimum Budget"
+            className="p-4 w-full rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+            value={minBudget}
+            onChange={(e) => setMinBudget(e.target.value)}
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="maxBudget"
             className="text-gray-700 font-medium mb-2 block"
           >
             Max Budget (₦)
           </label>
           <input
             type="number"
-            id="budget"
-            placeholder="Enter Budget"
+            id="maxBudget"
+            placeholder="Maximum Budget"
             className="p-4 w-full rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-            value={budget}
-            onChange={(e) => setBudget(e.target.value)}
+            value={maxBudget}
+            onChange={(e) => setMaxBudget(e.target.value)}
           />
         </div>
 
@@ -115,9 +136,14 @@ const Filter = () => {
             ✅ Location: {location}
           </span>
         )}
-        {budget && (
+        {minBudget && (
           <span className="text-green-600 text-sm font-medium mr-2">
-            ✅ Max Budget: ₦{budget}
+            ✅ Min Budget: ₦{minBudget}
+          </span>
+        )}
+        {maxBudget && (
+          <span className="text-green-600 text-sm font-medium mr-2">
+            ✅ Max Budget: ₦{maxBudget}
           </span>
         )}
         {propertyType && propertyType !== "Select" && (
@@ -125,7 +151,7 @@ const Filter = () => {
             ✅ Type: {propertyType}
           </span>
         )}
-        {!location && !budget && !propertyType && (
+        {!location && !minBudget && !maxBudget && !propertyType && (
           <span className="text-red-600 text-xs font-medium">
             ❌ No filters applied
           </span>

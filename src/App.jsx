@@ -16,7 +16,7 @@ import ItemsPage from "./pages/Product/ItemsPage";
 import { HouseProvider } from "./contexts/HouseContext";
 import ProtectedRoutes from "./ProtectedRoutes";
 import OrderPage from "./pages/OrderPage";
-import ChatPage from "./pages/ChatPage";
+import ChatPage from "./Chat/ChatPageHouse";
 import ScrollToTop from "./components/ScrollToTop";
 import AgentEnrollmentPage from "./pages/AgentEnrollment";
 import CheckEmail from "./pages/Auth/CheckEmail";
@@ -28,6 +28,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import ServicesAndFacilities from "./pages/S&F";
 import Careers from "./pages/Careers";
 import { ChatProvider } from "./contexts/ChatsContext";
+import Chat from "./Chat/Chat";
 
 const App = () => {
   return (
@@ -64,10 +65,18 @@ const App = () => {
                 }
               />
               <Route
-                path="ChatPAge/:propertyId"
+                path="Chat"
                 element={
                   <ProtectedRoutes>
                     <ChatPage />
+                  </ProtectedRoutes>
+                }
+              />
+              <Route
+                path="message"
+                element={
+                  <ProtectedRoutes>
+                    <Chat />
                   </ProtectedRoutes>
                 }
               />
@@ -89,14 +98,7 @@ const App = () => {
                   </ProtectedRoutes>
                 }
               />
-              <Route
-                path="property/:id"
-                element={
-                  <ProtectedRoutes>
-                    <ItemView />
-                  </ProtectedRoutes>
-                }
-              >
+              <Route path="property/:id" element={<ItemView />}>
                 <Route index element={<HouseDetails />} />
                 <Route path="mapDetails" element={<MapDetails />} />
               </Route>
