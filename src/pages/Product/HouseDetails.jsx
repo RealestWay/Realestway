@@ -2,8 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useOutletContext } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { useChats } from "../../contexts/ChatsContext";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLink } from "@fortawesome/free-solid-svg-icons";
+import { Link1 } from "iconsax-reactjs";
 
 const HouseDetails = () => {
   const { user, isAuthenticated } = useAuth();
@@ -67,7 +66,7 @@ const HouseDetails = () => {
                   }}
                   className="bg-[#00a256] w-max-[100px] hover:bg-[#7ff3bd] text-xs text-white p-1 py-1 sm:px-4  sm:py-2 rounded-lg"
                 >
-                  <FontAwesomeIcon icon={faLink} size="12" /> Copy Link
+                  <Link1 size={12} /> Copy Link
                 </button>
               </div>
             </div>

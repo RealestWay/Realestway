@@ -1,15 +1,14 @@
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faUser,
-  faBars,
-  faTimes,
-  faHome,
-  faPhone,
-  faInfoCircle,
-} from "@fortawesome/free-solid-svg-icons";
+  Call,
+  CloseSquare,
+  HamburgerMenu,
+  Home2,
+  InfoCircle,
+  Profile,
+} from "iconsax-reactjs";
 
 const PageNav = () => {
   const { isAuthenticated } = useAuth();
@@ -33,7 +32,11 @@ const PageNav = () => {
           className="md:hidden ml-auto text-xl focus:outline-none"
           onClick={() => setIsOpen(!isOpen)}
         >
-          <FontAwesomeIcon icon={isOpen ? faTimes : faBars} color="#100073" />
+          {isOpen ? (
+            <CloseSquare color="#100073" />
+          ) : (
+            <HamburgerMenu color="#100073" />
+          )}
         </button>
 
         {/* Navigation Links (Responsive) */}
@@ -44,51 +47,26 @@ const PageNav = () => {
         >
           <li className="md:inline-block block p-3 font-bold">
             <NavLink to="/" className="items-center">
-              {isOpen ? (
-                <FontAwesomeIcon
-                  icon={faHome}
-                  color="#00A256"
-                  className="mr-2"
-                />
-              ) : (
-                ""
-              )}
+              {isOpen ? <Home2 color="#00A256" className="mr-2" /> : ""}
               Home
             </NavLink>
           </li>
           <li className="md:inline-block block p-3 font-bold">
             <NavLink to="/about">
-              {isOpen ? (
-                <FontAwesomeIcon
-                  icon={faInfoCircle}
-                  color="#00A256"
-                  className="mr-2"
-                />
-              ) : (
-                ""
-              )}
+              {isOpen ? <InfoCircle color="#00A256" className="mr-2" /> : ""}
               About
             </NavLink>
           </li>
           <li className="md:inline-block block p-3 font-bold">
             <NavLink to="/contact">
-              {isOpen ? (
-                <FontAwesomeIcon
-                  icon={faPhone}
-                  color="#00A256"
-                  className="mr-2"
-                />
-              ) : (
-                ""
-              )}
+              {isOpen ? <Call color="#00A256" className="mr-2" /> : ""}
               Contact Us
             </NavLink>
           </li>
           {isAuthenticated ? (
             <li className="md:inline-block block p-3">
               <NavLink to="/Profile">
-                <FontAwesomeIcon
-                  icon={faUser}
+                <Profile
                   color="#00A256"
                   className={`${isOpen ? "mr-2" : ""}`}
                 />

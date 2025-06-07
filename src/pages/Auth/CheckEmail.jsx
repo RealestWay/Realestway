@@ -1,6 +1,5 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEnvelopeOpenText } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import { SmsNotification } from "iconsax-reactjs";
 
 const CheckEmail = () => {
   return (
@@ -8,11 +7,7 @@ const CheckEmail = () => {
       <div className="bg-white shadow-lg rounded-lg p-10 max-w-md w-full text-center">
         <div className="animate-pulse-slow">
           {" "}
-          <FontAwesomeIcon
-            icon={faEnvelopeOpenText}
-            size="3x"
-            color="#100073"
-          />
+          <SmsNotification size={30} color="#100073" />
         </div>
         <h2 className="text-2xl font-semibold text-[#100073] mt-4">
           Check Your Email

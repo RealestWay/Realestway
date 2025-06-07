@@ -3,14 +3,9 @@
 import { Link } from "react-router-dom";
 import ImageCarousel from "./ImageCarousel";
 import { useAuth } from "../contexts/AuthContext";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBookmark as farBookmark,
-  faBookmark,
-  faLock,
-} from "@fortawesome/free-solid-svg-icons";
 import { UseHouses } from "../contexts/HouseContext";
 import { useEffect, useState } from "react";
+import { Lock1, SaveAdd, SaveMinus } from "iconsax-reactjs";
 
 const BASE = "https://backend.realestway.com/api";
 
@@ -86,7 +81,7 @@ const Items = ({ house, children }) => {
               <p> View Details</p>
             </div>
             <span className="absolute  sm:text-lg text-gray-600 font-bold">
-              <FontAwesomeIcon icon={faLock} />
+              <Lock1 size={18} />
             </span>
           </div>
         )}
@@ -107,7 +102,7 @@ const Items = ({ house, children }) => {
               style={{ alignItems: "center" }}
               className="flex gap-2 justify-center text-[#00A256] py-3"
             >
-              <FontAwesomeIcon icon={faBookmark} color="#00A256" />
+              <SaveMinus color="#00A256" />
               <span> saved</span>
             </button>
           ) : (
@@ -119,12 +114,7 @@ const Items = ({ house, children }) => {
               style={{ alignItems: "center" }}
               className="flex gap-1 justify-center py-3 text-[#100073]"
             >
-              <FontAwesomeIcon
-                icon={faBookmark}
-                color="#100073"
-                fontVariant={"outline"}
-              />{" "}
-              <span>save</span>
+              <SaveAdd color="#100073" /> <span>save</span>
             </button>
           )}
         </>
