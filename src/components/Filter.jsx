@@ -103,6 +103,7 @@ const Filter = () => {
           >
             <option>Select Property Type</option>
             <option value="Self Contain">Self Contain</option>
+            <option value="Office">Office</option>
             <option value="1 Bedroom Apartment">1 Bedroom Apartment</option>
             <option value="2 Bedroom Apartment">2 Bedroom Apartment</option>
             <option value="3 Bedroom Apartment">3 Bedroom Apartment</option>

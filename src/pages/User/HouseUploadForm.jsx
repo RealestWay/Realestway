@@ -275,6 +275,7 @@ const HouseUploadForm = () => {
               >
                 <option value="">Select Property Type</option>
                 <option value="Self Contain">Self Contain</option>
+                <option value="Office">Office</option>
                 <option value="1 Bedroom Apartment">1 Bedroom Apartment</option>
                 <option value="2 Bedroom Apartment">2 Bedroom Apartment</option>
                 <option value="3 Bedroom Apartment">3 Bedroom Apartment</option>
@@ -491,10 +492,10 @@ const HouseUploadForm = () => {
                     <option value="">Mininum Rent Period</option>
                     <option value={1}>1 month</option>
                     <option value={6}>6 months</option>
-                    <option value={10}>1 year</option>
-                    <option value={20}>2 years</option>
-                    <option value={30}>3 years</option>
-                    <option value={50}>5 years</option>
+                    <option value={12}>1 year</option>
+                    <option value={24}>2 years</option>
+                    <option value={36}>3 years</option>
+                    <option value={60}>5 years</option>
                   </select>
                 </div>
 
