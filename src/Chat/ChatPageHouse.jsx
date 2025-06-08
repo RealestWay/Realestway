@@ -59,12 +59,7 @@ const ChatPage = () => {
         }
       );
 
-      if (!response.ok) {
-        console.error("Failed to send message");
-      } else {
-        const result = await response.json();
-        console.log("Message sent:", result);
-      }
+      if (!response.ok) console.error("Failed to send message");
     } catch (error) {
       console.error("Error sending message:", error);
     }

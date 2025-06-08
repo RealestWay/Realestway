@@ -15,6 +15,8 @@ import UserSettings from "./UserSettings";
 import ChatList from "./ChatList";
 import EditHouseForm from "./EditHouseForm";
 import Spinner2 from "../../components/Spinner2";
+import { ArrowCircleDown, ArrowCircleUp } from "iconsax-reactjs";
+import { useChats } from "../../contexts/ChatsContext";
 
 const UserProfile = () => {
   const [addItem, setAddItems] = useState(false);
@@ -24,6 +26,7 @@ const UserProfile = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedHouse, setSelectedHouse] = useState(null);
   const [settings, setSettings] = useState(false);
+  const { fetchChats } = useChats();
   const {
     favHouse,
     deleteHouse,
@@ -44,12 +47,18 @@ const UserProfile = () => {
     user.id.startsWith("U")
       ? showFavoritedHouse(token)
       : fetchAgentHouses(user.id);
+
+    fetchChats();
   }, []);
   // Function to handle opening the modal
   const handleEditClick = (house) => {
     setSelectedHouse(house);
     setIsModalOpen(true);
   };
+
+  const chatstyle = `${
+    !openChats ? "rounded-t-lg" : "rounded-lg"
+  } bg-[#100073] font-montserrat text-white p-3 w-full px-5 transition duration-300`;
 
   return (
     <div>
@@ -122,9 +131,18 @@ const UserProfile = () => {
             <>
               <button
                 onClick={() => setOpenChats(!openChats)}
-                className="bg-blue-500 font-montserrat text-white p-3 w-full rounded-lg hover:bg-blue-600 transition duration-300"
+                className={chatstyle}
               >
-                {openChats ? "Open Messages" : "+ Close messages"}
+                <span className="flex justify-between">
+                  <span> Chats</span>
+                  {!openChats ? (
+                    <>
+                      <ArrowCircleUp size={20} />
+                    </>
+                  ) : (
+                    <ArrowCircleDown size={20} />
+                  )}
+                </span>
               </button>
 
               {!openChats ? <ChatList /> : ""}

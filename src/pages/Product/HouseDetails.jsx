@@ -3,6 +3,8 @@ import { Link, useOutletContext } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { useChats } from "../../contexts/ChatsContext";
 import { Link1 } from "iconsax-reactjs";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLink } from "@fortawesome/free-solid-svg-icons";
 
 const HouseDetails = () => {
   const { user, isAuthenticated } = useAuth();
@@ -50,7 +52,7 @@ const HouseDetails = () => {
   return (
     <div className="sm:flex w-full">
       <div className="sm:w-2/3">
-        <div className="w-[95%] max-w-4xl mx-auto bg-white rounded-lg shadow-lg border border-gray-200 p-6">
+        <div className="w-[95%] max-w-4xl mx-auto bg-white rounded-lg shadow-lg border border-gray-200 p-4 sm:p-6">
           <div className="mb-4">
             <div className="flex justify-between">
               {" "}
@@ -64,9 +66,12 @@ const HouseDetails = () => {
                     navigator.clipboard.writeText(window.location.href);
                     alert("Link copied to clipboard!");
                   }}
-                  className="bg-[#00a256] w-max-[100px] hover:bg-[#7ff3bd] text-xs text-white p-1 py-1 sm:px-4  sm:py-2 rounded-lg"
+                  className="bg-[#00a256] w-max-[100px] gap-1 justify-items-center justify-center flex hover:bg-[#7ff3bd] text-sm text-white p-1 py-1 sm:px-4  sm:py-2 rounded-lg"
                 >
-                  <Link1 size={12} /> Copy Link
+                  <span>
+                    <FontAwesomeIcon icon={faLink} size="10" />
+                  </span>{" "}
+                  <span>Copy link</span>
                 </button>
               </div>
             </div>

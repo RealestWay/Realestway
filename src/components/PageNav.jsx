@@ -61,7 +61,7 @@ const PageNav = () => {
           <li className="md:inline-block block p-3 font-bold">
             <NavLink to="/contact" className="items-center flex justify-center">
               {isOpen ? <Call color="#00A256" className="mr-2" /> : ""}
-              <span>Contact Us</span>
+              <span>Contact</span>
             </NavLink>
           </li>
           {isAuthenticated ? (

@@ -7,25 +7,28 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useChats } from "../contexts/ChatsContext";
 import { useAuth } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const ChatHelp = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { createAdminChat, chats, fetchChat, chat } = useChats();
-  const { token, user } = useAuth();
+  const { createAdminChat, chats, fetchChat, chat, fetchChats } = useChats();
+  const { token, user, isAuthenticated } = useAuth();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
 
+  const navigate = useNavigate();
   const existingChat = chats?.find((chat) => chat.admin_id === "USR-00001");
 
   useEffect(() => {
-    if (chat?.data?.messages && Array.isArray(chat.data.messages)) {
+    if (!chat?.data?.id) return;
+
+    const chatId = chat.data.id;
+    if (Array.isArray(chat.data.messages)) {
       setMessages(chat.data.messages);
     }
 
     const interval = setInterval(() => {
-      if (chat?.data?.id) {
-        fetchChat(chat.data.id);
-      }
+      fetchChat(chatId);
     }, 5000);
 
     return () => clearInterval(interval);
@@ -57,12 +60,7 @@ const ChatHelp = () => {
         }
       );
 
-      if (!response.ok) {
-        console.error("Failed to send message");
-      } else {
-        const result = await response.json();
-        console.log("Message sent:", result);
-      }
+      if (!response.ok) console.error("Failed to send message");
     } catch (error) {
       console.error("Error sending message:", error);
     }
@@ -74,6 +72,8 @@ const ChatHelp = () => {
         <button
           className="bg-[#100073] text-white p-4 rounded-full shadow-lg hover:bg-[#4331bdd8] transition"
           onClick={async () => {
+            if (!isAuthenticated) return navigate("/login");
+
             if (existingChat) {
               await fetchChat(existingChat.id);
               setIsOpen(true);
@@ -102,7 +102,12 @@ const ChatHelp = () => {
                 <span className="text-xs">support@realestway.com</span>
               </div>
             </div>
-            <button onClick={() => setIsOpen(false)}>
+            <button
+              onClick={() => {
+                setIsOpen(false);
+                fetchChats();
+              }}
+            >
               <FontAwesomeIcon icon={faTimes} />
             </button>
           </div>
