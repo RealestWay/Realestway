@@ -54,6 +54,35 @@ const UserSettings = ({ set, setSet }) => {
       setUpdating(false);
     }
   };
+
+  const updateAgentPassword = async () => {
+    setUpdating(true);
+    try {
+      const res = await fetch(
+        `https://backend.realestway.com/api/agents/${user.id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            password: settings.newPassword,
+            password_confirmation: settings.confirmNewPassword,
+          }),
+        }
+      );
+
+      if (!res.ok) throw new Error("Failed to create account");
+    } catch (err) {
+      console.log(err);
+      setMessage(err.Error);
+    } finally {
+      setUpdating(false);
+    }
+  };
+
   const handleUpdateProfile = (e) => {
     e.preventDefault();
     updateUser({ email: settings.email, phone: settings.phone });
@@ -69,7 +98,7 @@ const UserSettings = ({ set, setSet }) => {
       setMessage("New password does not match, check again.");
       return;
     }
-    updatePassword();
+    user.companyName ? updateAgentPassword() : updatePassword();
 
     setSettings({
       ...settings,

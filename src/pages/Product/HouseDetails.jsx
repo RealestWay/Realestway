@@ -100,20 +100,28 @@ const HouseDetails = () => {
               <div>Very Good</div>
               {isAuthenticated ? (
                 <>
-                  {!user?.nin && (
-                    <Link to={`/Chat`}>
+                  {!user?.nin &&
+                    (house?.availability === "available" ? (
+                      <Link to={`/Chat`}>
+                        <button
+                          className="bg-[#00a256] text-white font-bold rounded px-4 py-2"
+                          onClick={() => {
+                            existingChat
+                              ? fetchChat(existingChat.id)
+                              : createChat(agentId);
+                          }}
+                        >
+                          Contact Agent
+                        </button>
+                      </Link>
+                    ) : (
                       <button
                         className="bg-[#00a256] text-white font-bold rounded px-4 py-2"
-                        onClick={() => {
-                          existingChat
-                            ? fetchChat(existingChat.id)
-                            : createChat(agentId);
-                        }}
+                        disabled
                       >
                         Contact Agent
                       </button>
-                    </Link>
-                  )}
+                    ))}
                 </>
               ) : (
                 <Link to={`/login`}>

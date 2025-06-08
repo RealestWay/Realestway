@@ -35,7 +35,7 @@ const Items = ({ house, children }) => {
   }
 
   useEffect(() => {
-    favh(uniqueId, token);
+    user.companyName ? "" : favh(uniqueId, token);
   }, [token, uniqueId]);
 
   const itemStyle = `rounded-xl w-full items-center justify-center h-[200px]`;

@@ -58,6 +58,30 @@ const ChatProvider = ({ children }) => {
     }
   };
 
+  // Create Chat Support
+  const createAdminChat = async (adminId) => {
+    setLoadingChat(true);
+    try {
+      const response = await fetch("https://backend.realestway.com/api/chats", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `bearer ${token}`,
+        },
+        body: JSON.stringify({
+          admin_unique_id: adminId,
+        }),
+      });
+
+      const data = await response.json();
+      setChat(data);
+    } catch (error) {
+      console.error("Failed to fetch chats:", error);
+    } finally {
+      setLoadingChat(false);
+    }
+  };
   // fetch a chat
 
   async function fetchChat(chatId, channelName = "private-chat") {
@@ -120,6 +144,7 @@ const ChatProvider = ({ children }) => {
         agent,
         setChat,
         loadingChat,
+        createAdminChat,
       }}
     >
       {children}
