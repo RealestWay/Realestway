@@ -46,26 +46,30 @@ const PageNav = () => {
           }`}
         >
           <li className="md:inline-block block p-3 font-bold">
-            <NavLink to="/" className="items-center">
+            <NavLink to="/" className="items-center flex justify-center">
+              {" "}
               {isOpen ? <Home2 color="#00A256" className="mr-2" /> : ""}
-              Home
+              <span>Home</span>
             </NavLink>
           </li>
           <li className="md:inline-block block p-3 font-bold">
-            <NavLink to="/about">
+            <NavLink to="/about" className="items-center flex justify-center">
               {isOpen ? <InfoCircle color="#00A256" className="mr-2" /> : ""}
-              About
+              <span>About</span>
             </NavLink>
           </li>
           <li className="md:inline-block block p-3 font-bold">
-            <NavLink to="/contact">
+            <NavLink to="/contact" className="items-center flex justify-center">
               {isOpen ? <Call color="#00A256" className="mr-2" /> : ""}
-              Contact Us
+              <span>Contact Us</span>
             </NavLink>
           </li>
           {isAuthenticated ? (
             <li className="md:inline-block block p-3">
-              <NavLink to="/Profile">
+              <NavLink
+                to="/Profile"
+                className="items-center flex justify-center"
+              >
                 <Profile
                   color="#00A256"
                   className={`${isOpen ? "mr-2" : ""}`}
