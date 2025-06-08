@@ -27,7 +27,7 @@ const Banner = () => {
         <PageNav />
         <div className="my-30">
           <h1
-            className="sm:text-4xl text-3xl font-bold"
+            className="sm:text-6xl text-5xl font-bold"
             style={{ fontFamily: "Poppins, sans-serif" }}
           >
             Welcome <br />
