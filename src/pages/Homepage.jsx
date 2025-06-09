@@ -63,7 +63,7 @@ const Homepage = () => {
     ? "flex gap-4  pb-10 w-[100%] overflow-x-auto scroll-smooth scrollbar-hide snap-x"
     : "flex gap-4  pb-10 w-[100%] overflow-hidden";
   useEffect(() => {
-    fetchChats();
+    if (token) fetchChats();
   }, [token]);
   return (
     <div className="w-[100vw]">

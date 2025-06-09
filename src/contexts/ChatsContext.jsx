@@ -23,6 +23,13 @@ const ChatProvider = ({ children }) => {
           Authorization: `bearer ${token}`,
         },
       });
+      if (res.status === 401) {
+        alert("Session expired! You were logged in on another device.");
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        return;
+      }
+      console.log(res.status);
       const data = await res.json();
       setchats(data.data);
     } catch (err) {

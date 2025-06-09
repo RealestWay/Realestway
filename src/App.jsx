@@ -90,14 +90,7 @@ const App = () => {
               />
               <Route path="about" element={<AboutUs />} />
               <Route path="contact" element={<ContactUs />} />
-              <Route
-                path="/search"
-                element={
-                  <ProtectedRoutes>
-                    <ItemsPage />
-                  </ProtectedRoutes>
-                }
-              />
+              <Route path="/search" element={<ItemsPage />} />
               <Route path="property/:id" element={<ItemView />}>
                 <Route index element={<HouseDetails />} />
                 <Route path="mapDetails" element={<MapDetails />} />

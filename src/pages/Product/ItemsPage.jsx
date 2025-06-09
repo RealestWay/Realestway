@@ -8,12 +8,14 @@ import { UseHouses } from "../../contexts/HouseContext";
 import { useChats } from "../../contexts/ChatsContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHouse, faHouseCircleCheck } from "@fortawesome/free-solid-svg-icons";
+import { useAuth } from "../../contexts/AuthContext";
 
 const ItemsPage = () => {
   const { houses, isLoading, filter } = UseHouses();
   const { location, minBudget, budget: maxBudget, propertyType } = filter;
   const [visibleCount, setVisibleCount] = useState(20);
   const { fetchChats } = useChats();
+  const { token } = useAuth();
 
   const hasLocation = Boolean(location);
   const hasMinBudget = minBudget !== null && minBudget !== undefined;
@@ -87,8 +89,8 @@ const ItemsPage = () => {
   );
 
   useEffect(() => {
-    fetchChats();
-  }, []);
+    if (token) fetchChats();
+  }, [token]);
 
   return (
     <div>
