@@ -19,7 +19,7 @@ const ChatList = () => {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 p-6 rounded-b-lg shadow-lg h-[410px] overflow-scroll scrollbar-hide scrollbar-hidden">
+    <div className="bg-white dark:bg-gray-800 p-6 rounded-b-lg shadow-lg max-h-[410px] overflow-scroll scrollbar-hide scrollbar-hidden">
       {/* <h2 className="text-xl font-semibold mb-4 ">Your Chats</h2> */}
 
       {chats?.length === 0 ? (

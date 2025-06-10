@@ -120,7 +120,7 @@ const App = () => {
                 }
               />{" "}
               <Route
-                path="email-verified"
+                path="verify-email"
                 element={
                   <ProtectedAuthRoutes>
                     <EmailVerified />

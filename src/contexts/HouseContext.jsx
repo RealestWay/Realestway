@@ -129,13 +129,13 @@ const HouseProvider = ({ children }) => {
   };
 
   //  Update House
-  async function updateHouse(id, formData, token) {
+  async function updateHouse(id, token, formData) {
     setIsLoading(true);
+    formData.append("_method", "PATCH");
     try {
       const res = await fetch(`${BASE}/listings/${id}`, {
-        method: "PATCH",
+        method: "POST",
         headers: {
-          "Content-Type": "application/json",
           Accept: "application/json",
           Authorization: `bearer ${token}`,
         },

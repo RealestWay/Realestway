@@ -15,7 +15,7 @@ import UserSettings from "./UserSettings";
 import ChatList from "./ChatList";
 import EditHouseForm from "./EditHouseForm";
 import Spinner2 from "../../components/Spinner2";
-import { ArrowCircleDown, ArrowCircleUp } from "iconsax-reactjs";
+import { ArrowCircleDown, ArrowCircleUp, TickCircle } from "iconsax-reactjs";
 import { useChats } from "../../contexts/ChatsContext";
 
 const UserProfile = () => {
@@ -35,8 +35,10 @@ const UserProfile = () => {
     isLoading,
     fetchAgentHouses,
     agentHouses,
+    fetchHouses,
     success,
     setSuccess,
+    updateHouse,
   } = UseHouses();
   const { user, logout, token } = useAuth();
 
@@ -51,11 +53,14 @@ const UserProfile = () => {
     fetchChats();
   }, []);
   // Function to handle opening the modal
-  const handleEditClick = (house) => {
-    setSelectedHouse(house);
-    setIsModalOpen(true);
-  };
+  // const handleEditClick = (house) => {
+  //   setSelectedHouse(house);
+  //   setIsModalOpen(true);
+  // };
 
+  // Change House availability
+  const formData = new FormData();
+  formData.append("availability", "not-available");
   const chatstyle = `${
     !openChats ? "rounded-t-lg" : "rounded-lg"
   } bg-[#100073] font-montserrat text-white p-3 w-full px-5 transition duration-300`;
@@ -82,27 +87,37 @@ const UserProfile = () => {
         </button>
         <hr />
       </div>
-      <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg my-2 shadow-blue-700">
-        <h2 className="text-2xl font-semibold text-[#100073]">My Profile</h2>
-
-        <div className="mt-4 text-[#100073]">
-          <p>
-            <strong>Name:</strong> {user?.fullName}
-          </p>
-          <p>
-            <strong>Email:</strong> {user?.email}
-          </p>
-          <p>
-            <strong>Phone:</strong> {user?.phone}
-          </p>
-
-          {user?.companyName && (
+      <div className="max-w-4xl mx-auto  bg-white rounded-lg shadow-lg my-2 shadow-blue-700">
+        <div className="p-6">
+          {" "}
+          <h2 className="text-2xl flex gap-5 items-center font-semibold text-[#100073]">
+            <span> My Profile</span>{" "}
+            {user.emailVerified && (
+              <TickCircle color="#100073" variant="Bold" />
+            )}
+          </h2>
+          <div className="mt-4 text-[#100073]">
             <p>
-              <strong>Company:</strong> {user?.companyName}
+              <strong>Name:</strong> {user?.fullName}
             </p>
-          )}
+            <p>
+              <strong>Email:</strong> {user?.email}
+            </p>
+            <p>
+              <strong>Phone:</strong> {user?.phone}
+            </p>
+
+            {user?.companyName && (
+              <p>
+                <strong>Company:</strong> {user?.companyName}
+              </p>
+            )}
+          </div>
         </div>
-      </div>{" "}
+        {/* <div className="rounded-b-lg h-4 bg-[#00a256] text-white text-xs flex justify-center">
+          verified
+        </div> */}
+      </div>
       {settings ? (
         <UserSettings set={settings} setSet={setSettings} />
       ) : (
@@ -166,31 +181,35 @@ const UserProfile = () => {
                 >
                   {agentHouses?.map((hous) => (
                     <Items key={hous.id} house={hous}>
-                      {/* <button
-                        className="bg-blue-500 font-montserrat text-white px-7 py-1 rounded-lg hover:bg-blue-600 transition duration-300"
-                        onClick={() => handleEditClick(hous)}
-                        disabled
-                      >
-                        Edit
-                      </button> */}
                       <button
+                        className="bg-[#100073] font-montserrat text-white px-7 py-1 rounded-lg hover:bg-blue-600 transition duration-300"
                         onClick={() => {
-                          navigator.clipboard.writeText(window.location.href);
-                          alert("Link copied to clipboard!");
-                        }}
-                        className="bg-[#00a256] w-max-[100px] text-xs text-white p-2 py-2 rounded-lg"
-                      >
-                        <FontAwesomeIcon icon={faLink} /> Share Link
-                      </button>
-                      <button
-                        className="bg-red-500 font-montserrat text-white px-5 py-1 rounded-lg hover:bg-red-600 transition duration-300"
-                        onClick={() => {
-                          setOpenDelete(true);
-                          setDeleteHouseId(hous.id);
+                          updateHouse(hous.uniqueId, token, formData);
+                          fetchAgentHouses(user.id);
                         }}
                       >
-                        Delete
+                        Click to change {hous.availability}
                       </button>
+                      <span className="flex justify-between">
+                        <button
+                          onClick={() => {
+                            navigator.clipboard.writeText(window.location.href);
+                            alert("Link copied to clipboard!");
+                          }}
+                          className="bg-[#00a256] w-max-[100px] text-xs text-white p-2 py-2 rounded-lg"
+                        >
+                          <FontAwesomeIcon icon={faLink} /> Share Link
+                        </button>
+                        <button
+                          className="bg-red-500 font-montserrat text-white px-5 py-1 rounded-lg hover:bg-red-600 transition duration-300"
+                          onClick={() => {
+                            setOpenDelete(true);
+                            setDeleteHouseId(hous.uniqueId);
+                          }}
+                        >
+                          Delete
+                        </button>
+                      </span>
                     </Items>
                   ))}
                 </div>
@@ -259,6 +278,8 @@ const UserProfile = () => {
           success={success}
           setSuccess={setSuccess}
           isLoading={isLoading}
+          user={user}
+          fetchHouses={fetchHouses}
         />
       )}
     </div>
@@ -274,6 +295,8 @@ const Confirm = ({
   success,
   setSuccess,
   isLoading,
+  user,
+  fetchHouses,
 }) => {
   return (
     <div
@@ -307,7 +330,8 @@ const Confirm = ({
             onClick={() => {
               setOpenDelete(false);
               setSuccess("");
-              fetchAgentHouses();
+              fetchAgentHouses(user.id);
+              fetchHouses();
             }}
           />
         </div>

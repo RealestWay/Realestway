@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
-import { SmsNotification } from "iconsax-reactjs";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMailBulk } from "@fortawesome/free-solid-svg-icons";
 
 const CheckEmail = () => {
   return (
@@ -7,7 +9,7 @@ const CheckEmail = () => {
       <div className="bg-white shadow-lg rounded-lg p-10 max-w-md w-full text-center">
         <div className="animate-pulse-slow">
           {" "}
-          <SmsNotification size={30} color="#100073" />
+          <FontAwesomeIcon icon={faMailBulk} size={30} color="#100073" />
         </div>
         <h2 className="text-2xl font-semibold text-[#100073] mt-4">
           Check Your Email
@@ -22,7 +24,7 @@ const CheckEmail = () => {
           Didn’t receive the email? <br />
           Recheck your input mail and{" "}
           <span className="text-[#00A256] font-medium cursor-pointer hover:underline">
-            <Link to={"/register"}>Sign Up</Link>
+            <Link to={"/check-email"}>Resend</Link>
           </span>
         </div>
       </div>

@@ -29,7 +29,7 @@ const ChatProvider = ({ children }) => {
         localStorage.removeItem("user");
         return;
       }
-      console.log(res.status);
+
       const data = await res.json();
       setchats(data.data);
     } catch (err) {

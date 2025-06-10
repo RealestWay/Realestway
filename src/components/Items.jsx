@@ -85,7 +85,14 @@ const Items = ({ house, children }) => {
             </span>
           </div>
         )}
-        <div className="text-green-500 text-sm">{house?.availability}</div>
+        <div
+          style={{
+            color: house?.availability === "available" ? "#00a256" : "red",
+          }}
+          className=" text-sm"
+        >
+          {house?.availability}
+        </div>
       </div>
       <p className="text-xs py-2">
         {description?.split(" ").slice(0, 10).join(" ")}...
@@ -133,7 +140,9 @@ const Items = ({ house, children }) => {
           </span>
         </span>
       </div>
-      <div className="flex justify-around border-red-600">{children}</div>
+      <div className="flex flex-col gap-5 justify-around mt-3 border-red-600">
+        {children}
+      </div>
     </div>
   );
 };

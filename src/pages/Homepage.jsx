@@ -139,7 +139,12 @@ const Homepage = () => {
             ) : (
               houses.data
                 ?.slice(0, 3)
-                .map((house) => <Items house={house} key={house?.id} />)
+                .map(
+                  (house) =>
+                    house.availability === "available" && (
+                      <Items house={house} key={house?.id} />
+                    )
+                )
             )}
           </div>
           <ChatHelp />
