@@ -91,7 +91,11 @@ const HouseDetails = () => {
             <Info label="Bedrooms" value={bedrooms} />
             <Info label="Bathrooms" value={bathrooms} />
             <Info label="Dimension" value={`${dimension} sqFt`} />
-            <Info label="Minimum Tenancy Period" value={minTenancyPeriod} />
+            <Info
+              label="Minimum Tenancy Period"
+              value={minTenancyPeriod}
+              minTenancyPeriod={minTenancyPeriod}
+            />
             <Info label="Furnished" value={furnishing} />
           </div>
 
@@ -222,10 +226,15 @@ const HouseDetails = () => {
   );
 };
 
-const Info = ({ label, value }) => (
+const Info = ({ label, value, minTenancyPeriod }) => (
   <div>
     <p className="text-sm text-gray-400">{label}</p>
-    <p className="font-semibold">{value}</p>
+
+    {value === minTenancyPeriod ? (
+      <p className="font-semibold">{value.split(" ")[0]} months</p>
+    ) : (
+      <p className="font-semibold">{value}</p>
+    )}
   </div>
 );
 
