@@ -91,19 +91,16 @@ const ChatProvider = ({ children }) => {
   };
   // fetch a chat
 
-  async function fetchChat(chatId, channelName = "private-chat") {
+  async function fetchChat(chatId) {
     setIsLoading(true);
     try {
-      const response = await fetch(
-        `${BASE}/chats/${chatId}?channel_name=${channelName}`,
-        {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-            Authorization: `bearer ${token}`,
-          },
-        }
-      );
+      const response = await fetch(`${BASE}/chats/${chatId}`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          Authorization: `bearer ${token}`,
+        },
+      });
 
       if (!response.ok) {
         throw new Error(`Error ${response.status}: Failed to fetch chat`);

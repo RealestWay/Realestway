@@ -115,9 +115,11 @@ const HouseDetails = () => {
                         <button
                           className="bg-[#00a256] text-white font-bold rounded px-4 py-2"
                           onClick={() => {
-                            existingChat
-                              ? fetchChat(existingChat.id)
-                              : createChat(agentId);
+                            if (existingChat.id) {
+                              fetchChat(existingChat.id);
+                            } else {
+                              createChat(agentId);
+                            }
                           }}
                         >
                           Contact Agent

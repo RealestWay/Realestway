@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import { UseHouses } from "../contexts/HouseContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowAltCircleLeft,
@@ -14,7 +13,7 @@ import { useChats } from "../contexts/ChatsContext";
 
 const Chat = () => {
   const { user, token } = useAuth();
-  const { chat, loadingChat, fetchChat, setChat } = useChats();
+  const { chat, loadingChat, fetchChat, setChat, isLoading } = useChats();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
 
@@ -64,7 +63,7 @@ const Chat = () => {
     }
   };
 
-  if (loadingChat || !chat?.data) return <Spinner />;
+  if (loadingChat || !chat?.data || isLoading) return <Spinner />;
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">

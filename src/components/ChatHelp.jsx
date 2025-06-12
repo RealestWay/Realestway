@@ -25,6 +25,7 @@ const ChatHelp = () => {
   //     localStorage.removeItem("user");
   //   }
   // }, [isLoading, chats]);
+  console.log(existingChat);
   useEffect(() => {
     if (!chat?.data?.id) return;
 

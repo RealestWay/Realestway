@@ -58,9 +58,6 @@ const UserProfile = () => {
   //   setIsModalOpen(true);
   // };
 
-  // Change House availability
-  const formData = new FormData();
-  formData.append("availability", "not-available");
   const chatstyle = `${
     !openChats ? "rounded-t-lg" : "rounded-lg"
   } bg-[#100073] font-montserrat text-white p-3 w-full px-5 transition duration-300`;
@@ -184,6 +181,14 @@ const UserProfile = () => {
                       <button
                         className="bg-[#100073] font-montserrat text-white px-7 py-1 rounded-lg hover:bg-blue-600 transition duration-300"
                         onClick={() => {
+                          // Change House availability
+                          const val =
+                            hous.availability === "available"
+                              ? "not-available"
+                              : "available";
+
+                          const formData = new FormData();
+                          formData.append("availability", val);
                           updateHouse(hous.uniqueId, token, formData);
                           fetchAgentHouses(user.id);
                         }}
