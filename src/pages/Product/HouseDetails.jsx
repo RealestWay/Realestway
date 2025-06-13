@@ -48,7 +48,7 @@ const HouseDetails = () => {
   } = house;
 
   const existingChat = chats?.find((chat) => chat.agent_id === agentId);
-
+  console.log(agentId);
   return (
     <div className="sm:flex w-full">
       <div className="sm:w-2/3">

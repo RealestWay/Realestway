@@ -15,7 +15,7 @@ const Items = ({ house, children }) => {
   const { title, priceBreakdown, priceType, uniqueId, description, images } =
     house;
   const [isFav, setIsFav] = useState(false);
-  const { isAuthenticated, user, token } = useAuth();
+  const { user, token } = useAuth();
 
   async function favh(id, tok) {
     try {
@@ -68,14 +68,13 @@ const Items = ({ house, children }) => {
         </div>
       </div>
       <div className="flex justify-between py-2">
-        {isAuthenticated ? (
-          <Link
-            to={`/property/${uniqueId}`}
-            className="text-lg sm:text-xl text-[#00A256] font-bold hover:text-green-300"
-          >
-            Views Details
-          </Link>
-        ) : (
+        <Link
+          to={`/property/${uniqueId}`}
+          className="text-lg sm:text-xl text-[#00A256] font-bold hover:text-green-300"
+        >
+          Views Details
+        </Link>
+        {/*         
           <div className="flex items-center justify-around">
             <div className="relative text-lg sm:text-xl text-gray-300 font-bold hover:text-blue-300">
               <p> View Details</p>
@@ -83,8 +82,8 @@ const Items = ({ house, children }) => {
             <span className="absolute  sm:text-lg text-gray-600 font-bold">
               <Lock1 size={18} />
             </span>
-          </div>
-        )}
+          </div> */}
+
         <div
           style={{
             color: house?.availability === "available" ? "#00a256" : "red",
