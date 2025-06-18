@@ -191,6 +191,7 @@ const UserProfile = () => {
                           formData.append("availability", val);
                           updateHouse(hous.uniqueId, token, formData);
                           fetchAgentHouses(user.id);
+                          fetchHouses();
                         }}
                       >
                         Click to change {hous.availability}

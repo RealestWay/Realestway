@@ -12,7 +12,6 @@ import MapDetails from "./pages/Product/MapDetails";
 import ItemView from "./pages/Product/ItemView";
 import UserProfile from "./pages/User/UserProfile";
 import { AuthProvider } from "./contexts/AuthContext";
-import ItemsPage from "./pages/Product/ItemsPage";
 import { HouseProvider } from "./contexts/HouseContext";
 import ProtectedRoutes from "./ProtectedRoutes";
 import OrderPage from "./pages/OrderPage";
@@ -29,6 +28,9 @@ import ServicesAndFacilities from "./pages/S&F";
 import Careers from "./pages/Careers";
 import { ChatProvider } from "./contexts/ChatsContext";
 import Chat from "./Chat/Chat";
+import RentSearchPage from "./pages/Product/RentSearchPage";
+import SearchPage from "./pages/Product/SearchPage";
+import BuySearchPage from "./pages/Product/BuySearchPage";
 
 const App = () => {
   return (
@@ -90,7 +92,10 @@ const App = () => {
               />
               <Route path="about" element={<AboutUs />} />
               <Route path="contact" element={<ContactUs />} />
-              <Route path="/search" element={<ItemsPage />} />
+              <Route path="/search" element={<SearchPage />}>
+                <Route index element={<RentSearchPage />} />
+                <Route path="/search/buy" element={<BuySearchPage />} />
+              </Route>
               <Route path="property/:id" element={<ItemView />}>
                 <Route index element={<HouseDetails />} />
                 <Route path="mapDetails" element={<MapDetails />} />

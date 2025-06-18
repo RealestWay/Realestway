@@ -1,162 +1,224 @@
 import { useState } from "react";
 import { UseHouses } from "../contexts/HouseContext";
+import { SearchNormal1 } from "iconsax-reactjs";
 
 const Filter = () => {
   const { filter, setFilter } = UseHouses();
   const [location, setLocation] = useState("");
-  const [minBudget, setMinBudget] = useState("");
-  const [maxBudget, setMaxBudget] = useState("");
+  const [minPrice, setMinPrice] = useState(50000);
+  const [maxPrice, setMaxPrice] = useState(1000000);
   const [propertyType, setPropertyType] = useState("");
+  const [condition, setCondition] = useState("New");
+  const [rentDuration, setRentDuration] = useState("12 months");
+  const [bedrooms, setBedrooms] = useState("3");
+  const [bathrooms, setBathrooms] = useState("2");
+  const [showAdvanced, setShowAdvanced] = useState(false);
 
   const handleFilter = () => {
-    const parsedMin = minBudget ? parseFloat(minBudget) : null;
-    const parsedMax = maxBudget ? parseFloat(maxBudget) : null;
-
     setFilter({
       ...filter,
-      location: location ? location.toLowerCase() : null,
-      minBudget: parsedMin,
-      maxBudget: parsedMax,
-      propertyType: propertyType !== "Select" ? propertyType : null,
+      location: location || null,
+      minBudget: minPrice,
+      maxBudget: maxPrice,
+      propertyType: propertyType || null,
+      condition,
+      rentDuration,
+      bedrooms,
+      bathrooms,
     });
   };
 
   const clearFilter = () => {
-    setFilter({});
     setLocation("");
-    setMinBudget("");
-    setMaxBudget("");
+    setMinPrice(50000);
+    setMaxPrice(1000000);
     setPropertyType("");
+    setCondition("New");
+    setRentDuration("12 months");
+    setBedrooms("1");
+    setBathrooms("1");
+    setFilter({});
   };
 
   return (
-    <div className="bg-white shadow-lg rounded-lg p-6 mx-auto w-full sm:w-4/6">
-      <h3 className="text-center text-2xl font-semibold text-gray-800 mb-6">
-        Find Your Perfect Property
-      </h3>
-
-      {/* Filter Input Fields */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-        <div>
-          <label
-            htmlFor="location"
-            className="text-gray-700 font-medium mb-2 block"
-          >
-            Location
-          </label>
-          <input
-            type="text"
-            id="location"
-            placeholder="Enter Location"
-            className="p-4 w-full rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-          />
-        </div>
-
-        <div>
-          <label
-            htmlFor="minBudget"
-            className="text-gray-700 font-medium mb-2 block"
-          >
-            Min Budget (₦)
-          </label>
-          <input
-            type="number"
-            id="minBudget"
-            placeholder="Minimum Budget"
-            className="p-4 w-full rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-            value={minBudget}
-            onChange={(e) => setMinBudget(e.target.value)}
-          />
-        </div>
-
-        <div>
-          <label
-            htmlFor="maxBudget"
-            className="text-gray-700 font-medium mb-2 block"
-          >
-            Max Budget (₦)
-          </label>
-          <input
-            type="number"
-            id="maxBudget"
-            placeholder="Maximum Budget"
-            className="p-4 w-full rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-            value={maxBudget}
-            onChange={(e) => setMaxBudget(e.target.value)}
-          />
-        </div>
-
-        <div>
-          <label
-            htmlFor="propertyType"
-            className="text-gray-700 font-medium mb-2 block"
-          >
-            Property Type
-          </label>
-          <select
-            id="propertyType"
-            className="p-4 w-full rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-            value={propertyType}
-            onChange={(e) => setPropertyType(e.target.value)}
-          >
-            <option>Select Property Type</option>
-            <option value="Self Contain">Self Contain</option>
-            <option value="Office">Office</option>
-            <option value="1 Bedroom Apartment">1 Bedroom Apartment</option>
-            <option value="2 Bedroom Apartment">2 Bedroom Apartment</option>
-            <option value="3 Bedroom Apartment">3 Bedroom Apartment</option>
-            <option value="4 Bedroom Apartment">4 Bedroom Apartment</option>
-            <option value="Boysquarter">Boysquarter</option>
-            <option value="Duplex">Duplex</option>
-          </select>
-        </div>
-      </div>
-
-      {/* Buttons */}
-      <div className="flex justify-around items-center space-x-4">
+    <div className="md:w-5/6 w-[98%] m-auto p-4 flex flex-col gap-3 mt-3">
+      {/* Top Search Bar */}
+      <div className="flex items-center justify-between mb-4">
+        <input
+          type="text"
+          placeholder="Search location..."
+          className="w-[80%] p-3 rounded-2xl border border-gray-300 focus:outline-none"
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
+        />
         <button
-          className="bg-[#100073] font-montserrat text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition duration-300"
           onClick={handleFilter}
+          className="bg-green-600 w-[18%] justify-center text-white flex items-center gap-2 px-6 py-3 rounded-lg hover:bg-green-700 transition"
         >
-          Apply Filter
-        </button>
-        <button
-          className="bg-[#00A256] font-montserrat text-white py-3 px-6 rounded-lg hover:bg-green-700 transition duration-300"
-          onClick={clearFilter}
-        >
-          Clear Filters
+          <SearchNormal1 size={18} />{" "}
+          <span className="hidden md:inline">Search</span>
         </button>
       </div>
 
-      {/* Active Filters Display */}
-      <div className="mt-6">
-        {location && (
-          <span className="text-green-600 text-sm font-medium mr-2">
-            ✅ Location: {location}
-          </span>
-        )}
-        {minBudget && (
-          <span className="text-green-600 text-sm font-medium mr-2">
-            ✅ Min Budget: ₦{minBudget}
-          </span>
-        )}
-        {maxBudget && (
-          <span className="text-green-600 text-sm font-medium mr-2">
-            ✅ Max Budget: ₦{maxBudget}
-          </span>
-        )}
-        {propertyType && propertyType !== "Select" && (
-          <span className="text-green-600 text-sm font-medium mr-2">
-            ✅ Type: {propertyType}
-          </span>
-        )}
-        {!location && !minBudget && !maxBudget && !propertyType && (
-          <span className="text-red-600 text-xs font-medium">
-            ❌ No filters applied
-          </span>
-        )}
+      {/* Filters */}
+      <div className="rounded-lg shadow-md bg-white text-sm flex flex-col p-2 gap-5 items-center mb-4">
+        <span className="w-full flex justify-between md:block md:text-left">
+          <span>Filter</span>{" "}
+          {/* Toggle Button for Advanced Filter on small screens */}
+          <div className="md:hidden w-full text-right mt-2">
+            <button
+              className="text-blue-600 underline text-sm"
+              onClick={() => setShowAdvanced((prev) => !prev)}
+            >
+              {showAdvanced ? "Hide Advanced Filter" : "Advanced Filter"}
+            </button>
+          </div>
+        </span>
+        <div className="w-full flex flex-col gap-5 md:flex-row justify-between items-center">
+          <div className="flex flex-col w-full md:w-[24%]">
+            <label>Location</label>
+            <input
+              type="text"
+              placeholder="Enter Location"
+              className="p-2 border rounded-md"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+            />
+          </div>
+          <div className="flex flex-col w-full md:w-[24%]">
+            <label>Property Type</label>
+            <select
+              value={propertyType}
+              onChange={(e) => setPropertyType(e.target.value)}
+              className="p-2 border rounded-md"
+            >
+              <option value="">Select Property Type</option>
+              <option>Self Contain</option>
+              <option>Office</option>
+              <option>1 Bedroom Apartment</option>
+              <option>2 Bedroom Apartment</option>
+              <option>3 Bedroom Apartment</option>
+              <option>4 Bedroom Apartment</option>
+              <option>Boysquarter</option>
+              <option>Duplex</option>
+            </select>
+          </div>
+          {/* Price Range Slider */}
+          <div className="col-span-2 flex flex-col w-full md:w-[48%]">
+            <label className="text-sm font-medium">Price (₦):</label>
+            <div className="flex flex-col md:flex-row items-center gap-3">
+              <input
+                type="number"
+                value={minPrice}
+                min={0}
+                onChange={(e) => setMinPrice(parseInt(e.target.value))}
+                className="p-2 border rounded-md w-full md:w-[30%]"
+              />
+              <input
+                type="range"
+                min="50000"
+                max="10000000"
+                step="10000"
+                value={minPrice}
+                onChange={(e) => setMinPrice(parseInt(e.target.value))}
+                className="custom-range w-full md:w-[30%]"
+              />
+              <input
+                type="number"
+                value={maxPrice}
+                max={10000000}
+                onChange={(e) => setMaxPrice(parseInt(e.target.value))}
+                className="p-2 border rounded-md w-full md:w-[35%]"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Advanced Filters - hidden on mobile unless toggled */}
+        <div className="w-full flex flex-col gap-5 md:flex-row justify-between items-center ">
+          <div
+            className={`${
+              showAdvanced ? "block" : "hidden"
+            } md:flex flex flex-col w-full md:w-[16.5%]`}
+          >
+            <label>Conditions</label>
+            <select
+              value={condition}
+              onChange={(e) => setCondition(e.target.value)}
+              className="p-3 border rounded-md"
+            >
+              <option>New</option>
+              <option>Old</option>
+            </select>
+          </div>
+          <div
+            className={`${
+              showAdvanced ? "block" : "hidden"
+            } md:flex flex flex-col w-full md:w-[16.5%]`}
+          >
+            <label>Rent duration</label>
+            <select
+              value={rentDuration}
+              onChange={(e) => setRentDuration(e.target.value)}
+              className="p-3 border rounded-md"
+            >
+              <option>12 months</option>
+              <option>6 months</option>
+              <option>3 months</option>
+              <option>daily</option>
+            </select>
+          </div>
+          <div
+            className={`${
+              showAdvanced ? "block" : "hidden"
+            } md:flex flex flex-col w-full md:w-[16.5%]`}
+          >
+            <label>Bedrooms</label>
+            <select
+              value={bedrooms}
+              onChange={(e) => setBedrooms(e.target.value)}
+              className="p-3 border rounded-md"
+            >
+              {[1, 2, 3, 4, 5].map((n) => (
+                <option key={n} value={n}>
+                  {n} Bedroom{n > 1 && "s"}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div
+            className={`${
+              showAdvanced ? "block" : "hidden"
+            } md:flex flex flex-col w-full md:w-[16.5%]`}
+          >
+            <label>Bathrooms</label>
+            <select
+              value={bathrooms}
+              onChange={(e) => setBathrooms(e.target.value)}
+              className="p-3 border rounded-md"
+            >
+              {[1, 2, 3, 4].map((n) => (
+                <option key={n} value={n}>
+                  {n} Bathroom{n > 1 && "s"}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="flex justify-between w-full md:w-[30%]">
+            <button
+              className="bg-[#00a256] text-white px-6 py-3 rounded-lg hover:bg-green-900 transition"
+              onClick={handleFilter}
+            >
+              Apply Filters
+            </button>
+            <button
+              className="text-red-600 text-sm flex items-center justify-center bg-white px-6 py-3 rounded-lg hover:text-red-700 transition"
+              onClick={clearFilter}
+            >
+              ❌ Clear Filter
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

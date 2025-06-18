@@ -21,51 +21,51 @@ const ChatPage = () => {
   const { propertyType, totalPrice, location, images } = house;
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (chat?.data?.messages && Array.isArray(chat.data.messages)) {
-      setMessages(chat.data.messages);
-    }
-    const interval = setInterval(fetchChat(chat?.data?.id), 5000); // Fetch every 5 seconds
+  // useEffect(() => {
+  //   if (chat?.data?.messages && Array.isArray(chat.data.messages)) {
+  //     setMessages(chat.data.messages);
+  //   }
+  //   const interval = setInterval(fetchChat(chat?.data?.id), 5000); // Fetch every 5 seconds
 
-    return () => clearInterval(interval);
-  }, [chat]);
+  //   return () => clearInterval(interval);
+  // }, [chat]);
 
-  const handleChat = async () => {
-    if (!newMessage.trim()) return;
+  // const handleChat = async () => {
+  //   if (!newMessage.trim()) return;
 
-    const newMsg = {
-      sender_id: user.id,
-      id: messages?.length + 1,
-      message: newMessage,
-    };
+  //   const newMsg = {
+  //     sender_id: user.id,
+  //     id: messages?.length + 1,
+  //     message: newMessage,
+  //   };
 
-    // Optimistically update UI
-    setMessages([...messages, newMsg]);
-    setNewMessage("");
+  //   // Optimistically update UI
+  //   setMessages([...messages, newMsg]);
+  //   setNewMessage("");
 
-    try {
-      const response = await fetch(
-        `https://backend.realestway.com/api/chats/${chat.data.id}/messages`,
-        {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: `bearer ${token}`,
-          },
-          body: JSON.stringify({
-            message: newMessage,
-          }),
-        }
-      );
+  //   try {
+  //     const response = await fetch(
+  //       `https://backend.realestway.com/api/chats/${chat.data.id}/messages`,
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           Accept: "application/json",
+  //           "Content-Type": "application/json",
+  //           Authorization: `bearer ${token}`,
+  //         },
+  //         body: JSON.stringify({
+  //           message: newMessage,
+  //         }),
+  //       }
+  //     );
 
-      if (!response.ok) console.error("Failed to send message");
-    } catch (error) {
-      console.error("Error sending message:", error);
-    }
-  };
+  //     if (!response.ok) console.error("Failed to send message");
+  //   } catch (error) {
+  //     console.error("Error sending message:", error);
+  //   }
+  // };
 
-  if (loadingChat || !chat?.data) return <Spinner />;
+  // if (loadingChat || !chat?.data) return <Spinner />;
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
@@ -163,7 +163,7 @@ const ChatPage = () => {
               placeholder="Type a message..."
             />
             <button
-              onClick={handleChat}
+              // onClick={handleChat}
               className="ml-2 px-5 py-2 bg-[#100073] text-white rounded-lg shadow-lg transform transition-all duration-200 hover:scale-105 hover:shadow-xl active:scale-95"
             >
               Send
