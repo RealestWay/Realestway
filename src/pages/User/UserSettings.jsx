@@ -1,17 +1,14 @@
 import { useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faEye,
-  faEyeSlash,
-  faLock,
-  faTimesCircle,
-} from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { Edit2 } from "iconsax-reactjs";
 
 // eslint-disable-next-line react/prop-types
 const UserSettings = ({ set, setSet }) => {
   const { user, updateUser, token } = useAuth();
   const [showPassWord, setShowPassWord] = useState(false);
+  const [showOPassWord, setShowOPassWord] = useState(false);
   const [showconPassWord, setShowconPassWord] = useState(false);
   const [updating, setUpdating] = useState(false);
   const [settings, setSettings] = useState({
@@ -109,110 +106,127 @@ const UserSettings = ({ set, setSet }) => {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 p-6 shadow-lg max-w-4xl mx-auto rounded-lg  my-2">
-      <div className="flex justify-between">
-        <h2 className="text-xl font-semibold mb-4">User Settings</h2>
-        <button
-          onClick={() => setSet(!set)}
-          className="text-red-600 font-montserrat text-lg"
-        >
-          <FontAwesomeIcon icon={faTimesCircle} /> Close
-        </button>
-      </div>
+    <>
+      <div className="p-6 font-poppins">
+        {" "}
+        <h2 className="text-xl flex justify-between items-center">
+          <span> Personal Information</span>
+          <button
+            className="p-2 sm:pr-4 flex items-center text-sm gap-1 border-[#9692ad] border-[1px] rounded-md text-[#3D3D3D]"
+            onClick={() => setSet(!set)}
+          >
+            <Edit2 color="#9692ad" variant="Bold" size={18} /> Edit
+          </button>
+        </h2>
+        <div className="mt-4 w-[85%] text-sm md:text-[1em] md:w-4/6 flex flex-col gap-3 md:gap-3 text-[#3D3D3D]">
+          <p className="grid grid-cols-[1fr_2fr]">
+            <span>Name</span>{" "}
+            <input
+              value={user?.fullName}
+              disabled
+              className="bg-[#F4F4F4] px-3 py-1 border-[#B7B7B7] border-[1px]"
+            />
+          </p>
+          <p className="grid grid-cols-[1fr_2fr]">
+            <span>Email</span>{" "}
+            <input
+              value={user?.email}
+              disabled
+              className="bg-[#F4F4F4] px-3 py-1 border-[#B7B7B7] border-[1px]"
+            />
+          </p>
+          <p className="grid grid-cols-[1fr_2fr]">
+            <span>Phone</span>{" "}
+            <input
+              value={user?.phone}
+              disabled
+              className="bg-[#F4F4F4] px-3 py-1 border-[#B7B7B7] border-[1px]"
+            />
+          </p>
 
-      {/* {message && <p className="text-green-500">{message}</p>} */}
-
-      {/* Email & Phone Update */}
-      <div className="mb-4">
-        <label className="block text-gray-700 dark:text-gray-200">Email</label>
-        <input
-          type="email"
-          name="email"
-          value={settings.email}
-          onChange={handleChange}
-          className="w-full p-2 border rounded"
-          disabled
-        />
-      </div>
-
-      <div className="mb-4">
-        <label className="block text-gray-700 dark:text-gray-200">Phone</label>
-        <input
-          type="text"
-          name="phone"
-          value={settings.phone}
-          onChange={handleChange}
-          className="w-full p-2 border rounded"
-          disabled
-        />
-      </div>
-
-      <button
-        onClick={handleUpdateProfile}
-        className="w-full bg-gray-500 text-white py-2 rounded mb-4"
-        disabled
-      >
-        Update Profile
-      </button>
-
-      {/* Change Password */}
-      <h3 className="text-lg font-semibold mb-2">Change Password</h3>
-      {message && <p className="text-green-500">{message}</p>}
-      <input
-        type="password"
-        name="oldPassword"
-        placeholder="Current Password"
-        value={settings.oldPassword}
-        onChange={handleChange}
-        className="w-full p-2 px-8 border rounded mb-2"
-      />
-      <div className="relative">
-        <div className="absolute inset-y-0 left-3 flex items-center text-gray-500">
-          <FontAwesomeIcon icon={faLock} color="lightblue" />
+          {user?.companyName && (
+            <p className="grid grid-cols-[1fr_2fr]">
+              <span>Company</span>{" "}
+              <input
+                value={user?.companyName}
+                disabled
+                className="bg-[#F4F4F4] px-3 py-1 border-[#B7B7B7] border-[1px]"
+              />
+            </p>
+          )}
+          <h3 className="text-xl flex justify-between items-center mt-3">
+            Change Password
+          </h3>
+          <div className="relative">
+            <p className="grid grid-cols-[1fr_2fr]">
+              <span>Old Password</span>
+              <input
+                type={showOPassWord ? "text" : "password"}
+                name="oldPassword"
+                placeholder="Current Password"
+                value={settings.oldPassword}
+                onChange={handleChange}
+                className="bg-[#F4F4F4] px-3 py-1 border-[#B7B7B7] border-[1px]"
+              />
+            </p>
+            <button
+              type="button"
+              onClick={() => setShowOPassWord(!showOPassWord)}
+              className="absolute inset-y-0 right-5 flex items-center font-montserrat text-gray-500"
+            >
+              <FontAwesomeIcon icon={showOPassWord ? faEye : faEyeSlash} />
+            </button>
+          </div>
+          <div className="relative">
+            <p className="grid grid-cols-[1fr_2fr]">
+              <span>New Password</span>{" "}
+              <input
+                type={showPassWord ? "text" : "password"}
+                name="newPassword"
+                placeholder="New Password"
+                value={settings.newPassword}
+                onChange={handleChange}
+                className="bg-[#F4F4F4] px-3 py-1 border-[#B7B7B7] border-[1px]"
+              />
+            </p>
+            <button
+              type="button"
+              onClick={() => setShowPassWord(!showPassWord)}
+              className="absolute inset-y-0 right-5 flex items-center font-montserrat text-gray-500"
+            >
+              <FontAwesomeIcon icon={showPassWord ? faEye : faEyeSlash} />
+            </button>
+          </div>
+          <div className="relative mb-3">
+            <p className="grid grid-cols-[1fr_2fr]">
+              <span>Confirm Password</span>{" "}
+              <input
+                type={showconPassWord ? "text" : "password"}
+                name="confirmNewPassword"
+                placeholder="Confirm New Password"
+                value={settings.confirmNewPassword}
+                onChange={handleChange}
+                className="bg-[#F4F4F4] px-3 py-1 border-[#B7B7B7] border-[1px]"
+              />
+            </p>
+            <button
+              type="button"
+              onClick={() => setShowconPassWord(!showconPassWord)}
+              className="absolute font-montserrat inset-y-0 right-5 flex items-center text-gray-500"
+            >
+              <FontAwesomeIcon icon={showconPassWord ? faEye : faEyeSlash} />
+            </button>
+          </div>
+          <button
+            onClick={handleChangePassword}
+            className="md:w-1/3 w-2/3 font-montserrat bg-[#00a256] text-white py-2 rounded-lg text-xs md:text-sm"
+          >
+            {updating ? "updating..." : "Update Password"}
+          </button>
         </div>
-        <input
-          type={showPassWord ? "text" : "password"}
-          name="newPassword"
-          placeholder="New Password"
-          value={settings.newPassword}
-          onChange={handleChange}
-          className="w-full p-2 px-8 border rounded mb-2"
-        />
-        <button
-          type="button"
-          onClick={() => setShowPassWord(!showPassWord)}
-          className="absolute inset-y-0 right-5 flex items-center font-montserrat text-gray-500"
-        >
-          <FontAwesomeIcon icon={showPassWord ? faEye : faEyeSlash} />
-        </button>
+        {message && <p className="text-green-500">{message}</p>}
       </div>
-      <div className="relative mb-3">
-        <div className="absolute inset-y-0 left-3 flex items-center text-gray-500">
-          <FontAwesomeIcon icon={faLock} color="lightblue" />
-        </div>
-        <input
-          type={showconPassWord ? "text" : "password"}
-          name="confirmNewPassword"
-          placeholder="Confirm New Password"
-          value={settings.confirmNewPassword}
-          onChange={handleChange}
-          className="w-full p-2 px-8 border rounded mb-2"
-        />
-        <button
-          type="button"
-          onClick={() => setShowconPassWord(!showconPassWord)}
-          className="absolute font-montserrat inset-y-0 right-5 flex items-center text-gray-500"
-        >
-          <FontAwesomeIcon icon={showconPassWord ? faEye : faEyeSlash} />
-        </button>
-      </div>
-      <button
-        onClick={handleChangePassword}
-        className="w-full font-montserrat bg-red-500 text-white py-2 rounded"
-      >
-        {updating ? "updating..." : "Update Password"}
-      </button>
-    </div>
+    </>
   );
 };
 

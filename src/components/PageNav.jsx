@@ -7,13 +7,15 @@ import {
   HamburgerMenu,
   Home2,
   InfoCircle,
+  LogoutCurve,
   Profile,
   SearchNormal1,
 } from "iconsax-reactjs";
 
 const PageNav = ({ home }) => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, logout } = useAuth();
   const [isOpen, setIsOpen] = useState(false); // State to toggle menu
+  const [mdOptOpen, setMdOptOpen] = useState(false);
   const navStyle = home
     ? "shadow flex items-center text-center min-h-12 w-4/5 text-sm m-auto px-4 rounded-3xl bg-white bg-opacity-30 relative"
     : "shadow shadow-[#8a7bf0] text-center flex items-center min-h-12 w-4/5 text-sm mx-auto px-4 rounded-3xl bg-white relative";
@@ -109,22 +111,67 @@ const PageNav = ({ home }) => {
             </li>
           </span>
           {isAuthenticated ? (
-            <li className="md:inline-block block p-3">
-              <NavLink
-                to="/Profile"
-                className={({ isActive }) =>
-                  isActive
-                    ? "items-center flex text-[#100073]"
-                    : "items-center flex"
-                }
-              >
-                <Profile
-                  color="#00A256"
-                  className={`${isOpen ? "mr-2" : ""}`}
-                />
-                {isOpen ? <span>Profile</span> : ""}
-              </NavLink>
-            </li>
+            <>
+              {" "}
+              <li className="md:inline-block block p-3 relative">
+                {isOpen ? (
+                  <NavLink
+                    to="/Profile"
+                    className={({ isActive }) =>
+                      isActive
+                        ? "items-center flex text-[#100073]"
+                        : "items-center flex"
+                    }
+                  >
+                    <Profile
+                      color="#00A256"
+                      className={`${isOpen ? "mr-2" : ""}`}
+                    />
+                    <span>Profile</span>
+                  </NavLink>
+                ) : (
+                  <span
+                    className="items-center flex bg-black rounded-[50%] p-1 bg-opacity-10"
+                    onClick={() => setMdOptOpen(!mdOptOpen)}
+                  >
+                    <Profile
+                      color="#00A256"
+                      className={`${isOpen ? "mr-2" : ""}`}
+                    />
+                  </span>
+                )}
+                {mdOptOpen ? (
+                  <div className="absolute rounded-md text-sm md:gap-2 bg-white text-[#100073] hidden md:flex md:flex-col right-4 top-10 w-[100px] p-2">
+                    <NavLink
+                      to="/Profile"
+                      className="border-b-[1px] py-1 flex border-[#8f8d9b]"
+                    >
+                      Profile
+                    </NavLink>
+                    <button
+                      onClick={logout}
+                      className="rounded-lg py-1 flex items-center"
+                    >
+                      Sign Out
+                    </button>
+                  </div>
+                ) : (
+                  ""
+                )}
+              </li>
+              <li className="md:hidden flex items-center p-1">
+                <button
+                  onClick={logout}
+                  className="max-w-4xl mx-auto px-6 py-2 rounded-lg shadow-lg mt-4 text-red-600 font-bold flex items-center mb-5"
+                >
+                  <LogoutCurve
+                    color="red"
+                    className={`${isOpen ? "mr-2" : ""}`}
+                  />{" "}
+                  Sign Out
+                </button>
+              </li>
+            </>
           ) : (
             <span className="flex gap-2 justify-center md:justify-normal">
               <li

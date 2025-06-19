@@ -143,7 +143,7 @@ const Filter = ({
           </span>
         </div>
         <div className="flex flex-col">
-          <label className="flex justify-start md:pl-4">Price range</label>
+          <label className="flex justify-start md:pl-4">Max Budget</label>
           <span className="flex justify-start md:pl-4 gap-2 md:border-l-2 border-b-2 md:border-b-0 border-[#8F90A6] text-sm text-[#8F90A6]">
             <input
               type="text"

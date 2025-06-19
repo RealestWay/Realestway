@@ -71,7 +71,10 @@ h1,
 h2,
 h3,
 li,
-button {
+button,
+input,
+label,
+p {
   font-family: "Poppins", sans-serif;
 }
 
