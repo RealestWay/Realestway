@@ -103,9 +103,7 @@ const ItemView = () => {
   }, [loadingChats, chats, house, setChat]);
 
   if (!house) {
-    return (
-      <p className="text-center text-gray-400">Loading house details...</p>
-    );
+    return <Spinner />;
   }
 
   const {

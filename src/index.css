@@ -79,12 +79,12 @@ button {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background-color: #a8e6a1; /* light green */
+  background-color: #b6eab0; /* light green */
   display: inline-block;
   transition: background-color 0.3s;
 }
 .custom-pagination .swiper-pagination-bullet-active {
-  background-color: #007f46; /* deep green */
+  background-color: #00a256; /* deep green */
 }
 
 /* styles.css */

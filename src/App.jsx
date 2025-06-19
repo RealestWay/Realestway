@@ -7,8 +7,6 @@ import SignIn from "./pages/Auth/SignIn";
 import Signup from "./pages/Auth/Signup";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
 import Verify from "./pages/Auth/Verify";
-import HouseDetails from "./pages/Product/HouseDetails";
-import MapDetails from "./pages/Product/MapDetails";
 import ItemView from "./pages/Product/ItemView";
 import UserProfile from "./pages/User/UserProfile";
 import { AuthProvider } from "./contexts/AuthContext";
@@ -96,10 +94,7 @@ const App = () => {
                 <Route index element={<RentSearchPage />} />
                 <Route path="/search/buy" element={<BuySearchPage />} />
               </Route>
-              <Route path="property/:id" element={<ItemView />}>
-                <Route index element={<HouseDetails />} />
-                <Route path="mapDetails" element={<MapDetails />} />
-              </Route>
+              <Route path="property/:id" element={<ItemView />} />
               <Route
                 path="Verify"
                 element={
