@@ -107,20 +107,19 @@ const UserSettings = ({ set, setSet }) => {
 
   return (
     <>
-      <div className="p-6 font-poppins">
-        {" "}
+      <div className="py-6 px-4 font-poppins">
         <h2 className="text-xl flex justify-between items-center">
           <span> Personal Information</span>
           <button
             className="p-2 sm:pr-4 flex items-center text-sm gap-1 border-[#9692ad] border-[1px] rounded-md text-[#3D3D3D]"
             onClick={() => setSet(!set)}
           >
-            <Edit2 color="#9692ad" variant="Bold" size={18} /> Edit
+            Done
           </button>
         </h2>
-        <div className="mt-4 w-[85%] text-sm md:text-[1em] md:w-4/6 flex flex-col gap-3 md:gap-3 text-[#3D3D3D]">
+        <div className="mt-4 w-[90%] text-sm md:text-[1em] md:w-4/6 flex flex-col gap-3 text-[#3D3D3D]">
           <p className="grid grid-cols-[1fr_2fr]">
-            <span>Name</span>{" "}
+            <span>Name</span>
             <input
               value={user?.fullName}
               disabled
@@ -128,7 +127,7 @@ const UserSettings = ({ set, setSet }) => {
             />
           </p>
           <p className="grid grid-cols-[1fr_2fr]">
-            <span>Email</span>{" "}
+            <span>Email</span>
             <input
               value={user?.email}
               disabled
@@ -136,7 +135,7 @@ const UserSettings = ({ set, setSet }) => {
             />
           </p>
           <p className="grid grid-cols-[1fr_2fr]">
-            <span>Phone</span>{" "}
+            <span>Phone</span>
             <input
               value={user?.phone}
               disabled
