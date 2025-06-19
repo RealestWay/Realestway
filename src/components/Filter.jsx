@@ -61,9 +61,9 @@ const Filter = () => {
       </div>
 
       {/* Filters */}
-      <div className="rounded-lg shadow-md bg-white text-sm flex flex-col p-2 gap-5 items-center mb-4">
+      <div className="rounded-lg shadow-md bg-white text-sm flex flex-col p-2 gap-5 md:gap-2 items-center mb-4">
         <span className="w-full flex justify-between md:block md:text-left">
-          <span>Filter</span>{" "}
+          <span>Filters</span>{" "}
           {/* Toggle Button for Advanced Filter on small screens */}
           <div className="md:hidden w-full text-right mt-2">
             <button
@@ -104,9 +104,18 @@ const Filter = () => {
             </select>
           </div>
           {/* Price Range Slider */}
-          <div className="col-span-2 flex flex-col w-full md:w-[48%]">
+          <div className="col-span-2 flex flex-col gap-2 w-full md:w-[48%]">
             <label className="text-sm font-medium">Price (₦):</label>
-            <div className="flex flex-col md:flex-row items-center gap-3">
+            <input
+              type="range"
+              min="50000"
+              max="10000000"
+              step="10000"
+              value={minPrice}
+              onChange={(e) => setMinPrice(parseInt(e.target.value))}
+              className="custom-range w-full md:w-[30%] md:hidden inline"
+            />
+            <div className="flex items-center gap-3">
               <input
                 type="number"
                 value={minPrice}
@@ -121,7 +130,7 @@ const Filter = () => {
                 step="10000"
                 value={minPrice}
                 onChange={(e) => setMinPrice(parseInt(e.target.value))}
-                className="custom-range w-full md:w-[30%]"
+                className="custom-range w-full md:w-[30%] hidden md:inline"
               />
               <input
                 type="number"
@@ -135,7 +144,7 @@ const Filter = () => {
         </div>
 
         {/* Advanced Filters - hidden on mobile unless toggled */}
-        <div className="w-full flex flex-col gap-5 md:flex-row justify-between items-center ">
+        <div className="w-full grid grid-cols-2 gap-5 md:gap-3 md:flex justify-between items-center ">
           <div
             className={`${
               showAdvanced ? "block" : "hidden"
@@ -204,20 +213,19 @@ const Filter = () => {
               ))}
             </select>
           </div>
-          <div className="flex justify-between w-full md:w-[30%]">
-            <button
-              className="bg-[#00a256] text-white px-6 py-3 rounded-lg hover:bg-green-900 transition"
-              onClick={handleFilter}
-            >
-              Apply Filters
-            </button>
-            <button
-              className="text-red-600 text-sm flex items-center justify-center bg-white px-6 py-3 rounded-lg hover:text-red-700 transition"
-              onClick={clearFilter}
-            >
-              ❌ Clear Filter
-            </button>
-          </div>
+
+          <button
+            className="bg-[#00a256] md:w-[15%] text-white px-6 py-3 rounded-lg hover:bg-green-900 transition"
+            onClick={handleFilter}
+          >
+            Apply Filters
+          </button>
+          <button
+            className="text-red-600 md:w-[15%] text-sm flex items-center justify-center bg-white px-6 py-3 rounded-lg hover:text-red-700 transition"
+            onClick={clearFilter}
+          >
+            ❌ Clear Filter
+          </button>
         </div>
       </div>
     </div>

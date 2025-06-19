@@ -15,11 +15,11 @@ const PageNav = ({ home }) => {
   const { isAuthenticated } = useAuth();
   const [isOpen, setIsOpen] = useState(false); // State to toggle menu
   const navStyle = home
-    ? "shadow flex items-center  text-center min-h-12 w-4/5 text-sm m-auto px-4 rounded-3xl bg-white bg-opacity-30 relative"
-    : "shadow shadow-[#8a7bf0]  text-center flex items-center min-h-12 w-4/5 text-sm m-auto px-4 rounded-3xl bg-white relative";
+    ? "shadow flex items-center text-center min-h-12 w-4/5 text-sm m-auto px-4 rounded-3xl bg-white bg-opacity-30 relative"
+    : "shadow shadow-[#8a7bf0] text-center flex items-center min-h-12 w-4/5 text-sm mx-auto px-4 rounded-3xl bg-white";
 
   return (
-    <nav className="w-full my-10 px-50 h-20 ">
+    <nav className="w-full mt-10 mb-3 px-50 h-20 ">
       <ul className={navStyle}>
         {/* Logo Section (Fixed in Place) */}
         <Link to={"/"} className="flex flex-shrink-0">
@@ -126,11 +126,15 @@ const PageNav = ({ home }) => {
               </NavLink>
             </li>
           ) : (
-            <span className="flex gap-2">
-              <li className="md:inline-block block p-3 py-1 px-2 ">
+            <span className="flex gap-2 justify-center md:justify-normal">
+              <li
+                className={`${
+                  isOpen ? "text-white text-lg" : ""
+                } md:inline-block block w-full bg-[#00a256] md:bg-inherit rounded-b-lg md:rounded-none py-3 md:py-1 px-16 md:px-2`}
+              >
                 <NavLink to="/login">Login</NavLink>
               </li>
-              <li className="md:inline-block block p-3 py-1 px-3 rounded-3xl bg-white bg-opacity-20 ">
+              <li className="md:inline-block hidden p-3 py-1 px-3 rounded-3xl bg-white bg-opacity-20 ">
                 <NavLink to="/register">Register</NavLink>
               </li>
             </span>

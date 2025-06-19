@@ -5,12 +5,10 @@ import Items from "../../components/Items";
 import Spinner from "../../components/Spinner";
 import { UseHouses } from "../../contexts/HouseContext";
 import { useChats } from "../../contexts/ChatsContext";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHouse, faHouseCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../../contexts/AuthContext";
 
 const RentSearchPage = () => {
-  const { houses, isLoading, filter, fetchHouses } = UseHouses();
+  const { houses, isLoading, filter } = UseHouses();
   const { location, minBudget, budget: maxBudget, propertyType } = filter;
   const [visibleCount, setVisibleCount] = useState(20);
   const { fetchChats } = useChats();
@@ -119,8 +117,10 @@ const RentSearchPage = () => {
                 {hasFilters ? (
                   <>
                     <p className="font-semibold text-lg">
-                      Showing {paginatedExact.length} results for
-                      <i>{`"${location}"`}</i>
+                      Showing {paginatedExact.length} results for{" "}
+                      <i>{`"${
+                        location ? location : "all locations available"
+                      }"`}</i>
                     </p>
                   </>
                 ) : (

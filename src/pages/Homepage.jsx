@@ -26,7 +26,7 @@ import {
 
 const Homepage = () => {
   const { houses, isLoading } = UseHouses();
-  const { isAuthenticated, token } = useAuth();
+  const { token } = useAuth();
   const { fetchChats } = useChats();
   const loactionsListings = [
     {
@@ -47,7 +47,7 @@ const Homepage = () => {
     },
     {
       location: "Port-Harcourt",
-      img: "https://media.gettyimages.com/id/86045164/photo/aerial-view-dated-on-april-14-2009-shows-port-harcourt-in-river-state-the-commercial-capital.jpg?s=612x612&w=0&k=20&c=O1orhME7wgpUnlTCdb0mOuBiSbQ68ulVjwEiH_qAmcU=",
+      img: "/P-H.png",
       listings: houses?.data?.filter((house) =>
         house.location.address.toLowerCase().includes("port-harcourt")
       ).length,
@@ -61,7 +61,7 @@ const Homepage = () => {
     },
     {
       location: "Ibadan",
-      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTM89r5waaMC3n5Dktq6dNC3nH0dGMPBrYNkQ&s",
+      img: "https://media.gettyimages.com/id/86045164/photo/aerial-view-dated-on-april-14-2009-shows-port-harcourt-in-river-state-the-commercial-capital.jpg?s=612x612&w=0&k=20&c=O1orhME7wgpUnlTCdb0mOuBiSbQ68ulVjwEiH_qAmcU=",
       listings: houses?.data?.filter((house) =>
         house.location.address.toLowerCase().includes("ibadan")
       ).length,
@@ -145,7 +145,7 @@ const Homepage = () => {
                 headed.
               </p>
             </div>
-            <div className="relative w-full sm:w-[70%]">
+            <div className="relative w-full md:w-[70%]">
               <button className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white bg-opacity-50 p-2 rounded-full shadow">
                 <ArrowLeft2 size="24" color="white" />
               </button>
@@ -155,7 +155,7 @@ const Homepage = () => {
               </button>
 
               {/* Scrollable Content */}
-              <div className="w-full flex justify-between flex-row flex-nowrap gap-3 overflow-x-auto scroll-smooth scrollbar-hide snap-x px-10">
+              <div className="w-full flex justify-between flex-row flex-nowrap gap-3 overflow-x-auto scroll-smooth scrollbar-hide snap-x">
                 {loactionsListings.map((city) => (
                   <div
                     key={city.location}

@@ -75,6 +75,18 @@ button {
   font-family: "Poppins", sans-serif;
 }
 
+.custom-pagination span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #a8e6a1; /* light green */
+  display: inline-block;
+  transition: background-color 0.3s;
+}
+.custom-pagination .swiper-pagination-bullet-active {
+  background-color: #007f46; /* deep green */
+}
+
 /* styles.css */
 @keyframes spin {
   0% {

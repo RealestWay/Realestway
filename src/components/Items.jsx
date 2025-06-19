@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { UseHouses } from "../contexts/HouseContext";
 import { useEffect, useState } from "react";
-import { Lock1, SaveAdd, SaveMinus } from "iconsax-reactjs";
+import { SaveAdd, SaveMinus } from "iconsax-reactjs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBathtub, faBed, faHome } from "@fortawesome/free-solid-svg-icons";
 
