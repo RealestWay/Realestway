@@ -16,7 +16,7 @@ const PageNav = ({ home }) => {
   const [isOpen, setIsOpen] = useState(false); // State to toggle menu
   const navStyle = home
     ? "shadow flex items-center text-center min-h-12 w-4/5 text-sm m-auto px-4 rounded-3xl bg-white bg-opacity-30 relative"
-    : "shadow shadow-[#8a7bf0] text-center flex items-center min-h-12 w-4/5 text-sm mx-auto px-4 rounded-3xl bg-white";
+    : "shadow shadow-[#8a7bf0] text-center flex items-center min-h-12 w-4/5 text-sm mx-auto px-4 rounded-3xl bg-white relative";
 
   return (
     <nav className="w-full mt-10 mb-3 px-50 h-20 ">
@@ -45,7 +45,7 @@ const PageNav = ({ home }) => {
 
         {/* Navigation Links (Responsive) */}
         <div
-          className={`md:font-normal absolute top-full left-0 w-full rounded-lg md:static md:w-4/5 md:flex md:ml-10 md:items-center md:justify-between transition-all duration-300 ${
+          className={`md:font-normal z-50 absolute top-full left-0 w-full rounded-lg md:static md:w-4/5 md:flex md:ml-10 md:items-center md:justify-between transition-all duration-300 ${
             isOpen ? "block bg-white text-[black]" : "hidden"
           }`}
         >

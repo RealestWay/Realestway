@@ -344,7 +344,7 @@ const ItemView = () => {
                     (house?.availability === "available" ? (
                       <Link to={`/Chat`}>
                         <button
-                          className="bg-[#00a256] text-white rounded-md md:px-24 px-10 py-4 flex gap-2"
+                          className="bg-[#00a256] text-white rounded-md w-48 md:px-10 md:w-60 p-4 flex gap-2"
                           onClick={() => {
                             if (existingChat.id) {
                               fetchChat(existingChat.id);
@@ -358,7 +358,7 @@ const ItemView = () => {
                       </Link>
                     ) : (
                       <button
-                        className="bg-[#00a256] text-white text-sm rounded-md md:px-24 px-10 py-4 flex gap-2"
+                        className="bg-[#00a256] text-white text-sm rounded-md w-48 md:px-10 md:w-60 p-4 flex gap-2"
                         disabled
                       >
                         <Message color="#fff" /> Contact Agent
@@ -367,7 +367,7 @@ const ItemView = () => {
                 </>
               ) : (
                 <Link to={`/login`}>
-                  <button className="bg-[#00a256] text-white text-sm rounded-lg md:px-24 px-10 py-4">
+                  <button className="bg-[#00a256] text-white text-sm rounded-lg w-48 md:w-60 md:px-10 p-4">
                     Sign In
                   </button>
                 </Link>
