@@ -8,7 +8,7 @@ import {
 
 const AuthContext = createContext();
 
-const initialState = { user: null, isAuthenticated: false };
+const initialState = { user: null, isAuthenticated: true };
 
 function reducer(state, action) {
   switch (action.type) {
