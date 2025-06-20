@@ -87,7 +87,7 @@ const Homepage = () => {
     if (token) fetchChats();
   }, [token]);
   return (
-    <div className="w-[100vw]">
+    <div className="w-[100vw] dark:text-white">
       {isLoading ? (
         <Spinner />
       ) : (

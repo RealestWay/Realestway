@@ -128,7 +128,7 @@ const ItemView = () => {
   if (loading) return <Spinner />;
   return (
     <div>
-      <div className="w-[88%] mx-auto">
+      <div className="w-[88%] mx-auto dark:text-white">
         <PageNav home={false} />
         <div className="w-full px-6 md:px-10 flex justify-between items-center text-[#00a256] ">
           <button

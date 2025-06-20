@@ -37,7 +37,7 @@ const UserProfile = () => {
     setSuccess,
     updateHouse,
   } = UseHouses();
-  const { user, logout, token } = useAuth();
+  const { user, token } = useAuth();
 
   const navigate = useNavigate();
 
@@ -138,7 +138,7 @@ const UserProfile = () => {
             className="p-3 w-full px-5 transition duration-300"
           >
             <span className="flex justify-between">
-              <span> Chats</span>
+              <span> Chats With {user.companyName ? "Users" : "Agents"}</span>
               {!openChats ? (
                 <>
                   <ArrowUp2 size={20} />
@@ -258,12 +258,6 @@ const UserProfile = () => {
           setSelectedHouse={setSelectedHouse}
         />
       )}
-      <button
-        onClick={logout}
-        className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg mt-10 pb-2 text-red-600 font-bold flex items-center mb-10"
-      >
-        Sign Out
-      </button>
       {openDelete && (
         <Confirm
           setOpenDelete={setOpenDelete}

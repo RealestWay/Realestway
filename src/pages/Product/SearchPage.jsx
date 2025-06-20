@@ -10,7 +10,7 @@ const SearchPage = () => {
   ];
   const [page, setPage] = useState("/search");
   return (
-    <div className="w-full relative">
+    <div className="w-full relative dark:text-white">
       <PageNav home={false} />
       <h3 className="text-center text-3xl font-semibold text-gray-800 mb-6">
         Find Homes That Truly Fit You
