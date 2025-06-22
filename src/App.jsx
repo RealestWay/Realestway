@@ -9,11 +9,10 @@ import ForgotPassword from "./pages/Auth/ForgotPassword";
 import Verify from "./pages/Auth/Verify";
 import ItemView from "./pages/Product/ItemView";
 import UserProfile from "./pages/User/UserProfile";
-import { AuthProvider } from "./contexts/AuthContext";
+import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import { HouseProvider } from "./contexts/HouseContext";
 import ProtectedRoutes from "./ProtectedRoutes";
 import OrderPage from "./pages/OrderPage";
-import ChatPage from "./Chat/ChatPageHouse";
 import ScrollToTop from "./components/ScrollToTop";
 import AgentEnrollmentPage from "./pages/AgentEnrollment";
 import CheckEmail from "./pages/Auth/CheckEmail";
@@ -25,12 +24,26 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import ServicesAndFacilities from "./pages/S&F";
 import Careers from "./pages/Careers";
 import { ChatProvider } from "./contexts/ChatsContext";
-import Chat from "./Chat/Chat";
 import RentSearchPage from "./pages/Product/RentSearchPage";
 import SearchPage from "./pages/Product/SearchPage";
 import BuySearchPage from "./pages/Product/BuySearchPage";
+import { Profile } from "iconsax-reactjs";
+import AgentDashboard from "./pages/User/AgentDash";
+import AgentProfile from "./pages/User/AgentProfile";
+import AgentListings from "./pages/User/AgentListings";
+import AgentMessages from "./pages/User/AgentMessages";
+import AgentAccount from "./pages/User/AgentAccount";
 
 const App = () => {
+  const { user } = useAuth();
+  // const user = {
+  //   id: "A12345",
+  //   fullName: "Agent John Doe",
+  //   email: "agent@example.com",
+  //   phone: "08123456789",
+  //   companyName: "Real Homes Ltd.",
+  //   nin: "12345678901",
+  // };
   return (
     //Passing Context values
     <AuthProvider>
@@ -56,30 +69,33 @@ const App = () => {
                   </ProtectedAuthRoutes>
                 }
               />
-              <Route
-                path="Profile"
-                element={
-                  <ProtectedRoutes>
-                    <UserProfile />
-                  </ProtectedRoutes>
-                }
-              />
-              <Route
-                path="Chat"
-                element={
-                  <ProtectedRoutes>
-                    <ChatPage />
-                  </ProtectedRoutes>
-                }
-              />
-              <Route
-                path="message"
-                element={
-                  <ProtectedRoutes>
-                    <Chat />
-                  </ProtectedRoutes>
-                }
-              />
+              {!user.companyName ? (
+                <Route
+                  path="profile"
+                  element={
+                    <ProtectedRoutes>
+                      <UserProfile />
+                    </ProtectedRoutes>
+                  }
+                />
+              ) : (
+                <Route
+                  path="profile"
+                  element={
+                    <ProtectedRoutes>
+                      <AgentProfile />
+                    </ProtectedRoutes>
+                  }
+                >
+                  <Route index element={<AgentDashboard />}></Route>
+                  <Route
+                    path="/profile/my-listings"
+                    element={<AgentListings />}
+                  />
+                  <Route path="/profile/messages" element={<AgentMessages />} />
+                  <Route path="/profile/account" element={<AgentAccount />} />
+                </Route>
+              )}
               <Route
                 path="OrderPage/:propertyId"
                 element={

@@ -20,9 +20,7 @@ const HouseProvider = ({ children }) => {
         const data = await res.json();
         setHouses(data);
       } catch {
-        alert(
-          "Please check your network, there was an error loading houses..."
-        );
+        alert("Please check your network, page could not load properly...");
       } finally {
         setIsLoading(false);
       }

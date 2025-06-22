@@ -73,7 +73,7 @@
 //           </span>
 //         </div>
 //       </div>
-//       <div className="w-[95%] md:w-[90%] mx-auto bg-white rounded-lg my-3 mt-8 border-[1px] border-[#9692ad]">
+//       <div className="w-[95%] md:w-[90%] mx-auto bg-white rounded-lg my-3 mt-8 border-[1px] bg-[#FBFDFF] shadow-sm border-[#9692ad]">
 //         {settings ? (
 //           <UserSettings set={settings} setSet={setSettings} />
 //         ) : (
@@ -131,7 +131,7 @@
 //           </>
 //         </div>
 //       )}{" "}
-//       <div className="w-[95%] md:w-[90%] mx-auto bg-white rounded-lg my-3 mt-8 border-[1px] border-[#9692ad]">
+//       <div className="w-[95%] bg-[#FBFDFF] rounded-sm bg-[#FBFDFF] border-[#DCDCEB] md:w-[90%] mx-auto bg-white rounded-lg my-3 mt-8 border-[1px] border-[#9692ad]">
 //         <>
 //           <button
 //             onClick={() => setOpenChats(!openChats)}
@@ -152,9 +152,78 @@
 //           {!openChats ? <ChatList /> : ""}
 //         </>
 //       </div>
+//  <div className="flex flex-col gap-5 my-5 p-5 md:px-8 rounded-sm w-[95%] mx-auto md:w-[90%] shadow-sm border-[0.5px] bg-[#FBFDFF] border-[#DCDCEB]">
+//         <div className="md:flex-row w-full flex flex-col gap-8">
+//           <span className="md:w-[50%] flex flex-col gap-2">
+//             <h3 className="text-xl">Refer and Earn With Realestway</h3>
+//             <p className="text-sm text-justify">
+//               Invite friends to use Realestway. When they sign up and complete
+//               an action, you both get rewarded.
+//             </p>
+//           </span>
+//           <span className="px-3 gap-3 flex flex-col md:w-[50%]">
+//             <input
+//               disabled
+//               className="w-full p-2"
+//               value={"https://realestway.com/register?ref=myref-link-code"}
+//             />
+//             <button
+//               onClick={() => {
+//                 navigator.clipboard.writeText(
+//                   "https://realestway.com/register?ref=myref-link-code"
+//                 );
+//                 alert("Link copied to clipboard!");
+//               }}
+//               className="bg-[#00a256] w-full w-max-[100px] text-xs text-white p-2 py-2 rounded-lg"
+//             >
+//               <FontAwesomeIcon icon={faLink} /> Share Link
+//             </button>
+//           </span>
+//         </div>
+//         <hr />
+//         <div className="flex w-full justify-evenly flex-col md:flex-row">
+//           <div className="flex gap-4 bg-[#F9FBFF] shadow-sm border-[#DCDCEB] border-[1px] rounded-sm px-6 py-2">
+//             <People color="#00a256" size={24} />
+//             <span className="flex md:flex-col justify-between w-full gap-3 text-xl">
+//               <p>Total Referrals</p>
+//               <p>{10}</p>
+//             </span>
+//           </div>
+//           <div className="flex gap-4 bg-[#F9FBFF] shadow-sm border-[#DCDCEB] border-[1px] rounded-sm px-6 py-2">
+//             <TickCircle color="#00a256" size={24} />
+//             <span className="flex md:flex-col justify-between w-full gap-3 text-xl">
+//               <p>Successful Referrals</p>
+//               <p>{10}</p>
+//             </span>
+//           </div>
+//           <div className="flex gap-4 bg-[#F9FBFF] shadow-sm border-[#DCDCEB] border-[1px] rounded-sm  px-6 py-2">
+//             <MoneyTick color="#00a256" size={24} />
+//             <span className="flex md:flex-col justify-between w-full gap-3 text-xl">
+//               <p>Total Paid</p>
+//               <p>{10}</p>
+//             </span>
+//           </div>
+//         </div>
+//         <div className="flex flex-col gap-1">
+//           <span className="flex justify-between gap-1">
+//             <h4 className="text-lg">You Available Balance</h4>{" "}
+//             <button className="bg-[#00a256] hidden md:inline w-max-[100px] w-[30%] text-xs text-white p-2 py-2 rounded-lg">
+//               Request Payout
+//             </button>
+//           </span>
+//           <p className="text-xs">
+//             You have <span className="text-lg text-[#100073]">#{"4,000"}</span> available
+//             payout.
+//           </p>
+//           <button className="bg-[#00a256] text-center justify-center flex md:hidden w-max-[100px] text-xs text-white p-2 py-2 rounded-lg">
+//             Request Payout
+//           </button>
+//         </div>
+//       </div>
+
 //       {user?.companyName && (
 //         <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg mt-10 pb-2">
-//           <p className="font-bold text-xl border-0 border-b-2 justify-center flex text-[#100073] w-full">
+//           <p className="font-bold text-xl border-0 border-b-2 justify-left flex text-[#100073] w-full">
 //             Your Listed Houses
 //           </p>
 //           {isLoading ? (
@@ -368,7 +437,15 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLink, faTimes } from "@fortawesome/free-solid-svg-icons";
-import { ArrowDown2, ArrowLeft, ArrowUp2, Edit2 } from "iconsax-reactjs";
+import {
+  ArrowDown2,
+  ArrowLeft,
+  ArrowUp2,
+  Edit2,
+  MoneyTick,
+  People,
+  TickCircle,
+} from "iconsax-reactjs";
 
 import Items from "../../components/Items";
 import HouseUploadForm from "./HouseUploadForm";
@@ -377,6 +454,7 @@ import ChatList from "./ChatList";
 import Spinner2 from "../../components/Spinner2";
 import PageNav from "../../components/PageNav";
 import Footer from "../../components/Footer";
+import ChatBox from "../../Chat/ChatBox";
 
 const UserProfile = () => {
   const [addItem, setAddItems] = useState(false);
@@ -387,6 +465,7 @@ const UserProfile = () => {
   const [selectedHouse, setSelectedHouse] = useState(null);
   const [settings, setSettings] = useState(false);
 
+  const [chatbox, setChatBox] = useState(false);
   const user = {
     id: "A12345",
     fullName: "Agent John Doe",
@@ -440,7 +519,7 @@ const UserProfile = () => {
         </div>
       </div>
 
-      <div className="w-[95%] md:w-[90%] mx-auto bg-white rounded-lg my-3 mt-8 border-[1px] border-[#9692ad]">
+      <div className="w-[95%] md:w-[90%] mx-auto shadow-sm bg-white rounded-lg my-3 mt-8 border-[1px] border-[#9692ad]">
         {settings ? (
           <UserSettings set={settings} setSet={setSettings} />
         ) : (
@@ -484,7 +563,7 @@ const UserProfile = () => {
         </div>
       )}
 
-      <div className="w-[95%] md:w-[90%] mx-auto bg-white rounded-lg my-3 mt-8 border-[1px] border-[#9692ad]">
+      <div className="w-[95%] rounded-sm md:w-[90%] bg-[#FBFDFF] mx-auto bg-white my-3 mt-8 border-[1px] border-[#9692ad]">
         <button
           onClick={() => setOpenChats(!openChats)}
           className="p-3 w-full px-5 transition duration-300"
@@ -495,10 +574,84 @@ const UserProfile = () => {
           </span>
         </button>
         {!openChats && <ChatList />}
+        <button
+          onClick={() => setChatBox(!chatbox)}
+          className="bg-[#00a256] p-3 rounded-md"
+        >
+          {chatbox ? "Close Chat" : "Open Chat"}
+        </button>
       </div>
 
+      <div className="flex flex-col gap-5 my-5 p-5 md:px-8 rounded-sm w-[95%] mx-auto md:w-[90%] shadow-sm border-[0.5px] bg-[#FBFDFF] border-[#DCDCEB]">
+        <div className="md:flex-row w-full flex flex-col gap-8">
+          <span className="md:w-[50%] flex flex-col gap-2">
+            <h3 className="text-xl">Refer and Earn With Realestway</h3>
+            <p className="text-sm text-justify">
+              Invite friends to use Realestway. When they sign up and complete
+              an action, you both get rewarded.
+            </p>
+          </span>
+          <span className="px-3 gap-3 flex flex-col md:w-[50%]">
+            <input
+              disabled
+              className="w-full p-2"
+              value={"https://realestway.com/register?ref=myref-link-code"}
+            />
+            <button
+              onClick={() => {
+                navigator.clipboard.writeText(
+                  "https://realestway.com/register?ref=myref-link-code"
+                );
+                alert("Link copied to clipboard!");
+              }}
+              className="bg-[#00a256] w-full w-max-[100px] text-xs text-white p-2 py-2 rounded-lg"
+            >
+              <FontAwesomeIcon icon={faLink} /> Share Link
+            </button>
+          </span>
+        </div>
+        <hr />
+        <div className="flex w-full justify-evenly flex-col md:flex-row">
+          <div className="flex gap-4 bg-[#F9FBFF] shadow-sm border-[#DCDCEB] border-[1px] rounded-sm px-6 py-2">
+            <People color="#00a256" size={24} />
+            <span className="flex md:flex-col justify-between w-full gap-3 text-xl">
+              <p>Total Referrals</p>
+              <p>{10}</p>
+            </span>
+          </div>
+          <div className="flex gap-4 bg-[#F9FBFF] shadow-sm border-[#DCDCEB] border-[1px] rounded-sm px-6 py-2">
+            <TickCircle color="#00a256" size={24} />
+            <span className="flex md:flex-col justify-between w-full gap-3 text-xl">
+              <p>Successful Referrals</p>
+              <p>{10}</p>
+            </span>
+          </div>
+          <div className="flex gap-4 bg-[#F9FBFF] shadow-sm border-[#DCDCEB] border-[1px] rounded-sm  px-6 py-2">
+            <MoneyTick color="#00a256" size={24} />
+            <span className="flex md:flex-col justify-between w-full gap-3 text-xl">
+              <p>Total Paid</p>
+              <p>{10}</p>
+            </span>
+          </div>
+        </div>
+        <div className="flex flex-col gap-1">
+          <span className="flex justify-between gap-1">
+            <h4 className="text-lg">You Available Balance</h4>{" "}
+            <button className="bg-[#00a256] hidden md:inline w-max-[100px] w-[30%] text-xs text-white p-2 py-2 rounded-lg">
+              Request Payout
+            </button>
+          </span>
+          <p className="text-xs">
+            You have <span className="text-lg text-[#100073]">#{"4,000"}</span>{" "}
+            available payout.
+          </p>
+          <button className="bg-[#00a256] text-center justify-center flex md:hidden w-max-[100px] text-xs text-white p-2 py-2 rounded-lg">
+            Request Payout
+          </button>
+        </div>
+      </div>
       <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg mt-10 pb-2">
-        <p className="font-bold text-xl border-0 border-b-2 justify-center flex text-[#100073] w-full">
+        <p className="font-bold text-xl border-0 border-b-2 justify-left flex text-[#100073] w-full">
           Your Listed Houses
         </p>
         {isLoading ? (
@@ -557,7 +710,7 @@ const UserProfile = () => {
           </>
         )}
       </div>
-
+      {chatbox && <ChatBox setChatBox={setChatBox} />}
       {isModalOpen && (
         <EditHouseForm
           house={selectedHouse}

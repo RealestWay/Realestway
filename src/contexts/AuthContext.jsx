@@ -8,7 +8,7 @@ import {
 
 const AuthContext = createContext();
 
-const initialState = { user: null, isAuthenticated: true };
+const initialState = { user: null, isAuthenticated: false };
 
 function reducer(state, action) {
   switch (action.type) {
@@ -64,32 +64,6 @@ function AuthProvider({ children }) {
     }
   }
 
-  async function fetchAgents(email, password) {
-    try {
-      const res = await fetch(
-        "https://backend.realestway.com/api/agents/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify({
-            email: email,
-            password: password,
-          }),
-        }
-      );
-
-      if (!res.ok) throw new Error("Failed to log in as agent");
-
-      const data = await res.json();
-      return data;
-    } catch (err) {
-      return null;
-    }
-  }
-
   async function login(email, password) {
     try {
       setIsLoading(true);
@@ -103,16 +77,6 @@ function AuthProvider({ children }) {
         setIsLoading(false);
         setLoginMsg("");
         return;
-      }
-
-      const agentData = await fetchAgents(email, password);
-      if (agentData && agentData.user && agentData.token) {
-        setToken(agentData.token);
-        localStorage.setItem("token", agentData.token);
-        localStorage.setItem("user", JSON.stringify(agentData.user));
-        dispatch({ type: "login", payload: agentData.user });
-        setIsLoading(false);
-        setLoginMsg("");
       } else {
         setLoginMsg("Incorrect details. Please check again.");
         setIsLoading(false);
@@ -130,10 +94,7 @@ function AuthProvider({ children }) {
       return;
     }
 
-    const isRegularUser = user.id.startsWith("U");
-    const logoutUrl = isRegularUser
-      ? "https://backend.realestway.com/api/logout"
-      : "https://backend.realestway.com/api/agents/logout";
+    const logoutUrl = "https://backend.realestway.com/api/logout";
 
     try {
       const res = await fetch(logoutUrl, {
