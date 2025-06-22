@@ -51,7 +51,7 @@ const AppRoutes = () => {
           </ProtectedAuthRoutes>
         }
       />
-      {!user?.companyName ? (
+      {user?.role === "user" ? (
         <Route
           path="profile"
           element={

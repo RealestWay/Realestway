@@ -58,6 +58,7 @@ function AuthProvider({ children }) {
       if (!res.ok) throw new Error("Failed to log in user");
 
       const data = await res.json();
+      console.log(data.data);
       return data;
     } catch (err) {
       return null;
@@ -69,11 +70,11 @@ function AuthProvider({ children }) {
       setIsLoading(true);
 
       const userData = await fetchUsers(email, password);
-      if (userData && userData.user && userData.token) {
+      if (userData && userData.data.user && userData.data.token) {
         setToken(userData.token);
-        localStorage.setItem("token", userData.token);
-        localStorage.setItem("user", JSON.stringify(userData.user));
-        dispatch({ type: "login", payload: userData.user });
+        localStorage.setItem("token", userData.data.token);
+        localStorage.setItem("user", JSON.stringify(userData.data.user));
+        dispatch({ type: "login", payload: userData.data.user });
         setIsLoading(false);
         setLoginMsg("");
         return;
