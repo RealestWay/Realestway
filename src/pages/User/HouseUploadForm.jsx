@@ -71,7 +71,7 @@ const HouseUploadForm = ({ onClose }) => {
     basicRent: "",
     cautionFee: "",
     agentFee: "",
-    otherFees: "",
+    agreementFee: "",
   });
 
   const total_price = Object.values(priceBreakdown)
@@ -464,9 +464,9 @@ const HouseUploadForm = ({ onClose }) => {
                   />
                   <input
                     type="number"
-                    name="otherFees"
-                    placeholder="Other Fees"
-                    value={priceBreakdown.otherFees}
+                    name="AgreementFee"
+                    placeholder="Agreement"
+                    value={priceBreakdown.agreementFee}
                     onChange={handlePriceChange}
                     className="border border-gray-300 p-3 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
@@ -690,6 +690,7 @@ const HouseUploadForm = ({ onClose }) => {
               <div className="mt-8 flex justify-center items-center flex-col">
                 <button
                   type="submit"
+                  onClick={(e) => handleSubmit(e)}
                   disabled={isSubmitting}
                   className="w-3/5 mx-auto bg-[#00a256] hover:bg-[#1e6645] text-white font-bold py-3 px-4 rounded-md transition duration-300"
                 >
