@@ -26,7 +26,7 @@ import {
 
 const Homepage = () => {
   const { houses, isLoading } = UseHouses();
-  const { token } = useAuth();
+  const { token, user, fetchAgent } = useAuth();
   const { fetchChats } = useChats();
   const loactionsListings = [
     {
@@ -85,6 +85,7 @@ const Homepage = () => {
 
   useEffect(() => {
     if (token) fetchChats();
+    if (user) fetchAgent(user.id);
   }, [token]);
   return (
     <div className="w-[100vw]">

@@ -31,6 +31,7 @@ import {
 import Footer from "../../components/Footer";
 import Map from "../../components/Map";
 import Items from "../../components/Items";
+import ChatBox from "../../Chat/ChatBox";
 
 const ItemView = () => {
   const { token } = useAuth();
@@ -38,9 +39,10 @@ const ItemView = () => {
   const [house, setHouse] = useState();
   const [loading, setLoading] = useState(true);
   const { setRemoteHouse, houses } = UseHouses();
+  const [chatbox, setChatBox] = useState(false);
   const { fetchChats } = useChats();
   const [loadingChats, setLoadingChats] = useState(true);
-
+  console.log(chatbox);
   useEffect(() => {
     const fetchAllChats = async () => {
       await fetchChats();
@@ -94,9 +96,9 @@ const ItemView = () => {
     "flex gap-4 pb-10 w-[100%] overflow-x-auto scroll-smooth scrollbar-hide snap-x";
 
   useEffect(() => {
-    if (!loadingChats && chats && house?.agentId) {
+    if (!loadingChats && chats && house?.user.id) {
       const existingChat = chats?.find(
-        (chat) => chat.agent_id === house.agentId
+        (chat) => chat.agent_id === house.user.id
       );
       if (existingChat) setChat(existingChat);
     }
@@ -116,18 +118,19 @@ const ItemView = () => {
     totalPrice,
     furnishing,
     amenities,
-    images,
+    medias,
     priceBreakdown,
     minTenancyPeriod,
     location,
-    agentId,
   } = house;
+  console.log(house);
+  const existingChat = chats?.find((chat) => chat.agent_id === house.user.id);
 
-  const existingChat = chats?.find((chat) => chat.agent_id === agentId);
-
+  const images = medias.filter((media) => media.type === "image");
   if (loading) return <Spinner />;
   return (
     <div>
+      {chatbox && <ChatBox setChatBox={setChatBox} />}
       <div className="w-[88%] mx-auto dark:text-white">
         <PageNav home={false} />
         <div className="w-full px-6 md:px-10 flex justify-between items-center text-[#00a256] ">
@@ -148,10 +151,10 @@ const ItemView = () => {
               modules={[Autoplay, Pagination, Navigation]}
               className="w-full h-[300px] sm:h-[400px] lg:h-[500px] rounded-xl"
             >
-              {house?.images.map((img, index) => (
+              {images.map((img, index) => (
                 <SwiperSlide key={index}>
                   <img
-                    src={`https://backend.realestway.com/storage/${img.src}`}
+                    src={`https://backend.realestway.com/storage/${img.path}`}
                     alt={`House image ${index + 1}`}
                     className="w-full h-full object-cover rounded-xl"
                   />
@@ -164,7 +167,22 @@ const ItemView = () => {
           </div>
 
           <div className="flex flex-col gap-1 text-lg w-full md:w-[37%] p-4 px-6 shadow-md">
-            <h2 className="text-2xl mb-3">{propertyType}</h2>
+            <span className="flex justify-between items-center">
+              {" "}
+              <h2 className="text-2xl mb-3">{propertyType}</h2>
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(window.location.href);
+                  alert("Link copied to clipboard!");
+                }}
+                className="text-[#00a256] gap-1 p-1 justify-items-center justify-center flex hover:bg-[#e8f2ed] text-xs"
+              >
+                <span>
+                  <FontAwesomeIcon icon={faLink} size="30px" />
+                </span>{" "}
+                <span>Copy link</span>
+              </button>
+            </span>
             <p className="text-4xl font-semibold text-[#00a256]">
               #{totalPrice.toLocaleString()}
             </p>
@@ -204,18 +222,12 @@ const ItemView = () => {
               <span> {dimension}-sqFts</span>
             </div>
             <div className="w-full flex justify-center">
-              <button
-                onClick={() => {
-                  navigator.clipboard.writeText(window.location.href);
-                  alert("Link copied to clipboard!");
-                }}
-                className="bg-[#00a256] w-full gap-1 p-4 justify-items-center justify-center flex hover:bg-[#7ff3bd] text-xs text-white rounded-lg"
+              <Link
+                to={"/order"}
+                className="bg-[#00a256] w-full gap-1 p-4 justify-items-center justify-center flex hover:bg-[#7ff3bd] text-lg text-white rounded-lg"
               >
-                <span>
-                  <FontAwesomeIcon icon={faLink} size="30px" />
-                </span>{" "}
-                <span>Copy link</span>
-              </button>
+                <span>Secure Apartment</span>
+              </Link>
             </div>
             <Link className="text-[#00a256] flex justify-center items-center w-full py-4">
               <u>View on Map</u>
@@ -328,37 +340,36 @@ const ItemView = () => {
             />{" "}
             <span className="flex flex-col md:flex-row md:justify-between md:items-center w-full">
               <span className="flex flex-col gap-2 text-lg justify-between py-4">
-                <h4>Agent Name</h4>
+                <h4>{house.user.fullName}</h4>
                 <span className="flex items-center text-[0.95em] md:text-[1em] gap-2 md:gap-3">
                   <FontAwesomeIcon icon={faPhone} color="#00a256" />
-                  {"+234814060789"}
+                  {house.user.phone}
                 </span>
                 <span className="flex items-center text-[0.95em] md:text-[1em] gap-2 md:gap-3">
                   <FontAwesomeIcon icon={faEnvelope} color="#00a256" />
-                  {"agent@gmail.com"}
+                  {house.user.email}
                 </span>
               </span>
               {isAuthenticated ? (
                 <>
-                  {!user?.nin &&
+                  {user.role === "user" &&
                     (house?.availability === "available" ? (
-                      <Link to={`/Chat`}>
-                        <button
-                          className="bg-[#00a256] text-white rounded-md w-48 md:px-10 md:w-60 p-4 flex gap-2"
-                          onClick={() => {
-                            if (existingChat.id) {
-                              fetchChat(existingChat.id);
-                            } else {
-                              createChat(agentId);
-                            }
-                          }}
-                        >
-                          <Message color="#fff" /> Contact Agent
-                        </button>
-                      </Link>
+                      <button
+                        className="bg-[#00a256] text-white rounded-md w-48 md:px-10 md:w-60 p-4 flex gap-2"
+                        onClick={() => {
+                          setChatBox(true);
+                          if (existingChat.id) {
+                            fetchChat(existingChat.id);
+                          } else {
+                            createChat(house.user.id);
+                          }
+                        }}
+                      >
+                        <Message color="#fff" /> Contact Agent
+                      </button>
                     ) : (
                       <button
-                        className="bg-[#00a256] text-white text-sm rounded-md w-48 md:px-10 md:w-60 p-4 flex gap-2"
+                        className="bg-[#c4dfd2] text-white text-sm rounded-md w-48 md:px-10 md:w-60 p-4 flex gap-2"
                         disabled
                       >
                         <Message color="#fff" /> Contact Agent
@@ -389,15 +400,15 @@ const ItemView = () => {
               <ArrowRight2 size="24" color="white" />
             </button>
             <div className="w-full flex justify-between flex-row flex-nowrap gap-3 overflow-x-auto scroll-smooth scrollbar-hide snap-x px-0">
-              {images.map((img, index) => (
+              {medias.map((img, index) => (
                 <img
                   key={index}
-                  src={`https://backend.realestway.com/storage/${img.src}`}
+                  src={`https://backend.realestway.com/storage/${img.path}`}
                   alt={`House ${index + 1}`}
                   className="w-64 h-72 object-cover rounded-lg cursor-pointer"
                   onClick={() =>
                     setSelectedImage(
-                      `https://backend.realestway.com/storage/${img.src}`
+                      `https://backend.realestway.com/storage/${img.path}`
                     )
                   }
                 />

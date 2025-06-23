@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { Edit2 } from "iconsax-reactjs";
 
 // eslint-disable-next-line react/prop-types
 const UserSettings = ({ set, setSet }) => {
@@ -26,6 +25,8 @@ const UserSettings = ({ set, setSet }) => {
 
   const updatePassword = async () => {
     setUpdating(true);
+    setMessage(""); // clear previous messages
+
     try {
       const res = await fetch(
         `https://backend.realestway.com/api/users/${user.id}`,
@@ -43,38 +44,15 @@ const UserSettings = ({ set, setSet }) => {
         }
       );
 
-      if (!res.ok) throw new Error("Failed to create account");
-    } catch (err) {
-      console.log(err);
-      setMessage(err.Error);
-    } finally {
-      setUpdating(false);
-    }
-  };
+      const data = await res.json();
 
-  const updateAgentPassword = async () => {
-    setUpdating(true);
-    try {
-      const res = await fetch(
-        `https://backend.realestway.com/api/agents/${user.id}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            password: settings.newPassword,
-            password_confirmation: settings.confirmNewPassword,
-          }),
-        }
-      );
+      if (!res.ok) {
+        throw new Error(data.message || "Failed to update password");
+      }
 
-      if (!res.ok) throw new Error("Failed to create account");
+      setMessage(data.message || "Password updated successfully");
     } catch (err) {
-      console.log(err);
-      setMessage(err.Error);
+      setMessage(err.message || "Something went wrong");
     } finally {
       setUpdating(false);
     }
@@ -95,7 +73,7 @@ const UserSettings = ({ set, setSet }) => {
       setMessage("New password does not match, check again.");
       return;
     }
-    user.companyName ? updateAgentPassword() : updatePassword();
+    updatePassword();
 
     setSettings({
       ...settings,
@@ -215,6 +193,7 @@ const UserSettings = ({ set, setSet }) => {
             <FontAwesomeIcon icon={showconPassWord ? faEye : faEyeSlash} />
           </button>
         </div>
+        {message && <p className="text-[#100073]">{message}</p>}
         <button
           onClick={handleChangePassword}
           className="md:w-1/3 w-2/3 font-montserrat bg-[#00a256] text-white py-2 rounded-lg text-xs md:text-sm"
@@ -222,7 +201,6 @@ const UserSettings = ({ set, setSet }) => {
           {updating ? "updating..." : "Update Password"}
         </button>
       </div>
-      {message && <p className="text-green-500">{message}</p>}
     </div>
   );
 };

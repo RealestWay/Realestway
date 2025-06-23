@@ -5,7 +5,7 @@
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Item from "./Item";
-import { Link } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
 import { HomeTrendUp, Money2, People } from "iconsax-reactjs";
 import {
   LineChart,
@@ -16,16 +16,23 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import { UseHouses } from "../../contexts/HouseContext";
+import { useEffect } from "react";
+import { useAuth } from "../../contexts/AuthContext";
+import Spinner2 from "../../components/Spinner2";
 
 const AgentDashboard = () => {
+  const { fetchAgentHouses, agentHouses, isLoading } = UseHouses();
+  const { agent } = useAuth();
+  const setOpenForm = useOutletContext();
   const performanceData = [
-    { day: "MON", value: 120 },
-    { day: "TUE", value: 50 },
-    { day: "WED", value: 90 },
-    { day: "THU", value: 75 },
-    { day: "FRI", value: 180 },
-    { day: "SAT", value: 220 },
-    { day: "SUN", value: 160 },
+    { day: "MON", value: 0 },
+    { day: "TUE", value: 0 },
+    { day: "WED", value: 0 },
+    { day: "THU", value: 0 },
+    { day: "FRI", value: 0 },
+    { day: "SAT", value: 0 },
+    { day: "SUN", value: 0 },
   ];
 
   const messages = [
@@ -33,6 +40,10 @@ const AgentDashboard = () => {
     { name: "Name", message: "How are we doing?", time: "1:09PM" },
     { name: "Name", message: "How are we doing?", time: "Yesterday" },
   ];
+
+  useEffect(() => {
+    fetchAgentHouses(agent.id);
+  }, [agent]);
   return (
     <div className="px-6 py-4">
       {/* Listing Prompt */}
@@ -49,7 +60,10 @@ const AgentDashboard = () => {
                 </p>
                 <span className="flex justify-between">
                   {" "}
-                  <button className="bg-[#00a256] h-16 md:w-56 mt-8 text-center text-white md:px-4 p-3 md:py-4 rounded-lg text-sm md:text-[1em] flex items-center gap-2 justify-center">
+                  <button
+                    onClick={() => setOpenForm(true)}
+                    className="bg-[#00a256] h-16 md:w-56 mt-8 text-center text-white md:px-4 p-3 md:py-4 rounded-lg text-sm md:text-[1em] flex items-center gap-2 justify-center"
+                  >
                     <FontAwesomeIcon icon={faPlus} /> Add Listing
                   </button>{" "}
                   <img
@@ -77,7 +91,12 @@ const AgentDashboard = () => {
                   <HomeTrendUp color="#00a256" size={18} /> Active Listings
                 </p>
                 <h4 className="text-xl font-bold">
-                  12 <span className="text-sm font-normal">Properties</span>
+                  {
+                    agentHouses?.filter(
+                      (house) => house.availability === "available"
+                    ).length
+                  }{" "}
+                  <span className="text-sm font-normal">Properties</span>
                 </h4>
               </div>
               <div className="bg-white p-4 rounded shadow flex flex-col gap-3">
@@ -87,7 +106,8 @@ const AgentDashboard = () => {
                   New Leads
                 </p>
                 <h4 className="text-xl font-bold">
-                  8 <span className="text-sm  font-normal">New Clients</span>
+                  {0}
+                  <span className="text-sm  font-normal">New Clients</span>
                 </h4>
               </div>
             </div>
@@ -98,7 +118,7 @@ const AgentDashboard = () => {
                 Earnings
               </p>
               <h4 className="text-xl font-bold">
-                ₦18,000 <span className="text-sm  font-normal">Earned</span>
+                #{0} <span className="text-sm  font-normal">Earned</span>
               </h4>
             </div>
           </div>
@@ -111,11 +131,17 @@ const AgentDashboard = () => {
             <Link to={"/profile/my-listings"}>View all</Link>
           </span>
           <div className="flex flex-col gap-4 text-sm">
-            {[1, 2].map((item) => (
+            {isLoading ? (
+              <Spinner2 />
+            ) : (
               <>
-                <Item item={item} />
+                {agentHouses?.map((house) => (
+                  <>
+                    <Item house={house} key={house?.id} />
+                  </>
+                ))}
               </>
-            ))}
+            )}
           </div>
         </div>
       </div>
@@ -129,7 +155,7 @@ const AgentDashboard = () => {
               This tracks successful rental conversions.
             </p>
           </span>
-          <h4 className="text-lg font-bold mt-5">12 Properties</h4>
+          <h4 className="text-lg font-bold mt-5">{0} Properties</h4>
         </div>
         <div className="bg-white flex flex-col justify-between p-4 rounded shadow border-[#DCDCEB] border-[1px]">
           <span>
@@ -139,7 +165,7 @@ const AgentDashboard = () => {
               Total value of all transactions related to the agent.
             </p>
           </span>
-          <h4 className="text-lg font-bold mt-5">₦3,250,000</h4>
+          <h4 className="text-lg font-bold mt-5">₦{0}</h4>
         </div>
         <div className="bg-white flex flex-col justify-between p-4 rounded shadow border-[#DCDCEB] border-[1px]">
           <span>
@@ -149,14 +175,14 @@ const AgentDashboard = () => {
               Total value of all transactions related to the agent.
             </p>
           </span>
-          <h4 className="text-lg font-bold mt-5">₦280,000</h4>
+          <h4 className="text-lg font-bold mt-5">₦{0}</h4>
         </div>
         <div className="bg-white flex flex-col justify-between p-4 rounded shadow border-[#DCDCEB] border-[1px]">
           <span>
             <p className="text-sm text-gray-500">Paid Out</p>
             <p className="text-xs text-gray-500"> Total paid from earnings.</p>
           </span>
-          <h4 className="text-lg font-bold">₦180,000</h4>
+          <h4 className="text-lg font-bold">₦{0}</h4>
         </div>
       </div>
 

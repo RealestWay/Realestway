@@ -42,7 +42,7 @@ const ChatBox = ({ setChatBox }) => {
   };
 
   return (
-    <div className="w-full bg-white md:w-3/5 h-[80vh] md:h-[90vh] animate-fade-in bottom-0 right-0 fixed z-50 mx-auto rounded-xl shadow-lg border border-gray-200">
+    <div className="w-full z-[999] bg-white md:w-3/5 h-[80vh] md:h-[90vh] animate-fade-in bottom-0 right-0 fixed mx-auto rounded-xl shadow-lg border border-gray-200">
       <div className="bg-white p-4 rounded-t-xl flex justify-between items-center shadow-sm">
         <div>
           <h2 className="text-lg font-bold">Chat with agent name</h2>

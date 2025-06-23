@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faQuestionCircle,
   faSignOutAlt,
+  faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   CloseCircle,
@@ -16,11 +17,17 @@ import {
   ProfileCircle,
 } from "iconsax-reactjs";
 import { useState } from "react";
+import Spinner2 from "../../components/Spinner2";
+import HouseUploadForm from "./HouseUploadForm";
 
 const AgentProfile = () => {
-  const { logout } = useAuth();
+  const { logout, token, agent } = useAuth();
   const [navIndex, setNavIndex] = useState(1);
-
+  const [openDelete, setOpenDelete] = useState(false);
+  const [openForm, setOpenForm] = useState(false);
+  const onClose = () => {
+    setOpenForm(false);
+  };
   return (
     <div className="md:flex h-screen">
       {/* Sidebar */}
@@ -30,7 +37,9 @@ const AgentProfile = () => {
         <main className="flex-1 overflow-y-auto w-full">
           {/* Header */}
           <div className="hidden md:flex md:justify-between w-full items-center mb-6 p-6 bg-[#F3F3F3] border-b-[1px] border-[#AEBCC9]">
-            <h2 className="text-xl">Agent Name</h2>{" "}
+            <h2 className="text-xl">
+              {agent.companyName ? agent.companyName : agent.fullName}
+            </h2>{" "}
             <span className="flex gap-2 items-center">
               <Notification color="#AEBCC9" variant="Bold" />{" "}
               <span className="items-center justify-center flex bg-black p-[3px] rounded-[50%] bg-opacity-10">
@@ -39,8 +48,23 @@ const AgentProfile = () => {
             </span>
           </div>
           <div className="full overflow-y-scroll h-screen scrollbar-hide scrollbar-hidden">
-            <Outlet />
+            <Outlet context={setOpenForm} />
           </div>
+          {openForm && <HouseUploadForm onClose={onClose} />}
+          {openDelete && (
+            <Confirm
+              setOpenDelete={setOpenDelete}
+              deleteHouse={deleteHouse}
+              deleteHouseId={deleteHouseId}
+              token={token}
+              fetchAgentHouses={fetchAgentHouses}
+              success={success}
+              setSuccess={setSuccess}
+              isLoading={isLoading}
+              agent={agent}
+              fetchHouses={fetchHouses}
+            />
+          )}
         </main>
       </div>
     </div>
@@ -94,7 +118,7 @@ const Nav = ({ navIndex, setNavIndex, logout }) => {
                 <Message2 variant="Bold" size={18} /> Messages
               </NavLink>
               <NavLink
-                to={"/profile/account"}
+                // to={"/profile/account"}
                 onClick={() => setNavIndex(4)}
                 className={
                   navIndex === 4
@@ -217,4 +241,159 @@ const Nav = ({ navIndex, setNavIndex, logout }) => {
     </div>
   );
 };
+
+const Confirm = ({
+  deleteHouse,
+  deleteHouseId,
+  token,
+  setOpenDelete,
+  fetchAgentHouses,
+  success,
+  setSuccess,
+  isLoading,
+  agent,
+  fetchHouses,
+}) => {
+  return (
+    <div
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        zIndex: 1000,
+      }}
+    >
+      <div
+        style={{
+          backgroundColor: "#fff",
+          padding: 20,
+          borderRadius: 8,
+          width: "300px",
+          textAlign: "center",
+        }}
+      >
+        <div className="w-full flex items-end">
+          <FontAwesomeIcon
+            icon={faTimes}
+            color="red"
+            className="flex flex-end"
+            onClick={() => {
+              setOpenDelete(false);
+              setSuccess("");
+              fetchAgentHouses(agent?.id);
+              fetchHouses();
+            }}
+          />
+        </div>
+        <div>
+          <p className="text-[#100073]">Confirm Delete</p>
+          <div className="flex justify-around gap-3">
+            {isLoading ? (
+              <Spinner2 />
+            ) : (
+              <>
+                {success ? (
+                  <p className="text-[#00a256]">{success}</p>
+                ) : (
+                  <>
+                    <button
+                      className="bg-red-600 font-montserrat text-white py-2 px-4"
+                      onClick={() => {
+                        deleteHouse(deleteHouseId, token);
+                      }}
+                    >
+                      Delete
+                    </button>
+                    <button
+                      className="border-[#100073] font-montserrat text-[#100073] border-1 py-2 px-4"
+                      onClick={() => setOpenDelete(false)}
+                    >
+                      Close
+                    </button>
+                  </>
+                )}
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export default AgentProfile;
+
+// const [deleteHouseId, setDeleteHouseId] = useState("");
+
+// {user?.companyName && (
+//         <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg mt-10 pb-2">
+//           <p className="font-bold text-xl border-0 border-b-2 justify-left flex text-[#100073] w-full">
+//             Your Listed Houses
+//           </p>
+//           {isLoading ? (
+//             <Spinner2 />
+//           ) : (
+//             <>
+//               {agentHouses ? (
+//                 <div
+//                   className="flex gap-4 overflow-x-auto scroll-smooth scrollbar-hide snap-x pb-10"
+//                   style={{ scrollSnapType: "x mandatory" }}
+//                 >
+//                   {agentHouses?.map((hous) => (
+//                     <Items key={hous.id} house={hous}>
+//                       <button
+//                         className="bg-[#100073] font-montserrat text-white px-7 py-1 rounded-lg hover:bg-blue-600 transition duration-300"
+//                         onClick={() => {
+//                           // Change House availability
+//                           const val =
+//                             hous.availability === "available"
+//                               ? "not-available"
+//                               : "available";
+
+//                           const formData = new FormData();
+//                           formData.append("availability", val);
+//                           updateHouse(hous.uniqueId, token, formData);
+//                           fetchAgentHouses(user.id);
+//                           fetchHouses();
+//                         }}
+//                       >
+//                         Click to change {hous.availability}
+//                       </button>
+//                       <span className="flex justify-between">
+//                         <button
+//                           onClick={() => {
+//                             navigator.clipboard.writeText(window.location.href);
+//                             alert("Link copied to clipboard!");
+//                           }}
+//                           className="bg-[#00a256] w-max-[100px] text-xs text-white p-2 py-2 rounded-lg"
+//                         >
+//                           <FontAwesomeIcon icon={faLink} /> Share Link
+//                         </button>
+//                         <button
+//                           className="bg-red-500 font-montserrat text-white px-5 py-1 rounded-lg hover:bg-red-600 transition duration-300"
+//                           onClick={() => {
+//                             setOpenDelete(true);
+//                             setDeleteHouseId(hous.uniqueId);
+//                           }}
+//                         >
+//                           Delete
+//                         </button>
+//                       </span>
+//                     </Items>
+//                   ))}
+//                 </div>
+//               ) : (
+//                 <i className="flex justify-center w-full text-gray-400">
+//                   No house listed yet
+//                 </i>
+//               )}
+//             </>
+//           )}
+//         </div>
+//       )}

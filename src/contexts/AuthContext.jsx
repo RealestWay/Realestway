@@ -9,7 +9,7 @@ import {
 const AuthContext = createContext();
 
 const initialState = { user: null, isAuthenticated: false };
-
+const BASE = "https://backend.realestway.com/api";
 function reducer(state, action) {
   switch (action.type) {
     case "login":
@@ -29,7 +29,8 @@ function AuthProvider({ children }) {
     reducer,
     initialState
   );
-
+  const [refs, setRefs] = useState("");
+  const [agent, setAgent] = useState("");
   // Load session from localStorage on app startup
   useEffect(() => {
     const savedToken = localStorage.getItem("token");
@@ -58,7 +59,7 @@ function AuthProvider({ children }) {
       if (!res.ok) throw new Error("Failed to log in user");
 
       const data = await res.json();
-      console.log(data.data);
+
       return data;
     } catch (err) {
       return null;
@@ -71,7 +72,7 @@ function AuthProvider({ children }) {
 
       const userData = await fetchUsers(email, password);
       if (userData && userData.data.user && userData.data.token) {
-        setToken(userData.token);
+        setToken(userData.data.token);
         localStorage.setItem("token", userData.data.token);
         localStorage.setItem("user", JSON.stringify(userData.data.user));
         dispatch({ type: "login", payload: userData.data.user });
@@ -102,6 +103,7 @@ function AuthProvider({ children }) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Accept: "application/json",
           Authorization: `bearer ${token}`,
         },
       });
@@ -119,6 +121,44 @@ function AuthProvider({ children }) {
     }
   }
 
+  async function fetchAgent(id) {
+    setIsLoading(true);
+    try {
+      const res = await fetch(`${BASE}/agents/${id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `bearer ${token}`,
+          Accept: "application/json",
+        },
+      });
+      const data = await res.json();
+      setAgent(data.data);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  async function fetchAllreferral() {
+    setIsLoading(true);
+    try {
+      const res = await fetch(`${BASE}/referrals/stats`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `bearer ${token}`,
+          Accept: "application/json",
+        },
+      });
+      const data = await res.json();
+      setRefs(data.data);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -129,6 +169,10 @@ function AuthProvider({ children }) {
         loginMsg,
         isLoading,
         token,
+        fetchAllreferral,
+        refs,
+        agent,
+        fetchAgent,
       }}
     >
       {children}

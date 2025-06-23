@@ -46,14 +46,14 @@ const Banner = () => {
 
   return (
     <div
-      className="relative w-full h-screen bg-cover bg-center transition-all duration-1000"
+      className="relative w-full h-[110vh] md:h-screen bg-cover bg-center transition-all duration-1000"
       style={{
         backgroundImage: `url(${bannerImages[currentIndex]})`,
       }}
     >
       <div className="absolute top-0 left-0 w-full h-full flex flex-col gap-5 sm:gap-3 items-center bg-black bg-opacity-50 text-white text-center">
         <PageNav home={true} />
-        <div className="mt-20 flex flex-col gap-7">
+        <div className="mt-20 mb-5 md:mb-1 flex flex-col gap-7">
           <div>
             <span className="py-2 px-4 rounded-3xl bg-white bg-opacity-30">
               Smart Housing Simplified

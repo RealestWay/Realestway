@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useChats } from "../../contexts/ChatsContext";
 import { useState } from "react";
 
-const ChatList = () => {
+const ChatList = ({ chatbox, setChatBox }) => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const { chats, fetchChat } = useChats();
@@ -36,7 +36,10 @@ const ChatList = () => {
                   hover:bg-gray-100 dark:hover:bg-gray-700
                   ${isClicked ? "bg-blue-50 animate-pulse" : ""}
                 `}
-                  onClick={() => handleChatClick(chat.id)}
+                  onClick={() => {
+                    handleChatClick(chat.id);
+                    setChatBox(!chatbox);
+                  }}
                 >
                   <p className="text-blue-600 font-semibold">
                     Chat with{" "}

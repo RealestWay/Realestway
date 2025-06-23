@@ -92,7 +92,7 @@ const ChatProvider = ({ children }) => {
   // fetch a chat
 
   async function fetchChat(chatId) {
-    setIsLoading(true);
+    setLoadingChat(true);
     try {
       const response = await fetch(`${BASE}/chats/${chatId}`, {
         method: "GET",
@@ -114,7 +114,7 @@ const ChatProvider = ({ children }) => {
       console.error("Fetch error:", error.message);
       return null;
     } finally {
-      setIsLoading(false);
+      setLoadingChat(false);
     }
   }
 

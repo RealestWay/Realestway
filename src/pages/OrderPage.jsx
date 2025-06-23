@@ -38,7 +38,7 @@ const OrderPage = () => {
     try {
       setLoading(true);
       const response = await fetch(
-        `https://backend.realestway.com/api/listings/${house.uniqueId}/pay`,
+        `https://backend.realestway.com/api/payments/listings/${house.id}/initialize`,
         {
           method: "POST",
           headers: {

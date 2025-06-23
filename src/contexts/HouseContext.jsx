@@ -45,7 +45,7 @@ const HouseProvider = ({ children }) => {
   // Add house to favorite
   const favoritedHouse = async (id, token) => {
     try {
-      const res = await fetch(`${BASE}/favourite/${id}`, {
+      const res = await fetch(`${BASE}/favourites/${id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -65,7 +65,7 @@ const HouseProvider = ({ children }) => {
   // Remove House from Favorite
   const removeFavoritedHouse = async (id, token) => {
     try {
-      const res = await fetch(`${BASE}/favourite/${id}`, {
+      const res = await fetch(`${BASE}/favourites/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
