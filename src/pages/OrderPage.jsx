@@ -50,11 +50,11 @@ const OrderPage = () => {
 
       const data = await response.json();
 
-      if (data?.authorization_url) {
+      if (data?.data?.authorization_url) {
         setPaymentMethod(method);
         setPaymentStage(2);
         console.log(data.data);
-        window.location.href = data.authorization_url;
+        window.location.href = data.data.authorization_url;
       } else {
         alert("Unable to initialize payment.");
       }
@@ -84,7 +84,7 @@ const OrderPage = () => {
 
       const result = await response.json();
       if (
-        result?.status === true ||
+        result?.data?.status === true ||
         result?.data?.status?.toLowerCase() === "success"
       ) {
         setPaymentStage(3);

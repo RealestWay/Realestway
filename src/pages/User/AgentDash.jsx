@@ -20,10 +20,12 @@ import { UseHouses } from "../../contexts/HouseContext";
 import { useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import Spinner2 from "../../components/Spinner2";
+import { useChats } from "../../contexts/ChatsContext";
 
 const AgentDashboard = () => {
   const { fetchAgentHouses, agentHouses, isLoading } = UseHouses();
   const { agent } = useAuth();
+  const { chats } = useChats();
   const setOpenForm = useOutletContext();
   const performanceData = [
     { day: "MON", value: 0 },
@@ -35,14 +37,8 @@ const AgentDashboard = () => {
     { day: "SUN", value: 0 },
   ];
 
-  const messages = [
-    { name: "Name", message: "How are we doing?", time: "2:31PM" },
-    { name: "Name", message: "How are we doing?", time: "1:09PM" },
-    { name: "Name", message: "How are we doing?", time: "Yesterday" },
-  ];
-
   useEffect(() => {
-    fetchAgentHouses(agent.id);
+    fetchAgentHouses(agent?.id);
   }, [agent]);
   return (
     <div className="px-6 py-4">
@@ -220,18 +216,37 @@ const AgentDashboard = () => {
         {/* Messages */}
         <div className="bg-white p-4 rounded shadow md:w-[40%] w-full">
           <h3 className="font-semibold mb-3">Messages</h3>
-          <ul className="space-y-3">
-            {messages.map((msg, index) => (
-              <li
-                key={index}
-                className={`text-sm text-gray-700 ${
-                  index < messages.length - 1 ? "border-b pb-2" : ""
-                }`}
-              >
-                <span className="font-medium">{msg.name}</span> – "{msg.message}
-                "<span className="text-xs text-gray-400 ml-2">{msg.time}</span>
-              </li>
-            ))}
+          <ul className="space-y-4">
+            {chats?.length === 0 ? (
+              <p className="text-gray-500">You have no chats yet.</p>
+            ) : (
+              chats?.map((chat) => {
+                const lastMsg =
+                  chat?.messages?.[chat.messages.length - 1] || {};
+                return (
+                  <li
+                    key={chat?.id}
+                    className={`flex items-start gap-3 cursor-pointer               }`}
+                  >
+                    <img
+                      src={"/cs-realestway.png"}
+                      alt="avatar"
+                      className="w-10 h-10 rounded-full bg-gray-200"
+                    />
+                    <div className="flex-1">
+                      <h4 className="font-medium text-sm">{chat?.name}</h4>
+                      <p className="text-xs text-gray-500 truncate">
+                        {lastMsg.sender === "me" ? "You: " : ""}
+                        {lastMsg.text || "Attachment"}
+                      </p>
+                    </div>
+                    <span className="text-xs text-gray-500">
+                      {lastMsg.time}
+                    </span>
+                  </li>
+                );
+              })
+            )}
           </ul>
         </div>
       </div>

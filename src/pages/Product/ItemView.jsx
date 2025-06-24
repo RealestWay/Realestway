@@ -86,7 +86,7 @@ const ItemView = () => {
   const { user, isAuthenticated } = useAuth();
 
   const { fetchChat, setChat, chats, createChat } = useChats();
-  console.log(chats);
+
   const [selectedImage, setSelectedImage] = useState(null);
   const availableHouses = houses?.data?.filter(
     (house) => house.availability === "available"
@@ -123,14 +123,16 @@ const ItemView = () => {
     minTenancyPeriod,
     location,
   } = house;
-  console.log(house);
-  const existingChat = chats?.find((chat) => chat.agent_id === house.user.id);
 
+  const existingChat = chats?.find(
+    (chat) => chat?.support.id === house.user.id
+  );
+  console.log(existingChat);
   const images = medias.filter((media) => media.type === "image");
   if (loading) return <Spinner />;
   return (
     <div>
-      {chatbox && <ChatBox setChatBox={setChatBox} />}
+      {chatbox && <ChatBox setChatBox={setChatBox} house={house} />}
       <div className="w-[88%] mx-auto dark:text-white">
         <PageNav home={false} />
         <div className="w-full px-6 md:px-10 flex justify-between items-center text-[#00a256] ">
@@ -245,7 +247,11 @@ const ItemView = () => {
         <div className="flex w-full gap-3 flex-col md:flex-row md:justify-between">
           <div className="md:w-[50%] w-full">
             <h3 className="text-xl py-2">Features</h3>
-            <ul className="text-[#262626] mb-5 flex flex-col gap-2">
+            <ul
+              className={`text-[#262626] mb-5 ${
+                amenities.length > 6 ? "grid grid-cols-2" : "flex flex-col"
+              } gap-2`}
+            >
               {amenities.map((item) => (
                 <li
                   className="p-3 pl-4 border-l-2 border-[#00a256] flex gap-3"
@@ -330,7 +336,7 @@ const ItemView = () => {
         <div className="mt-2 text-black">
           <h3 className="text-xl py-3">Listing Agent</h3>
           {/* <div className="flex flex-col md:flex-row gap-3 "> */}
-          <div className="flex gap-3 md:gap-5 w-full">
+          <div className="flex gap-3 md:gap-5 w-full items-center">
             <img
               src="/cs-realestway.png"
               alt="agent"
@@ -342,6 +348,7 @@ const ItemView = () => {
               src="/cs-realestway.png"
               alt="agent"
               className="rounded-[60%] md:hidden"
+              height={100}
               width={120}
             />
             <span className="flex flex-col md:flex-row md:justify-between md:items-center w-full">
@@ -364,10 +371,14 @@ const ItemView = () => {
                         className="bg-[#00a256] text-white rounded-md w-48 md:px-10 md:w-60 p-4 flex gap-2"
                         onClick={() => {
                           setChatBox(true);
-                          if (existingChat.id) {
+                          if (existingChat) {
                             fetchChat(existingChat.id);
                           } else {
-                            createChat(house.user.id);
+                            createChat(
+                              house.user.id,
+                              house.id,
+                              "house_inquiry"
+                            );
                           }
                         }}
                       >

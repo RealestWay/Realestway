@@ -1,21 +1,60 @@
-import { faBathtub, faBed, faHome } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBathtub,
+  faBed,
+  faHome,
+  faTimes,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { CloseCircle, Edit2, Link21, TickCircle } from "iconsax-reactjs";
 import { UseHouses } from "../../contexts/HouseContext";
 import { useAuth } from "../../contexts/AuthContext";
+import { useState } from "react";
+import Spinner2 from "../../components/Spinner2";
 
 const Item = ({ house }) => {
   const { updateHouse, deleteHouse, fetchAgentHouses } = UseHouses();
-  const { token, agent } = useAuth();
+  const [openDelete, setOpenDelete] = useState(false);
+  const [deleteHouseId, setDeleteHouseId] = useState("");
+  const [success, setSuccess] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const { token, user } = useAuth();
+
+  const handleDelete = async () => {
+    setIsLoading(true);
+    try {
+      await deleteHouse(deleteHouseId, token);
+      setSuccess("House deleted successfully.");
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div
-      key={house.id}
-      className="bg-white p-4 rounded shadow flex flex-col gap-4"
+      key={house?.id}
+      className="bg-white p-4 rounded min-w-[400px] shadow flex flex-col gap-4 relative"
     >
+      {openDelete && (
+        <Confirm
+          deleteHouse={handleDelete}
+          deleteHouseId={deleteHouseId}
+          token={token}
+          setOpenDelete={setOpenDelete}
+          fetchAgentHouses={fetchAgentHouses}
+          success={success}
+          setSuccess={setSuccess}
+          isLoading={isLoading}
+          user={user}
+          fetchHouses={() => fetchAgentHouses(user?.id)}
+        />
+      )}
+
       <div className="flex gap-2">
-        <img src="" alt="listing" className="w-32 h-32 bg-gray-200 rounded" />
-        <div className="flex flex-col gap-2">
-          <span className="flex justify-between items-center">
+        <img src="" alt="listing" className="w-1/2 h-32 bg-gray-200 rounded" />
+        <div className="flex flex-col gap-2 w-1/2">
+          <span className="flex justify-between">
             <h4 className="font-semibold text-md">{house?.title}</h4>{" "}
             <button
               onClick={() => {
@@ -24,7 +63,7 @@ const Item = ({ house }) => {
                 );
                 alert("Link copied to clipboard!");
               }}
-              className="py-1 px-2 flex gap-1 text-sm items-center border-[#00a256] h-8 text-[#00a256] border-[1px] rounded-lg"
+              className="py-1 px-1 flex gap-1 text-sm items-center border-[#00a256] h-8 text-[#00a256] border-[1px] rounded-lg"
             >
               <Link21 color="#00a256" variant="Bold" size={15} />
               Share
@@ -43,7 +82,6 @@ const Item = ({ house }) => {
             </li>
             <li className="bg-[#F0F0F7]  border-1 shadow-none text-#0A0D17 border-[#DCDCEB] rounded-xl p-1">
               <FontAwesomeIcon icon={faHome} color="#0A0D17" />
-
               {house?.propertyType.toLowerCase() === "office"
                 ? "Office"
                 : "Apartment"}
@@ -59,7 +97,8 @@ const Item = ({ house }) => {
         </button>
         <button
           onClick={() => {
-            deleteHouse(house.id, token);
+            setOpenDelete(true);
+            setDeleteHouseId(house.id);
           }}
           className="py-1 px-2 flex gap-1 items-center border-[#808080] border-[1px] rounded-lg"
         >
@@ -69,14 +108,12 @@ const Item = ({ house }) => {
         <button
           onClick={() => {
             const formData = new FormData();
-
             formData.append(
               "availability",
               house.availability === "available" ? "not-available" : "available"
             );
-
             updateHouse(house.id, token, formData);
-            fetchAgentHouses(agent.id);
+            fetchAgentHouses(user.id);
           }}
           className="py-1 px-2 border-[#00a256] flex gap-1 items-center text-[#00a256] border-[1px] rounded-lg"
         >
@@ -88,6 +125,85 @@ const Item = ({ house }) => {
           Mark as{" "}
           {house.availability === "available" ? "not available" : "available"}
         </button>
+      </div>
+    </div>
+  );
+};
+
+const Confirm = ({
+  deleteHouse,
+  deleteHouseId,
+  token,
+  setOpenDelete,
+  fetchAgentHouses,
+  success,
+  setSuccess,
+  isLoading,
+  user,
+  fetchHouses,
+}) => {
+  return (
+    <div
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        zIndex: 1000,
+      }}
+    >
+      <div
+        style={{
+          backgroundColor: "#fff",
+          padding: 20,
+          borderRadius: 8,
+          width: "300px",
+          textAlign: "center",
+        }}
+      >
+        <div className="w-full flex justify-end">
+          <FontAwesomeIcon
+            icon={faTimes}
+            color="red"
+            className="cursor-pointer"
+            onClick={() => {
+              setOpenDelete(false);
+              setSuccess("");
+              fetchAgentHouses();
+              fetchHouses();
+            }}
+          />
+        </div>
+        <div>
+          <p className="text-[#100073]">Confirm Delete</p>
+          <div className="flex justify-around gap-3 mt-4">
+            {isLoading ? (
+              <Spinner2 />
+            ) : success ? (
+              <p className="text-[#00a256]">{success}</p>
+            ) : (
+              <>
+                <button
+                  className="bg-red-600 font-montserrat text-white py-2 px-4 rounded"
+                  onClick={deleteHouse}
+                >
+                  Delete
+                </button>
+                <button
+                  className="border-[#100073] font-montserrat text-[#100073] border py-2 px-4 rounded"
+                  onClick={() => setOpenDelete(false)}
+                >
+                  Cancel
+                </button>
+              </>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

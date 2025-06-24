@@ -8,7 +8,7 @@ const ChatList = ({ chatbox, setChatBox }) => {
   const navigate = useNavigate();
   const { chats, fetchChat } = useChats();
   const [clickedChatId, setClickedChatId] = useState(null);
-  console.log(chats);
+
   if (!user) return <p>Please log in to view your chats.</p>;
 
   const handleChatClick = async (chatId) => {
@@ -42,8 +42,7 @@ const ChatList = ({ chatbox, setChatBox }) => {
                   }}
                 >
                   <p className="text-blue-600 font-semibold">
-                    Chat with{" "}
-                    {user.companyName ? chat?.user_id : chat?.agent_id}
+                    Chat with {chat?.support.fullName}
                   </p>
                   <p className="text-gray-500 text-sm">
                     House: {chat?.houseTitle}

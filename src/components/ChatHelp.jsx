@@ -18,13 +18,7 @@ const ChatHelp = () => {
 
   const navigate = useNavigate();
   const existingChat = chats?.find((chat) => chat.admin_id === "USR-00001");
-  // useEffect(() => {
-  //   if (!chats && !isLoading) {
-  //     alert("Session expired! You were logged in on another device.");
-  //     localStorage.removeItem("token");
-  //     localStorage.removeItem("user");
-  //   }
-  // }, [isLoading, chats]);
+
   console.log(existingChat);
   useEffect(() => {
     if (!chat?.data?.id) return;

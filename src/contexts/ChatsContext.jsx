@@ -41,7 +41,7 @@ const ChatProvider = ({ children }) => {
 
   // Create a Chat
 
-  const createChat = async (agentId) => {
+  const createChat = async (support_id, house_listing_id, house_inquiry) => {
     setLoadingChat(true);
     try {
       const response = await fetch("https://backend.realestway.com/api/chats", {
@@ -52,7 +52,9 @@ const ChatProvider = ({ children }) => {
           Authorization: `bearer ${token}`,
         },
         body: JSON.stringify({
-          agent_unique_id: agentId,
+          support_id: support_id, // The person that listed the house
+          house_listing_id: house_listing_id, // nullable
+          chat_type: house_inquiry, //house_inquiry or general_support
         }),
       });
 

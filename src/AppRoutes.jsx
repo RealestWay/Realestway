@@ -32,6 +32,7 @@ import { useAuth } from "./contexts/AuthContext";
 
 const AppRoutes = () => {
   const { user } = useAuth();
+
   return (
     <Routes>
       <Route path="/" element={<Homepage />} />
@@ -51,7 +52,7 @@ const AppRoutes = () => {
           </ProtectedAuthRoutes>
         }
       />
-      {user?.role === "user" ? (
+      {user?.role === "user" || user?.role === "admin" ? (
         <Route
           path="profile"
           element={

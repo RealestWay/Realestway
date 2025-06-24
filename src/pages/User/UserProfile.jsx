@@ -29,7 +29,7 @@ const UserProfile = () => {
   const { fetchChats } = useChats();
   const { favHouse, showFavoritedHouse, loadingfav, isLoading } = UseHouses();
   const { user, token, refs, fetchAllreferral } = useAuth();
-
+  console.log(refs);
   const navigate = useNavigate();
 
   if (!user) navigate("/");
@@ -135,16 +135,10 @@ const UserProfile = () => {
             </p>
           </span>
           <span className="px-3 gap-3 flex flex-col md:w-[50%]">
-            <input
-              disabled
-              className="w-full p-2"
-              value={`https://realestway.com/register?${user.id}`}
-            />
+            <input disabled className="w-full p-2" value={refs.referral_link} />
             <button
               onClick={() => {
-                navigator.clipboard.writeText(
-                  `https://realestway.com/register?${user.id}`
-                );
+                navigator.clipboard.writeText(refs.referral_link);
                 alert("Link copied to clipboard!");
               }}
               className="bg-[#00a256] w-full w-max-[100px] text-xs text-white p-2 py-2 rounded-lg"

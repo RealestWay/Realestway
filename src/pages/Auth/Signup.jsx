@@ -6,8 +6,8 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import { faLock, faPhone } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import Spinner2 from "../../components/Spinner2";
 import PageNav from "../../components/PageNav";
@@ -15,8 +15,9 @@ import PageNav from "../../components/PageNav";
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-  const { fetchUsers, fetchAgents } = useAuth(); // Accessing fetch methods from AuthContext
-  const [checkUser, setCheckUser] = useState(""); // State for error message on duplicate email
+  const location = useLocation();
+  const { fetchUsers, fetchAgents } = useAuth();
+  const [checkUser, setCheckUser] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     id: `u${Date.now()}`,
@@ -25,72 +26,72 @@ const Signup = () => {
     phone: "",
     password: "",
     confirmPassword: "",
+    referrer_id: "", // <-- added for referral
   });
-  const [error, setError] = useState(""); // Error state for validation messages
+  const [error, setError] = useState("");
 
-  // Handle input changes
+  // Handle URL ref param
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const ref = params.get("ref");
+    if (ref) {
+      setFormData((prev) => ({ ...prev, referrer_id: ref }));
+    }
+  }, [location.search]);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    setError(""); // Clear error message on input change
+    setError("");
   };
 
-  // Check if the email exists in either the user or agent system
   const checkExistingUserOrAgent = async (email) => {
     try {
       setIsLoading(true);
-      const user = await fetchUsers(email, formData.password); // Fetch user based on email
-      const agent = await fetchAgents(email, formData.password); // Fetch agent based on email
-
-      if (user || agent) {
-        return true; // Return true if email exists in either system
-      }
+      const user = await fetchUsers(email, formData.password);
+      const agent = await fetchAgents(email, formData.password);
+      if (user || agent) return true;
       setIsLoading(false);
-      return false; // Return false if no existing user or agent
-    } catch (err) {
-      return false; // Return false in case of error
+      return false;
+    } catch {
+      return false;
     }
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Password validation
     if (formData.password !== formData.confirmPassword) {
       setError("Passwords do not match.");
       return;
     }
 
-    // Check if user already exists
-    const userOrAgentExists = await checkExistingUserOrAgent(formData.email);
-    if (userOrAgentExists) {
+    const exists = await checkExistingUserOrAgent(formData.email);
+    if (exists) {
       setCheckUser("User or agent with this email is already registered.");
       return;
     }
 
     try {
       setIsLoading(true);
-      const res = await fetch(
-        "https://backend.realestway.com/api/register", // User registration API
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify({
-            full_name: formData.name,
-            email: formData.email.toLocaleLowerCase(),
-            phone: formData.phone,
-            password: formData.password,
-            password_confirmation: formData.confirmPassword,
-          }),
-        }
-      );
+      const res = await fetch("https://backend.realestway.com/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          full_name: formData.name,
+          email: formData.email.toLowerCase(),
+          phone: formData.phone,
+          password: formData.password,
+          password_confirmation: formData.confirmPassword,
+          referrer_id: formData.referrer_id || null,
+        }),
+      });
+
       setIsLoading(false);
       if (!res.ok) throw new Error("Failed to create account");
 
-      // If registration is successful, navigate to sign in page
       navigate("/check-email");
     } catch (err) {
       setError("There was an error signing up. Please try again.");
@@ -98,7 +99,7 @@ const Signup = () => {
   };
 
   return (
-    <div className="bg-gradient-to-b relative pb-20 text-center  from-[#00A256] min-h-screen to-[#100073] ">
+    <div className="bg-gradient-to-b relative pb-20 text-center from-[#00A256] min-h-screen to-[#100073]">
       <div className="flex-col flex items-center justify-center">
         <PageNav home={false} />
         <div className="md:w-[45%] sm:w-[40%] w-[90%] lg:w-[30%]">
@@ -205,7 +206,14 @@ const Signup = () => {
                 </button>
               </div>
 
-              {/* Display error message */}
+              {/* Display Referral ID if Present */}
+              {formData.referrer_id && (
+                <p className="text-xs text-green-600 mt-1">
+                  Referral ID applied: <strong>{formData.referrer_id}</strong>
+                </p>
+              )}
+
+              {/* Error */}
               {error && <p className="text-red-500 text-center">{error}</p>}
 
               {/* Submit Button */}

@@ -71,7 +71,7 @@ const AgentMessages = () => {
 
   const filteredChats = chats.filter(
     (chat) =>
-      chat.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      chat?.user.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       chat.messages?.some((m) =>
         m.text?.toLowerCase().includes(searchTerm.toLowerCase())
       )
@@ -111,7 +111,9 @@ const AgentMessages = () => {
                     className="w-10 h-10 rounded-full bg-gray-200"
                   />
                   <div className="flex-1">
-                    <h4 className="font-medium text-sm">{chat.name}</h4>
+                    <h4 className="font-medium text-sm">
+                      {chat?.user.fullName}
+                    </h4>
                     <p className="text-xs text-gray-500 truncate">
                       {lastMsg.sender === "me" ? "You: " : ""}
                       {lastMsg.text || "Attachment"}

@@ -682,21 +682,21 @@ const HouseUploadForm = ({ onClose }) => {
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                   {[
                     "Parking Space",
-                    "24/7 Power",
+                    "24-7 Power",
                     "Balcony",
                     "CCTV",
                     "Gated Compound",
                     "Security",
-                    "Borehole / Running Water",
+                    "Borehole-Running Water",
                     "POP Ceiling",
                     "Prepaid Meter",
                     "Wardrobe",
                     "Kitchen Cabinets",
                     "Air Conditioning",
-                    "Inverter / Solar Backup",
+                    "Inverter - Solar Backup",
                     "Fenced Compound",
                     "Tiled Floor",
-                    "Elevator / Lift",
+                    "Elevator - Lift",
                     "Swimming Pool",
                     "Gym",
                     "Wi-Fi Ready",
@@ -720,12 +720,21 @@ const HouseUploadForm = ({ onClose }) => {
                   ))}
                 </div>
               </div>
-
+              {successMessage && (
+                <div className="mb-4 p-4 bg-green-100 text-green-700 rounded">
+                  {successMessage}
+                </div>
+              )}
+              {error && (
+                <div className="mb-4 p-4 bg-red-100 text-red-700 rounded">
+                  {error}
+                </div>
+              )}
               <div className="mt-8 flex justify-center items-center flex-col">
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-md transition duration-300"
+                  className="w-4/5 bg-[#00a256] hover:bg-[#1b553a] text-white font-bold py-3 px-4 rounded-md transition duration-300"
                 >
                   {isSubmitting ? (
                     <span className="flex items-center justify-center">
