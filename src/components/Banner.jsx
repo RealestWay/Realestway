@@ -31,7 +31,6 @@ const Banner = () => {
       maxBudget: parsedMax,
       propertyType: propertyType !== "Select" ? propertyType : null,
     });
-    console.log(filter);
   };
 
   useEffect(() => {

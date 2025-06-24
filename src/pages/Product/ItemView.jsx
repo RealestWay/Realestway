@@ -42,7 +42,7 @@ const ItemView = () => {
   const [chatbox, setChatBox] = useState(false);
   const { fetchChats } = useChats();
   const [loadingChats, setLoadingChats] = useState(true);
-  console.log(chatbox);
+
   useEffect(() => {
     const fetchAllChats = async () => {
       await fetchChats();
@@ -86,7 +86,7 @@ const ItemView = () => {
   const { user, isAuthenticated } = useAuth();
 
   const { fetchChat, setChat, chats, createChat } = useChats();
-
+  console.log(chats);
   const [selectedImage, setSelectedImage] = useState(null);
   const availableHouses = houses?.data?.filter(
     (house) => house.availability === "available"
@@ -327,17 +327,23 @@ const ItemView = () => {
         </div>
 
         {/* Agents and contact */}
-        <div className="mt-2">
+        <div className="mt-2 text-black">
           <h3 className="text-xl py-3">Listing Agent</h3>
           {/* <div className="flex flex-col md:flex-row gap-3 "> */}
-          <div className="flex gap-5 w-full">
+          <div className="flex gap-3 md:gap-5 w-full">
             <img
               src="/cs-realestway.png"
               alt="agent"
-              className="rounded-[50%]"
+              className="rounded-[50%] hidden md:inline"
               height={150}
               width={180}
             />{" "}
+            <img
+              src="/cs-realestway.png"
+              alt="agent"
+              className="rounded-[60%] md:hidden"
+              width={120}
+            />
             <span className="flex flex-col md:flex-row md:justify-between md:items-center w-full">
               <span className="flex flex-col gap-2 text-lg justify-between py-4">
                 <h4>{house.user.fullName}</h4>

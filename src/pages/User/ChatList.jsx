@@ -8,7 +8,7 @@ const ChatList = ({ chatbox, setChatBox }) => {
   const navigate = useNavigate();
   const { chats, fetchChat } = useChats();
   const [clickedChatId, setClickedChatId] = useState(null);
-
+  console.log(chats);
   if (!user) return <p>Please log in to view your chats.</p>;
 
   const handleChatClick = async (chatId) => {
