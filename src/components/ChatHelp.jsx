@@ -11,21 +11,22 @@ import { useNavigate } from "react-router-dom";
 
 const ChatHelp = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { createAdminChat, chats, fetchChat, chat, fetchChats } = useChats();
+  const { createChat, chats, fetchChat, chat, fetchChats } = useChats();
   const { token, user, isAuthenticated } = useAuth();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
 
   const navigate = useNavigate();
-  const existingChat = chats?.find((chat) => chat.admin_id === "USR-00001");
+  const existingChat = chats?.find(
+    (chat) => chat?.support?.id === "01jyk0va2xmg773v3322qnz79d"
+  );
 
-  console.log(existingChat);
   useEffect(() => {
     if (!chat?.data?.id) return;
 
-    const chatId = chat.data.id;
-    if (Array.isArray(chat.data.messages)) {
-      setMessages(chat.data.messages);
+    const chatId = chat?.data?.id;
+    if (Array.isArray(chat?.data?.messages)) {
+      setMessages(chat?.data?.messages);
     }
 
     const interval = setInterval(() => {
@@ -39,7 +40,7 @@ const ChatHelp = () => {
     if (!newMessage.trim()) return;
 
     const newMsg = {
-      sender_id: user.id,
+      sender: { id: user.id },
       id: messages?.length + 1,
       message: newMessage,
     };
@@ -75,11 +76,15 @@ const ChatHelp = () => {
           onClick={async () => {
             if (!isAuthenticated) return navigate("/login");
 
-            if (existingChat) {
-              await fetchChat(existingChat.id);
+            if (existingChat?.id) {
+              await fetchChat(existingChat?.id);
               setIsOpen(true);
             } else {
-              await createAdminChat("USR-00001");
+              await createChat(
+                "01jyk0va2xmg773v3322qnz79d",
+                null,
+                "general_support"
+              );
               setIsOpen(true);
             }
           }}

@@ -27,6 +27,9 @@ const AgentDashboard = () => {
   const { agent } = useAuth();
   const { chats } = useChats();
   const setOpenForm = useOutletContext();
+  const validChats = chats
+    ?.filter((chat) => chat?.messages?.length > 0)
+    .slice(0, 5);
   const performanceData = [
     { day: "MON", value: 0 },
     { day: "TUE", value: 0 },
@@ -102,7 +105,7 @@ const AgentDashboard = () => {
                   New Leads
                 </p>
                 <h4 className="text-xl font-bold">
-                  {0}
+                  {validChats?.length}{" "}
                   <span className="text-sm  font-normal">New Clients</span>
                 </h4>
               </div>
@@ -217,12 +220,12 @@ const AgentDashboard = () => {
         <div className="bg-white p-4 rounded shadow md:w-[40%] w-full">
           <h3 className="font-semibold mb-3">Messages</h3>
           <ul className="space-y-4">
-            {chats?.length === 0 ? (
+            {validChats?.length === 0 ? (
               <p className="text-gray-500">You have no chats yet.</p>
             ) : (
-              chats?.map((chat) => {
+              validChats?.map((chat) => {
                 const lastMsg =
-                  chat?.messages?.[chat.messages.length - 1] || {};
+                  chat?.messages?.[chat?.messages?.length - 1] || {};
                 return (
                   <li
                     key={chat?.id}
@@ -234,10 +237,12 @@ const AgentDashboard = () => {
                       className="w-10 h-10 rounded-full bg-gray-200"
                     />
                     <div className="flex-1">
-                      <h4 className="font-medium text-sm">{chat?.name}</h4>
+                      <h4 className="font-medium text-sm">
+                        {chat?.user?.fullName}
+                      </h4>
                       <p className="text-xs text-gray-500 truncate">
                         {lastMsg.sender === "me" ? "You: " : ""}
-                        {lastMsg.text || "Attachment"}
+                        {lastMsg?.message || "No message"}
                       </p>
                     </div>
                     <span className="text-xs text-gray-500">

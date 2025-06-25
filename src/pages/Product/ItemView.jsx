@@ -124,8 +124,8 @@ const ItemView = () => {
     location,
   } = house;
 
-  const validChats = chats?.filter((chat) => chat?.messages?.length > 0);
-  const existingChat = validChats?.find(
+  // const validChats = chats?.filter((chat) => chat?.messages?.length > 0);
+  const existingChat = chats?.find(
     (chat) => chat?.support?.id === house?.user.id
   );
 
