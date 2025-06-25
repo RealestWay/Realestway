@@ -227,12 +227,21 @@ const ItemView = () => {
               <span> {dimension}-sqFts</span>
             </div>
             <div className="w-full flex justify-center">
-              <Link
-                to={"/payment"}
-                className="bg-[#00a256] w-full gap-1 p-4 justify-items-center justify-center flex hover:bg-[#7ff3bd] text-lg text-white rounded-lg"
-              >
-                <span>Secure Apartment</span>
-              </Link>
+              {user.role === "user" ? (
+                <Link
+                  to={"/payment"}
+                  className="bg-[#00a256] w-full gap-1 p-4 justify-items-center justify-center flex hover:bg-[#7ff3bd] text-lg text-white rounded-lg"
+                >
+                  <span>Secure Apartment</span>
+                </Link>
+              ) : (
+                <Link
+                  onClick={() => alert("You must be a user to make payment")}
+                  className="bg-[#00a256] w-full gap-1 p-4 justify-items-center justify-center flex hover:bg-[#7ff3bd] text-lg text-white rounded-lg"
+                >
+                  <span>Secure Apartment</span>
+                </Link>
+              )}
             </div>
             <Link className="text-[#00a256] flex justify-center items-center w-full py-4">
               <u>View on Map</u>
