@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faQuestionCircle,
   faSignOutAlt,
-  faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   CloseCircle,

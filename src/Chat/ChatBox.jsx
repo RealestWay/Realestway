@@ -10,41 +10,36 @@ import { useChats } from "../contexts/ChatsContext";
 import { useAuth } from "../contexts/AuthContext";
 
 const ChatBox = ({ setChatBox, house }) => {
+  const { chat, fetchChat, fetchChats } = useChats();
+  const { user, token } = useAuth();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [initialFetchDone, setInitialFetchDone] = useState(false);
   const messagesEndRef = useRef(null);
 
-  const { chat, fetchChat } = useChats();
-  const { user, token } = useAuth();
-
-  // Load messages once when chat is available
   useEffect(() => {
+    if (!chat?.data?.id) return;
+
     const loadMessages = async () => {
-      if (!chat?.data?.id) return;
-      setIsLoading(true);
-      try {
-        const response = await fetch(
-          `https://backend.realestway.com/api/chats/${chat.data.id}/messages`,
-          {
-            method: "GET",
-            headers: {
-              Accept: "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        const data = await response.json();
-        setMessages(data.messages || []);
-      } catch (error) {
-        console.error("Error loading messages:", error);
-      } finally {
+      if (!initialFetchDone) setIsLoading(true);
+      await fetchChat(chat.data.id);
+      if (!initialFetchDone) {
         setIsLoading(false);
+        setInitialFetchDone(true);
       }
     };
 
     loadMessages();
-  }, [chat?.data?.id, token]);
+    const interval = setInterval(loadMessages, 5000);
+    return () => clearInterval(interval);
+  }, [chat?.data?.id, initialFetchDone]);
+
+  useEffect(() => {
+    if (Array.isArray(chat?.data?.messages)) {
+      setMessages(chat.data.messages);
+    }
+  }, [chat?.data?.messages]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -55,9 +50,9 @@ const ChatBox = ({ setChatBox, house }) => {
 
     const tempMessage = {
       id: Date.now(),
-      sender_id: user.id,
+      sender: { id: user?.id },
       message: newMessage,
-      created_at: new Date().toISOString(),
+      createdAt: new Date().toISOString(),
     };
 
     setMessages((prev) => [...prev, tempMessage]);
@@ -81,9 +76,7 @@ const ChatBox = ({ setChatBox, house }) => {
       );
 
       if (!response.ok) throw new Error("Failed to send message");
-
-      // Refresh chat messages from backend
-      await fetchChat(chat.data.id);
+      await fetchChat(chat?.data?.id);
     } catch (error) {
       console.error("Error sending message:", error);
       setMessages((prev) => prev.filter((msg) => msg.id !== tempMessage.id));
@@ -99,29 +92,28 @@ const ChatBox = ({ setChatBox, house }) => {
 
   return (
     <div className="fixed bottom-0 right-0 z-[999] w-full md:w-3/5 h-[80vh] md:h-[90vh] bg-white rounded-t-xl shadow-lg border border-gray-200 flex flex-col">
-      {/* Header */}
       <div className="bg-white p-4 rounded-t-xl flex justify-between items-center shadow-sm border-b border-gray-200">
         <div>
           <h2 className="text-lg font-bold">
-            Chat with {chat?.data?.recipient?.name || "Agent"}
+            Chat with {chat?.data?.support?.name || "Agent"}
           </h2>
           <p className="text-sm text-gray-500 flex flex-col md:flex-row md:gap-3">
-            {chat?.data?.recipient?.phone && (
+            {chat?.data?.support?.phone && (
               <span>
                 <FontAwesomeIcon
                   icon={faPhone}
                   className="mr-1 text-green-600"
                 />
-                {chat.data.recipient.phone}
+                {chat?.data?.support?.phone}
               </span>
             )}
-            {chat?.data?.recipient?.email && (
+            {chat?.data?.support?.email && (
               <span>
                 <FontAwesomeIcon
                   icon={faEnvelope}
                   className="mr-1 text-green-600"
                 />
-                {chat.data.recipient.email}
+                {chat?.data?.support?.email}
               </span>
             )}
           </p>
@@ -129,11 +121,13 @@ const ChatBox = ({ setChatBox, house }) => {
         <CloseCircle
           className="text-xl text-gray-400 hover:text-gray-700 cursor-pointer"
           size={24}
-          onClick={() => setChatBox(false)}
+          onClick={() => {
+            setChatBox(false);
+            fetchChats();
+          }}
         />
       </div>
 
-      {/* Warning Banner */}
       <div className="bg-yellow-100 w-full text-yellow-700 text-sm px-4 py-2 border-t border-b border-yellow-300 flex items-center gap-2">
         <FontAwesomeIcon
           icon={faTriangleExclamation}
@@ -145,7 +139,6 @@ const ChatBox = ({ setChatBox, house }) => {
         </span>
       </div>
 
-      {/* Messages */}
       <div className="flex-1 p-4 space-y-3 overflow-y-auto bg-gray-50">
         {isLoading ? (
           <div className="h-full flex items-center justify-center">
@@ -157,22 +150,22 @@ const ChatBox = ({ setChatBox, house }) => {
           </div>
         ) : (
           messages.map((msg) => (
-            <div key={msg.id} className="space-y-1">
+            <div key={msg?.id} className="space-y-1">
               <div
                 className={`text-sm p-3 rounded-lg w-fit max-w-[80%] ${
-                  msg.sender_id === user.id
+                  msg?.sender?.id === user?.id
                     ? "bg-[#100073] ml-auto rounded-br-none text-white"
                     : "bg-[#00a256] rounded-bl-none text-white"
                 }`}
               >
-                {msg.message}
+                {msg?.message}
               </div>
               <div
                 className={`text-[10px] ${
-                  msg.sender_id === user.id ? "text-right" : "text-left"
+                  msg?.sender?.id === user?.id ? "text-right" : "text-left"
                 } opacity-70 px-2`}
               >
-                {new Date(msg.created_at).toLocaleTimeString([], {
+                {new Date(msg?.createdAt).toLocaleTimeString([], {
                   hour: "2-digit",
                   minute: "2-digit",
                 })}
@@ -183,7 +176,6 @@ const ChatBox = ({ setChatBox, house }) => {
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Message Input */}
       <div className="flex items-center gap-2 px-4 py-3 bg-white border-t border-gray-200">
         <input
           type="text"

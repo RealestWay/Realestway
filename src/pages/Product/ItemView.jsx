@@ -124,10 +124,11 @@ const ItemView = () => {
     location,
   } = house;
 
-  const existingChat = chats?.find(
-    (chat) => chat?.support.id === house.user.id
+  const validChats = chats?.filter((chat) => chat?.messages?.length > 0);
+  const existingChat = validChats?.find(
+    (chat) => chat?.support?.id === house?.user.id
   );
-  console.log(existingChat);
+
   const images = medias.filter((media) => media.type === "image");
   if (loading) return <Spinner />;
   return (

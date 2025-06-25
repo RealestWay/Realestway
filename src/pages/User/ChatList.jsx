@@ -1,20 +1,21 @@
 import { useAuth } from "../../contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
 import { useChats } from "../../contexts/ChatsContext";
 import { useState } from "react";
 
 const ChatList = ({ chatbox, setChatBox }) => {
   const { user } = useAuth();
-  const navigate = useNavigate();
+
   const { chats, fetchChat } = useChats();
   const [clickedChatId, setClickedChatId] = useState(null);
 
   if (!user) return <p>Please log in to view your chats.</p>;
 
+  const validChats = chats.filter((chat) => chat.messages.length > 0);
+
   const handleChatClick = async (chatId) => {
     setClickedChatId(chatId);
-    const result = await fetchChat(chatId);
-    if (result) navigate("/message");
+    await fetchChat(chatId);
+
     setClickedChatId(null);
   };
 
@@ -22,11 +23,11 @@ const ChatList = ({ chatbox, setChatBox }) => {
     <div className="bg-white dark:bg-gray-800 p-6 rounded-b-lg shadow-lg max-h-[410px] overflow-scroll scrollbar-hide scrollbar-hidden">
       {/* <h2 className="text-xl font-semibold mb-4 ">Your Chats</h2> */}
 
-      {chats?.length === 0 ? (
+      {validChats?.length === 0 ? (
         <p className="text-gray-500 dark:text-gray-200">No chats yet.</p>
       ) : (
         <ul className="space-y-4">
-          {chats?.map((chat) => {
+          {validChats?.map((chat) => {
             const isClicked = clickedChatId === chat.id;
             if (!chat.admin_id)
               return (

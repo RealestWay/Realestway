@@ -29,7 +29,7 @@ const UserProfile = () => {
   const { fetchChats } = useChats();
   const { favHouse, showFavoritedHouse, loadingfav, isLoading } = UseHouses();
   const { user, token, refs, fetchAllreferral } = useAuth();
-  console.log(refs);
+
   const navigate = useNavigate();
 
   if (!user) navigate("/");
