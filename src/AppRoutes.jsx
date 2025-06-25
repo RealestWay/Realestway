@@ -76,14 +76,6 @@ const AppRoutes = () => {
           <Route path="/profile/account" element={<AgentAccount />} />
         </Route>
       )}
-      <Route
-        path="OrderPage/:propertyId"
-        element={
-          <ProtectedRoutes>
-            <OrderPage />
-          </ProtectedRoutes>
-        }
-      />
       <Route path="about" element={<AboutUs />} />
       <Route path="contact" element={<ContactUs />} />
       <Route path="/search" element={<SearchPage />}>
@@ -124,7 +116,7 @@ const AppRoutes = () => {
         }
       />{" "}
       <Route path="*" element={<PageNotFound />} />
-      <Route path="order" element={<OrderPage />}></Route>
+      <Route path="payment" element={<OrderPage />}></Route>
       <Route path="onboard" element={<AgentEnrollmentPage />}></Route>
       <Route path="faqs" element={<FaqPage />}></Route>
       <Route path="terms" element={<TermsOfUse />}></Route>

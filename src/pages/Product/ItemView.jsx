@@ -136,7 +136,7 @@ const ItemView = () => {
   return (
     <div>
       {chatbox && <ChatBox setChatBox={setChatBox} house={house} />}
-      <div className="w-[88%] mx-auto dark:text-white">
+      <div className="w-[88%] mx-auto">
         <PageNav home={false} />
         <div className="w-full px-6 md:px-10 flex justify-between items-center text-[#00a256] ">
           <button
@@ -228,7 +228,7 @@ const ItemView = () => {
             </div>
             <div className="w-full flex justify-center">
               <Link
-                to={"/order"}
+                to={"/payment"}
                 className="bg-[#00a256] w-full gap-1 p-4 justify-items-center justify-center flex hover:bg-[#7ff3bd] text-lg text-white rounded-lg"
               >
                 <span>Secure Apartment</span>

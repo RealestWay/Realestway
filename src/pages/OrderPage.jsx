@@ -1,9 +1,9 @@
-import { faArrowAltCircleLeft } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { UseHouses } from "../contexts/HouseContext";
 import { useAuth } from "../contexts/AuthContext";
+import { ArrowLeft } from "iconsax-reactjs";
+import PageNav from "../components/PageNav";
 
 const OrderPage = () => {
   const [paymentStage, setPaymentStage] = useState(1); // 1: Initiated, 2: Processing, 3: Completed
@@ -53,7 +53,7 @@ const OrderPage = () => {
       if (data?.data?.authorization_url) {
         setPaymentMethod(method);
         setPaymentStage(2);
-        console.log(data.data);
+
         window.location.href = data.data.authorization_url;
       } else {
         alert("Unable to initialize payment.");
@@ -101,15 +101,16 @@ const OrderPage = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto my-24 p-6 bg-white shadow-lg rounded-lg">
+    <div className="w-[88%] max-w-2xl mx-auto my-24 p-6 bg-white shadow-lg rounded-lg">
       {/* Top Bar */}
-      <div className="w-full px-6 sm:px-10 flex justify-between items-center text-white bg-[#100073]">
+
+      <PageNav home={false} />
+      <div className="w-full px-6 md:px-10 flex justify-between items-center text-[#00a256] ">
         <button
-          className="flex items-center gap-2 px-4 py-2 bg-[#100073] hover:bg-blue-700 transition-all"
-          onClick={() => (paymentStage === 3 ? navigate("/") : navigate(-1))}
+          className="flex items-center gap-3 px-4 py-2 transition-all"
+          onClick={() => navigate(-1)}
         >
-          <FontAwesomeIcon icon={faArrowAltCircleLeft} size="lg" />
-          <span>Back</span>
+          <ArrowLeft color="#00a256" size={24} /> <span>Back</span>
         </button>
       </div>
 
