@@ -577,7 +577,7 @@ const HouseUploadForm = ({ onClose }) => {
                   >
                     <div className="flex flex-col items-center justify-center">
                       <svg
-                        className="w-12 h-12 text-gray-400 mb-2"
+                        className="w-12 h-12 text-[#00a256] mb-2"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -632,7 +632,7 @@ const HouseUploadForm = ({ onClose }) => {
                 <h3 className="text-lg font-semibold mb-4">
                   Upload Short Video (Optional)
                 </h3>
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                <div className="border-2 border-dashed border-[#00a256] rounded-lg p-6 text-center">
                   <input
                     type="file"
                     accept="video/mp4"
@@ -646,7 +646,7 @@ const HouseUploadForm = ({ onClose }) => {
                   >
                     <div className="flex flex-col items-center justify-center">
                       <svg
-                        className="w-12 h-12 text-gray-400 mb-2"
+                        className="w-12 h-12 text-[#00a256] mb-2"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
