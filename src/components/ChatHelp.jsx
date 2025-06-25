@@ -125,9 +125,9 @@ const ChatHelp = () => {
               <div
                 key={index}
                 className={`p-2 rounded-lg max-w-xs ${
-                  msg.sender_id === user.id
-                    ? "bg-[#100073] text-white self-end"
-                    : "bg-[#00A256] text-white self-start"
+                  msg.sender.id === user.id
+                    ? "bg-[#00A256] text-white self-start"
+                    : "bg-[#100073] text-white self-end"
                 }`}
               >
                 {msg.message}
@@ -145,7 +145,7 @@ const ChatHelp = () => {
               onKeyDown={(e) => e.key === "Enter" && handleChat()}
             />
             <button
-              className="bg-[#100073] text-white px-4 rounded-r-lg"
+              className="bg-[#00a256] text-white px-4 rounded-r-lg"
               onClick={handleChat}
             >
               <FontAwesomeIcon icon={faPaperPlane} />
