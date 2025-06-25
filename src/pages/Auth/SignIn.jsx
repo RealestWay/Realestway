@@ -77,10 +77,11 @@ const SignIn = () => {
               </div>
               <p className="text-red-600 flex justify-center">{loginMsg}</p>
               <Link
-                to="/forgotPassword"
+                // to="/forgotPassword"
                 className="text-red-400 flex items-center justify-center my-5"
               >
-                Forget Password?
+                Forget Password?{" "}
+                <span className="text-sm text-[#727272]">coming soon</span>
               </Link>
               <button className="w-[95%] bg-gradient-to-r from-[#00A256] to-[#100073] text-white rounded-xl p-2">
                 {isLoading ? <Spinner2 /> : "Sign In"}

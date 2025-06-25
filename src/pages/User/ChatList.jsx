@@ -10,7 +10,9 @@ const ChatList = ({ chatbox, setChatBox }) => {
 
   if (!user) return <p>Please log in to view your chats.</p>;
 
-  const validChats = chats.filter((chat) => chat.messages.length > 0);
+  const validChats = chats.filter(
+    (chat) => chat.messages.length > 0 && chat.chatType === "house_inquiry"
+  );
 
   const handleChatClick = async (chatId) => {
     setClickedChatId(chatId);

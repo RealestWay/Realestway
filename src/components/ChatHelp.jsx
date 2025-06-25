@@ -11,7 +11,8 @@ import { useNavigate } from "react-router-dom";
 
 const ChatHelp = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { createChat, chats, fetchChat, chat, fetchChats } = useChats();
+  const { createChat, chats, fetchChat, chat, fetchChats, setChat } =
+    useChats();
   const { token, user, isAuthenticated } = useAuth();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
@@ -111,6 +112,7 @@ const ChatHelp = () => {
             <button
               onClick={() => {
                 setIsOpen(false);
+                setChat(null);
                 fetchChats();
               }}
             >

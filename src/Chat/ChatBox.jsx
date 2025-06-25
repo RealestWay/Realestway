@@ -10,7 +10,7 @@ import { useChats } from "../contexts/ChatsContext";
 import { useAuth } from "../contexts/AuthContext";
 
 const ChatBox = ({ setChatBox, house }) => {
-  const { chat, fetchChat, fetchChats } = useChats();
+  const { chat, fetchChat, fetchChats, setChat } = useChats();
   const { user, token } = useAuth();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
@@ -123,6 +123,7 @@ const ChatBox = ({ setChatBox, house }) => {
           size={24}
           onClick={() => {
             setChatBox(false);
+            setChat(null);
             fetchChats();
           }}
         />

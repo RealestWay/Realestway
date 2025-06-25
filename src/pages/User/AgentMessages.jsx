@@ -79,7 +79,9 @@ const AgentMessages = () => {
       setMessages((prev) => prev.filter((msg) => msg.id !== tempMessage.id));
     }
   };
-  const validChats = chats.filter((chat) => chat.messages.length > 0);
+  const validChats = chats.filter(
+    (chat) => chat.messages.length > 0 && chat.chatType === "house_inquiry"
+  );
 
   const filteredChats = validChats.filter((chat) =>
     chat?.user?.fullName.toLowerCase().includes(searchTerm.toLowerCase())
