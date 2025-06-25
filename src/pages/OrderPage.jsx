@@ -184,9 +184,6 @@ const OrderPage = () => {
           <p className="mt-2 text-gray-700">
             You can now contact the landlord/caretaker.
           </p>
-          <p className="text-blue-600 font-bold text-lg mt-4">
-            {landlordContact}
-          </p>
         </div>
       )}
     </div>

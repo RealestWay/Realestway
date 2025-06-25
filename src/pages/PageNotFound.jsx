@@ -5,7 +5,7 @@ import { ArrowLeft } from "iconsax-reactjs";
 const PageNotFound = () => {
   const navigate = useNavigate();
   return (
-    <div className="flex w-[88%] mx-auto items-center justify-center min-h-screen bg-gray-100 text-center px-4">
+    <div className="w-[88%] mx-auto min-h-screen bg-gray-100 text-center px-4">
       <PageNav home={false} />
       <div className="w-full px-6 md:px-10 flex justify-between items-center text-[#00a256] ">
         <button
@@ -15,7 +15,7 @@ const PageNotFound = () => {
           <ArrowLeft color="#00a256" size={24} /> <span>Back</span>
         </button>
       </div>
-      <div className="max-w-md">
+      <div className="max-w-md flex items-center justify-center">
         <h1 className="text-4xl font-bold text-gray-800 mb-4">
           🚧 Page Unavailable
         </h1>
@@ -24,7 +24,7 @@ const PageNotFound = () => {
         </p>
         <Link
           to={"/"}
-          className="inline-block bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition"
+          className="inline-block bg-[#00a256] text-white px-6 py-2 rounded transition"
         >
           Return to Home
         </Link>
