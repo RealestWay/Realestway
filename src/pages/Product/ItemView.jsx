@@ -124,6 +124,8 @@ const ItemView = () => {
     location,
   } = house;
 
+  const minTPnum = Number(minTenancyPeriod.split(" ")[0]);
+
   // const validChats = chats?.filter((chat) => chat?.messages?.length > 0);
   const existingChat = chats?.find(
     (chat) => chat?.support?.id === house?.user.id
@@ -239,7 +241,7 @@ const ItemView = () => {
         </div>
 
         {/* Description */}
-        <div className="py-6 w-full">
+        <div className="py-6 w-full text-black">
           <h3 className="text-xl py-2">Description</h3>
           <p className="text-justify">{description}</p>
         </div>
@@ -327,7 +329,14 @@ const ItemView = () => {
               </li>
               <li className="border-b-[1px] border-[#D9D9D9] flex justify-between w-full py-2">
                 <span> Minimum Tenancy</span>
-                <span> {minTenancyPeriod}</span>
+                <span>
+                  {minTPnum < 12 ? minTPnum : minTPnum / 12}{" "}
+                  {minTPnum < 12 ? (
+                    <> month {minTPnum === 1 ? "" : "s"}</>
+                  ) : (
+                    <>year {minTPnum / 12 === 1 ? "" : "s"}</>
+                  )}
+                </span>
               </li>
             </ul>
           </div>
@@ -468,12 +477,15 @@ const ItemView = () => {
             </button>
           </div>
           <div className={styleclasses}>
-            {availableHouses?.data?.length === 0 ? (
-              <p>No houses available right now..</p>
+            {availableHouses?.filter((h) => h.id !== house.id)?.length === 0 ? (
+              <i className="p-3 mt-4">
+                No related houses available right now..
+              </i>
             ) : (
               availableHouses
-                ?.slice(0, 5)
-                .map((house) => <Items house={house} key={house?.id} />)
+                ?.filter((h) => h.id !== house.id)
+                .slice(0, 5)
+                .map((hous) => <Items house={hous} key={hous?.id} />)
             )}
           </div>
         </div>

@@ -12,7 +12,8 @@ import { useState } from "react";
 import Spinner2 from "../../components/Spinner2";
 
 const Item = ({ house }) => {
-  const { updateHouse, deleteHouse, fetchAgentHouses } = UseHouses();
+  const { updateHouse, deleteHouse, fetchAgentHouses, fetchHouses } =
+    UseHouses();
   const [openDelete, setOpenDelete] = useState(false);
   const [deleteHouseId, setDeleteHouseId] = useState("");
   const [success, setSuccess] = useState("");
@@ -34,7 +35,7 @@ const Item = ({ house }) => {
   return (
     <div
       key={house?.id}
-      className="bg-white p-4 rounded min-w-[400px] shadow flex flex-col gap-4 relative"
+      className="bg-white p-4 rounded min-w-[350px]  md:min-w-[400px] shadow flex flex-col gap-4 relative"
     >
       {openDelete && (
         <Confirm
@@ -47,12 +48,16 @@ const Item = ({ house }) => {
           setSuccess={setSuccess}
           isLoading={isLoading}
           user={user}
-          fetchHouses={() => fetchAgentHouses(user?.id)}
+          fetchHouses={fetchHouses}
         />
       )}
 
       <div className="flex gap-2">
-        <img src="" alt="listing" className="w-1/2 h-32 bg-gray-200 rounded" />
+        <img
+          src={`https://backend.realestway.com/storage/${house?.medias[0]?.path}`}
+          alt="listing"
+          className="w-1/2 h-32 bg-gray-200 rounded"
+        />
         <div className="flex flex-col gap-2 w-1/2">
           <span className="flex justify-between">
             <h4 className="font-semibold text-md">{house?.title}</h4>{" "}
@@ -174,7 +179,7 @@ const Confirm = ({
             onClick={() => {
               setOpenDelete(false);
               setSuccess("");
-              fetchAgentHouses();
+              fetchAgentHouses(user.id);
               fetchHouses();
             }}
           />

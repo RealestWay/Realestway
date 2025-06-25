@@ -138,7 +138,7 @@ const AgentDashboard = () => {
               <>
                 {agentHouses?.map((house) => (
                   <>
-                    <Item house={house} key={house?.id} />
+                    <Item house={house} key={house.id} />
                   </>
                 ))}
               </>

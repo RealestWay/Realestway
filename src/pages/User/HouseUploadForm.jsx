@@ -8,7 +8,7 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
 const HouseUploadForm = ({ onClose }) => {
   const { fetchHouses, fetchAgentHouses } = UseHouses();
-  const { token } = useAuth();
+  const { token, user } = useAuth();
   const [error, setError] = useState();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successMessage, setSuccessMessage] = useState();
@@ -266,7 +266,14 @@ const HouseUploadForm = ({ onClose }) => {
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700"
           >
-            <FontAwesomeIcon icon={faTimes} size="lg" />
+            <FontAwesomeIcon
+              icon={faTimes}
+              size="lg"
+              onClick={() => {
+                fetchHouses();
+                fetchAgentHouses(user?.id);
+              }}
+            />
           </button>
         </div>
 
