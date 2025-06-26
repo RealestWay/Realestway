@@ -168,12 +168,26 @@ const AgentMessages = () => {
                 }`}
               >
                 <div
-                  className={`max-w-md p-3 text-sm rounded-lg shadow relative ${
+                  className={`max-w-md p-3 flex flex-col gap-3 text-sm rounded-lg shadow relative ${
                     msg?.sender?.id === user?.id
                       ? "bg-[#00a256] text-white"
                       : "bg-white text-[#100073] border"
                   }`}
                 >
+                  {msg?.referencedHouse?.title ? (
+                    <span className="rounded-lg relative">
+                      <img
+                        className="rounded-lg"
+                        src={`https://backend.realestway.com/storage/${msg?.referencedHouse?.medias[0].path}`}
+                        height={50}
+                      />
+                      <i className="text-xs p-2 bg-black rounded-sm bg-opacity-60 text-white absolute right-0 top-0">
+                        {msg?.referencedHouse?.title}{" "}
+                      </i>
+                    </span>
+                  ) : (
+                    ""
+                  )}
                   <p>{msg?.message}</p>
                 </div>
                 <div className="text-[10px] text-right mt-1 text-gray-400">
@@ -212,7 +226,7 @@ const AgentMessages = () => {
       )}
       {/* //Chat window for mobile  */}
       {activeChatId && (
-        <div className="md:hidden flex flex-col flex-1 absolute z-[9999] h-[100vh] overflow-y-auto scrollbar-hide scrollbar-hidden">
+        <div className="md:hidden flex flex-col flex-1 absolute z-[9999] h-[90vh] overflow-y-auto scrollbar-hide scrollbar-hidden">
           <div className="bg-white border-b p-4 flex justify-between items-center">
             <div className="flex gap-3 items-center">
               <img
@@ -251,12 +265,26 @@ const AgentMessages = () => {
                 }`}
               >
                 <div
-                  className={`max-w-md w-3/5 p-3 text-sm rounded-lg shadow relative ${
+                  className={`max-w-md flex flex-col gap-3 w-3/5 p-3 text-sm rounded-lg shadow relative ${
                     msg?.sender?.id === user?.id
                       ? "bg-[#00a256] text-white"
                       : "bg-white text-[#100073] border"
                   }`}
                 >
+                  {msg?.referencedHouse?.title ? (
+                    <span className="rounded-lg relative">
+                      <img
+                        className="rounded-lg"
+                        src={`https://backend.realestway.com/storage/${msg?.referencedHouse?.medias[0].path}`}
+                        height={50}
+                      />
+                      <i className="text-xs p-2 bg-black rounded-sm bg-opacity-60 text-white absolute right-0 top-0">
+                        {msg?.referencedHouse?.title}{" "}
+                      </i>
+                    </span>
+                  ) : (
+                    ""
+                  )}
                   <p>{msg?.message}</p>
                 </div>
                 <div className="text-[10px] text-right mt-1 text-gray-400">

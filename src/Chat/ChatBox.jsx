@@ -153,13 +153,29 @@ const ChatBox = ({ setChatBox, house }) => {
           messages.map((msg) => (
             <div key={msg?.id} className="space-y-1">
               <div
-                className={`text-sm p-3 rounded-lg w-fit max-w-[80%] ${
+                className={`text-sm flex gap-3 flex-col p-3 rounded-lg ${
+                  msg?.referencedHouse?.title ? "w-2/3 " : "w-fit max-w-[80%] "
+                } ${
                   msg?.sender?.id === user?.id
                     ? "bg-[#100073] ml-auto rounded-br-none text-white"
                     : "bg-[#00a256] rounded-bl-none text-white"
                 }`}
               >
-                {msg?.message}
+                {msg?.referencedHouse?.title ? (
+                  <span className="rounded-lg relative">
+                    <img
+                      className="rounded-lg"
+                      src={`https://backend.realestway.com/storage/${msg?.referencedHouse?.medias[0].path}`}
+                      height={50}
+                    />
+                    <i className="text-xs p-2 bg-black rounded-sm bg-opacity-60 text-white absolute right-0 top-0">
+                      {msg?.referencedHouse?.title}{" "}
+                    </i>
+                  </span>
+                ) : (
+                  ""
+                )}
+                {msg?.message}{" "}
               </div>
               <div
                 className={`text-[10px] ${

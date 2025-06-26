@@ -74,7 +74,7 @@ const AgentEnrollmentPage = () => {
           </p>
           <p className="text-lg leading-relaxed mb-6 text-justify">
             Learn more about us and our story on our{" "}
-            <Link to={"/AboutUs"} className="text-indigo-600 hover:underline">
+            <Link to={"/about"} className="text-indigo-600 hover:underline">
               About Us
             </Link>{" "}
             page.

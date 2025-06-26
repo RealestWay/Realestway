@@ -101,7 +101,9 @@ const SignIn = () => {
           </div> */}
             <p className="flex justify-center mt-3 text-gray-500 text-sm">
               By creating an account, you agree to our
-              <span className="text-green-500 px-1">Terms</span>
+              <Link to={"/terms"} className="text-green-500 px-1">
+                Terms
+              </Link>
             </p>
             <p className="flex text-gray-500 justify-center mt-9 text-sm  ">
               Don`t have an account?

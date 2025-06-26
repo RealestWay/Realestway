@@ -13,7 +13,7 @@ const PrivacyPolicy = () => {
           </h1>
           <div className="space-y-8 text-sm leading-7 md:text-base md:leading-8">
             <p>
-              <strong>Effective Date:</strong> 26/05/2025
+              <strong>Last Updated:</strong> 26/05/2025
             </p>
 
             <p>
