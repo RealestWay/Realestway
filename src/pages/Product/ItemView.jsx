@@ -227,7 +227,7 @@ const ItemView = () => {
               <span> {dimension}-sqFts</span>
             </div>
             <div className="w-full flex justify-center">
-              {user.role === "user" ? (
+              {user?.role === "user" ? (
                 <Link
                   to={"/payment"}
                   className="bg-[#00a256] w-full gap-1 p-4 justify-items-center justify-center flex hover:bg-[#7ff3bd] text-lg text-white rounded-lg"
@@ -384,7 +384,7 @@ const ItemView = () => {
               </span>
               {isAuthenticated ? (
                 <>
-                  {user.role === "user" &&
+                  {user?.role === "user" &&
                     (house?.availability === "available" ? (
                       <button
                         className="bg-[#00a256] text-white rounded-md w-48 md:px-10 md:w-60 p-4 flex gap-2"
