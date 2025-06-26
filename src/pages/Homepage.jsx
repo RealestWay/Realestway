@@ -81,8 +81,8 @@ const Homepage = () => {
 
   useEffect(() => {
     if (token) fetchChats();
-    if (user) fetchAgent(user.id);
-  }, [token]);
+    if (user?.role === "agent") fetchAgent(user.id);
+  }, [token, user]);
   return (
     <div className="w-[100vw]">
       {isLoading ? (

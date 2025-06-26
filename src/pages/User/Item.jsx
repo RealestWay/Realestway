@@ -74,9 +74,7 @@ const Item = ({ house }) => {
               Share
             </button>
           </span>
-          <p className="text-xs text-[#d4d4eb]">
-            {house?.location?.locationAddress}
-          </p>
+          <p className="text-xs text-[#9595c1]">{house?.location?.address}</p>
           <ul className="flex justify-between text-xs">
             <li className="bg-[#F0F0F7] border-1 shadow-none border-[#DCDCEB] text-#0A0D17 rounded-xl py-1 px-2">
               <FontAwesomeIcon icon={faBed} color="#0A0D17" /> {house?.bedrooms}
