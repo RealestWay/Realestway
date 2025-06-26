@@ -20,7 +20,7 @@ const AgentListings = () => {
   if (isLoading) return <Spinner />;
 
   return (
-    <div className="p-6 w-full">
+    <div className="py-6 px-3 w-full">
       {/* Search Input */}
       <div className="mb-6 w-full flex justify-around items-center">
         <input
