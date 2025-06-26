@@ -88,26 +88,37 @@ const Footer = () => {
               <p>+2348120606547</p>
               <p>+2348102349094</p>
               <span className="flex gap-3 justify-between items-center">
-                <a href={"https://x.facebook/realestway"} target="_blank">
+                <a
+                  href={
+                    "https://web.facebook.com/people/Realestway/61574894354340/"
+                  }
+                  target="_blank"
+                >
                   <Facebook variant="Bold" color="#00a256" size={18} />
                 </a>
                 <a href={"https://x.com/realestway"} target="_blank">
                   {" "}
                   <FontAwesomeIcon icon={faX} color="#00a256" />
                 </a>
-                <a href={"https://instagram.com/realestway_1"} target="_blank">
+                <a
+                  href={"https://www.instagram.com/realestway_1"}
+                  target="_blank"
+                >
                   {" "}
                   <Instagram color="#00a256" size={18} />
                 </a>
 
-                <Link to={"/"}>
+                <a
+                  href={"https://www.linkedin.com/company/realestway"}
+                  target="_blank"
+                >
                   {" "}
                   <FontAwesomeIcon
                     icon={faLinkedin}
                     color="#00a256"
                     size={18}
                   />
-                </Link>
+                </a>
               </span>
             </div>
           </div>
