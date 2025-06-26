@@ -120,16 +120,6 @@ const UserSettings = ({ set, setSet }) => {
           />
         </p>
 
-        {user?.companyName && (
-          <p className="grid grid-cols-[1fr_2fr]">
-            <span>Company</span>{" "}
-            <input
-              value={user?.companyName}
-              disabled
-              className="bg-[#F4F4F4] px-3 py-1 border-[#B7B7B7] border-[1px]"
-            />
-          </p>
-        )}
         <h3 className="text-xl flex justify-between items-center mt-3">
           Change Password
         </h3>
@@ -142,7 +132,7 @@ const UserSettings = ({ set, setSet }) => {
               placeholder="Current Password"
               value={settings.oldPassword}
               onChange={handleChange}
-              className="bg-[#F4F4F4] px-3 py-1 border-[#B7B7B7] border-[1px]"
+              className="bg-[#F4F4F4] px-3 py-2 rounded-sm border-[#B7B7B7] border-[1px]"
             />
           </p>
           <button
@@ -162,7 +152,7 @@ const UserSettings = ({ set, setSet }) => {
               placeholder="New Password"
               value={settings.newPassword}
               onChange={handleChange}
-              className="bg-[#F4F4F4] px-3 py-1 border-[#B7B7B7] border-[1px]"
+              className="bg-[#F4F4F4] px-3 py-2 rounded-sm border-[#B7B7B7] border-[1px]"
             />
           </p>
           <button
@@ -182,7 +172,7 @@ const UserSettings = ({ set, setSet }) => {
               placeholder="Confirm New Password"
               value={settings.confirmNewPassword}
               onChange={handleChange}
-              className="bg-[#F4F4F4] px-3 py-1 border-[#B7B7B7] border-[1px]"
+              className="bg-[#F4F4F4] px-3 py-2 rounded-sm border-[#B7B7B7] border-[1px]"
             />
           </p>
           <button

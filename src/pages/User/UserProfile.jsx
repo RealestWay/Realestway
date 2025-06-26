@@ -87,12 +87,6 @@ const UserProfile = () => {
               <p className="grid grid-cols-2">
                 <span>Phone</span> {user?.phone}
               </p>
-
-              {user?.companyName && (
-                <p className="grid grid-cols-2">
-                  <span>Company</span> {user?.companyName}
-                </p>
-              )}
             </div>
           </div>
         )}

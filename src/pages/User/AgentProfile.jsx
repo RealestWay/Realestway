@@ -102,7 +102,7 @@ const Nav = ({ navIndex, setNavIndex, logout }) => {
                 <Message2 variant="Bold" size={18} /> Messages
               </NavLink>
               <NavLink
-                // to={"/profile/account"}
+                to={"/profile/account"}
                 onClick={() => setNavIndex(4)}
                 className={
                   navIndex === 4
