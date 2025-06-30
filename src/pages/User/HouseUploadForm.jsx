@@ -190,15 +190,15 @@ const HouseUploadForm = ({ onClose }) => {
       }
 
       // Debug: Log FormData contents
-      for (let [key, value] of data.entries()) {
-        console.log(key, value);
-      }
+      // for (let [key, value] of data.entries()) {
+      //   console.log(key, value);
+      // }
 
       const res = await fetch("https://backend.realestway.com/api/listings", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
+          // "Content-Type": "multipart/form-data",
         },
         body: data,
       });

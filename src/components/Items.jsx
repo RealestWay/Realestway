@@ -38,29 +38,59 @@ const Items = ({ house, children }) => {
     if (user) user?.companyName ? "" : favh(id, token);
   }, [token, id]);
 
+  const images = medias?.filter((media) => media.type === "image");
+  const video = medias?.filter((media) => media.type === "video")[0];
+  const videoUrl = `https://backend.realestway.com/storage/${video?.path}`;
+
   const itemStyle = `rounded-xl w-full items-center justify-center h-[250px] md-[300px] relative`;
 
   return (
     <div className="min-w-[350px] w-[98%] md:w-[46%] p-3 pb-1 flex-col gap-4 justify-around shadow-2xl drop-shadow-lg rounded-lg mx-3">
-      <div
-        className={itemStyle}
-        style={{
-          // background: `url(../src/images${images[0].src})`,
-          background: `url(https://backend.realestway.com/storage/${medias[0].path})`,
-          backgroundSize: "cover",
-          overflow: "hidden",
-        }}
-      >
-        {" "}
+      {images.length > 0 ? (
         <div
+          className={itemStyle}
           style={{
-            color: house?.availability === "available" ? "white" : "red",
+            // background: `url(../src/images${images[0].src})`,
+            background: `url(https://backend.realestway.com/storage/${medias[0].path})`,
+            backgroundSize: "cover",
+            overflow: "hidden",
           }}
-          className="bg-white flex justify-center font-Poppins bg-opacity-30 rounded-lg px-2 py-1 right-0 w-1/4 top-0 text-sm absolute"
         >
-          {house?.availability === "available" ? "Available" : "Not available"}
+          {" "}
+          <div
+            style={{
+              color: house?.availability === "available" ? "white" : "red",
+            }}
+            className="bg-white flex justify-center font-Poppins bg-opacity-30 rounded-lg px-2 py-1 right-0 w-1/4 top-0 text-sm absolute"
+          >
+            {house?.availability === "available"
+              ? "Available"
+              : "Not available"}
+          </div>
         </div>
-      </div>
+      ) : (
+        <>
+          <video
+            width="100%"
+            height="auto"
+            controls
+            className="rounded-lg shadow-md relative mt-2"
+          >
+            <source src={videoUrl} type="video/mp4" />
+            Your browser does not support the video tag.
+            <div
+              style={{
+                color: house?.availability === "available" ? "white" : "red",
+              }}
+              className="bg-white flex justify-center font-Poppins bg-opacity-30 rounded-lg px-2 py-1 right-0 w-1/4 top-0 text-sm absolute"
+            >
+              {house?.availability === "available"
+                ? "Available"
+                : "Not available"}
+            </div>
+          </video>
+        </>
+      )}
 
       <div className="w-full justify-center flex flex-col text-sm py-2">
         <div className="flex justify-between items-center">

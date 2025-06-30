@@ -133,6 +133,8 @@ const ItemView = () => {
 
   const images = medias?.filter((media) => media.type === "image");
   const video = medias?.filter((media) => media.type === "video")[0];
+  const videoUrl = `https://backend.realestway.com/storage/${video?.path}`;
+
   if (loading) return <Spinner />;
   return (
     <div>
@@ -179,7 +181,7 @@ const ItemView = () => {
                 controls
                 className="rounded-lg shadow-md relative mt-2"
               >
-                <source src={URL.createObjectURL(video)} type="video/mp4" />
+                <source src={videoUrl} type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
             )}
@@ -449,7 +451,7 @@ const ItemView = () => {
             <button className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white bg-opacity-50 p-2 rounded-full shadow">
               <ArrowRight2 size="24" color="white" />
             </button>
-            <div className="w-full flex justify-between flex-row flex-nowrap gap-3 overflow-x-auto scroll-smooth scrollbar-hide snap-x px-0">
+            <div className="w-full flex justify-between flex-row-reverse flex-nowrap gap-3 overflow-x-auto scroll-smooth scrollbar-hide snap-x px-0">
               {medias.map((img, index) =>
                 img?.type === "image" ? (
                   <img
@@ -472,10 +474,7 @@ const ItemView = () => {
                       controls
                       className="rounded-lg shadow-md relative mt-2"
                     >
-                      <source
-                        src={URL.createObjectURL(video)}
-                        type="video/mp4"
-                      />
+                      <source src={videoUrl} type="video/mp4" />
                       Your browser does not support the video tag.
                     </video>
                   </>

@@ -28,8 +28,8 @@ const AgentDashboard = () => {
   const { chats } = useChats();
   const setOpenForm = useOutletContext();
   const validChats = chats
-    .filter(
-      (chat) => chat.messages.length > 0 && chat.chatType === "house_inquiry"
+    ?.filter(
+      (chat) => chat?.messages?.length > 0 && chat?.chatType === "house_inquiry"
     )
     .slice(0, 5);
   const performanceData = [

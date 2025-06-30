@@ -31,7 +31,9 @@ const Item = ({ house }) => {
       setIsLoading(false);
     }
   };
-
+  const images = house?.medias?.filter((media) => media.type === "image");
+  const video = house?.medias?.filter((media) => media.type === "video")[0];
+  const videoUrl = `https://backend.realestway.com/storage/${video?.path}`;
   return (
     <div
       key={house?.id}
@@ -53,11 +55,26 @@ const Item = ({ house }) => {
       )}
 
       <div className="flex gap-2">
-        <img
-          src={`https://backend.realestway.com/storage/${house?.medias[0]?.path}`}
-          alt="listing"
-          className="w-1/2 h-32 bg-gray-200 rounded"
-        />
+        {images.length > 0 ? (
+          <img
+            src={`https://backend.realestway.com/storage/${house?.medias[0]?.path}`}
+            alt="listing"
+            className="w-1/2 h-32 bg-gray-200 rounded"
+          />
+        ) : (
+          <>
+            {" "}
+            <video
+              width="50%"
+              height="auto"
+              controls
+              className="rounded-lg shadow-md relative mt-2"
+            >
+              <source src={videoUrl} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </>
+        )}
         <div className="flex flex-col gap-2 w-1/2">
           <span className="flex justify-between">
             <h4 className="font-semibold text-md">{house?.title}</h4>{" "}
