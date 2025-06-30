@@ -136,9 +136,9 @@ const AgentDashboard = () => {
               <Spinner2 />
             ) : (
               <>
-                {agentHouses?.map((house) => (
+                {agentHouses?.map((house, index) => (
                   <>
-                    <Item house={house} key={house?.id} />
+                    <Item house={house} key={index} />
                   </>
                 ))}
               </>

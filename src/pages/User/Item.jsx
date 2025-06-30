@@ -42,7 +42,6 @@ const Item = ({ house }) => {
       {openDelete && (
         <Confirm
           deleteHouse={handleDelete}
-          deleteHouseId={deleteHouseId}
           token={token}
           setOpenDelete={setOpenDelete}
           fetchAgentHouses={fetchAgentHouses}
@@ -154,8 +153,6 @@ const Item = ({ house }) => {
 
 const Confirm = ({
   deleteHouse,
-  deleteHouseId,
-  token,
   setOpenDelete,
   fetchAgentHouses,
   success,
