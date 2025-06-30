@@ -177,9 +177,8 @@ const ItemView = () => {
             {images.length === 0 && (
               <video
                 width="100%"
-                height="auto"
                 controls
-                className="rounded-lg shadow-md relative mt-2"
+                className="rounded-lg h-[400px] shadow-md relative mt-2"
               >
                 <source src={videoUrl} type="video/mp4" />
                 Your browser does not support the video tag.
@@ -470,9 +469,8 @@ const ItemView = () => {
                     {" "}
                     <video
                       width="100%"
-                      height="auto"
                       controls
-                      className="rounded-lg shadow-md relative mt-2"
+                      className="rounded-lg shadow-md h-[400px] relative mt-2"
                     >
                       <source src={videoUrl} type="video/mp4" />
                       Your browser does not support the video tag.
