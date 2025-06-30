@@ -65,9 +65,8 @@ const Item = ({ house }) => {
             {" "}
             <video
               width="50%"
-              height="auto"
               controls
-              className="rounded-lg shadow-md relative mt-2"
+              className="rounded-lg h-[400px] shadow-md relative mt-2"
             >
               <source src={videoUrl} type="video/mp4" />
               Your browser does not support the video tag.
@@ -106,7 +105,9 @@ const Item = ({ house }) => {
                 : "Apartment"}
             </li>
           </ul>
-          <p className="font-semibold text-[#00a256] mb-2">₦{550000} /yr</p>
+          <p className="font-semibold text-[#00a256] mb-2">
+            ₦{house?.totalPrice.toLocaleString()} /total
+          </p>
         </div>
       </div>
       <div className="flex gap-2 text-xs">
