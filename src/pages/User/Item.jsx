@@ -118,7 +118,7 @@ const Item = ({ house }) => {
         <button
           onClick={() => {
             setOpenDelete(true);
-            setDeleteHouseId(house.id);
+            setDeleteHouseId(house?.id);
           }}
           className="py-1 px-2 flex gap-1 items-center border-[#808080] border-[1px] rounded-lg"
         >
@@ -130,7 +130,9 @@ const Item = ({ house }) => {
             const formData = new FormData();
             formData.append(
               "availability",
-              house.availability === "available" ? "not-available" : "available"
+              house?.availability === "available"
+                ? "not-available"
+                : "available"
             );
             updateHouse(house.id, token, formData);
             fetchAgentHouses(user.id);
@@ -138,12 +140,12 @@ const Item = ({ house }) => {
           className="py-1 px-2 border-[#00a256] flex gap-1 items-center text-[#00a256] border-[1px] rounded-lg"
         >
           <TickCircle
-            color={house.availability === "available" ? "#00a256" : "red"}
+            color={house?.availability === "available" ? "#00a256" : "red"}
             variant="Bold"
             size={15}
           />
           Mark as{" "}
-          {house.availability === "available" ? "not available" : "available"}
+          {house?.availability === "available" ? "not available" : "available"}
         </button>
       </div>
     </div>

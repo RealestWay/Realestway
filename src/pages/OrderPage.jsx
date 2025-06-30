@@ -27,7 +27,7 @@ const OrderPage = () => {
   // Auto verify if Paystack redirects back with reference
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    const ref = urlParams.get("reference");
+    const ref = urlParams.get("trxref");
     if (ref && token) {
       verifyPayment(ref);
     }
@@ -104,7 +104,6 @@ const OrderPage = () => {
     <div className="w-[88%] max-w-2xl mx-auto my-24 p-6 bg-white shadow-lg rounded-lg">
       {/* Top Bar */}
 
-      <PageNav home={false} />
       <div className="w-full px-6 md:px-10 flex justify-between items-center text-[#00a256] ">
         <button
           className="flex items-center gap-3 px-4 py-2 transition-all"
