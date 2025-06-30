@@ -28,6 +28,7 @@ const OrderPage = () => {
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const ref = urlParams.get("trxref");
+    console.log(ref);
     if (ref && token) {
       verifyPayment(ref);
     }
@@ -72,7 +73,7 @@ const OrderPage = () => {
 
     try {
       const response = await fetch(
-        `https://backend.realestway.com/api/listings/payment/verify/${reference}`,
+        `https://backend.realestway.com/api/listings/payments/verify/${reference}`,
         {
           method: "GET",
           headers: {
