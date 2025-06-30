@@ -131,7 +131,8 @@ const ItemView = () => {
     (chat) => chat?.support?.id === house?.user.id
   );
 
-  const images = medias.filter((media) => media.type === "image");
+  const images = medias?.filter((media) => media.type === "image");
+  const video = medias?.filter((media) => media.type === "video")[0];
   if (loading) return <Spinner />;
   return (
     <div>
@@ -150,25 +151,38 @@ const ItemView = () => {
         {/*Primary Picture and Details*/}
         <div className="flex md:flex-row justify-between gap-3 flex-col">
           <div className="md:w-[55%] w-full py-2 rounded-2xl px-5">
-            <Swiper
-              autoplay={{ delay: 4000, disableOnInteraction: false }}
-              pagination={{ clickable: true, el: ".custom-pagination" }}
-              modules={[Autoplay, Pagination, Navigation]}
-              className="w-full h-[300px] sm:h-[400px] lg:h-[500px] rounded-xl"
-            >
-              {images.map((img, index) => (
-                <SwiperSlide key={index}>
-                  <img
-                    src={`https://backend.realestway.com/storage/${img.path}`}
-                    alt={`House image ${index + 1}`}
-                    className="w-full h-full object-cover rounded-xl"
-                  />
-                </SwiperSlide>
-              ))}
+            {images.length > 0 && (
+              <Swiper
+                autoplay={{ delay: 4000, disableOnInteraction: false }}
+                pagination={{ clickable: true, el: ".custom-pagination" }}
+                modules={[Autoplay, Pagination, Navigation]}
+                className="w-full h-[300px] sm:h-[400px] lg:h-[500px] rounded-xl"
+              >
+                {images.map((img, index) => (
+                  <SwiperSlide key={index}>
+                    <img
+                      src={`https://backend.realestway.com/storage/${img.path}`}
+                      alt={`House image ${index + 1}`}
+                      className="w-full h-full object-cover rounded-xl"
+                    />
+                  </SwiperSlide>
+                ))}
 
-              {/* Dots Pagination */}
-              <div className="custom-pagination absolute bottom-4 left-1/2 transform -translate-x-1/2 z-10 flex gap-2"></div>
-            </Swiper>
+                {/* Dots Pagination */}
+                <div className="custom-pagination absolute bottom-4 left-1/2 transform -translate-x-1/2 z-10 flex gap-2"></div>
+              </Swiper>
+            )}
+            {images.length === 0 && (
+              <video
+                width="100%"
+                height="auto"
+                controls
+                className="rounded-lg shadow-md relative mt-2"
+              >
+                <source src={URL.createObjectURL(video)} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            )}
           </div>
 
           <div className="flex flex-col gap-1 text-lg w-full md:w-[37%] p-4 px-6 shadow-md">
@@ -436,19 +450,37 @@ const ItemView = () => {
               <ArrowRight2 size="24" color="white" />
             </button>
             <div className="w-full flex justify-between flex-row flex-nowrap gap-3 overflow-x-auto scroll-smooth scrollbar-hide snap-x px-0">
-              {medias.map((img, index) => (
-                <img
-                  key={index}
-                  src={`https://backend.realestway.com/storage/${img.path}`}
-                  alt={`House ${index + 1}`}
-                  className="w-64 h-72 object-cover rounded-lg cursor-pointer"
-                  onClick={() =>
-                    setSelectedImage(
-                      `https://backend.realestway.com/storage/${img.path}`
-                    )
-                  }
-                />
-              ))}
+              {medias.map((img, index) =>
+                img?.type === "image" ? (
+                  <img
+                    key={index}
+                    src={`https://backend.realestway.com/storage/${img.path}`}
+                    alt={`House ${index + 1}`}
+                    className="w-64 h-72 object-cover rounded-lg cursor-pointer"
+                    onClick={() =>
+                      setSelectedImage(
+                        `https://backend.realestway.com/storage/${img.path}`
+                      )
+                    }
+                  />
+                ) : (
+                  <>
+                    {" "}
+                    <video
+                      width="100%"
+                      height="auto"
+                      controls
+                      className="rounded-lg shadow-md relative mt-2"
+                    >
+                      <source
+                        src={URL.createObjectURL(video)}
+                        type="video/mp4"
+                      />
+                      Your browser does not support the video tag.
+                    </video>
+                  </>
+                )
+              )}
             </div>
           </div>
           {/* View picture */}

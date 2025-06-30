@@ -35,6 +35,7 @@ const HouseUploadForm = ({ onClose }) => {
 
   const [images, setImages] = useState([]);
   const [video, setVideo] = useState(null);
+  const [videoPreview, setVideoPreview] = useState("");
   const [locationData, setLocationData] = useState({
     latitude: null,
     longitude: null,
@@ -128,19 +129,24 @@ const HouseUploadForm = ({ onClose }) => {
 
   const handleVideoUpload = (e) => {
     const file = e.target.files[0];
-    if (file && file.size > 10 * 1024 * 1024) {
-      alert("Video file must be less than 10MB");
+    if (file && file.size > 50 * 1024 * 1024) {
+      alert("Video file must be less than 50MB");
       return;
     }
-    setVideo(file);
-  };
 
+    setVideo(file);
+    setVideoPreview(URL.createObjectURL(file));
+  };
+  const handleVideoRemoval = () => {
+    setVideo(null);
+    setVideoPreview("");
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Validate minimum images
-    if (images.length < 6) {
-      setError("Minimum 6 images required");
+    if (images.length < 6 && !video) {
+      setError("Minimum 6 images or a video upload required");
       return;
     }
 
@@ -192,7 +198,7 @@ const HouseUploadForm = ({ onClose }) => {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
-          // Let browser set Content-Type with boundary
+          "Content-Type": "multipart/form-data",
         },
         body: data,
       });
@@ -667,17 +673,33 @@ const HouseUploadForm = ({ onClose }) => {
                       </svg>
                       <p className="text-gray-600">Drag your video or browse</p>
                       <p className="text-sm text-gray-500 mt-1">
-                        Max: 10 MB files are allowed
+                        Max: 50 MB files are allowed
                       </p>
                       <p className="text-sm text-gray-500">Supports: .mp4</p>
                     </div>
                   </label>
                 </div>
                 {video && (
-                  <div className="mt-4">
+                  <div className="mt-4 relative">
                     <p className="text-sm text-gray-500">
                       Video selected: {video.name}
                     </p>
+                    <button
+                      type="button"
+                      onClick={handleVideoRemoval}
+                      className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center"
+                    >
+                      <FontAwesomeIcon icon={faTimes} size="xs" />
+                    </button>
+                    <video
+                      width="100%"
+                      height="auto"
+                      controls
+                      className="rounded-lg shadow-md relative mt-2"
+                    >
+                      <source src={videoPreview} type="video/mp4" />
+                      Your browser does not support the video tag.
+                    </video>
                   </div>
                 )}
               </div>

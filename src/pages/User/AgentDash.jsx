@@ -119,7 +119,7 @@ const AgentDashboard = () => {
                 Earnings
               </p>
               <h4 className="text-xl font-bold">
-                #{0} <span className="text-sm  font-normal">Earned</span>
+                #{0} <span className="text-sm font-normal">Earned</span>
               </h4>
             </div>
           </div>
@@ -138,7 +138,7 @@ const AgentDashboard = () => {
               <>
                 {agentHouses?.map((house) => (
                   <>
-                    <Item house={house} key={house.id} />
+                    <Item house={house} key={house?.id} />
                   </>
                 ))}
               </>
