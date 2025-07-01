@@ -31,7 +31,7 @@ const RentSearchPage = () => {
   const shufflehouse = shuffleArray(availableHouses);
 
   if (!hasFilters) {
-    exactMatches = shufflehouse || [];
+    exactMatches = houses?.data || [];
   } else {
     const scoredHouses = (houses.data || []).map((house) => {
       let matchScore = 0;
@@ -138,9 +138,9 @@ const RentSearchPage = () => {
               </div>
               <div className="w-full flex flex-col md:flex-row justify-around md:px-20 sm:flex sm:flex-wrap gap-auto px-0 sm:px-10">
                 {paginatedExact.map(
-                  (house) =>
+                  (house, index) =>
                     house.availability === "available" && (
-                      <Items house={house} key={house.uniqueId} />
+                      <Items house={house} key={index} />
                     )
                 )}
               </div>

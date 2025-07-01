@@ -42,7 +42,7 @@ const Items = ({ house, children }) => {
   const video = medias?.filter((media) => media.type === "video")[0];
   const videoUrl = `https://backend.realestway.com/storage/${video?.path}`;
 
-  const itemStyle = `rounded-xl w-full items-center justify-center h-[250px] md-[300px] relative`;
+  const itemStyle = `rounded-xl w-full items-center justify-center h-[300px] md-[300px] relative`;
 
   return (
     <div className="min-w-[350px] w-[98%] md:w-[46%] p-3 pb-1 flex-col gap-4 justify-around shadow-2xl drop-shadow-lg rounded-lg mx-3">
@@ -50,7 +50,6 @@ const Items = ({ house, children }) => {
         <div
           className={itemStyle}
           style={{
-            // background: `url(../src/images${images[0].src})`,
             background: `url(https://backend.realestway.com/storage/${medias[0].path})`,
             backgroundSize: "cover",
             overflow: "hidden",
@@ -73,7 +72,7 @@ const Items = ({ house, children }) => {
           <video
             width="100%"
             controls
-            className="rounded-lg h-[400px] shadow-md relative mt-2"
+            className="rounded-lg h-[300px] shadow-md relative mt-2"
           >
             <source src={videoUrl} type="video/mp4" />
             Your browser does not support the video tag.
