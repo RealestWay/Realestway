@@ -96,7 +96,7 @@ const Items = ({ house, children }) => {
             {title?.split(" ").slice(0, 4).join(" ")}{" "}
             {title?.split(" ").length > 4 ? "..." : ""}
           </p>
-          {!user?.role === "agent" ? (
+          {user?.role === "user" ? (
             <>
               {isFav ? (
                 <button
