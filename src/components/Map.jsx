@@ -1,6 +1,8 @@
 import { useRef, useEffect } from "react";
 
 // Replace with your actual Google Maps API Key
+
+// AIzaSyC1SCqk6yxw1Y9TJm-LyNbVeJVKRuSWAoI
 const GOOGLE_MAPS_API_KEY = "AIzaSyD845dpQ62RHqNW83JcyA5YKaRQ05UVl8I";
 
 const loadGoogleMapsScript = (callback) => {

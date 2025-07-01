@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { UseHouses } from "../contexts/HouseContext";
 import { useAuth } from "../contexts/AuthContext";
 import { ArrowLeft } from "iconsax-reactjs";
-import PageNav from "../components/PageNav";
 
 const OrderPage = () => {
   const [paymentStage, setPaymentStage] = useState(1); // 1: Initiated, 2: Processing, 3: Completed
@@ -28,7 +27,7 @@ const OrderPage = () => {
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const ref = urlParams.get("trxref");
-    console.log(ref);
+
     if (ref && token) {
       verifyPayment(ref);
     }
@@ -78,6 +77,7 @@ const OrderPage = () => {
           method: "GET",
           headers: {
             Accept: "application/json",
+            "Content-Type": "application/json",
             Authorization: `bearer ${token}`,
           },
         }
