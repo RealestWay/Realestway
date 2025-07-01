@@ -6,6 +6,7 @@ import Spinner from "../../components/Spinner";
 import { UseHouses } from "../../contexts/HouseContext";
 import { useChats } from "../../contexts/ChatsContext";
 import { useAuth } from "../../contexts/AuthContext";
+import { shuffleArray } from "../../service/shuffle";
 
 const RentSearchPage = () => {
   const { houses, isLoading, filter } = UseHouses();
@@ -24,9 +25,13 @@ const RentSearchPage = () => {
   // Filtering and scoring logic
   let exactMatches = [];
   let relatedMatches = [];
+  const availableHouses = houses?.data?.filter(
+    (house) => house?.availability === "available"
+  );
+  const shufflehouse = shuffleArray(availableHouses);
 
   if (!hasFilters) {
-    exactMatches = houses.data || [];
+    exactMatches = shufflehouse || [];
   } else {
     const scoredHouses = (houses.data || []).map((house) => {
       let matchScore = 0;
@@ -102,7 +107,7 @@ const RentSearchPage = () => {
       ) : (
         <div>
           {/* No results */}
-          {exactMatchesCount === 0 && relatedMatches.length === 0 && (
+          {exactMatchesCount === 0 && relatedMatches?.length === 0 && (
             <div className="text-center text-red-600 font-semibold my-10 col-span-full">
               {hasFilters
                 ? "❌ No properties match your criteria. Try adjusting filters."

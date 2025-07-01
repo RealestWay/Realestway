@@ -23,58 +23,63 @@ import {
   SearchNormal1,
   ShieldTick,
 } from "iconsax-reactjs";
+import { shuffleArray } from "../service/shuffle";
 
 const Homepage = () => {
   const { houses, isLoading } = UseHouses();
   const { token, user, fetchAgent } = useAuth();
   const { fetchChats } = useChats();
+
+  const availableHouses = houses?.data?.filter(
+    (house) => house?.availability === "available"
+  );
+
+  const shufflehouse = shuffleArray(availableHouses);
+
   const locationsListings = [
+    {
+      location: "Ile-Ife",
+      img: "https://i0.wp.com/www.travelwaka.com/wp-content/uploads/2020/10/tour-59.jpg?w=1500&ssl=1",
+      listings: availableHouses?.filter(
+        (house) => house.location.city === "Ile-Ife"
+      ).length,
+    },
     {
       location: "Lagos",
       img: "https://images.unsplash.com/photo-1618828665011-0abd973f7bb8?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      listings: houses?.data?.filter(
+      listings: availableHouses?.filter(
         (house) => house.location.state === "Lagos"
       ).length,
     },
     {
       location: "Abuja",
       img: "https://images.unsplash.com/photo-1721642472312-cd30e9bd7cac?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8YWJ1amF8ZW58MHx8MHx8fDA%3D",
-      listings: houses?.data?.filter(
+      listings: availableHouses?.filter(
         (house) => house.location.state === "Abuja"
       ).length,
     },
     {
       location: "Port-Harcourt",
       img: "/P-H.png",
-      listings: houses?.data?.filter((house) =>
+      listings: availableHouses?.filter((house) =>
         house.location.state.toLowerCase().includes("port-harcourt")
       ).length,
     },
     {
       location: "Akure",
       img: "https://media.istockphoto.com/id/1043971852/photo/idanre-hill-ondo-state-nigeria.webp?a=1&b=1&s=612x612&w=0&k=20&c=URNMDb2LzKyqAjGVvqdfMH5Iokun1ASh0NgPsSckd8g=",
-      listings: houses?.data?.filter((house) => house.location.city === "Akure")
-        .length,
+      listings: availableHouses?.filter(
+        (house) => house.location.city === "Akure"
+      ).length,
     },
     {
       location: "Ibadan",
       img: "https://media.gettyimages.com/id/86045164/photo/aerial-view-dated-on-april-14-2009-shows-port-harcourt-in-river-state-the-commercial-capital.jpg?s=612x612&w=0&k=20&c=O1orhME7wgpUnlTCdb0mOuBiSbQ68ulVjwEiH_qAmcU=",
-      listings: houses?.data?.filter(
+      listings: availableHouses?.filter(
         (house) => house.location.city === "Ibadan"
       ).length,
     },
-    {
-      location: "Ife",
-      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTM89r5waaMC3n5Dktq6dNC3nH0dGMPBrYNkQ&s",
-
-      listings: houses?.data?.filter((house) => house.location.city === "Ife")
-        .length,
-    },
   ];
-
-  const availableHouses = houses?.data?.filter(
-    (house) => house?.availability === "available"
-  );
 
   const styleclasses =
     "flex gap-4 pb-10 w-[100%] overflow-x-auto scroll-smooth scrollbar-hide snap-x";
@@ -264,7 +269,7 @@ const Homepage = () => {
               {availableHouses?.data?.length === 0 ? (
                 <p>No houses available right now..</p>
               ) : (
-                availableHouses
+                shufflehouse
                   ?.slice(0, 5)
                   .map((house) => <Items house={house} key={house?.id} />)
               )}
