@@ -72,7 +72,7 @@ const OrderPage = () => {
 
     try {
       const response = await fetch(
-        `https://backend.realestway.com/api/listings/payments/verify/${reference}`,
+        `https://backend.realestway.com/api/listings/payment/verify/${reference}`,
         {
           method: "GET",
           headers: {

@@ -19,7 +19,7 @@ const Item = ({ house }) => {
   const [success, setSuccess] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { token, user } = useAuth();
-
+  console.log(token);
   const handleDelete = async () => {
     setIsLoading(true);
     try {
