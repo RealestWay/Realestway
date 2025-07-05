@@ -108,7 +108,7 @@ const OrderPage = () => {
       <div className="w-full px-6 md:px-10 flex justify-between items-center text-[#00a256] ">
         <button
           className="flex items-center gap-3 px-4 py-2 transition-all"
-          onClick={() => navigate(-1)}
+          onClick={() => (paymentStage === 3 ? navigate("/") : navigate(-1))}
         >
           <ArrowLeft color="#00a256" size={24} /> <span>Back</span>
         </button>

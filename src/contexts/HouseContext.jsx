@@ -130,6 +130,7 @@ const HouseProvider = ({ children }) => {
   async function updateHouse(id, token, formData) {
     setIsLoading(true);
     formData.append("_method", "PATCH");
+
     try {
       const res = await fetch(`${BASE}/listings/${id}`, {
         method: "POST",

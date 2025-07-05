@@ -5,16 +5,24 @@ import {
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { CloseCircle, Edit2, Link21, TickCircle } from "iconsax-reactjs";
+import {
+  Chart1,
+  CloseCircle,
+  Edit2,
+  Link21,
+  TickCircle,
+} from "iconsax-reactjs";
 import { UseHouses } from "../../contexts/HouseContext";
 import { useAuth } from "../../contexts/AuthContext";
 import { useState } from "react";
 import Spinner2 from "../../components/Spinner2";
+import EditHouseForm from "./EditHouseForm";
 
 const Item = ({ house }) => {
   const { updateHouse, deleteHouse, fetchAgentHouses, fetchHouses } =
     UseHouses();
   const [openDelete, setOpenDelete] = useState(false);
+  const [openEdit, setEdit] = useState(false);
   const [deleteHouseId, setDeleteHouseId] = useState("");
   const [success, setSuccess] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -53,6 +61,7 @@ const Item = ({ house }) => {
         />
       )}
 
+      {openEdit && <EditHouseForm onClose={setEdit} house={house} />}
       <div className="flex gap-2">
         {images.length > 0 ? (
           <img
@@ -111,7 +120,10 @@ const Item = ({ house }) => {
         </div>
       </div>
       <div className="flex gap-2 text-xs">
-        <button className="py-1 px-2 flex gap-1 items-center border-[#808080] border-[1px] rounded-lg">
+        <button
+          onClick={() => setEdit(true)}
+          className="py-1 px-2 flex gap-1 items-center border-[#808080] border-[1px] rounded-lg"
+        >
           <Edit2 color="#808080" variant="Bold" size={15} />
           Edit
         </button>
@@ -147,6 +159,10 @@ const Item = ({ house }) => {
           Mark as{" "}
           {house?.availability === "available" ? "not available" : "available"}
         </button>
+      </div>
+      <div className="flex gap-2 items-center">
+        <Chart1 size={20} color="#00a256" />
+        {house?.impressions} Impressions
       </div>
     </div>
   );

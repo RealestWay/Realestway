@@ -13,7 +13,7 @@ const Items = ({ house, children }) => {
   const { favoritedHouse, removeFavoritedHouse } = UseHouses();
   const { title, priceBreakdown, bathrooms, bedrooms, priceType, id, medias } =
     house;
-
+  console.log(house);
   const [isFav, setIsFav] = useState(false);
   const { user, token } = useAuth();
 
@@ -37,6 +37,27 @@ const Items = ({ house, children }) => {
   useEffect(() => {
     if (user) user?.companyName ? "" : favh(id, token);
   }, [token, id]);
+
+  useEffect(() => {
+    const impr = async () => {
+      try {
+        const res = await fetch(`${BASE}/listings/${id}/impression`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({}),
+        });
+        if (!res.ok) {
+          console.log("error trying");
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    impr();
+  }, []);
 
   const images = medias?.filter((media) => media.type === "image");
   const video = medias?.filter((media) => media.type === "video")[0];
