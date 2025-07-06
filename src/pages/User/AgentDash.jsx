@@ -6,7 +6,7 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Item from "./Item";
 import { Link, useOutletContext } from "react-router-dom";
-import { HomeTrendUp, Money2, People } from "iconsax-reactjs";
+import { HomeTrendUp, Money2, People, Refresh } from "iconsax-reactjs";
 import {
   LineChart,
   Line,
@@ -126,10 +126,17 @@ const AgentDashboard = () => {
         </div>
         {/* My Listings */}
         <div className="mb-6 md:w-[40%]">
-          <span className="flex justify-between">
+          <span className="flex justify-between mb-4 py-1 sm:py-0 items-center">
             {" "}
-            <h3 className="text-lg mb-4">My Listings</h3>
-            <Link to={"/profile/my-listings"}>View all</Link>
+            <h3 className="text-lg">My Listings</h3>
+            <span className="flex gap-3 items-center">
+              <Refresh
+                color="#100073"
+                size={18}
+                onClick={() => fetchAgentHouses(agent?.id)}
+              />
+              <Link to={"/profile/my-listings"}>View all</Link>
+            </span>
           </span>
           <div className="flex flex-col gap-4 text-sm">
             {isLoading ? (

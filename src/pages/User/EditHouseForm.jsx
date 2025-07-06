@@ -406,6 +406,10 @@ const EditHouseForm = ({ onClose, house }) => {
               <h3 className="text-lg font-semibold mb-4">
                 Additional Features
               </h3>
+              <p className="text-red-600 pb-2">
+                Select only amenity(ies) you want to add to the existing ones
+                for the property, else unselect all.
+              </p>
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {[
                   "Parking Space",
