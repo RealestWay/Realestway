@@ -5,8 +5,6 @@ import { useAuth } from "../../contexts/AuthContext";
 import Spinner2 from "../../components/Spinner2";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import { FFmpeg } from "@ffmpeg/ffmpeg";
-import { fetchFile } from "@ffmpeg/util";
 
 const HouseUploadForm = ({ onClose }) => {
   const { fetchHouses, fetchAgentHouses } = UseHouses();
@@ -37,7 +35,6 @@ const HouseUploadForm = ({ onClose }) => {
 
   const [images, setImages] = useState([]);
   const [video, setVideo] = useState(null);
-  const [processing, setProcessing] = useState(false);
   const [videoPreview, setVideoPreview] = useState("");
   const [locationData, setLocationData] = useState({
     latitude: null,
@@ -130,36 +127,16 @@ const HouseUploadForm = ({ onClose }) => {
     setImages([...images, ...files]);
   };
 
-  // const ffmpeg = FFmpeg.createFFmpeg({ log: true });
-  // OR if using default:
-  const ffmpeg = new FFmpeg({ log: true });
-
   const handleVideoUpload = async (e) => {
     const file = e.target.files[0];
-    if (file && file.size > 50 * 1024 * 1024) {
+    if (file && file.size > 30 * 1024 * 1024) {
       alert("Video file must be less than 50MB");
       return;
     }
     if (!file) return;
-    setProcessing(true);
-    if (!ffmpeg.isLoaded()) await ffmpeg.load();
 
-    ffmpeg.FS("writeFile", "input.mp4", await fetchFile(file));
-    await ffmpeg.run(
-      "-i",
-      "input.mp4",
-      "-vcodec",
-      "libx264",
-      "-crf",
-      "28",
-      "output.mp4"
-    );
-    const data = ffmpeg.FS("readFile", "output.mp4");
-    const compressed = new Blob([data.buffer], { type: "video/mp4" });
-
-    setVideo(compressed);
-    setVideoPreview(URL.createObjectURL(compressed));
-    setProcessing(false);
+    setVideo(file);
+    setVideoPreview(URL.createObjectURL(video));
   };
   const handleVideoRemoval = () => {
     setVideo(null);
@@ -696,7 +673,7 @@ const HouseUploadForm = ({ onClose }) => {
                       </svg>
                       <p className="text-gray-600">Drag your video or browse</p>
                       <p className="text-sm text-gray-500 mt-1">
-                        Max: 50 MB files are allowed
+                        Max: 30 MB files are allowed
                       </p>
                       <p className="text-sm text-gray-500">Supports: .mp4</p>
                     </div>
