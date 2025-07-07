@@ -154,7 +154,7 @@ const HouseUploadForm = ({ onClose }) => {
       const gps = await exifr.gps(file); // Extracts {latitude, longitude}
       if (gps && gps.latitude && gps.longitude) {
         setLocation(gps);
-        alert(gps);
+        alert(gps.latitude);
       } else {
         setLerror("No GPS data found in the image.");
       }
