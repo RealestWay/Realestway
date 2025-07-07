@@ -529,7 +529,7 @@ const HouseUploadForm = ({ onClose }) => {
 
               <div className="mt-6">
                 <h3 className="text-lg font-semibold mb-4">
-                  Caretaker/Landlord Details
+                  Caretaker/Landlord Details/Agents
                 </h3>
                 <div className="grid grid-cols-2 gap-4">
                   <input
