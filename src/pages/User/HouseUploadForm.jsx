@@ -5,6 +5,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import Spinner2 from "../../components/Spinner2";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import * as exifr from "exifr";
 
 const HouseUploadForm = ({ onClose }) => {
   const { fetchHouses, fetchAgentHouses } = UseHouses();
@@ -142,6 +143,29 @@ const HouseUploadForm = ({ onClose }) => {
     setVideo(null);
     setVideoPreview("");
   };
+
+  const [location, setLocation] = useState(null);
+  const [lerror, setLerror] = useState(null);
+  const handleFileChange = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    try {
+      const gps = await exifr.gps(file); // Extracts {latitude, longitude}
+      if (gps && gps.latitude && gps.longitude) {
+        setLocation(gps);
+        alert(gps);
+      } else {
+        setLerror("No GPS data found in the image.");
+      }
+    } catch (err) {
+      console.error(err);
+      setLerror("Failed to extract location.");
+    }
+  };
+
+  console.log(lerror);
+  console.log(location);
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -351,6 +375,7 @@ const HouseUploadForm = ({ onClose }) => {
                   </option>
                   <option value="Boysquarter">Boysquarter</option>
                   <option value="Duplex">Duplex</option>
+                  <option value="Shop">Shop</option>
                 </select>
 
                 <input
@@ -580,7 +605,7 @@ const HouseUploadForm = ({ onClose }) => {
                     type="file"
                     accept="image/png, image/jpeg, image/svg+xml"
                     multiple
-                    onChange={handleImageUpload}
+                    onChange={handleFileChange}
                     className="hidden"
                     id="image-upload"
                   />

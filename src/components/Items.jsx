@@ -13,7 +13,7 @@ const Items = ({ house, children }) => {
   const { favoritedHouse, removeFavoritedHouse } = UseHouses();
   const { title, priceBreakdown, bathrooms, bedrooms, priceType, id, medias } =
     house;
-  console.log(house);
+
   const [isFav, setIsFav] = useState(false);
   const { user, token } = useAuth();
 
