@@ -258,8 +258,9 @@ const ItemView = () => {
                 </Link>
               )}
             </div>
-            <Link className="text-[#00a256] flex justify-center items-center w-full py-4">
+            <Link className="text-[#00a256] flex flex-col justify-center items-center w-full py-4">
               <u>View on Map</u>
+              <i className="text-xs text-gray-500">coming soon</i>
             </Link>
           </div>
         </div>
@@ -499,8 +500,9 @@ const ItemView = () => {
             </div>
           )}
         </div>
-        <div className=" my-5 w-full ">
-          <h3 className="text-xl py-3">View Property on Map</h3>
+        <div className="my-5 w-full ">
+          <h3 className="text-xl py-3">View Property Area on Map</h3>
+          <i>This is an approximate location</i>
           <Map house={house} />
         </div>
         <div className=" my-5 w-full ">
