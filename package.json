@@ -21,7 +21,6 @@
     "@maptiler/sdk": "^3.3.0",
     "@react-google-maps/api": "^2.20.6",
     "eslint-config-react-app": "^7.0.1",
-    "exifr": "^7.1.3",
     "formik": "^2.4.6",
     "iconsax-reactjs": "^0.0.8",
     "json-server": "^1.0.0-beta.3",

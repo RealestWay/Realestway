@@ -61,9 +61,10 @@ const AboutUs = () => {
               Our Vision
             </h2>
             <p className="text-lg leading-relaxed">
-              To be the leading real estate platform that transforms how people
-              find, rent, buy, sell and invest in properties—making housing and
-              real estate services more accessible, efficient, and fair for all.
+              To be the leading prop tech company and real estate platform that
+              transforms how people find, rent, buy, sell and invest in
+              properties—making housing and real estate services more
+              accessible, efficient, and fair for all.
             </p>
           </section>
 
