@@ -1,53 +1,82 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import PageNav from "../components/PageNav";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEnvelope, faPhone, faUser } from "@fortawesome/free-solid-svg-icons";
 import Footer from "../components/Footer";
 import Spinner2 from "../components/Spinner2";
 
 const AgentEnrollmentPage = () => {
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [fullname, setFullname] = useState("");
-  const [formSubmitted, setFormSubmitted] = useState(false);
-  const [enrolling, setEnrolling] = useState(false);
+  const [formData, setFormData] = useState({
+    full_name: "",
+    company_name: "",
+    email: "",
+    phone: "",
+    password: "",
+    password_confirmation: "",
+    nin: "",
+    address: "",
+  });
+  // console.log(user, token);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
 
-  const enrollAgent = async () => {
-    setEnrolling(true);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  // Delete user to reg as agent
+  // const handleUserDelete = async (userId) => {
+  //   try {
+  //     const res = await fetch(
+  //       `https://backend.realestway.com/api/users/${userId}`,
+  //       {
+  //         method: "DELETE",
+  //         headers: {
+  //           Accept: "application/json",
+  //           Authorization: `Bearer ${token}`, // Auth token here
+  //         },
+  //       }
+  //     );
+  //   } catch {
+  //     return null;
+  //   }
+  // };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+    setSuccess(null);
 
     try {
-      const res = await fetch(
-        "https://backend.realestway.com/api/agents/onboard",
+      const response = await fetch(
+        "https://backend.realestway.com/api/agents",
         {
           method: "POST",
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            full_name: fullname,
-            email: email,
-            phone: phone,
-          }),
+          body: JSON.stringify(formData),
         }
       );
 
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Failed to enroll");
+      const data = await response.json();
 
-      // console.log("Agent onboarded:", data);
+      if (response.ok) {
+        setSuccess("Registration successful! You can now log in.");
+      } else {
+        setError(data.message || "An error occurred. Please try again.");
+      }
     } catch (err) {
-      console.error("Enrollment error:", err.message);
+      setError("An error occurred. Please try again.");
     } finally {
-      setEnrolling(false);
-      setFormSubmitted(true);
+      setLoading(false);
     }
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    enrollAgent();
   };
 
   return (
@@ -82,7 +111,7 @@ const AgentEnrollmentPage = () => {
         </section>
 
         {/* Enrollment Form Section */}
-        {!formSubmitted ? (
+        {!success ? (
           <section className="mb-12 flex justify-center">
             <div className="bg-white shadow-xl rounded-lg p-8 w-full max-w-lg">
               <h2 className="text-2xl font-semibold text-center text-gray-800 mb-6">
@@ -92,53 +121,150 @@ const AgentEnrollmentPage = () => {
                 Please provide your email and phone number to get started in our
                 agent recruitment process:
               </p>
-              <form className="space-y-6" onSubmit={handleSubmit}>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-3 flex items-center text-gray-500">
-                    <FontAwesomeIcon icon={faUser} color="#5A67D8" />
-                  </div>
+              <form
+                onSubmit={handleSubmit}
+                className="bg-white shadow-xl rounded-lg p-8 w-full max-w-lg mx-auto"
+              >
+                {/* Fullname Field */}
+                <div className="mb-4">
+                  <label htmlFor="fullname" className="block text-gray-700">
+                    Full Name
+                  </label>
                   <input
-                    type="name"
-                    placeholder="Enter your Full Names"
-                    className="w-full py-3 pl-12 pr-4 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none placeholder:text-gray-500"
-                    value={fullname}
-                    onChange={(e) => setFullname(e.target.value)}
+                    type="text"
+                    id="full_name"
+                    name="full_name"
+                    value={formData.full_name}
+                    onChange={handleChange}
                     required
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
                   />
                 </div>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-3 flex items-center text-gray-500">
-                    <FontAwesomeIcon icon={faEnvelope} color="#5A67D8" />
-                  </div>
+                {/* Fullname Field */}
+                <div className="mb-4">
+                  <label htmlFor="comapnyName" className="block text-gray-700">
+                    Company Name
+                  </label>
+                  <input
+                    type="text"
+                    id="company_name"
+                    name="company_name"
+                    value={formData.company_name}
+                    onChange={handleChange}
+                    required
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+                  />
+                </div>
+
+                {/* Email Field */}
+                <div className="mb-4">
+                  <label htmlFor="email" className="block text-gray-700">
+                    Email
+                  </label>
                   <input
                     type="email"
-                    placeholder="Enter your email"
-                    className="w-full py-3 pl-12 pr-4 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none placeholder:text-gray-500"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
                     required
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
                   />
                 </div>
 
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-3 flex items-center text-gray-500">
-                    <FontAwesomeIcon icon={faPhone} color="#5A67D8" />
-                  </div>
+                {/* Phone Field */}
+                <div className="mb-4">
+                  <label htmlFor="phone" className="block text-gray-700">
+                    Phone Number
+                  </label>
                   <input
-                    type="tel"
-                    placeholder="Enter your phone number"
-                    className="w-full py-3 pl-12 pr-4 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none placeholder:text-gray-500"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
+                    type="text"
+                    id="phone"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
                     required
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
                   />
                 </div>
 
+                {/* Password Field */}
+                <div className="mb-4">
+                  <label htmlFor="password" className="block text-gray-700">
+                    Password
+                  </label>
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    required
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+                  />
+                </div>
+
+                {/* Confirm Password Field */}
+                <div className="mb-4">
+                  <label
+                    htmlFor="password_confirmation"
+                    className="block text-gray-700"
+                  >
+                    Confirm Password
+                  </label>
+                  <input
+                    type="password"
+                    id="password_confirmation"
+                    name="password_confirmation"
+                    value={formData.password_confirmation}
+                    onChange={handleChange}
+                    required
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+                  />
+                </div>
+
+                {/* NIN Field */}
+                <div className="mb-4">
+                  <label htmlFor="nin" className="block text-gray-700">
+                    National ID Number (NIN)
+                  </label>
+                  <input
+                    type="text"
+                    id="nin"
+                    name="nin"
+                    value={formData.nin}
+                    onChange={handleChange}
+                    required
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+                  />{" "}
+                  {/* <button type="button" onClick={() => verifyNin(formData.nin)}>
+            verify
+          </button> */}
+                </div>
+
+                {/* Address Field */}
+                <div className="mb-4">
+                  <label htmlFor="address" className="block text-gray-700">
+                    Address
+                  </label>
+                  <input
+                    type="text"
+                    id="address"
+                    name="address"
+                    value={formData.address}
+                    onChange={handleChange}
+                    required
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+                  />
+                </div>
+
+                {/* Submit Button */}
                 <button
                   type="submit"
                   className="w-full py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
+                  disabled={loading}
                 >
-                  {enrolling ? <Spinner2 /> : "Apply"}
+                  {loading ? "Registering..." : "Register"}
                 </button>
               </form>
             </div>

@@ -26,7 +26,7 @@ const Item = ({ house }) => {
   const [deleteHouseId, setDeleteHouseId] = useState("");
   const [success, setSuccess] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const { token, user } = useAuth();
+  const { token, user, agent } = useAuth();
 
   const handleDelete = async () => {
     setIsLoading(true);
@@ -139,6 +139,11 @@ const Item = ({ house }) => {
         </button>
         <button
           onClick={() => {
+            if (agent?.status !== "active") {
+              alert(`Account is ${agent?.status}`);
+              return;
+            }
+
             const formData = new FormData();
             formData.append(
               "availability",
@@ -146,6 +151,7 @@ const Item = ({ house }) => {
                 ? "not-available"
                 : "available"
             );
+
             updateHouse(house.id, token, formData);
             fetchAgentHouses(user.id);
           }}

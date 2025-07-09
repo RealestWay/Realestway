@@ -25,6 +25,7 @@ import { useChats } from "../../contexts/ChatsContext";
 const AgentDashboard = () => {
   const { fetchAgentHouses, agentHouses, isLoading } = UseHouses();
   const { agent } = useAuth();
+
   const { chats } = useChats();
   const setOpenForm = useOutletContext();
   const validChats = chats
@@ -62,7 +63,17 @@ const AgentDashboard = () => {
                 <span className="flex justify-between">
                   {" "}
                   <button
-                    onClick={() => setOpenForm(true)}
+                    onClick={() =>
+                      agent?.status !== "active"
+                        ? alert(
+                            `Account ${agent?.status} ${
+                              agent?.status === "inactive"
+                                ? "(Pending Verification)"
+                                : ""
+                            }`
+                          )
+                        : setOpenForm(true)
+                    }
                     className="bg-[#00a256] h-16 md:w-56 mt-8 text-center text-white md:px-4 p-3 md:py-4 rounded-lg text-sm md:text-[1em] flex items-center gap-2 justify-center"
                   >
                     <FontAwesomeIcon icon={faPlus} /> Add Listing
