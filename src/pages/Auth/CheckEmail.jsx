@@ -18,7 +18,8 @@ const CheckEmail = () => {
           We've sent a verification link to your email address.
         </p>
         <p className="text-gray-600 mt-1">
-          Please check your inbox and click the link to verify your account.
+          Please check your inbox or <b>SPAM folder(Report not Spam)</b> and
+          click the link to verify your account.
         </p>
         <div className="mt-6 text-sm text-gray-500">
           Didn’t receive the email? <br />
