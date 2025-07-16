@@ -12,6 +12,7 @@ import {
   SearchNormal1,
 } from "iconsax-reactjs";
 
+// eslint-disable-next-line react/prop-types
 const PageNav = ({ home }) => {
   const { isAuthenticated, logout } = useAuth();
   const [isOpen, setIsOpen] = useState(false); // State to toggle menu

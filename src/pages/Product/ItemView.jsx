@@ -12,6 +12,7 @@ import {
   faBed,
   faEnvelope,
   faHouse,
+  faLink,
   faPhone,
 } from "@fortawesome/free-solid-svg-icons";
 import Spinner from "../../components/Spinner";
@@ -30,7 +31,7 @@ import Footer from "../../components/Footer";
 import Map from "../../components/Map";
 import Items from "../../components/Items";
 import ChatBox from "../../Chat/ChatBox";
-import ShareButtons from "../../components/ShareButtons";
+// import ShareButtons from "../../components/ShareButtons";
 
 const ItemView = () => {
   const { token } = useAuth();
@@ -186,7 +187,7 @@ const ItemView = () => {
           </div>
 
           <div className="flex flex-col gap-1 text-lg w-full md:w-[37%] p-4 px-6 shadow-md">
-            {/* <span className="flex justify-between items-center">
+            <span className="flex justify-between items-center">
               {" "}
               <h2 className="text-2xl mb-3">{propertyType}</h2>
               <button
@@ -201,8 +202,8 @@ const ItemView = () => {
                 </span>{" "}
                 <span>Copy link</span>
               </button>
-            </span> */}
-            <div className="mt-4">
+            </span>
+            {/* <div className="mt-4">
               <h3 className="text-md font-semibold mb-1">
                 Share this property
               </h3>
@@ -210,7 +211,7 @@ const ItemView = () => {
                 house={house}
                 title={`${house.propertyType} at ${house?.location?.address}`}
               />
-            </div>
+            </div> */}
 
             <p className="text-4xl font-semibold text-[#00a256]">
               #{totalPrice.toLocaleString()}
