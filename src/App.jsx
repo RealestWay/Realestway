@@ -12,7 +12,7 @@ import Maintenance from "./components/Maintenance";
 ReactGA.initialize("G-WRVHG3YM2J");
 
 const App = () => {
-  const isUnderMaintenance = true;
+  const isUnderMaintenance = false;
 
   if (isUnderMaintenance) {
     return <Maintenance />;

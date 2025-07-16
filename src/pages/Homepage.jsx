@@ -26,7 +26,7 @@ import {
 import { shuffleArray } from "../service/shuffle";
 
 const Homepage = () => {
-  const { houses, isLoading } = UseHouses();
+  const { houses, isLoading, filter, setFilter } = UseHouses();
   const { token, user, fetchAgent } = useAuth();
   const { fetchChats } = useChats();
 
@@ -159,14 +159,30 @@ const Homepage = () => {
               {/* Scrollable Content */}
               <div className="w-full flex justify-between flex-row flex-nowrap gap-3 overflow-x-auto scroll-smooth scrollbar-hide snap-x">
                 {locationsListings.map((city) => (
-                  <div
-                    key={city.location}
-                    className="rounded-2xl bg-cover w-[240px] h-[260px] relative flex flex-col justify-end p-3 text-white snap-start shrink-0"
-                    style={{ backgroundImage: `url(${city.img})` }}
-                  >
-                    <span className="text-xl font-bold">{city.location}</span>
-                    <span>{city.listings ?? 0} listings</span>
-                  </div>
+                  <>
+                    {" "}
+                    <Link
+                      to={"/search"}
+                      onClick={() =>
+                        setFilter({
+                          ...filter,
+                          location: city.location || null,
+                        })
+                      }
+                    >
+                      {" "}
+                      <div
+                        key={city.location}
+                        className="rounded-2xl bg-cover w-[240px] h-[260px] relative flex flex-col justify-end p-3 text-white snap-start shrink-0"
+                        style={{ backgroundImage: `url(${city.img})` }}
+                      >
+                        <span className="text-xl font-bold">
+                          {city.location}
+                        </span>
+                        <span>{city.listings ?? 0} listings</span>
+                      </div>
+                    </Link>
+                  </>
                 ))}
               </div>
             </div>
