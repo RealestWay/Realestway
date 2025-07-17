@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const Maintenance = () => {
   const [countdown, setCountdown] = useState("");
@@ -47,7 +47,7 @@ const Maintenance = () => {
         🚧 Realestway is Under Maintenance
       </h1>
       <p style={{ fontSize: "1rem", color: "#555" }}>
-        We're working on improvements. Please check back soon.
+        We&apos;re working on improvements. Please check back soon.
       </p>
       <p style={{ fontSize: "1.5rem", color: "#00a256", marginTop: "1.5rem" }}>
         {countdown}

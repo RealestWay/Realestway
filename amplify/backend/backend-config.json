@@ -1,0 +1,27 @@
+{
+  "function": {
+    "realestwayServerless": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_realestwayServerless_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "realestwayServerless"
+        }
+      ]
+    },
+    "AMPLIFY_function_realestwayServerless_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "realestwayServerless"
+        }
+      ]
+    }
+  }
+}

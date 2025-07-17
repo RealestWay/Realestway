@@ -1,0 +1,23 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-realestway-dev-3403a-authRole",
+      "UnauthRoleArn": "arn:aws:iam::052150107088:role/amplify-realestway-dev-3403a-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::052150107088:role/amplify-realestway-dev-3403a-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-realestway-dev-3403a-deployment",
+      "UnauthRoleName": "amplify-realestway-dev-3403a-unauthRole",
+      "StackName": "amplify-realestway-dev-3403a",
+      "StackId": "arn:aws:cloudformation:us-east-1:052150107088:stack/amplify-realestway-dev-3403a/b8a66ab0-6321-11f0-aab1-0ea087122545",
+      "AmplifyAppId": "d13be2l73a950h"
+    },
+    "categories": {
+      "function": {
+        "realestwayServerless": {
+          "deploymentBucketName": "amplify-realestway-dev-3403a-deployment",
+          "s3Key": "amplify-builds/realestwayServerless-62786153794c41627051-build.zip"
+        }
+      }
+    }
+  }
+}

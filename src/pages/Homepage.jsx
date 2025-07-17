@@ -87,7 +87,7 @@ const Homepage = () => {
   useEffect(() => {
     if (token) fetchChats();
     if (user?.role === "agent") fetchAgent(user.id);
-  }, [token, user]);
+  }, [fetchAgent, fetchChats, token, user]);
   return (
     <div className="w-[100vw]">
       {isLoading ? (
@@ -197,7 +197,7 @@ const Homepage = () => {
                 What You Can DO With Realestway
               </h2>
               <p className="flex text-lg justify-center">
-                Whether you're searching for a new place, listing your property,
+                Whether you&apos;re searching for a new place, listing your property,
                 or relocating to a new city, Realestway gives you the tools and
                 support you need to make smart housing decisions — stress-free.
               </p>
@@ -269,7 +269,7 @@ const Homepage = () => {
           <div className=" mx-auto w-5/6 my-16">
             <div className="flex flex-col gap-1 w-full">
               <h2 className="text-[#00a256] font-bold ">FEATURED LISTINGS</h2>
-              <h2 className="text-2xl ">Top Priorities You'll Love</h2>
+              <h2 className="text-2xl ">Top Priorities You&apos;ll Love</h2>
               <span className="sm:flex sm:justify-between">
                 <p className="flex text-lg justify-center w-full sm:w-3/5">
                   Carefully selected homes offering the best value, security,
