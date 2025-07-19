@@ -24,7 +24,7 @@ import {
   ShieldTick,
 } from "iconsax-reactjs";
 import { shuffleArray } from "../service/shuffle";
-import AddToHomeScreen from "../components/AddToHome";
+// import AddToHomeScreen from "../components/AddToHome";
 import HouseRequestPopup from "../components/HouseRequestPopup";
 
 const Homepage = () => {
@@ -331,7 +331,7 @@ const Homepage = () => {
               </span>
             </div>
           </div>
-          <AddToHomeScreen />
+          {/* <AddToHomeScreen /> */}
           <HouseRequestPopup />
           <ChatHelp />
           <Footer />
