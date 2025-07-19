@@ -1,10 +1,6 @@
 // components/AgentMessages.jsx
 import { useState, useEffect, useRef } from "react";
-import {
-  faPaperclip,
-  faPaperPlane,
-  faPhone,
-} from "@fortawesome/free-solid-svg-icons";
+import { faPaperPlane, faPhone } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useChats } from "../../contexts/ChatsContext";
 import { useAuth } from "../../contexts/AuthContext";
@@ -90,7 +86,7 @@ const AgentMessages = () => {
   const activeChat = chats.find((c) => c.id === activeChatId);
 
   return (
-    <div className="md:flex h-screen relative">
+    <div className="md:flex h-screen">
       {/* Sidebar */}
       <div className="w-full md:w-1/3 bg-white border-r p-4 overflow-y-auto">
         <div className="flex justify-between items-center mb-4">
@@ -226,7 +222,7 @@ const AgentMessages = () => {
       )}
       {/* //Chat window for mobile  */}
       {activeChatId && (
-        <div className="md:hidden flex flex-col flex-1 absolute z-[9999] h-[90vh] overflow-y-auto scrollbar-hide scrollbar-hidden">
+        <div className="md:hidden flex flex-col flex-1 absolute z-[9999] max-w-[99vw] h-[95vh] bottom-1 overflow-y-auto scrollbar-hide scrollbar-hidden">
           <div className="bg-white border-b p-4 flex justify-between items-center">
             <div className="flex gap-3 items-center">
               <img

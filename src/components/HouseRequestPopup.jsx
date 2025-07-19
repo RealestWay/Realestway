@@ -65,7 +65,7 @@ const HouseRequestPopup = () => {
   };
 
   return (
-    <div className="fixed bottom-6 left-6 z-50">
+    <div className="fixed bottom-6 left-6 z-50 overflow-y-auto scrollbar-hide scrollbar-hidden">
       {open ? (
         <div className="bg-white shadow-xl rounded-2xl p-6 w-96 border border-gray-200">
           <div className="flex justify-between items-center mb-4">

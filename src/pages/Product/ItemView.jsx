@@ -31,6 +31,7 @@ import Footer from "../../components/Footer";
 import Map from "../../components/Map";
 import Items from "../../components/Items";
 import ChatBox from "../../Chat/ChatBox";
+import { toast } from "react-toastify";
 // import ShareButtons from "../../components/ShareButtons";
 
 const ItemView = () => {
@@ -193,7 +194,7 @@ const ItemView = () => {
               <button
                 onClick={() => {
                   navigator.clipboard.writeText(window.location.href);
-                  alert("Link copied to clipboard!");
+                  toast.success("Link copied to clipboard!");
                 }}
                 className="text-[#00a256] gap-1 p-1 justify-items-center justify-center flex hover:bg-[#e8f2ed] text-xs"
               >

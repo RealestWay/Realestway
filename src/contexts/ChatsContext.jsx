@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import { useAuth } from "./AuthContext";
+import { toast } from "react-toastify";
 
 const ChatContext = createContext();
 const BASE = "https://backend.realestway.com/api";
@@ -24,7 +25,7 @@ const ChatProvider = ({ children }) => {
         },
       });
       if (res.status === 401 && token) {
-        alert("Session expired! You were logged in on another device.");
+        toast.error("Session expired! You were logged in on another device.");
         localStorage.removeItem("token");
         localStorage.removeItem("user");
         window.location.href = "/login";

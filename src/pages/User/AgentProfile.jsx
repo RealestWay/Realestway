@@ -27,7 +27,7 @@ const AgentProfile = () => {
     setOpenForm(false);
   };
   return (
-    <div className="md:flex h-screen">
+    <div className="md:flex h-screen relative">
       {/* Sidebar */}
       <Nav navIndex={navIndex} setNavIndex={setNavIndex} logout={logout} />
       <div className="w-full">
