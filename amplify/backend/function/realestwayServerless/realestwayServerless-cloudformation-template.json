@@ -164,6 +164,32 @@
           ]
         }
       }
+    },
+    "PreviewApiGatewayApi": {
+      "Type": "AWS::ApiGateway::RestApi",
+      "Properties": {
+        "BinaryMediaTypes": [
+          "/"
+        ],
+        "Name": {
+          "Fn::If": [
+            "ShouldNotCreateEnvResources",
+            "realestway-preview-api",
+            {
+              "Fn::Join": [
+                "",
+                [
+                  "realestway-preview-api",
+                  "-",
+                  {
+                    "Ref": "env"
+                  }
+                ]
+              ]
+            }
+          ]
+        }
+      }
     }
   },
   "Outputs": {

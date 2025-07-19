@@ -214,11 +214,11 @@ const ItemView = () => {
             </div> */}
 
             <p className="text-4xl font-semibold text-[#00a256]">
-              #{totalPrice.toLocaleString()}
+              ₦{totalPrice.toLocaleString()}
             </p>
             <div className="flex flex-col mb-2">
               <i className="text-gray-400 text-sm">
-                Renew with: #
+                Renew with: ₦
                 {Number(priceBreakdown?.basicRent)?.toLocaleString()} /{" "}
                 {priceType}
               </i>
@@ -324,7 +324,7 @@ const ItemView = () => {
                 <li className="border-b-[1px] border-[#D9D9D9] flex justify-between w-full py-2">
                   <span> Basic Rent</span>{" "}
                   <span>
-                    #{Number(priceBreakdown.basicRent).toLocaleString()}
+                    ₦{Number(priceBreakdown.basicRent).toLocaleString()}
                   </span>
                 </li>
               )}
@@ -332,7 +332,7 @@ const ItemView = () => {
                 <li className="border-b-[1px] border-[#D9D9D9] flex justify-between w-full py-2">
                   <span> Agreement Fee</span>{" "}
                   <span>
-                    #{Number(priceBreakdown.agreementFee).toLocaleString()}
+                    ₦{Number(priceBreakdown.agreementFee).toLocaleString()}
                   </span>
                 </li>
               )}
@@ -340,7 +340,7 @@ const ItemView = () => {
                 <li className="border-b-[1px] border-[#D9D9D9] flex justify-between w-full py-2">
                   <span> Caution Fee</span>{" "}
                   <span>
-                    #{Number(priceBreakdown.cautionFee).toLocaleString()}
+                    ₦{Number(priceBreakdown.cautionFee).toLocaleString()}
                   </span>
                 </li>
               )}
@@ -349,7 +349,7 @@ const ItemView = () => {
                   <span> Agent Fee</span>
                   <span>
                     {" "}
-                    #{Number(priceBreakdown.agentFee).toLocaleString()}
+                    ₦{Number(priceBreakdown.agentFee).toLocaleString()}
                   </span>
                 </li>
               )}

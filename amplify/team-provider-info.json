@@ -15,7 +15,7 @@
       "function": {
         "realestwayServerless": {
           "deploymentBucketName": "amplify-realestway-dev-3403a-deployment",
-          "s3Key": "amplify-builds/realestwayServerless-62786153794c41627051-build.zip"
+          "s3Key": "amplify-builds/realestwayServerless-4b336461754e46593738-build.zip"
         }
       }
     }

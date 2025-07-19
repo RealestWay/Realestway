@@ -181,7 +181,7 @@ const Items = ({ house, children }) => {
           <div className="items-center flex">
             <span className="m-auto ">
               <span className="text-xl font-bold w-1/4">
-                #{Number(priceBreakdown.basicRent).toLocaleString()}
+                ₦{Number(priceBreakdown.basicRent).toLocaleString()}
               </span>
               <span className="text-sm">
                 /{priceType === "yearly" && "yr"}

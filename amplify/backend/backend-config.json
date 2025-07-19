@@ -2,6 +2,7 @@
   "function": {
     "realestwayServerless": {
       "build": true,
+      "dependsOn": [],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     }
