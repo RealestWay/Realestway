@@ -141,16 +141,20 @@ const AgentDashboard = () => {
             {" "}
             <h3 className="text-lg">My Listings</h3>
             <span className="flex gap-3 items-center">
-              <Refresh
-                color="#100073"
-                size={18}
-                onClick={() => fetchAgentHouses(agent?.id)}
-              />
+              {isLoading ? (
+                <Spinner2 />
+              ) : (
+                <Refresh
+                  color="#100073"
+                  size={18}
+                  onClick={() => fetchAgentHouses(agent?.id)}
+                />
+              )}
               <Link to={"/profile/my-listings"}>View all</Link>
             </span>
           </span>
           <div className="flex flex-col gap-4 text-sm">
-            {isLoading ? (
+            {!agent ? (
               <Spinner2 />
             ) : (
               <>

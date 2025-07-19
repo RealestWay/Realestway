@@ -18,7 +18,7 @@ export default defineConfig({
         name: "Realestway",
         short_name: "Realestway",
         description: "Rent and manage houses easily across Nigeria.",
-        theme_color: "#100073",
+        theme_color: "#00a256",
         background_color: "#ffffff",
         display: "standalone",
         scope: "/",
@@ -30,7 +30,7 @@ export default defineConfig({
             type: "image/jpg",
           },
           {
-            src: "/favicon.png",
+            src: "/apple-touch-icon.png",
             sizes: "512x512",
             type: "image/png",
           },

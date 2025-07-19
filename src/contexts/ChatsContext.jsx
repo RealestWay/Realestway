@@ -27,6 +27,7 @@ const ChatProvider = ({ children }) => {
         alert("Session expired! You were logged in on another device.");
         localStorage.removeItem("token");
         localStorage.removeItem("user");
+        window.location.href = "/login";
         return;
       }
 

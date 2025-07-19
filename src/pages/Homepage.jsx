@@ -7,7 +7,7 @@ import Spinner from "../components/Spinner";
 import ChatHelp from "../components/ChatHelp";
 import { useAuth } from "../contexts/AuthContext";
 import { useChats } from "../contexts/ChatsContext";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import {
   ArrowCircleLeft2,
   ArrowCircleRight2,
@@ -36,7 +36,10 @@ const Homepage = () => {
     (house) => house?.availability === "available"
   );
 
-  const shufflehouse = shuffleArray(availableHouses);
+  const shufflehouse = useMemo(
+    () => shuffleArray(availableHouses),
+    [availableHouses]
+  );
 
   const locationsListings = [
     {
