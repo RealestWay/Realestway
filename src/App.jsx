@@ -8,7 +8,8 @@ import { ChatProvider } from "./contexts/ChatsContext";
 import ReactGA from "react-ga4";
 import AnalyticsTracking from "./service/Analytics";
 import Maintenance from "./components/Maintenance";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 ReactGA.initialize("G-WRVHG3YM2J");
 
 const App = () => {
@@ -26,6 +27,7 @@ const App = () => {
             <ScrollToTop />
             <AnalyticsTracking />
             <AppRoutes />
+            <ToastContainer />
           </BrowserRouter>
         </ChatProvider>
       </HouseProvider>

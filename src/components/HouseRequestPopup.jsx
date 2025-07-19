@@ -3,16 +3,23 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHouse } from "@fortawesome/free-solid-svg-icons";
+import { toast } from "react-toastify";
+import { useAuth } from "../contexts/AuthContext";
 
 const HouseRequestPopup = () => {
   const [open, setOpen] = useState(false);
+  const { user } = useAuth();
   const [formData, setFormData] = useState({
-    budget: "",
-    houseType: "",
-    location: "",
-    phone: "",
-    email: "",
+    request_type: "renting",
+    full_name: user?.fullName || "",
+    email: user?.name || "",
+    phone: user?.phone || "",
+    property_type: "",
+    city: "",
+    state: "",
+    additional_details: "",
   });
+  const [submitting, setSubmitting] = useState(false);
 
   const togglePopup = () => setOpen(!open);
 
@@ -20,135 +27,176 @@ const HouseRequestPopup = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Request Submitted:", formData);
-    // TODO: Send request to backend API
-    alert("Request submitted successfully!");
-    setOpen(false);
-    setFormData({
-      budget: "",
-      houseType: "",
-      location: "",
-      phone: "",
-      email: "",
-    });
+    setSubmitting(true);
+    try {
+      const res = await fetch(
+        "https://backend.realestway.com/api/user-requests",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      if (!res.ok) throw new Error("Submission failed");
+
+      toast.success("Request submitted successfully!");
+      setOpen(false);
+      setFormData({
+        request_type: "renting",
+        full_name: "",
+        email: "",
+        phone: "",
+        property_type: "",
+        city: "",
+        state: "",
+        additional_details: "",
+      });
+    } catch (error) {
+      toast.error("Failed to submit request.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
     <div className="fixed bottom-6 left-6 z-50">
       {open ? (
-        <div className="bg-white shadow-lg rounded-2xl p-6 w-80 border border-gray-200">
+        <div className="bg-white shadow-xl rounded-2xl p-6 w-96 border border-gray-200">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-semibold text-gray-800">
-              House Request
+            <h2 className="text-xl font-semibold text-gray-800">
+              Request a House
             </h2>
             <CloseCircle
               onClick={togglePopup}
-              className="text-gray-400 hover:text-red-500 text-xl font-bold"
+              className="text-gray-400 hover:text-red-500 text-xl font-bold cursor-pointer"
             />
           </div>
-          <form onSubmit={handleSubmit} className="space-y-3 text-left">
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Request Type (fixed as 'renting' for now) */}
             <div>
-              <label
-                htmlFor="budget"
-                className="block text-sm font-medium text-gray-700"
+              <label className="block text-sm font-medium text-gray-700">
+                Request Type
+              </label>
+              <select
+                name="request_type"
+                value={formData.request_type}
+                onChange={handleChange}
+                className="w-full border px-3 py-2 rounded"
               >
-                Budget
+                <option value="renting">Renting</option>
+                <option value="buying">Buying</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Full Name
               </label>
               <input
-                id="budget"
                 type="text"
-                name="budget"
-                placeholder="e.g. ₦300k"
-                value={formData.budget}
+                name="full_name"
+                value={formData.full_name}
                 onChange={handleChange}
-                className="w-full border px-3 py-2 rounded"
                 required
+                className="w-full border px-3 py-2 rounded"
               />
             </div>
 
             <div>
-              <label
-                htmlFor="houseType"
-                className="block text-sm font-medium text-gray-700"
-              >
-                House Type
+              <label className="block text-sm font-medium text-gray-700">
+                Email
               </label>
               <input
-                id="houseType"
-                type="text"
-                name="houseType"
-                placeholder="e.g. Self-contain"
-                value={formData.houseType}
-                onChange={handleChange}
-                className="w-full border px-3 py-2 rounded"
-                required
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="location"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Preferred Location
-              </label>
-              <input
-                id="location"
-                type="text"
-                name="location"
-                placeholder="e.g. UNILAG area"
-                value={formData.location}
-                onChange={handleChange}
-                className="w-full border px-3 py-2 rounded"
-                required
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="phone"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Phone Number
-              </label>
-              <input
-                id="phone"
-                type="tel"
-                name="phone"
-                placeholder="e.g. 08012345678"
-                value={formData.phone}
-                onChange={handleChange}
-                className="w-full border px-3 py-2 rounded"
-                required
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Email Address
-              </label>
-              <input
-                id="email"
                 type="email"
                 name="email"
-                placeholder="e.g. you@example.com"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full border px-3 py-2 rounded"
                 required
+                className="w-full border px-3 py-2 rounded"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Phone
+              </label>
+              <input
+                type="tel"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                required
+                className="w-full border px-3 py-2 rounded"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Property Type
+              </label>
+              <input
+                type="text"
+                name="property_type"
+                value={formData.property_type}
+                onChange={handleChange}
+                required
+                className="w-full border px-3 py-2 rounded"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                City
+              </label>
+              <input
+                type="text"
+                name="city"
+                value={formData.city}
+                onChange={handleChange}
+                required
+                className="w-full border px-3 py-2 rounded"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                State
+              </label>
+              <input
+                type="text"
+                name="state"
+                value={formData.state}
+                onChange={handleChange}
+                required
+                className="w-full border px-3 py-2 rounded"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Additional Details
+              </label>
+              <textarea
+                name="additional_details"
+                value={formData.additional_details}
+                onChange={handleChange}
+                rows={4}
+                className="w-full border px-3 py-2 rounded"
               />
             </div>
 
             <button
               type="submit"
-              className="w-full bg-[#100073] hover:bg-[#120066] text-white py-2 rounded-lg font-medium"
+              disabled={submitting}
+              className="w-full bg-[#100073] hover:bg-[#120066] text-white py-2 rounded-lg font-medium disabled:opacity-70"
             >
-              Submit Request
+              {submitting ? "Submitting..." : "Submit Request"}
             </button>
           </form>
         </div>

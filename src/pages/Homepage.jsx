@@ -7,7 +7,7 @@ import Spinner from "../components/Spinner";
 import ChatHelp from "../components/ChatHelp";
 import { useAuth } from "../contexts/AuthContext";
 import { useChats } from "../contexts/ChatsContext";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import {
   ArrowCircleLeft2,
   ArrowCircleRight2,
@@ -23,24 +23,24 @@ import {
   SearchNormal1,
   ShieldTick,
 } from "iconsax-reactjs";
-import { shuffleArray } from "../service/shuffle";
+
 import AddToHomeScreen from "../components/AddToHome";
 import HouseRequestPopup from "../components/HouseRequestPopup";
 
 const Homepage = () => {
   const { houses, isLoading, filter, setFilter } = UseHouses();
   const { token, user, fetchAgent } = useAuth();
-  const { fetchChats } = useChats();
+  const { fetchChats, chats } = useChats();
 
   const availableHouses = houses?.data?.filter(
     (house) => house?.availability === "available"
   );
 
-  const shufflehouse = useMemo(
-    () => shuffleArray(availableHouses),
-    [availableHouses]
-  );
-
+  // const shufflehouse = useMemo(
+  //   () => shuffleArray(availableHouses),
+  //   [availableHouses]
+  // );
+  const shufflehouse = availableHouses;
   const locationsListings = [
     {
       location: "Ile-Ife",
@@ -90,7 +90,7 @@ const Homepage = () => {
     "flex gap-4 pb-10 w-[100%] overflow-x-auto scroll-smooth scrollbar-hide snap-x";
 
   useEffect(() => {
-    if (token) fetchChats();
+    if (!chats && token) fetchChats();
     if (user?.role === "agent") fetchAgent(user.id);
   }, [fetchAgent, fetchChats, token, user]);
   return (
@@ -192,7 +192,6 @@ const Homepage = () => {
               </div>
             </div>
           </div>
-
           <div className=" mx-auto w-5/6 my-16">
             <div className="flex flex-col w-full justify-center">
               <h2 className="text-[#00a256] font-bold flex justify-center">
@@ -301,7 +300,6 @@ const Homepage = () => {
               <ArrowCircleRight2 size={24} variant="Bold" color="#00a256" />
             </div>
           </div>
-
           <div className="w-5/6 mx-auto bg-[#100073] text-white sm:flex sm:flex-row flex-col gap-5 flex justify-around p-10 sm:p-20">
             <div className="flex sm:p-3 gap-3 rounded">
               <SearchFavorite1 size={30} color="#00a256" />
