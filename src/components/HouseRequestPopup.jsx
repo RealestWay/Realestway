@@ -14,7 +14,7 @@ const HouseRequestPopup = () => {
     email: "",
   });
 
-  const togglePopup = () => setOpen(open);
+  const togglePopup = () => setOpen(!open);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
