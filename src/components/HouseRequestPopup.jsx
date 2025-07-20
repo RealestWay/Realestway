@@ -65,7 +65,7 @@ const HouseRequestPopup = () => {
   };
 
   return (
-    <div className="fixed bottom-6 left-6 z-50 overflow-y-auto scrollbar-hide scrollbar-hidden">
+    <div className="fixed bottom-6 left-6 max-h-[95vh] z-50 overflow-y-auto scrollbar-hide scrollbar-hidden">
       {open ? (
         <div className="bg-white shadow-xl rounded-2xl p-6 w-96 border border-gray-200">
           <div className="flex justify-between items-center mb-4">
@@ -89,8 +89,8 @@ const HouseRequestPopup = () => {
                 onChange={handleChange}
                 className="w-full border px-3 py-2 rounded"
               >
-                <option value="renting">Renting</option>
-                <option value="buying">Buying</option>
+                <option value="renting">I want to rent</option>
+                <option value="buying">I want to buy</option>
               </select>
             </div>
 
@@ -216,7 +216,7 @@ const HouseRequestPopup = () => {
             repeat: Infinity,
             ease: "easeInOut",
           }}
-          className="bg-[#00a256] hover:bg-[#009246] text-white px-5 py-3 rounded-full font-semibold"
+          className="bg-[#00a256] hover:bg-[#009246] text-white px-5 py-3 m-1 mt-4 rounded-full font-semibold"
         >
           <FontAwesomeIcon icon={faHouse} /> Request a House
         </motion.button>

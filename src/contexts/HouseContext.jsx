@@ -19,6 +19,7 @@ const HouseProvider = ({ children }) => {
         const res = await fetch(`${BASE}/listings`);
         const data = await res.json();
         setHouses(data);
+        localStorage.setItem("houses", data);
       } catch {
         alert("Please check your network, page could not load properly...");
       } finally {
@@ -152,6 +153,11 @@ const HouseProvider = ({ children }) => {
   }
 
   useEffect(() => {
+    const cached = localStorage.getItem("houses");
+    if (cached) {
+      setHouses(JSON.parse(cached));
+      console.log(cached); // Load from cache first
+    }
     fetchHouses();
   }, []);
   return (
