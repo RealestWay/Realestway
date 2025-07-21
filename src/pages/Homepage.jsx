@@ -100,7 +100,7 @@ const Homepage = () => {
       ) : (
         <div>
           <Banner />
-          <div className="md:flex md:gap-4 mx-auto w-5/6 my-16 md:my-15 mt-28 md:mt-20">
+          <div className="md:flex md:gap-4 mx-auto w-[92%] my-16 md:my-15 mt-28 md:mt-20">
             <div className="flex flex-col w-full sm:w-[28%]">
               <h2 className="text-[#00a256] font-bold text-xl">
                 AVAILABLE NATIONWIDE
@@ -157,7 +157,7 @@ const Homepage = () => {
             </div>
           </div>
 
-          <div className="mx-auto sm:flex sm:gap-5 w-5/6">
+          <div className="mx-auto sm:flex sm:gap-5 w-[92%]">
             <div className="sm:w-1/2 relative p-5">
               <div className="absolute z-999 font-poppins font-bold items-center right-5 flex gap-3 p-2 rounded-md bg-slate-50 top-0 shadow shadow-[#00a256]">
                 <span className="rounded-[50%] p-1 border-r-[#00a256] border-x-[1px] bg-white border-l-[#00a256]">
@@ -196,7 +196,7 @@ const Homepage = () => {
               </span>
             </div>
           </div>
-          <div className=" mx-auto w-5/6 my-16">
+          <div className=" mx-auto w-[92%] my-16">
             <div className="flex flex-col w-full justify-center">
               <h2 className="text-[#00a256] font-bold flex justify-center">
                 BUILT FOR YOUR JOURNEY
@@ -275,7 +275,7 @@ const Homepage = () => {
               </div>
             </div>
           </div>
-          <div className=" mx-auto w-5/6 my-16">
+          <div className=" mx-auto w-[92%] my-16">
             <div className="flex flex-col gap-1 w-full">
               <h2 className="text-[#00a256] font-bold ">FEATURED LISTINGS</h2>
               <h2 className="text-2xl ">Top Priorities You&apos;ll Love</h2>
@@ -299,12 +299,12 @@ const Homepage = () => {
                   .map((house) => <Items house={house} key={house?.id} />)
               )}
             </div>
-            <div className="flex justify-end w-5/6 mx-auto mb-5">
+            <div className="flex justify-end w-[92%] mx-auto mb-5">
               <ArrowCircleLeft2 size={24} variant="Bold" color="#00a256" />
               <ArrowCircleRight2 size={24} variant="Bold" color="#00a256" />
             </div>
           </div>
-          <div className="w-5/6 mx-auto bg-[#100073] text-white sm:flex sm:flex-row flex-col gap-5 flex justify-around p-10 sm:p-20">
+          <div className="w-[92%] mx-auto bg-[#100073] text-white sm:flex sm:flex-row flex-col gap-5 flex justify-around p-10 sm:p-20">
             <div className="flex sm:p-3 gap-3 rounded">
               <SearchFavorite1 size={30} color="#00a256" />
               <span className="flex flex-col">

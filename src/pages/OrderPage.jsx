@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { UseHouses } from "../contexts/HouseContext";
 import { useAuth } from "../contexts/AuthContext";
 import { ArrowLeft } from "iconsax-reactjs";
+import AgentReview from "../components/Review";
+import { toast } from "react-toastify";
 
 const OrderPage = () => {
   const [paymentStage, setPaymentStage] = useState(1); // 1: Initiated, 2: Processing, 3: Completed
@@ -56,11 +58,11 @@ const OrderPage = () => {
 
         window.location.href = data.data.authorization_url;
       } else {
-        alert("Unable to initialize payment.");
+        toast.error("Unable to initialize payment.");
       }
     } catch (err) {
       console.error(err);
-      alert("Error starting payment.");
+      toast.error("Error starting payment.");
     } finally {
       setLoading(false);
     }
@@ -91,11 +93,11 @@ const OrderPage = () => {
         setPaymentStage(3);
         setIsPaid(true);
       } else {
-        alert("Payment verification failed. Please contact support.");
+        toast.error("Payment verification failed. Please contact support.");
       }
     } catch (err) {
       console.error(err);
-      alert("Error verifying payment.");
+      toast.error("Error verifying payment.");
     } finally {
       setLoading(false);
     }
@@ -177,14 +179,17 @@ const OrderPage = () => {
 
       {/* Step 3: Success */}
       {isPaid && (
-        <div className="text-center mt-6">
-          <h3 className="text-green-600 text-lg font-bold">
-            Payment Successful! 🎉
-          </h3>
-          <p className="mt-2 text-gray-700">
-            You can now contact the landlord/caretaker.
-          </p>
-        </div>
+        <>
+          <div className="text-center mt-6 mb-3">
+            <h3 className="text-green-600 text-lg font-bold">
+              Payment Successful! 🎉
+            </h3>
+            <p className="mt-2 text-gray-700">
+              You can now contact the landlord/caretaker for access.
+            </p>
+          </div>{" "}
+          <AgentReview />
+        </>
       )}
     </div>
   );
