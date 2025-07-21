@@ -21,6 +21,7 @@ import { useChats } from "../../contexts/ChatsContext";
 import PageNav from "../../components/PageNav";
 import Footer from "../../components/Footer";
 import ChatBox from "../../Chat/ChatBox";
+import { toast } from "react-toastify";
 
 const UserProfile = () => {
   const [openChats, setOpenChats] = useState(false);
@@ -133,7 +134,7 @@ const UserProfile = () => {
             <button
               onClick={() => {
                 navigator.clipboard.writeText(refs.referral_link);
-                alert("Link copied to clipboard!");
+                toast.success("Link copied to clipboard!");
               }}
               className="bg-[#00a256] w-full w-max-[100px] text-xs text-white p-2 py-2 rounded-lg"
             >

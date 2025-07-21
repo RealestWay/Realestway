@@ -38,7 +38,7 @@ const Banner = () => {
       setCurrentIndex((prevIndex) =>
         prevIndex === bannerImages.length - 1 ? 0 : prevIndex + 1
       );
-    }, 12000);
+    }, 1200000);
 
     return () => clearInterval(timer);
   }, []);
@@ -59,7 +59,7 @@ const Banner = () => {
             </span>{" "}
           </div>
           <h1
-            className="text-4xl font-bold w-[93%] m-auto flex"
+            className="text-4xl font-bold w-[93%] m-auto"
             style={{ fontFamily: "Poppins, sans-serif" }}
           >
             Find your next home

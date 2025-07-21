@@ -100,7 +100,64 @@ const Homepage = () => {
       ) : (
         <div>
           <Banner />
-          <div className="sm:my-15 mt-28 sm:mt-20 mx-auto sm:flex sm:gap-5 w-5/6">
+          <div className="md:flex md:gap-4 mx-auto w-5/6 my-16 md:my-15 mt-28 md:mt-20">
+            <div className="flex flex-col w-full sm:w-[28%]">
+              <h2 className="text-[#00a256] font-bold text-xl">
+                AVAILABLE NATIONWIDE
+              </h2>
+              <h2 className="text-2xl">Explore Locations</h2>
+              <p className="text-justify hidden md:inline-block">
+                Discover verified homes across multiple cities and communities.
+                Whether you’re moving for school, work, or a fresh start,
+                Realestway connects you to trusted listings wherever you’re
+                headed.
+              </p>
+            </div>
+            <div className="relative w-full md:w-[65%]">
+              <button className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white bg-opacity-50 p-2 rounded-full shadow">
+                <ArrowLeft2 size="24" color="white" />
+              </button>
+
+              <button className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white bg-opacity-50 p-2 rounded-full shadow">
+                <ArrowRight2 size="24" color="white" />
+              </button>
+
+              {/* Scrollable Content */}
+              <div className="w-full flex justify-between flex-row flex-nowrap gap-3 overflow-x-auto scroll-smooth scrollbar-hide snap-x">
+                {locationsListings.map(
+                  (city) =>
+                    city.listings > 0 && (
+                      <>
+                        {" "}
+                        <Link
+                          to={"/search"}
+                          onClick={() =>
+                            setFilter({
+                              ...filter,
+                              location: city.location || null,
+                            })
+                          }
+                        >
+                          {" "}
+                          <div
+                            key={city.location}
+                            className="rounded-2xl bg-cover w-[240px] h-[260px] md:w-[340px] md:h-[340px] relative flex flex-col justify-end p-3 text-white snap-start shrink-0"
+                            style={{ backgroundImage: `url(${city.img})` }}
+                          >
+                            <span className="text-xl font-bold">
+                              {city.location}
+                            </span>
+                            <span>{city.listings ?? 0} listings</span>
+                          </div>
+                        </Link>
+                      </>
+                    )
+                )}
+              </div>
+            </div>
+          </div>
+
+          <div className="mx-auto sm:flex sm:gap-5 w-5/6">
             <div className="sm:w-1/2 relative p-5">
               <div className="absolute z-999 font-poppins font-bold items-center right-5 flex gap-3 p-2 rounded-md bg-slate-50 top-0 shadow shadow-[#00a256]">
                 <span className="rounded-[50%] p-1 border-r-[#00a256] border-x-[1px] bg-white border-l-[#00a256]">
@@ -137,59 +194,6 @@ const Homepage = () => {
                   <Link to={"/about"}>Learn more</Link>
                 </button>
               </span>
-            </div>
-          </div>
-          <div className="sm:flex sm:gap-4 mx-auto w-5/6 my-16">
-            <div className="flex flex-col w-full sm:w-[28%]">
-              <h2 className="text-[#00a256] font-bold text-xl">
-                AVAILABLE NATIONWIDE
-              </h2>
-              <h2 className="text-2xl">Explore Locations</h2>
-              <p className="text-justify">
-                Discover verified homes across multiple cities and communities.
-                Whether you’re moving for school, work, or a fresh start,
-                Realestway connects you to trusted listings wherever you’re
-                headed.
-              </p>
-            </div>
-            <div className="relative w-full md:w-[70%]">
-              <button className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white bg-opacity-50 p-2 rounded-full shadow">
-                <ArrowLeft2 size="24" color="white" />
-              </button>
-
-              <button className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white bg-opacity-50 p-2 rounded-full shadow">
-                <ArrowRight2 size="24" color="white" />
-              </button>
-
-              {/* Scrollable Content */}
-              <div className="w-full flex justify-between flex-row flex-nowrap gap-3 overflow-x-auto scroll-smooth scrollbar-hide snap-x">
-                {locationsListings.map((city) => (
-                  <>
-                    {" "}
-                    <Link
-                      to={"/search"}
-                      onClick={() =>
-                        setFilter({
-                          ...filter,
-                          location: city.location || null,
-                        })
-                      }
-                    >
-                      {" "}
-                      <div
-                        key={city.location}
-                        className="rounded-2xl bg-cover w-[240px] h-[260px] relative flex flex-col justify-end p-3 text-white snap-start shrink-0"
-                        style={{ backgroundImage: `url(${city.img})` }}
-                      >
-                        <span className="text-xl font-bold">
-                          {city.location}
-                        </span>
-                        <span>{city.listings ?? 0} listings</span>
-                      </div>
-                    </Link>
-                  </>
-                ))}
-              </div>
             </div>
           </div>
           <div className=" mx-auto w-5/6 my-16">

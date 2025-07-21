@@ -70,7 +70,7 @@ const ChatHelp = () => {
   };
 
   return (
-    <div className="fixed bottom-5 right-5 flex flex-col items-end animate-fade-in">
+    <div className="fixed bottom-5 right-5 flex flex-col items-end animate-fade-in z-[50]">
       {!isOpen && (
         <button
           className="bg-[#100073] text-white p-4 rounded-full shadow-lg hover:bg-[#4331bdd8] transition"

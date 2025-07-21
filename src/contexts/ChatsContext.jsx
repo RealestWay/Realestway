@@ -5,11 +5,11 @@ import { toast } from "react-toastify";
 const ChatContext = createContext();
 const BASE = "https://backend.realestway.com/api";
 const ChatProvider = ({ children }) => {
-  const [chats, setchats] = useState([]);
+  const [chats, setchats] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [loadingChat, setLoadingChat] = useState(false);
   const [agent, setAgent] = useState("");
-  const [chat, setChat] = useState([]);
+  const [chat, setChat] = useState();
   const { token } = useAuth();
 
   // fetch all chats
