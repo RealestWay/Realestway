@@ -59,7 +59,7 @@ const Banner = () => {
             </span>{" "}
           </div>
           <h1
-            className="sm:text-4xl text-5xl font-bold"
+            className="text-4xl font-bold w-[93%] m-auto flex"
             style={{ fontFamily: "Poppins, sans-serif" }}
           >
             Find your next home
@@ -68,7 +68,7 @@ const Banner = () => {
           </h1>
           <div className="pb-20">
             {" "}
-            <p className="mt-2 w-5/6 sm:w-1/2 text-[22px] m-auto sm:mb-10">
+            <p className="mt-2 w-5/6 md:w-1/2 text-[22px] mb-2 m-auto md:mb-10">
               Realestway makes finding, renting, or buying a home simple, fast,
               and safe. No scams, no stress; just verified listings and expert
               support.
