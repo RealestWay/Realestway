@@ -5,3 +5,7 @@
   from = "/property/:id"
   to = "/.netlify/functions/property-preview"
   status = 200
+  
+[[edge_functions]]
+path = "/property/:id"
+function = "property-preview"
