@@ -57,7 +57,7 @@ export default async function handler(req, res) {
         );
 
         if (imageMedia) {
-          imageUrl = `https://backend.realestway.com/storage/${imageMedia.path[0]}`;
+          imageUrl = `https://backend.realestway.com/storage/${imageMedia.path}`;
         }
         // If no images found (video-only), keep PNG logo
       }
@@ -79,18 +79,17 @@ export default async function handler(req, res) {
 
       // Create description
       const metaDescription = [
-        description,
+        price ? formatPrice(price, pricingType) : "",
         bedrooms ? `${bedrooms} bedrooms` : "",
         bathrooms ? `${bathrooms} bathrooms` : "",
-        location,
-        price ? formatPrice(price, pricingType) : "",
+        description,
       ]
         .filter(Boolean)
         .join(" • ")
         .slice(0, 160);
 
       console.log(
-        `Final: Title="${title}", Description="${metaDescription}", Image="${imageUrl}"`
+        `Final: Title="${title}", Address="${location}", Description="${metaDescription}", Image="${imageUrl}"`
       );
 
       // Generate HTML with meta tags
@@ -105,7 +104,7 @@ export default async function handler(req, res) {
   <meta property="og:title" content="${title}">
   <meta property="og:description" content="${metaDescription}">
   <meta property="og:image" content="${imageUrl}">
-  <meta property="og:url" content="https://realestway.vercel.app/property/${listingId}">
+  <meta property="og:url" content="https://realestway.com/property/${listingId}">
   <meta property="og:site_name" content="RealEstWay">
   
   <!-- Twitter -->
@@ -114,13 +113,13 @@ export default async function handler(req, res) {
   <meta name="twitter:description" content="${metaDescription}">
   <meta name="twitter:image" content="${imageUrl}">
   
-  <title>${title} - RealEstWay</title>
+  <title>${title} - Realestway</title>
 </head>
 <body>
   <div style="text-align: center; padding: 50px; font-family: Arial, sans-serif;">
     <h1>${title}</h1>
     <p>This content is optimized for social media sharing.</p>
-    <a href="https://realestway.vercel.app/#/property/${listingId}" style="color: #007bff; text-decoration: none;">View Full Property Details</a>
+    <a href="https://realestway.com/property/${listingId}" style="color: #007bff; text-decoration: none;">View Full Property Details</a>
   </div>
 </body>
 </html>`;
@@ -137,10 +136,10 @@ export default async function handler(req, res) {
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta property="og:title" content="Property Listing - RealEstWay">
-  <meta property="og:description" content="Find your perfect home on RealEstWay - Nigeria's trusted real estate marketplace">
-  <meta property="og:image" content="https://realestway.com/full-logo.png">
-  <meta property="og:url" content="https://realestway.vercel.app/property/${listingId}">
+  <meta property="og:title" content="Property Listing - Realestway">
+  <meta property="og:description" content="Find your perfect home on Realestway - Nigeria's trusted real estate marketplace">
+  <meta property="og:image" content="https://realestway.com/apple-touch-icon.png">
+  <meta property="og:url" content="https://realestway.com/property/${listingId}">
   <meta property="og:site_name" content="RealEstWay">
   <title>Property Listing - RealEstWay</title>
 </head>
@@ -168,7 +167,7 @@ export default async function handler(req, res) {
     } catch (error) {
       // Fallback redirect
       res.writeHead(302, {
-        Location: `https://realestway.vercel.app/#/property/${listingId}`,
+        Location: `https://realestway.com/property/${listingId}`,
       });
       res.end();
     }
