@@ -260,11 +260,18 @@ const ItemView = () => {
                 >
                   <span>Secure Apartment</span>
                 </Link>
+              ) : user ? (
+                <Link
+                  onClick={() => {
+                    toast.error("You must be a user to make payment");
+                  }}
+                  className="bg-[#00a256] w-full gap-1 p-4 justify-items-center justify-center flex hover:bg-[#7ff3bd] text-lg text-white rounded-lg"
+                >
+                  <span>Secure Apartment</span>
+                </Link>
               ) : (
                 <Link
-                  onClick={() =>
-                    toast.error("You must be a user to make payment")
-                  }
+                  to={"/login"}
                   className="bg-[#00a256] w-full gap-1 p-4 justify-items-center justify-center flex hover:bg-[#7ff3bd] text-lg text-white rounded-lg"
                 >
                   <span>Secure Apartment</span>
@@ -513,11 +520,11 @@ const ItemView = () => {
             </div>
           )}
         </div>
-        <div className="my-5 w-full ">
+        {/* <div className="my-5 w-full ">
           <h3 className="text-xl py-3">View Property Area on Map</h3>
           <i>This is an approximate location</i>
           <Map house={house} />
-        </div>
+        </div> */}
         <div className=" my-5 w-full ">
           <div className="flex justify-between items-center">
             <span>
