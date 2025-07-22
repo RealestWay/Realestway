@@ -150,7 +150,10 @@ const HouseUploadForm = ({ onClose }) => {
       setError("Minimum 6 images or a video upload required");
       return;
     }
-
+    if (images.length < 1 && video) {
+      setError("Please add one image with the video, else add 6 images");
+      return;
+    }
     if (!locationData.latitude || !locationData.longitude) {
       setError("Please record the house location");
       return;

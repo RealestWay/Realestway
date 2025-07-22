@@ -38,10 +38,10 @@ export default async function handler(req, res) {
       };
 
       const shortInfo = [
+        location,
         formatPrice(price, pricingType),
         bedrooms ? `${bedrooms} Bedrooms` : "",
         bathrooms ? `${bathrooms} Bathrooms` : "",
-        location,
       ]
         .filter(Boolean)
         .join(" • ");
