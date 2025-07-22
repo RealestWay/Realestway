@@ -6,8 +6,7 @@ import { faHouse } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
 import { useAuth } from "../contexts/AuthContext";
 
-const HouseRequestPopup = () => {
-  const [open, setOpen] = useState(false);
+const HouseRequestPopup = ({ open, setOpen }) => {
   const { user } = useAuth();
   const [formData, setFormData] = useState({
     request_type: "renting",
@@ -65,11 +64,7 @@ const HouseRequestPopup = () => {
   };
 
   return (
-    <div
-      className={`max-h-[90vh] overflow-y-auto scrollbar-hide scrollbar-hidden ${
-        open ? "" : "left-6"
-      } `}
-    >
+    <div className="max-h-[90vh] overflow-y-auto scrollbar-hide scrollbar-hidden">
       {open ? (
         <div className="bg-white shadow-xl max-w-[95%] mx-auto rounded-2xl p-6 w-96 border border-gray-200">
           <div className="flex justify-between items-center mb-4">

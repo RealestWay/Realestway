@@ -7,6 +7,7 @@ import { UseHouses } from "../../contexts/HouseContext";
 import { useChats } from "../../contexts/ChatsContext";
 import { useAuth } from "../../contexts/AuthContext";
 import { shuffleArray } from "../../service/shuffle";
+import HouseRequestPopup from "../../components/HouseRequestPopup";
 
 const RentSearchPage = () => {
   const { houses, isLoading, filter } = UseHouses();
@@ -23,6 +24,7 @@ const RentSearchPage = () => {
   const [visibleCount, setVisibleCount] = useState(20);
   const { fetchChats } = useChats();
   const { token } = useAuth();
+  const [open, setOpen] = useState(false);
 
   const hasLocation = Boolean(location);
   const hasMinBudget = minBudget !== null && minBudget !== undefined;
@@ -208,10 +210,23 @@ const RentSearchPage = () => {
             </div>
           )}
           {exactMatchesCount === 0 && (
-            <div className="text-center text-red-600 font-semibold my-10 col-span-full p-10">
-              {hasFilters
-                ? "❌ Sorry, No exact match for your search criteria. Please check back later."
-                : "🏠 No filters applied. Showing all properties."}
+            <div className="text-center text-[#100073] my-10 col-span-full p-10">
+              {hasFilters ? (
+                <>
+                  {!open ? (
+                    <p>
+                      Sorry, No exact match for your search criteria. <br />{" "}
+                      Please kindly <b>Make a Request</b>, we will get back
+                      soon.
+                    </p>
+                  ) : (
+                    ""
+                  )}{" "}
+                  <HouseRequestPopup open={open} setOpen={setOpen} />
+                </>
+              ) : (
+                "🏠 No filters applied. Showing all properties."
+              )}
             </div>
           )}
           {/* Related Matches */}

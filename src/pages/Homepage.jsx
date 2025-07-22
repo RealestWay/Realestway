@@ -7,7 +7,7 @@ import Spinner from "../components/Spinner";
 import ChatHelp from "../components/ChatHelp";
 import { useAuth } from "../contexts/AuthContext";
 import { useChats } from "../contexts/ChatsContext";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   ArrowCircleLeft2,
   ArrowCircleRight2,
@@ -31,7 +31,7 @@ const Homepage = () => {
   const { houses, isLoading, filter, setFilter } = UseHouses();
   const { token, user, fetchAgent, agent } = useAuth();
   const { fetchChats, chats } = useChats();
-
+  const [open, setOpen] = useState(false);
   const availableHouses = houses?.data?.filter(
     (house) => house?.availability === "available"
   );
@@ -339,8 +339,8 @@ const Homepage = () => {
 
           <AddToHomeScreen />
 
-          <div className="fixed z-50 bottom-6">
-            <HouseRequestPopup />{" "}
+          <div className={`fixed z-50 bottom-6 ${open ? "" : "left-6"}`}>
+            <HouseRequestPopup open={open} setOpen={setOpen} />{" "}
           </div>
           <ChatHelp />
           <Footer />

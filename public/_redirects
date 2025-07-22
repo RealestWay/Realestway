@@ -1,0 +1,1 @@
+/preview/house/:id  /.netlify/functions/property-preview?id=:id  200
