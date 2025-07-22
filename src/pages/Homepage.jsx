@@ -29,7 +29,7 @@ import HouseRequestPopup from "../components/HouseRequestPopup";
 
 const Homepage = () => {
   const { houses, isLoading, filter, setFilter } = UseHouses();
-  const { token, user, fetchAgent } = useAuth();
+  const { token, user, fetchAgent, agent } = useAuth();
   const { fetchChats, chats } = useChats();
 
   const availableHouses = houses?.data?.filter(
@@ -91,7 +91,7 @@ const Homepage = () => {
 
   useEffect(() => {
     if (!chats && token) fetchChats();
-    if (user?.role === "agent") fetchAgent(user.id);
+    if (!agent && user?.role === "agent") fetchAgent(user.id);
   }, [fetchAgent, fetchChats, token, user]);
   return (
     <div className="w-[100vw]">
@@ -336,8 +336,12 @@ const Homepage = () => {
               </span>
             </div>
           </div>
+
           <AddToHomeScreen />
-          <HouseRequestPopup />
+
+          <div className="fixed z-50 bottom-6">
+            <HouseRequestPopup />{" "}
+          </div>
           <ChatHelp />
           <Footer />
         </div>

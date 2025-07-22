@@ -1,4 +1,7 @@
+[build]
+  functions = "netlify/functions"
+
 [[redirects]]
-    from = "/*"
-    to = "/index.html"
-    status = 200
+  from = "/property/:id"
+  to = "/.netlify/functions/property-preview"
+  status = 200

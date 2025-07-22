@@ -66,7 +66,7 @@ const HouseRequestPopup = () => {
 
   return (
     <div
-      className={`fixed bottom-6 max-h-[90vh] z-50 overflow-y-auto scrollbar-hide scrollbar-hidden ${
+      className={`max-h-[90vh] overflow-y-auto scrollbar-hide scrollbar-hidden ${
         open ? "" : "left-6"
       } `}
     >
@@ -81,7 +81,7 @@ const HouseRequestPopup = () => {
               className="text-gray-400 hover:text-red-500 text-xl font-bold cursor-pointer"
             />
           </div>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4 text-left">
             {/* Request Type (fixed as 'renting' for now) */}
             <div>
               <label className="block text-sm font-medium text-gray-700">

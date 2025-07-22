@@ -10,7 +10,16 @@ import { shuffleArray } from "../../service/shuffle";
 
 const RentSearchPage = () => {
   const { houses, isLoading, filter } = UseHouses();
-  const { location, minBudget, budget: maxBudget, propertyType } = filter;
+  const {
+    location,
+    minBudget,
+    budget: maxBudget,
+    propertyType,
+    bedrooms,
+    bathrooms,
+    rentDuration,
+  } = filter;
+
   const [visibleCount, setVisibleCount] = useState(20);
   const { fetchChats } = useChats();
   const { token } = useAuth();
@@ -20,15 +29,26 @@ const RentSearchPage = () => {
   const hasMaxBudget = maxBudget !== null && maxBudget !== undefined;
   const hasBudgetRange = hasMinBudget || hasMaxBudget;
   const hasPropertyType = Boolean(propertyType);
-  const hasFilters = hasLocation || hasBudgetRange || hasPropertyType;
+  const hasBedrooms =
+    bedrooms !== null && bedrooms !== undefined && bedrooms !== "";
+  const hasBathrooms =
+    bathrooms !== null && bathrooms !== undefined && bathrooms !== "";
+  const hasRentDuration = Boolean(rentDuration);
+  const hasFilters =
+    hasLocation ||
+    hasBudgetRange ||
+    hasPropertyType ||
+    hasBedrooms ||
+    hasBathrooms ||
+    hasRentDuration;
 
   // Filtering and scoring logic
   let exactMatches = [];
   let relatedMatches = [];
-  const availableHouses = houses?.data?.filter(
-    (house) => house?.availability === "available"
-  );
-  const shufflehouse = shuffleArray(availableHouses);
+  // const availableHouses = houses?.data?.filter(
+  //   (house) => house?.availability === "available"
+  // );
+  // const shufflehouse = shuffleArray(availableHouses);
 
   if (!hasFilters) {
     exactMatches = houses?.data || [];
@@ -38,10 +58,19 @@ const RentSearchPage = () => {
       let locationMatches = false;
       let budgetMatches = false;
       let typeMatches = false;
+      let bedroomMatches = false;
+      let bathroomMatches = false;
+      let durationMatches = false;
 
       // Location matching
       if (hasLocation) {
-        const houseLocation = house.location.address?.toLowerCase() || "";
+        const houseLocation =
+          house.location.address?.toLowerCase() +
+            " " +
+            house.location.city?.toLowerCase() +
+            " " +
+            house.location.state?.toLowerCase() || "";
+
         const searchWords = location.toLowerCase().split(" ");
         locationMatches = searchWords.some((word) =>
           houseLocation.includes(word)
@@ -64,11 +93,37 @@ const RentSearchPage = () => {
           house.propertyType.toLowerCase() === propertyType.toLowerCase();
         if (typeMatches) matchScore += 1;
       }
+      // Bedrooms matching
+      if (hasBedrooms) {
+        const minBedrooms = parseInt(bedrooms);
+        bedroomMatches = house.bedrooms >= minBedrooms;
+        if (bedroomMatches) matchScore += 1;
+      }
+
+      // Bathrooms matching
+      if (hasBathrooms) {
+        const minBathrooms = parseInt(bathrooms);
+        bathroomMatches = house.bathrooms >= minBathrooms;
+        if (bathroomMatches) matchScore += 1;
+      }
+
+      // Rent Duration matching
+      if (hasRentDuration && house.minTenancyPeriod) {
+        // Extract numerical value from minTenancyPeriod
+        const houseMonths = parseInt(house.minTenancyPeriod.split(" ")[0]) || 0;
+        const filterMonths = parseInt(rentDuration) || 0;
+
+        durationMatches = houseMonths <= filterMonths;
+        if (durationMatches) matchScore += 1;
+      }
 
       const isExactMatch =
         (!hasLocation || locationMatches) &&
         (!hasBudgetRange || budgetMatches) &&
-        (!hasPropertyType || typeMatches);
+        (!hasPropertyType || typeMatches) &&
+        (!hasBedrooms || bedroomMatches) &&
+        (!hasBathrooms || bathroomMatches) &&
+        (!hasRentDuration || durationMatches);
 
       return { ...house, matchScore, isExactMatch };
     });
@@ -122,7 +177,13 @@ const RentSearchPage = () => {
                 {hasFilters ? (
                   <>
                     <p className="font-semibold text-lg">
-                      Showing {paginatedExact.length} results for{" "}
+                      Showing{" "}
+                      {
+                        paginatedExact.filter(
+                          (house) => house.availability === "available"
+                        ).length
+                      }{" "}
+                      results for{" "}
                       <i>{`"${
                         location ? location : "all locations available"
                       }"`}</i>

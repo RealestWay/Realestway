@@ -10,8 +10,8 @@ const Filter = () => {
   const [propertyType, setPropertyType] = useState("");
   const [condition, setCondition] = useState("New");
   const [rentDuration, setRentDuration] = useState("12 months");
-  const [bedrooms, setBedrooms] = useState("3");
-  const [bathrooms, setBathrooms] = useState("2");
+  const [bedrooms, setBedrooms] = useState("");
+  const [bathrooms, setBathrooms] = useState("");
   const [showAdvanced, setShowAdvanced] = useState(false);
 
   const handleFilter = () => {
