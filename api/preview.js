@@ -1,5 +1,4 @@
 export default async function handler(req, res) {
-  // Get listing ID from query parameter
   const listingId = req.query.id || req.query.listing_id;
 
   if (!listingId) {
@@ -7,8 +6,6 @@ export default async function handler(req, res) {
   }
 
   const userAgent = req.headers["user-agent"] || "";
-
-  // Check if visitor is a social media crawler
   const isCrawler =
     /facebookexternalhit|Twitterbot|LinkedInBot|WhatsApp|Slackbot|TelegramBot/i.test(
       userAgent
@@ -16,160 +13,116 @@ export default async function handler(req, res) {
 
   if (isCrawler) {
     try {
-      // Import axios dynamically for serverless
       const axios = (await import("axios")).default;
-
-      // Fetch listing data from your Laravel API
-      console.log(`Fetching listing: ${listingId}`);
       const response = await axios.get(
         `https://backend.realestway.com/api/listings/${listingId}`
       );
-      const apiData = response.data;
-      const listing = apiData.data;
+      const listing = response.data?.data;
 
-      console.log(
-        `Listing fetched: ${listing.title}, Media count: ${
-          listing.medias?.length || 0
-        }`
-      );
-
-      // Extract data with better error handling
-      const title = listing.title || "Property Listing";
-      const description = listing.description || "";
-      const bedrooms = listing.bedrooms || "";
-      const bathrooms = listing.bathrooms || "";
+      const title = listing?.title || "Property Listing";
+      const description =
+        listing?.description?.slice(0, 200) ||
+        "View this amazing property on RealEstWay.";
+      const bedrooms = listing?.bedrooms || "";
+      const bathrooms = listing?.bathrooms || "";
       const location =
-        listing.location?.address ||
-        listing.location?.locationAddress ||
-        listing.location?.city ||
-        "";
+        listing?.location?.address || listing?.location?.city || "";
       const price =
-        listing.priceBreakdown?.basicRent || listing.totalPrice || "";
-      const pricingType = listing.priceType || "";
+        listing?.priceBreakdown?.basicRent || listing?.totalPrice || "";
+      const pricingType = listing?.priceType || "";
 
-      // Get image URL - prioritize images, fallback to PNG logo for videos
-      let imageUrl = "https://realestway.com/apple-touch-icon.png"; // Changed to PNG
-
-      if (listing.medias && listing.medias.length > 0) {
-        // Look for any image type media
-        const imageMedia = listing.medias.find(
-          (media) => media.type === "image"
-        );
-
-        if (imageMedia) {
-          imageUrl = `https://backend.realestway.com/storage/${imageMedia.path}`;
-        }
-        // If no images found (video-only), keep PNG logo
-      }
-
-      // Format price with better error handling
       const formatPrice = (price, type) => {
-        if (!price) return "";
-        try {
-          const numPrice = Number(price);
-          if (isNaN(numPrice)) return "";
-
-          return `₦${numPrice.toLocaleString("en-NG")}${
-            type ? `/${type}` : ""
-          }`;
-        } catch (error) {
-          return `₦${price}${type ? `/${type}` : ""}`;
-        }
+        const num = Number(price);
+        if (isNaN(num)) return "";
+        return `₦${num.toLocaleString("en-NG")}${type ? `/${type}` : ""}`;
       };
 
-      // Create description
-      const metaDescription = [
-        price ? formatPrice(price, pricingType) : "",
-        bedrooms ? `${bedrooms} bedrooms` : "",
-        bathrooms ? `${bathrooms} bathrooms` : "",
-        description,
+      const shortInfo = [
+        formatPrice(price, pricingType),
+        bedrooms ? `${bedrooms} Bedrooms` : "",
+        bathrooms ? `${bathrooms} Bathrooms` : "",
+        location,
       ]
         .filter(Boolean)
-        .join(" • ")
-        .slice(0, 160);
+        .join(" • ");
 
-      console.log(
-        `Final: Title="${title}", Address="${location}", Description="${metaDescription}", Image="${imageUrl}"`
-      );
+      // Detect media
+      let mediaUrl = "https://realestway.com/apple-touch-icon.png";
+      let isVideo = false;
 
-      // Generate HTML with meta tags
+      if (listing.medias?.length) {
+        const image = listing.medias.find((m) => m.type === "image");
+        const video = listing.medias.find((m) => m.type === "video");
+
+        if (image) {
+          mediaUrl = `https://backend.realestway.com/storage/${image.path}`;
+        } else if (video) {
+          mediaUrl = `https://backend.realestway.com/storage/${video.path}`;
+          isVideo = true;
+        }
+      }
+
+      const url = `https://realestway.com/property/${listingId}`;
+
+      // Build HTML
       const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  
-  <!-- Open Graph / Facebook -->
+
+  <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="${title}">
-  <meta property="og:description" content="${metaDescription}">
-  <meta property="og:image" content="${imageUrl}">
-  <meta property="og:url" content="https://realestway.com/property/${listingId}">
+  <meta property="og:description" content="${shortInfo}">
+  <meta property="og:url" content="${url}">
   <meta property="og:site_name" content="RealEstWay">
-  
+  <meta property="og:image" content="${mediaUrl}">
+  ${
+    isVideo
+      ? `<meta property="og:video" content="${mediaUrl}">
+  <meta property="og:video:type" content="video/mp4">`
+      : ""
+  }
+
   <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:card" content="${
+    isVideo ? "player" : "summary_large_image"
+  }">
   <meta name="twitter:title" content="${title}">
-  <meta name="twitter:description" content="${metaDescription}">
-  <meta name="twitter:image" content="${imageUrl}">
-  
-  <title>${title} - Realestway</title>
+  <meta name="twitter:description" content="${shortInfo}">
+  <meta name="twitter:image" content="${mediaUrl}">
+
+  <title>${title} - RealEstWay</title>
 </head>
 <body>
-  <div style="text-align: center; padding: 50px; font-family: Arial, sans-serif;">
+  <div style="font-family: sans-serif; padding: 2rem; text-align: center;">
     <h1>${title}</h1>
-    <p>This content is optimized for social media sharing.</p>
-    <a href="https://realestway.com/property/${listingId}" style="color: #007bff; text-decoration: none;">View Full Property Details</a>
+    <p><strong>${shortInfo}</strong></p>
+    <p>${description}</p>
+    <p><a href="${url}">View this property on RealEstWay</a></p>
+    ${
+      isVideo
+        ? `<video src="${mediaUrl}" controls width="100%" style="max-width: 500px; margin-top: 1rem;"></video>`
+        : `<img src="${mediaUrl}" alt="Listing Image" style="max-width: 500px; margin-top: 1rem;">`
+    }
   </div>
 </body>
 </html>`;
 
-      console.log("Returning HTML response for crawler");
       res.setHeader("Content-Type", "text/html");
       res.status(200).send(html);
     } catch (error) {
-      console.error("Error fetching listing:", error.message);
-      console.error("Error details:", error.response?.data || error);
-
-      // Return fallback HTML with more details
-      const fallbackHtml = `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta property="og:title" content="Property Listing - Realestway">
-  <meta property="og:description" content="Find your perfect home on Realestway - Nigeria's trusted real estate marketplace">
-  <meta property="og:image" content="https://realestway.com/apple-touch-icon.png">
-  <meta property="og:url" content="https://realestway.com/property/${listingId}">
-  <meta property="og:site_name" content="RealEstWay">
-  <title>Property Listing - RealEstWay</title>
-</head>
-<body>
-  <h1>Property Listing</h1>
-  <p>Loading property details... (Error: ${error.message})</p>
-</body>
-</html>`;
-
-      res.setHeader("Content-Type", "text/html");
-      res.status(200).send(fallbackHtml);
+      console.error("Preview error:", error.message);
+      return res
+        .status(200)
+        .send(`<h1>Preview Error</h1><p>${error.message}</p>`);
     }
   } else {
-    // For regular users, serve the React app with proper routing
-    const fs = await import("fs");
-    const path = await import("path");
-
-    try {
-      // Serve the index.html file directly
-      const indexPath = path.join(process.cwd(), "dist", "index.html");
-      const indexHtml = fs.readFileSync(indexPath, "utf8");
-
-      res.setHeader("Content-Type", "text/html");
-      res.status(200).send(indexHtml);
-    } catch (error) {
-      // Fallback redirect
-      res.writeHead(302, {
-        Location: `https://realestway.com/property/${listingId}`,
-      });
-      res.end();
-    }
+    // Fallback: redirect to frontend SPA
+    res.writeHead(302, {
+      Location: `https://realestway.com/property/${listingId}`,
+    });
+    res.end();
   }
 }
