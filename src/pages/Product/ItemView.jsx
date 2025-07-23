@@ -135,7 +135,7 @@ const ItemView = () => {
   const images = medias?.filter((media) => media.type === "image");
   const video = medias?.filter((media) => media.type === "video")[0];
   const videoUrl = `https://backend.realestway.com/storage/${video?.path}`;
-  console.log(videoUrl);
+
   if (loading) return <Spinner />;
   return (
     <div>
