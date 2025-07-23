@@ -41,16 +41,18 @@ const ItemView = () => {
   const [loading, setLoading] = useState(true);
   const { setRemoteHouse, houses } = UseHouses();
   const [chatbox, setChatBox] = useState(false);
-  const { fetchChats } = useChats();
+  const { fetchChats, fetchChat, setChat, chats, createChat } = useChats();
   const [loadingChats, setLoadingChats] = useState(true);
 
   useEffect(() => {
-    const fetchAllChats = async () => {
-      await fetchChats();
-      setLoadingChats(false);
-    };
-    fetchAllChats();
-  }, [fetchChats, token]);
+    if (!chats && token) {
+      const fetchAllChats = async () => {
+        await fetchChats();
+        setLoadingChats(false);
+      };
+      fetchAllChats();
+    }
+  }, [fetchChats, token, chats]);
   // fetch a particular house
 
   useEffect(() => {
@@ -85,8 +87,6 @@ const ItemView = () => {
 
   const navigate = useNavigate();
   const { user, isAuthenticated } = useAuth();
-
-  const { fetchChat, setChat, chats, createChat } = useChats();
 
   const [selectedImage, setSelectedImage] = useState(null);
   const availableHouses = houses?.data?.filter(
@@ -135,7 +135,7 @@ const ItemView = () => {
   const images = medias?.filter((media) => media.type === "image");
   const video = medias?.filter((media) => media.type === "video")[0];
   const videoUrl = `https://backend.realestway.com/storage/${video?.path}`;
-
+  console.log(videoUrl);
   if (loading) return <Spinner />;
   return (
     <div>
