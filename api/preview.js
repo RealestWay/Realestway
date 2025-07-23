@@ -57,7 +57,8 @@ export default async function handler(req, res) {
         if (image) {
           mediaUrl = `https://backend.realestway.com/storage/${image.path}`;
         } else if (video) {
-          mediaUrl = `https://backend.realestway.com/storage/${video.path}`;
+          // https://backend.realestway.com/storage/${video.path}
+          mediaUrl = `https://realestway.com/apple-touch-icon.png`;
           isVideo = true;
         }
       }
