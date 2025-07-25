@@ -1,33 +1,75 @@
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
+import axios from "axios";
+import { useAuth } from "../contexts/AuthContext";
+import { toast } from "react-toastify";
 
-const AgentReview = ({ agentId, onSubmit }) => {
-  const [rating, setRating] = useState(0);
+const AgentReview = ({ paymentLogId }) => {
+  const { token } = useAuth();
+  const [rating, setRating] = useState(0); // Professionalism
   const [hovered, setHovered] = useState(0);
-  const [resRating, setResRating] = useState(0);
+  const [resRating, setResRating] = useState(0); // Responsiveness
   const [resHovered, setResHovered] = useState(0);
-  const [hhRating, sethhRating] = useState(0);
+  const [hhRating, sethhRating] = useState(0); // Honesty
   const [hhHovered, sethhHovered] = useState(0);
   const [comment, setComment] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = () => {
-    if (!rating || !comment.trim()) return alert("Please fill all fields.");
-    onSubmit({ agentId, rating, comment, resRating, hhRating });
-    setRating(0);
-    setComment("");
+  const handleSubmit = async () => {
+    if (!rating || !resRating || !hhRating || !comment.trim()) {
+      return alert("Please rate all fields and add a comment.");
+    }
+
+    const payload = {
+      payment_log_id: paymentLogId,
+      professionalism_rating: rating,
+      responsiveness_rating: resRating,
+      honesty_rating: hhRating,
+      comment,
+    };
+
+    try {
+      setLoading(true);
+      await axios.post("https://backend.realestway.com/api/reviews", payload, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setSubmitted(true);
+      toast.success("Review submitted successfully.");
+    } catch (error) {
+      console.error("Failed to submit review:", error);
+      toast.error("Error submitting review.");
+    } finally {
+      setLoading(false);
+    }
   };
+
+  if (submitted) {
+    return (
+      <div className="max-w-md mx-auto text-center text-[#00a256] font-semibold">
+        ✅ Thanks for your feedback!
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-md mx-auto p-4 bg-white rounded-xl shadow-md">
-      <h2 className="text-xl font-semibold mb-4">Rate Agent Service</h2>
-      <label>Professionalism</label>
+      <h2 className="text-xl font-semibold mb-4 text-[#100073]">
+        Rate Agent Service
+      </h2>
+
+      <label className="font-medium">Professionalism</label>
       <div className="flex space-x-1 mb-4">
         {[1, 2, 3, 4, 5].map((star) => (
           <FontAwesomeIcon
             icon={faStar}
-            key={star}
-            size={28}
+            key={`p-${star}`}
+            size="lg"
             className={`cursor-pointer ${
               (hovered || rating) >= star ? "text-yellow-500" : "text-gray-300"
             }`}
@@ -37,13 +79,14 @@ const AgentReview = ({ agentId, onSubmit }) => {
           />
         ))}
       </div>
-      <label>Responsiveness</label>
+
+      <label className="font-medium">Responsiveness</label>
       <div className="flex space-x-1 mb-4">
         {[1, 2, 3, 4, 5].map((star) => (
           <FontAwesomeIcon
             icon={faStar}
-            key={star}
-            size={28}
+            key={`r-${star}`}
+            size="lg"
             className={`cursor-pointer ${
               (resHovered || resRating) >= star
                 ? "text-yellow-500"
@@ -55,13 +98,14 @@ const AgentReview = ({ agentId, onSubmit }) => {
           />
         ))}
       </div>
-      <label>Honesty and Helpfulness</label>
+
+      <label className="font-medium">Honesty and Helpfulness</label>
       <div className="flex space-x-1 mb-4">
         {[1, 2, 3, 4, 5].map((star) => (
           <FontAwesomeIcon
             icon={faStar}
-            key={star}
-            size={28}
+            key={`h-${star}`}
+            size="lg"
             className={`cursor-pointer ${
               (hhHovered || hhRating) >= star
                 ? "text-yellow-500"
@@ -83,10 +127,11 @@ const AgentReview = ({ agentId, onSubmit }) => {
       />
 
       <button
-        className="w-full bg-[#100073] text-white py-2 px-4 rounded-md hover:bg-[#1a008f]"
+        className="w-full bg-[#100073] text-white py-2 px-4 rounded-md hover:bg-[#1a008f] disabled:opacity-50"
         onClick={handleSubmit}
+        disabled={loading}
       >
-        Submit Review
+        {loading ? "Submitting..." : "Submit Review"}
       </button>
     </div>
   );

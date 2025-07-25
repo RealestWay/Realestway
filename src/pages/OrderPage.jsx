@@ -5,6 +5,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { ArrowLeft } from "iconsax-reactjs";
 import AgentReview from "../components/Review";
 import { toast } from "react-toastify";
+import Receipt from "../components/Receipt";
 
 const OrderPage = () => {
   const [paymentStage, setPaymentStage] = useState(1); // 1: Initiated, 2: Processing, 3: Completed
@@ -12,11 +13,10 @@ const OrderPage = () => {
   const [paymentMethod, setPaymentMethod] = useState(null);
   const [isPaid, setIsPaid] = useState(false);
   const [loading, setLoading] = useState(false);
-  const landlordContact = "+1234567890"; // Replace this dynamically after verification if needed
   const { house } = UseHouses();
   const { token } = useAuth();
   const navigate = useNavigate();
-
+  const [paymentdata, setPaymentData] = useState({});
   // Countdown for optional UX timer
   useEffect(() => {
     if (paymentStage === 2 && countdown > 0) {
@@ -86,7 +86,8 @@ const OrderPage = () => {
       );
 
       const result = await response.json();
-      console.log(result);
+      // console.log(result);
+      setPaymentData(result);
       if (
         result?.data?.status === true ||
         result?.data?.status?.toLowerCase() === "success"
@@ -102,6 +103,19 @@ const OrderPage = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const receiptData = {
+    fullName: paymentdata.data?.data?.authorization?.sender_name || "Mich",
+    currency: paymentdata.data?.data?.currency || "NGN",
+    email: paymentdata.data?.data?.customer?.email || "user@email.com",
+    amount: paymentdata.data?.data?.amount || "1000",
+    date: paymentdata.data?.data?.paidAt || "2025/02/07",
+    transactionId: paymentdata.data?.data?.id || "2678ij",
+    propertyTitle: paymentdata.data?.listing?.title || "Test House",
+    propertyType: paymentdata.data?.listing?.property_type || "Office",
+    reference: paymentdata.data?.data?.reference || "refrece here",
+    paymentMethod: paymentdata.data?.data?.channel || "Paystack",
   };
 
   return (
@@ -180,17 +194,19 @@ const OrderPage = () => {
 
       {/* Step 3: Success */}
       {isPaid && (
-        <>
+        <div className="flex flex-col gap-10">
           <div className="text-center mt-6 mb-3">
             <h3 className="text-green-600 text-lg font-bold">
               Payment Successful! 🎉
             </h3>
             <p className="mt-2 text-gray-700">
               You can now contact the landlord/caretaker for access.
+              <br /> {paymentdata.data?.listing?.caretaker_contact}
             </p>
           </div>{" "}
-          <AgentReview />
-        </>
+          <AgentReview paymentLogId={receiptData.transactionId} />
+          <Receipt receiptData={receiptData} />
+        </div>
       )}
     </div>
   );
