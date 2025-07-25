@@ -106,16 +106,16 @@ const OrderPage = () => {
   };
 
   const receiptData = {
-    fullName: paymentdata.data?.data?.authorization?.sender_name || "Mich",
-    currency: paymentdata.data?.data?.currency || "NGN",
-    email: paymentdata.data?.data?.customer?.email || "user@email.com",
-    amount: paymentdata.data?.data?.amount || "1000",
-    date: paymentdata.data?.data?.paidAt || "2025/02/07",
-    transactionId: paymentdata.data?.data?.id || "2678ij",
-    propertyTitle: paymentdata.data?.listing?.title || "Test House",
-    propertyType: paymentdata.data?.listing?.property_type || "Office",
-    reference: paymentdata.data?.data?.reference || "refrece here",
-    paymentMethod: paymentdata.data?.data?.channel || "Paystack",
+    fullName: paymentdata.data?.data?.authorization?.sender_name,
+    currency: paymentdata.data?.data?.currency,
+    email: paymentdata.data?.data?.customer?.email,
+    amount: paymentdata.data?.data?.amount,
+    date: paymentdata.data?.data?.paidAt,
+    transactionId: paymentdata.data?.data?.id,
+    propertyTitle: paymentdata.data?.listing?.title,
+    propertyType: paymentdata.data?.listing?.property_type,
+    reference: paymentdata.data?.data?.reference,
+    paymentMethod: paymentdata.data?.data?.channel,
   };
 
   return (
