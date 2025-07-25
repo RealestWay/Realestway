@@ -119,7 +119,7 @@ const OrderPage = () => {
   };
 
   return (
-    <div className="w-[88%] max-w-2xl mx-auto my-24 p-6 bg-white shadow-lg rounded-lg">
+    <div className="md:w-[88%] w-[98%] max-w-2xl mx-auto my-24 p-6 bg-white shadow-lg rounded-lg">
       {/* Top Bar */}
 
       <div className="w-full px-6 md:px-10 flex justify-between items-center text-[#00a256] ">
@@ -154,21 +154,17 @@ const OrderPage = () => {
       {/* Step 1: Choose Payment Method */}
       {paymentStage === 1 && (
         <div className="text-center">
-          <p className="mb-4">Choose a payment method:</p>
+          <p className="text-justify text-sm text-[#100073] my-3">
+            We recommend that you proceed with payment promptly, as the
+            property's availability cannot be guaranteed later.
+          </p>
           <div className="flex justify-center gap-4">
             <button
               onClick={() => handlePayment("Card")}
-              className="bg-blue-500 text-white px-4 py-2 rounded-lg mx-2"
+              className="bg-[#00a256] text-white px-4 py-2 rounded-lg mx-2"
               disabled={loading}
             >
-              {loading ? "Redirecting..." : "With Card"}
-            </button>
-            <button
-              onClick={() => handlePayment("Bank Transfer")}
-              className="bg-gray-500 text-white px-4 py-2 rounded-lg mx-2"
-              disabled={loading}
-            >
-              {loading ? "Redirecting..." : "Bank Transfer"}
+              {loading ? "Redirecting..." : "Pay Now"}
             </button>
           </div>
         </div>
