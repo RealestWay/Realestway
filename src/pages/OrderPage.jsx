@@ -86,7 +86,7 @@ const OrderPage = () => {
       );
 
       const result = await response.json();
-      // console.log(result);
+      console.log(result);
       setPaymentData(result);
       if (
         result?.data?.status === true ||
@@ -106,16 +106,16 @@ const OrderPage = () => {
   };
 
   const receiptData = {
-    fullName: paymentdata.data?.data?.authorization?.sender_name,
-    currency: paymentdata.data?.data?.currency,
-    email: paymentdata.data?.data?.customer?.email,
-    amount: paymentdata.data?.data?.amount,
-    date: paymentdata.data?.data?.paidAt,
-    transactionId: paymentdata.data?.data?.id,
-    propertyTitle: paymentdata.data?.listing?.title,
-    propertyType: paymentdata.data?.listing?.property_type,
-    reference: paymentdata.data?.data?.reference,
-    paymentMethod: paymentdata.data?.data?.channel,
+    fullName: paymentdata.data?.authorization?.sender_name,
+    currency: paymentdata.data?.currency,
+    email: paymentdata.data?.customer?.email,
+    amount: paymentdata.data?.amount,
+    date: paymentdata.data?.paidAt,
+    transactionId: paymentdata.data?.id,
+    propertyTitle: paymentdata.listing?.title,
+    propertyType: paymentdata.listing?.property_type,
+    reference: paymentdata.data?.reference,
+    paymentMethod: paymentdata.data?.channel,
   };
 
   return (
@@ -201,7 +201,7 @@ const OrderPage = () => {
             </h3>
             <p className="mt-2 text-gray-700">
               You can now contact the landlord/caretaker for access.
-              <br /> {paymentdata.data?.listing?.caretaker_contact}
+              <br /> {paymentdata.listing?.caretaker_contact}
             </p>
           </div>{" "}
           <AgentReview paymentLogId={receiptData.transactionId} />
