@@ -86,6 +86,7 @@ const OrderPage = () => {
       );
 
       const result = await response.json();
+      console.log(result);
       if (
         result?.data?.status === true ||
         result?.data?.status?.toLowerCase() === "success"
