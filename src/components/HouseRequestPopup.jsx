@@ -11,7 +11,7 @@ const HouseRequestPopup = ({ open, setOpen }) => {
   const [formData, setFormData] = useState({
     request_type: "renting",
     full_name: user?.fullName || "",
-    email: user?.name || "",
+    email: user?.email || "",
     phone: user?.phone || "",
     property_type: "",
     city: "",
@@ -151,7 +151,7 @@ const HouseRequestPopup = ({ open, setOpen }) => {
 
             <div>
               <label className="block text-sm font-medium text-gray-700">
-                City
+                City / Town
               </label>
               <input
                 type="text"

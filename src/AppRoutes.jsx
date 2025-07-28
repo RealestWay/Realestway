@@ -29,6 +29,8 @@ import AgentAccount from "./pages/User/AgentAccount";
 import ProtectedRoutes from "./ProtectedRoutes";
 import OrderPage from "./pages/OrderPage";
 import { useAuth } from "./contexts/AuthContext";
+import Blog from "./pages/Blog/Blog";
+import BlogPost from "./pages/Blog/BlogPost";
 
 const AppRoutes = () => {
   const { user } = useAuth();
@@ -123,6 +125,8 @@ const AppRoutes = () => {
       <Route path="privacy" element={<PrivacyPolicy />} />
       <Route path="services" element={<ServicesAndFacilities />} />
       <Route path="careers" element={<Careers />} />
+      <Route path="blog" element={<Blog />} />
+      <Route path="/blog/:slug" element={<BlogPost />} />
     </Routes>
   );
 };
