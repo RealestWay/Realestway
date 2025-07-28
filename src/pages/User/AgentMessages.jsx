@@ -83,6 +83,20 @@ const AgentMessages = () => {
     chat?.user?.fullName.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const formatDateHeader = (dateStr) => {
+    const today = new Date();
+    const msgDate = new Date(dateStr);
+    const isToday = today.toDateString() === msgDate.toDateString();
+
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+    const isYesterday = yesterday.toDateString() === msgDate.toDateString();
+
+    if (isToday) return "Today";
+    if (isYesterday) return "Yesterday";
+    return msgDate.toLocaleDateString();
+  };
+
   const activeChat = chats.find((c) => c.id === activeChatId);
 
   return (
@@ -154,46 +168,60 @@ const AgentMessages = () => {
           </div>
 
           <div className="flex-1 overflow-y-auto p-4 space-y-6 bg-gray-50 scrollbar-hide scrollbar-hidden">
-            {messages.map((msg) => (
-              <div
-                key={msg?.id}
-                className={`flex flex-col ${
-                  msg?.sender?.id === user?.id
-                    ? "justify-end place-items-end"
-                    : "justify-start place-items-start"
-                }`}
-              >
-                <div
-                  className={`max-w-md p-3 flex flex-col gap-3 text-sm rounded-lg shadow relative ${
-                    msg?.sender?.id === user?.id
-                      ? "bg-[#00a256] text-white"
-                      : "bg-white text-[#100073] border"
-                  }`}
-                >
-                  {msg?.referencedHouse?.title ? (
-                    <span className="rounded-lg relative">
-                      <img
-                        className="rounded-lg"
-                        src={`https://backend.realestway.com/storage/${msg?.referencedHouse?.medias[0].path}`}
-                        height={50}
-                      />
-                      <i className="text-xs p-2 bg-black rounded-sm bg-opacity-60 text-white absolute right-0 top-0">
-                        {msg?.referencedHouse?.title}{" "}
-                      </i>
-                    </span>
-                  ) : (
-                    ""
-                  )}
-                  <p>{msg?.message}</p>
+            {(() => {
+              const grouped = {};
+              messages.forEach((msg) => {
+                const dateKey = new Date(msg.createdAt).toDateString();
+                if (!grouped[dateKey]) grouped[dateKey] = [];
+                grouped[dateKey].push(msg);
+              });
+
+              return Object.entries(grouped).map(([dateKey, msgs]) => (
+                <div key={dateKey} className="space-y-4">
+                  <div className="text-center text-xs text-gray-500 font-medium my-2">
+                    {formatDateHeader(msgs[0].createdAt)}
+                  </div>
+                  {msgs.map((msg) => (
+                    <div
+                      key={msg?.id}
+                      className={`flex flex-col ${
+                        msg?.sender?.id === user?.id
+                          ? "justify-end place-items-end"
+                          : "justify-start place-items-start"
+                      }`}
+                    >
+                      <div
+                        className={`max-w-md flex flex-col gap-3 p-3 text-sm rounded-lg shadow relative ${
+                          msg?.sender?.id === user?.id
+                            ? "bg-[#00a256] text-white"
+                            : "bg-white text-[#100073] border"
+                        }`}
+                      >
+                        {msg?.referencedHouse?.title && (
+                          <span className="rounded-lg relative">
+                            <img
+                              className="rounded-lg"
+                              src={`https://backend.realestway.com/storage/${msg?.referencedHouse?.medias[0].path}`}
+                              height={50}
+                            />
+                            <i className="text-xs p-2 bg-black rounded-sm bg-opacity-60 text-white absolute right-0 top-0">
+                              {msg?.referencedHouse?.title}
+                            </i>
+                          </span>
+                        )}
+                        <p>{msg?.message}</p>
+                      </div>
+                      <div className="text-[10px] text-right mt-1 text-gray-400">
+                        {new Date(msg?.createdAt).toLocaleTimeString([], {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </div>
+                    </div>
+                  ))}
                 </div>
-                <div className="text-[10px] text-right mt-1 text-gray-400">
-                  {new Date(msg?.createdAt).toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
-                </div>
-              </div>
-            ))}
+              ));
+            })()}
             <div ref={messagesEndRef} />
           </div>
 
@@ -251,46 +279,60 @@ const AgentMessages = () => {
           </div>
 
           <div className="flex-1 overflow-y-auto p-4 space-y-6 bg-gray-50">
-            {messages.map((msg) => (
-              <div
-                key={msg?.id}
-                className={`flex flex-col  ${
-                  msg?.sender?.id === user?.id
-                    ? "justify-end place-items-end"
-                    : "justify-start place-items-start"
-                }`}
-              >
-                <div
-                  className={`max-w-md flex flex-col gap-3 w-3/5 p-3 text-sm rounded-lg shadow relative ${
-                    msg?.sender?.id === user?.id
-                      ? "bg-[#00a256] text-white"
-                      : "bg-white text-[#100073] border"
-                  }`}
-                >
-                  {msg?.referencedHouse?.title ? (
-                    <span className="rounded-lg relative">
-                      <img
-                        className="rounded-lg"
-                        src={`https://backend.realestway.com/storage/${msg?.referencedHouse?.medias[0].path}`}
-                        height={50}
-                      />
-                      <i className="text-xs p-2 bg-black rounded-sm bg-opacity-60 text-white absolute right-0 top-0">
-                        {msg?.referencedHouse?.title}{" "}
-                      </i>
-                    </span>
-                  ) : (
-                    ""
-                  )}
-                  <p>{msg?.message}</p>
+            {(() => {
+              const grouped = {};
+              messages.forEach((msg) => {
+                const dateKey = new Date(msg.createdAt).toDateString();
+                if (!grouped[dateKey]) grouped[dateKey] = [];
+                grouped[dateKey].push(msg);
+              });
+
+              return Object.entries(grouped).map(([dateKey, msgs]) => (
+                <div key={dateKey} className="space-y-4">
+                  <div className="text-center text-xs text-gray-500 font-medium my-2">
+                    {formatDateHeader(msgs[0].createdAt)}
+                  </div>
+                  {msgs.map((msg) => (
+                    <div
+                      key={msg?.id}
+                      className={`flex flex-col ${
+                        msg?.sender?.id === user?.id
+                          ? "justify-end place-items-end"
+                          : "justify-start place-items-start"
+                      }`}
+                    >
+                      <div
+                        className={`max-w-md flex flex-col gap-3 p-3 text-sm rounded-lg shadow relative ${
+                          msg?.sender?.id === user?.id
+                            ? "bg-[#00a256] text-white"
+                            : "bg-white text-[#100073] border"
+                        }`}
+                      >
+                        {msg?.referencedHouse?.title && (
+                          <span className="rounded-lg relative">
+                            <img
+                              className="rounded-lg"
+                              src={`https://backend.realestway.com/storage/${msg?.referencedHouse?.medias[0].path}`}
+                              height={50}
+                            />
+                            <i className="text-xs p-2 bg-black rounded-sm bg-opacity-60 text-white absolute right-0 top-0">
+                              {msg?.referencedHouse?.title}
+                            </i>
+                          </span>
+                        )}
+                        <p>{msg?.message}</p>
+                      </div>
+                      <div className="text-[10px] text-right mt-1 text-gray-400">
+                        {new Date(msg?.createdAt).toLocaleTimeString([], {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </div>
+                    </div>
+                  ))}
                 </div>
-                <div className="text-[10px] text-right mt-1 text-gray-400">
-                  {new Date(msg?.createdAt).toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
-                </div>
-              </div>
-            ))}
+              ));
+            })()}
             <div ref={messagesEndRef} />
           </div>
 
