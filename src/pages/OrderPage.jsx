@@ -106,16 +106,16 @@ const OrderPage = () => {
   };
 
   const receiptData = {
-    fullName: paymentdata.data?.authorization?.sender_name,
-    currency: paymentdata.data?.currency,
-    email: paymentdata.data?.customer?.email,
-    amount: paymentdata.data?.amount,
-    date: paymentdata.data?.paidAt,
+    fullName: paymentdata.data?.paystack_data?.authorization?.sender_name,
+    currency: paymentdata.data?.paystack_data?.currency,
+    email: paymentdata.data?.paystack_data?.customer?.email,
+    amount: paymentdata.data?.paystack_data?.amount,
+    date: paymentdata.data?.paystack_data?.paidAt,
     transactionId: paymentdata.data?.payment_id,
     propertyTitle: paymentdata.listing?.title,
     propertyType: paymentdata.listing?.property_type,
-    reference: paymentdata.data?.reference,
-    paymentMethod: paymentdata.data?.channel,
+    reference: paymentdata.data?.paystack_data?.reference,
+    paymentMethod: paymentdata.data?.paystack_data?.channel,
   };
 
   return (
