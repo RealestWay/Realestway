@@ -89,8 +89,8 @@ const OrderPage = () => {
       console.log(result);
       setPaymentData(result);
       if (
-        result?.data?.status === true ||
-        result?.data?.status?.toLowerCase() === "success"
+        result?.data?.paystack_data?.status === true ||
+        result?.data?.paystack_data?.status.toLowerCase() === "success"
       ) {
         setPaymentStage(3);
         setIsPaid(true);
@@ -111,7 +111,7 @@ const OrderPage = () => {
     email: paymentdata.data?.customer?.email,
     amount: paymentdata.data?.amount,
     date: paymentdata.data?.paidAt,
-    transactionId: paymentdata.data?.id,
+    transactionId: paymentdata.data?.payment_id,
     propertyTitle: paymentdata.listing?.title,
     propertyType: paymentdata.listing?.property_type,
     reference: paymentdata.data?.reference,
