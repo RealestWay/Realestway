@@ -86,7 +86,7 @@ const OrderPage = () => {
       );
 
       const result = await response.json();
-      console.log(result);
+
       setPaymentData(result);
       if (
         result?.data?.paystack_data?.status === true ||
@@ -112,10 +112,11 @@ const OrderPage = () => {
     amount: paymentdata.data?.paystack_data?.amount,
     date: paymentdata.data?.paystack_data?.paidAt,
     transactionId: paymentdata.data?.payment_id,
-    propertyTitle: paymentdata.listing?.title,
-    propertyType: paymentdata.listing?.property_type,
+    propertyTitle: paymentdata.data?.listing?.title,
+    propertyType: paymentdata.data?.listing?.property_type,
     reference: paymentdata.data?.paystack_data?.reference,
     paymentMethod: paymentdata.data?.paystack_data?.channel,
+    authorization: paymentdata.data?.paystack_data?.authorization?.bank,
   };
 
   return (
