@@ -28,16 +28,37 @@ const AddToHomeScreen = () => {
     });
   };
 
+  const handleClose = () => {
+    setPrompt(null);
+    setVisible(false);
+  };
+
   return visible ? (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="bg-white p-4 rounded shadow-lg text-center max-w-sm w-full">
-        <p className="mb-4">Install Realestway to your home screen?</p>
+      <div className="bg-white p-4 rounded shadow-lg text-center max-w-sm w-full relative">
+        {/* Close button */}
         <button
-          onClick={handleInstall}
-          className="bg-[#00a256] text-white px-4 py-2 rounded"
+          onClick={handleClose}
+          className="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
         >
-          📲 Add to Home Screen
+          ✖
         </button>
+
+        <p className="mb-4">Install Realestway to your home screen?</p>
+        <div className="flex gap-3 justify-center">
+          <button
+            onClick={handleInstall}
+            className="bg-[#00a256] text-white px-4 py-2 rounded"
+          >
+            📲 Add to Home Screen
+          </button>
+          <button
+            onClick={handleClose}
+            className="bg-gray-300 text-gray-800 px-4 py-2 rounded"
+          >
+            Cancel
+          </button>
+        </div>
       </div>
     </div>
   ) : null;
