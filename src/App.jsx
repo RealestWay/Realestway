@@ -1,7 +1,7 @@
 import { BrowserRouter } from "react-router-dom";
-
 import { AuthProvider } from "./contexts/AuthContext";
 import { HouseProvider } from "./contexts/HouseContext";
+import { HouseRequestProvider } from "./contexts/HouseRequestContext"; // Named import
 import ScrollToTop from "./components/ScrollToTop";
 import AppRoutes from "./AppRoutes";
 import { ChatProvider } from "./contexts/ChatsContext";
@@ -14,6 +14,7 @@ import { useEffect } from "react";
 import { generateToken, messaging } from "./notifications/firebase";
 import { onMessage } from "firebase/messaging";
 import toast, { Toaster } from "react-hot-toast";
+
 ReactGA.initialize("G-WRVHG3YM2J");
 
 const App = () => {
@@ -23,23 +24,27 @@ const App = () => {
       toast(payload.notification.body);
     });
   }, []);
+
   const isUnderMaintenance = false;
 
   if (isUnderMaintenance) {
     return <Maintenance />;
   }
+
   return (
-    //Passing Context values
     <AuthProvider>
       <HouseProvider>
         <ChatProvider>
-          <BrowserRouter>
-            <ScrollToTop />
-            <AnalyticsTracking />
-            <AppRoutes />
-            <ToastContainer />
-            <Toaster />
-          </BrowserRouter>
+          <HouseRequestProvider>
+            {/* Now using named import */}
+            <BrowserRouter>
+              <ScrollToTop />
+              <AnalyticsTracking />
+              <AppRoutes />
+              <ToastContainer />
+              <Toaster />
+            </BrowserRouter>
+          </HouseRequestProvider>
         </ChatProvider>
       </HouseProvider>
     </AuthProvider>

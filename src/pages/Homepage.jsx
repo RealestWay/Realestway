@@ -92,7 +92,7 @@ const Homepage = () => {
   useEffect(() => {
     if (!chats && token) fetchChats();
     if (!agent && user?.role === "agent") fetchAgent(user.id);
-  }, [fetchAgent, fetchChats, token, user]);
+  }, [agent, chats, fetchAgent, fetchChats, token, user]);
   return (
     <div className="w-[100vw]">
       {isLoading ? (
@@ -108,11 +108,12 @@ const Homepage = () => {
               <h2 className="text-2xl">Explore Locations</h2>
               <p className="text-justify hidden md:inline-block">
                 Discover verified homes across multiple cities and communities.
-                Whether you’re moving for school, work, or a fresh start,
-                Realestway connects you to trusted listings wherever you’re
+                Whether you&apos;re moving for school, work, or a fresh start,
+                Realestway connects you to trusted listings wherever you&apos;re
                 headed.
               </p>
             </div>
+
             <div className="relative w-full md:w-[65%]">
               <button className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white bg-opacity-50 p-2 rounded-full shadow">
                 <ArrowLeft2 size="24" color="white" />
@@ -189,11 +190,25 @@ const Homepage = () => {
                 trusted human support, we help you search smarter, connect
                 faster, and move confidently.{" "}
               </p>
-              <span>
-                <button className="text-white py-3 px-16 bg-[#00a256] rounded-md">
-                  <Link to={"/about"}>Learn more</Link>
-                </button>
-              </span>
+              <div className="flex justify-center gap-2 items-center mt-6">
+                <div className="flex justify-center gap-4 items-center mt-6">
+                  <button className="text-white py-3 px-8 bg-[#00a256] rounded-md hover:bg-green-600 transition-colors">
+                    <Link to={"/about"}>Learn more</Link>
+                  </button>
+                  {/* <Link
+                    to={"/search"}
+                    className="bg-[#00a256] w-[45%] text-white px-8 py-3 rounded-md font-medium hover:bg-green-600 transition-colors text-lg"
+                  >
+                    RENT
+                  </Link>
+                  <Link
+                    to={"/search/buy"}
+                    className="bg-white w-[45%] text-[#100073] px-8 py-3 rounded-md font-medium border border-[#100073] hover:bg-gray-50 transition-colors text-lg"
+                  >
+                    BUY
+                  </Link> */}
+                </div>
+              </div>
             </div>
           </div>
           <div className=" mx-auto w-[92%] my-16">

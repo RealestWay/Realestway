@@ -66,13 +66,26 @@ const Banner = () => {
             <br />
             the smart way
           </h1>
-          <div className="pb-20">
-            {" "}
+          <div className="pb-25 flex flex-col gap-6">
             <p className="mt-2 w-5/6 md:w-1/2 text-[22px] mb-2 m-auto md:mb-10">
               Realestway makes finding, renting, or buying a home simple, fast,
               and safe. No scams, no stress; just verified listings and expert
               support.
             </p>
+            <div className="flex justify-between mx-auto mt-6 mb w-4/5 md:w-3/5">
+              <Link
+                to={"/search"}
+                className="bg-[#00a256] w-[45%] text-white px-8 py-3 rounded-md font-medium hover:bg-green-600 transition-colors text-lg"
+              >
+                RENT
+              </Link>
+              <Link
+                to={"/search/buy"}
+                className="bg-white w-[45%] text-[#100073] px-8 py-3 rounded-md font-medium border border-[#100073] hover:bg-gray-50 transition-colors text-lg"
+              >
+                BUY
+              </Link>
+            </div>
           </div>
         </div>
         <Filter

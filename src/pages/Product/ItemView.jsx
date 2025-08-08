@@ -32,6 +32,7 @@ import Map from "../../components/Map";
 import Items from "../../components/Items";
 import ChatBox from "../../Chat/ChatBox";
 import { toast } from "react-toastify";
+import WhatsAppContactButton from "../../components/WhatsAppContact";
 // import ShareButtons from "../../components/ShareButtons";
 
 const ItemView = () => {
@@ -253,7 +254,8 @@ const ItemView = () => {
               <span> {dimension}-sqFts</span>
             </div>
             <div className="w-full flex justify-center">
-              {user?.role === "user" ? (
+              <WhatsAppContactButton property={house} />
+              {/* {user?.role === "user" ? (
                 <Link
                   to={"/payment"}
                   className="bg-[#00a256] w-full gap-1 p-4 justify-items-center justify-center flex hover:bg-[#7ff3bd] text-lg text-white rounded-lg"
@@ -276,7 +278,7 @@ const ItemView = () => {
                 >
                   <span>Secure Apartment</span>
                 </Link>
-              )}
+              )}*/}
             </div>
             <Link className="text-[#00a256] flex flex-col justify-center items-center w-full py-4">
               <u>View on Map</u>
@@ -409,10 +411,10 @@ const ItemView = () => {
             <span className="flex flex-col md:flex-row md:justify-between md:items-center w-full">
               <span className="flex flex-col gap-2 text-lg justify-between py-4">
                 <h4>{house.user.fullName}</h4>
-                <span className="flex items-center text-[0.95em] md:text-[1em] gap-2 md:gap-3">
+                {/* <span className="flex items-center text-[0.95em] md:text-[1em] gap-2 md:gap-3">
                   <FontAwesomeIcon icon={faPhone} color="#00a256" />
                   {house.user.phone}
-                </span>
+                </span> */}
                 <span className="flex items-center text-[0.95em] md:text-[1em] gap-2 md:gap-3">
                   <FontAwesomeIcon icon={faEnvelope} color="#00a256" />
                   {house.user.email}
