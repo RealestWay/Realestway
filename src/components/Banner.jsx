@@ -45,7 +45,7 @@ const Banner = () => {
 
   return (
     <div
-      className="relative w-full h-[110vh] md:h-screen bg-cover bg-center transition-all duration-1000"
+      className="relative w-full h-[110vh] md:min-h-screen bg-cover bg-center transition-all duration-1000"
       style={{
         backgroundImage: `url(${bannerImages[currentIndex]})`,
       }}
@@ -66,13 +66,13 @@ const Banner = () => {
             <br />
             the smart way
           </h1>
-          <div className="pb-25 flex flex-col gap-6">
+          <div className="pb-36 flex flex-col gap-6 md:gap-0">
             <p className="mt-2 w-5/6 md:w-1/2 text-[22px] mb-2 m-auto md:mb-10">
               Realestway makes finding, renting, or buying a home simple, fast,
               and safe. No scams, no stress; just verified listings and expert
               support.
             </p>
-            <div className="flex justify-between mx-auto mt-6 mb w-4/5 md:w-3/5">
+            <div className="flex justify-between mx-auto my-6 w-4/5 md:w-3/5">
               <Link
                 to={"/search"}
                 className="bg-[#00a256] w-[45%] text-white px-8 py-3 rounded-md font-medium hover:bg-green-600 transition-colors text-lg"

@@ -532,7 +532,7 @@ const ItemView = () => {
             <span>
               {" "}
               <h2 className="text-sm text-[#00a256]">FEATURED LISTINGS</h2>
-              <h3 className="text-2xl py-3font-semibold">More Like These</h3>
+              <h3 className="text-2xl py-3font-semibold">More Like This</h3>
             </span>{" "}
             <button className="p-3 border-[1px] mt-3 border-[#00a256] rounded">
               <Link to={"/search"}>View All Properties</Link>
