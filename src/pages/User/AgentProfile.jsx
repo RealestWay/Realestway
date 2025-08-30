@@ -54,6 +54,7 @@ const AgentProfile = () => {
     </div>
   );
 };
+
 const Nav = ({ navIndex, setNavIndex, logout }) => {
   const [open, setOpen] = useState(false);
   return (

@@ -31,10 +31,58 @@ import OrderPage from "./pages/OrderPage";
 import { useAuth } from "./contexts/AuthContext";
 import Blog from "./pages/Blog/Blog";
 import BlogPost from "./pages/Blog/BlogPost";
+import RequestsPage from "./components/RequestPage";
+// import ProfileView from "./pages/User/PreviewAgent";
+import { useEffect } from "react";
+import {
+  generateToken,
+  getCurrentToken,
+  messaging,
+} from "./notifications/firebase";
+import { onMessage } from "firebase/messaging";
+import toast from "react-hot-toast";
 
 const AppRoutes = () => {
-  const { user } = useAuth();
+  const { user, token } = useAuth();
+  const userToken = token;
 
+  useEffect(() => {
+    // Generate and save token
+    generateToken()
+      .then((token) => {
+        console.log("Token generated and saved:", token);
+      })
+      .catch((error) => {
+        console.error("Failed:", error);
+      });
+
+    onMessage(messaging, (payload) => {
+      toast(payload.notification.body);
+    });
+  }, []);
+
+  useEffect(() => {
+    // Get existing token
+    getCurrentToken().then((token) => {
+      if (token) {
+        const res = fetch(
+          `https://backend.realestway.com/api/notification-tokens/${token}`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+              Authorization: `Bearer ${userToken}`,
+            },
+            body: { user_id: user.id },
+          }
+        );
+        if (!res.ok) {
+          throw new Error("Token failed to save for user");
+        }
+      }
+    });
+  }, [user]);
   return (
     <Routes>
       <Route path="/" element={<Homepage />} />
@@ -76,6 +124,7 @@ const AppRoutes = () => {
           <Route path="/profile/my-listings" element={<AgentListings />} />
           <Route path="/profile/messages" element={<AgentMessages />} />
           <Route path="/profile/account" element={<AgentAccount />} />
+          <Route path="/profile/req" element={<RequestsPage />} />
         </Route>
       )}
       <Route path="about" element={<AboutUs />} />
@@ -126,6 +175,7 @@ const AppRoutes = () => {
       <Route path="services" element={<ServicesAndFacilities />} />
       <Route path="careers" element={<Careers />} />
       <Route path="blog" element={<Blog />} />
+      {/* <Route path="/:agent" element={<ProfileView />} /> */}
       <Route path="/blog/:slug" element={<BlogPost />} />
     </Routes>
   );

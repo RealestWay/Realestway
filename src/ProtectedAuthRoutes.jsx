@@ -4,10 +4,12 @@ import { useAuth } from "./contexts/AuthContext";
 function ProtectedAuthRoutes({ children }) {
   const { user, isAuthenticated } = useAuth();
 
-  if (user && isAuthenticated) {
+  if (user?.role === "user" && isAuthenticated) {
     return <Navigate to="/" replace />;
   }
-
+  if (user?.role === "agent" && isAuthenticated) {
+    return <Navigate to="/Profile" replace />;
+  }
   return children;
 }
 

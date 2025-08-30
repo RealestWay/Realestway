@@ -33,10 +33,9 @@ const AgentDashboard = () => {
   const {
     requests,
     fetchHouseRequests,
-    updateHouseRequest,
     isLoading: isLoadingRequests,
   } = useHouseRequests();
-  console.log(requests);
+
   // Filter and limit chats
   const validChats = chats
     ?.filter(
@@ -186,14 +185,18 @@ const AgentDashboard = () => {
 
       {/* User Requests Section */}
       <div className="bg-white p-4 rounded shadow mb-6">
-        <h3 className="text-xl p-2 mb-4">All New User Requests</h3>
+        <div className="flex justify-between">
+          {" "}
+          <h3 className="text-xl p-2 mb-4">Users Requests</h3>{" "}
+          <Link to={"/profile/req"}>View All</Link>
+        </div>
         {isLoadingRequests ? (
           <Spinner2 />
         ) : requests.length === 0 ? (
           <p className="text-gray-500 p-2">No requests found</p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {requests.map((req) => (
+            {requests.slice(0, 2).map((req) => (
               <div
                 key={req.id}
                 className="border rounded-lg p-4 shadow hover:shadow-md transition-shadow bg-white"

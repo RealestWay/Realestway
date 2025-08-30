@@ -155,7 +155,7 @@ const ItemView = () => {
         {/*Primary Picture and Details*/}
         <div className="flex md:flex-row justify-between gap-3 flex-col">
           <div className="md:w-[55%] w-full py-2 rounded-2xl px-5">
-            {images.length > 0 && (
+            {!video && images.length > 0 && (
               <Swiper
                 autoplay={{ delay: 4000, disableOnInteraction: false }}
                 pagination={{ clickable: true, el: ".custom-pagination" }}
@@ -176,7 +176,7 @@ const ItemView = () => {
                 <div className="custom-pagination absolute bottom-4 left-1/2 transform -translate-x-1/2 z-10 flex gap-2"></div>
               </Swiper>
             )}
-            {images.length === 0 && (
+            {video && (
               <video
                 width="100%"
                 controls

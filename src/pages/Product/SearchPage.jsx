@@ -1,6 +1,6 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 import PageNav from "../../components/PageNav";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Footer from "../../components/Footer";
 
 const SearchPage = () => {
@@ -8,7 +8,15 @@ const SearchPage = () => {
     { name: "Rent", path: `/search` },
     { name: "Buy", path: `/search/buy` },
   ];
-  const [page, setPage] = useState("/search");
+
+  const location = useLocation();
+  const [page, setPage] = useState(location.pathname);
+
+  // Update page state when URL changes
+  useEffect(() => {
+    setPage(location.pathname);
+  }, [location.pathname]);
+
   return (
     <div className="w-full relative">
       <PageNav home={false} />

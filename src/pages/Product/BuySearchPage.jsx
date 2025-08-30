@@ -1,4 +1,8 @@
+import { useSaleListings } from "../../contexts/SalesContext";
+
 const BuySearchPage = () => {
+  const { saleListings } = useSaleListings();
+  console.log(saleListings);
   return (
     <div className="flex flex-col items-center justify-center py-24 mb-10">
       <img alt="coming soon" src="/comingsoon.png" width={330} height={330} />

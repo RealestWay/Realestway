@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <div>
+    <div className="mt-14">
       <div className="w-[92%] md:w-5/6 mx-auto my-10">
         <h2 className="text-2xl mb-4">
           Become a Real Estate Agent on Realestway

@@ -4,6 +4,7 @@ const HouseContext = createContext();
 const BASE = "https://backend.realestway.com/api";
 const HouseProvider = ({ children }) => {
   const [houses, setHouses] = useState([]);
+  const [filteredHouses, setFilteredHouses] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState("");
   const [filter, setFilter] = useState({});
@@ -12,14 +13,14 @@ const HouseProvider = ({ children }) => {
   const [house, setRemoteHouse] = useState();
 
   // fetch all houses
-  async function fetchHouses() {
+  async function fetchHouses(num = 20) {
     setIsLoading(true);
     setTimeout(async () => {
       try {
-        const res = await fetch(`${BASE}/listings`);
+        const res = await fetch(`${BASE}/listings?per_page=${num}`);
         const data = await res.json();
         setHouses(data);
-
+        setFilteredHouses(data); // Initialize filteredHouses with all houses
         localStorage.setItem("houses", JSON.stringify(data));
       } catch {
         alert("Please check your network, page could not load properly...");
@@ -28,6 +29,52 @@ const HouseProvider = ({ children }) => {
       }
     }, 3000);
   }
+
+  // fetch filtered houses
+  async function fetchFilteredHouses(filterParams = {}) {
+    setIsLoading(true);
+    try {
+      // Build query string from filter parameters
+      const queryParams = new URLSearchParams();
+
+      // Add all filter parameters that have values
+      Object.entries(filterParams).forEach(([key, value]) => {
+        if (value !== undefined && value !== null && value !== "") {
+          queryParams.append(key, value);
+        }
+      });
+
+      // Add default parameters if not provided
+      if (!filterParams.per_page) {
+        queryParams.append("per_page", "15");
+      }
+      if (!filterParams.sort) {
+        queryParams.append("sort", "price_desc");
+      }
+
+      const url = `${BASE}/listings?${queryParams.toString()}`;
+      const res = await fetch(url, {
+        headers: {
+          Accept: "application/json",
+        },
+      });
+
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+
+      const data = await res.json();
+      setFilteredHouses(data);
+      return data;
+    } catch (error) {
+      console.error("Error fetching filtered houses:", error);
+      alert("Failed to fetch filtered results. Please try again.");
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   // fetch agent's houses
   async function fetchAgentHouses(id) {
     setIsLoading(true);
@@ -84,7 +131,6 @@ const HouseProvider = ({ children }) => {
   };
 
   // Delete House
-
   const deleteHouse = async (id, token) => {
     setIsLoading(true);
     try {
@@ -106,6 +152,7 @@ const HouseProvider = ({ children }) => {
       setSuccess("Successful!");
     }
   };
+
   // Show all favorite houses
   const [loadingFav, setLoadingFav] = useState(false);
   const showFavoritedHouse = async (token) => {
@@ -128,7 +175,7 @@ const HouseProvider = ({ children }) => {
     }
   };
 
-  //  Update House
+  // Update House
   async function updateHouse(id, token, formData) {
     setIsLoading(true);
     formData.append("_method", "PATCH");
@@ -156,17 +203,21 @@ const HouseProvider = ({ children }) => {
   useEffect(() => {
     const cached = localStorage.getItem("houses");
     if (cached) {
-      setHouses(JSON.parse(cached));
-      // Load from cache first
+      const parsedData = JSON.parse(cached);
+      setHouses(parsedData);
+      setFilteredHouses(parsedData); // Initialize filtered houses from cache
     }
     fetchHouses();
   }, []);
+
   return (
     <HouseContext.Provider
       value={{
         houses,
+        filteredHouses,
         isLoading,
         fetchHouses,
+        fetchFilteredHouses,
         fetchAgentHouses,
         agentHouses,
         deleteHouse,

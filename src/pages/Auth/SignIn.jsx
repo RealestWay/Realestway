@@ -19,7 +19,8 @@ const SignIn = () => {
   const { fetchHouses } = UseHouses();
   const navigate = useNavigate();
 
-  const { login, isAuthenticated, loginMsg, isLoading } = useAuth();
+  const { login, isAuthenticated, loginMsg, isLoading, user } = useAuth();
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -28,8 +29,9 @@ const SignIn = () => {
   };
 
   useEffect(() => {
-    if (isAuthenticated) navigate("/search");
-  }, [isAuthenticated]);
+    if (isAuthenticated && user.role === "user") navigate("/search");
+    if (isAuthenticated && user.role === "agent") navigate("/Profile");
+  }, [isAuthenticated, user]);
   return (
     <div className="bg-gradient-to-b relative pb-20 text-center  from-[#00A256] min-h-screen to-[#100073] ">
       <div className="flex-col flex items-center justify-center">

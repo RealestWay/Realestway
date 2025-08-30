@@ -67,7 +67,7 @@ const Items = ({ house, children }) => {
 
   return (
     <div className="min-w-[350px] w-[98%] md:w-[46%] p-3 pb-1 flex-col gap-4 justify-around shadow-2xl drop-shadow-lg rounded-lg mx-3">
-      {images.length > 0 ? (
+      {!video && images.length > 0 ? (
         <div
           className={itemStyle}
           style={{

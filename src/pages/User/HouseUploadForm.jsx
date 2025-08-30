@@ -5,6 +5,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import Spinner2 from "../../components/Spinner2";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import SaleListingWizard from "./SalesUpload/SalesUploadForm";
 
 const HouseUploadForm = ({ onClose }) => {
   const { fetchHouses, fetchAgentHouses } = UseHouses();
@@ -12,7 +13,7 @@ const HouseUploadForm = ({ onClose }) => {
   const [error, setError] = useState();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successMessage, setSuccessMessage] = useState();
-
+  const [formType, setFormType] = useState();
   const [formData, setFormData] = useState({
     title: "",
     address: "",
@@ -129,7 +130,7 @@ const HouseUploadForm = ({ onClose }) => {
 
   const handleVideoUpload = async (e) => {
     const file = e.target.files[0];
-    if (file && file.size > 30 * 1024 * 1024) {
+    if (file && file.size > 50 * 1024 * 1024) {
       alert("Video file must be less than 50MB");
       return;
     }
@@ -267,8 +268,8 @@ const HouseUploadForm = ({ onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center p-1">
+      <div className="bg-white rounded-lg shadow-xl w-full max-h-[95vh] overflow-y-auto">
         <div className="flex justify-between items-center p-4 border-b sticky top-0 bg-white z-10">
           <h2 className="text-2xl font-bold text-gray-800">Upload Property</h2>
           <button
@@ -285,7 +286,6 @@ const HouseUploadForm = ({ onClose }) => {
             />
           </button>
         </div>
-
         <div className="p-6">
           {successMessage && (
             <div className="mb-4 p-4 bg-green-100 text-green-700 rounded">
@@ -300,10 +300,29 @@ const HouseUploadForm = ({ onClose }) => {
 
           <div className="mb-6">
             <button
-              className="w-full p-3 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition"
+              className="w-full p-3 flex justify-center gap-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition"
               onClick={fetchLocation}
               disabled={!!locationData.latitude}
             >
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+              </svg>
               {locationData.latitude ? "Location Recorded" : "Record Location"}
             </button>
             {locationData.latitude ? (
@@ -316,8 +335,32 @@ const HouseUploadForm = ({ onClose }) => {
               </p>
             )}
           </div>
-
           {locationData.latitude && (
+            <div className="flex justify-between text-white">
+              <button
+                className={`${
+                  formType === "Rent"
+                    ? "bg-[#00a256]"
+                    : "text-[#00a256] bg-white"
+                } p-2 rounded-md w-[46%]`}
+                onClick={() => setFormType("Rent")}
+              >
+                Rent
+              </button>
+              <button
+                className={`${
+                  formType === "Sell"
+                    ? "bg-[#100073]"
+                    : "text-[#100073] bg-white"
+                } p-2 rounded-md w-[46%]`}
+                onClick={() => setFormType("Sell")}
+              >
+                Sell
+              </button>
+            </div>
+          )}
+
+          {formType === "Rent" && (
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid gap-4">
                 <input
@@ -677,7 +720,7 @@ const HouseUploadForm = ({ onClose }) => {
                       </svg>
                       <p className="text-gray-600">Drag your video or browse</p>
                       <p className="text-sm text-gray-500 mt-1">
-                        Max: 30 MB files are allowed
+                        Max: 50 MB files are allowed
                       </p>
                       <p className="text-sm text-gray-500">Supports: .mp4</p>
                     </div>
@@ -780,6 +823,9 @@ const HouseUploadForm = ({ onClose }) => {
                 </button>
               </div>
             </form>
+          )}
+          {formType === "Sell" && (
+            <SaleListingWizard locationData={locationData} />
           )}
         </div>
       </div>

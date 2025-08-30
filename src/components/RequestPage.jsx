@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { toast } from "react-toastify";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { useOutletContext } from "react-router-dom";
 
 const statusTabs = [
   { key: "all", label: "All" },
@@ -55,49 +58,9 @@ const RequestsPage = () => {
     setFilteredRequests(filtered);
   }, [requests, activeTab, searchTerm]);
 
-  const updateStatus = async (id, status) => {
-    if (!window.confirm(`Change status to ${status}?`)) return;
-    try {
-      await fetch(
-        `https://realestway-backend.up.railway.app/api/user-requests/${id}/status`,
-        {
-          method: "PATCH",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ status }),
-        }
-      );
-      setRequests((prev) =>
-        prev.map((req) => (req.id === id ? { ...req, status } : req))
-      );
-      toast.success(`Status updated to ${status}`);
-    } catch {
-      toast.error("Failed to update status");
-    }
-  };
+  const { agent } = useAuth();
 
-  const deleteRequest = async (id) => {
-    if (!window.confirm("Delete this request?")) return;
-    try {
-      await fetch(
-        `https://realestway-backend.up.railway.app/api/user-requests/${id}`,
-        {
-          method: "DELETE",
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setRequests((prev) => prev.filter((req) => req.id !== id));
-      toast.success("Request deleted");
-    } catch {
-      toast.error("Failed to delete request");
-    }
-  };
+  const setOpenForm = useOutletContext();
 
   if (loading) return <p className="text-center py-10">Loading requests...</p>;
 
@@ -155,7 +118,7 @@ const RequestsPage = () => {
                   <p className="text-sm text-gray-500">{req.email}</p>
                 </div>
                 <span
-                  className={`px-2 py-1 text-xs font-semibold rounded-full capitalize
+                  className={`px-3 py-1 h-6 text-xs font-semibold rounded-full capitalize
                     ${
                       req.status === "completed"
                         ? "bg-green-100 text-green-800"
@@ -195,30 +158,28 @@ const RequestsPage = () => {
                 >
                   {expanded[req.id] ? "Hide Details" : "View Details"}
                 </button>
-                <button
-                  onClick={() => updateStatus(req.id, "in_progress")}
-                  className="text-xs bg-blue-50 text-blue-600 hover:bg-blue-100 px-3 py-1 rounded"
-                >
-                  In Progress
-                </button>
-                <button
-                  onClick={() => updateStatus(req.id, "completed")}
-                  className="text-xs bg-green-50 text-green-600 hover:bg-green-100 px-3 py-1 rounded"
-                >
-                  Complete
-                </button>
-                <button
-                  onClick={() => updateStatus(req.id, "cancelled")}
-                  className="text-xs bg-yellow-50 text-yellow-600 hover:bg-yellow-100 px-3 py-1 rounded"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={() => deleteRequest(req.id)}
-                  className="text-xs bg-red-50 text-red-600 hover:bg-red-100 px-3 py-1 rounded"
-                >
-                  Delete
-                </button>
+                <div className="flex gap-2 mt-3">
+                  {req.status === "completed" ? (
+                    <></>
+                  ) : (
+                    <button
+                      onClick={() =>
+                        agent?.status !== "active"
+                          ? toast.error(
+                              `Account ${agent?.status} ${
+                                agent?.status === "inactive"
+                                  ? "(Pending Verification)"
+                                  : ""
+                              }`
+                            )
+                          : setOpenForm(true)
+                      }
+                      className="bg-[#00a256] md:w-56 mt-2 text-center text-white md:px-4 p-2 rounded-lg text-sm md:text-[1em] flex items-center gap-2 justify-center"
+                    >
+                      <FontAwesomeIcon icon={faPlus} /> Address
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
           ))
