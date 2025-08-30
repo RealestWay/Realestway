@@ -199,7 +199,7 @@ const RentSearchPage = () => {
                       )}
                     </>
                   ) : (
-                    `Showing ${availableHouses.length} properties`
+                    `Showing all properties`
                   )}
                 </p>
                 <select className="border-[1px] rounded-md p-3">

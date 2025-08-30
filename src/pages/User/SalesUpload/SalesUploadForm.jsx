@@ -3,7 +3,7 @@ import { useAuth } from "../../../contexts/AuthContext";
 
 export default function SaleListingForm({ locationData }) {
   const { token } = useAuth();
-  console.log(token);
+
   // Store all details + files in one state
   const [form, setForm] = useState({
     title: "",
@@ -69,9 +69,7 @@ export default function SaleListingForm({ locationData }) {
       onSubmit={handleSubmit}
       className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md space-y-6"
     >
-      <h2 className="text-2xl font-bold text-[#100073]">
-        Property Details & Media
-      </h2>
+      <h2 className="text-2xl font-bold text-[#100073]">Property For Sale</h2>
 
       {/* Property Details */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -204,28 +202,31 @@ export default function SaleListingForm({ locationData }) {
       </div>
 
       {/* Media Upload */}
-      <div>
-        <h3 className="text-lg font-semibold">Upload Media</h3>
-        <label className="block text-sm font-medium">Images</label>
-        <input
-          type="file"
-          name="images"
-          multiple
-          accept="image/*"
-          onChange={handleFileChange}
-          className="block w-full"
-        />
-
-        <label className="block text-sm font-medium mt-4">Video</label>
-        <input
-          type="file"
-          name="video"
-          accept="video/*"
-          onChange={handleFileChange}
-          className="block w-full"
-        />
+      <div className="flex flex-col gap-2">
+        <div className="border-2 border-dashed border-[#00a256] rounded-lg p-6 text-center">
+          <h3 className="text-lg font-semibold">Upload Images</h3>
+          <label className="block text-sm font-medium">Images</label>
+          <input
+            type="file"
+            name="images"
+            multiple
+            accept="image/*"
+            onChange={handleFileChange}
+            className="block w-full"
+          />
+        </div>
+        <div className="border-2 border-dashed border-[#00a256] rounded-lg p-6 text-center">
+          <h3 className="text-lg font-semibold">Upload Video</h3>
+          <label className="block text-sm font-medium mt-4">Video</label>
+          <input
+            type="file"
+            name="video"
+            accept="video/*"
+            onChange={handleFileChange}
+            className="block w-full"
+          />
+        </div>
       </div>
-
       <button
         type="submit"
         className="px-6 py-3 bg-[#00a256] text-white rounded-md hover:bg-[#008c4a] transition-colors w-full"

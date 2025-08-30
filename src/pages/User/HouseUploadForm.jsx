@@ -361,7 +361,10 @@ const HouseUploadForm = ({ onClose }) => {
           )}
 
           {formType === "Rent" && (
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6 mt-3">
+              <h2 className="text-2xl font-bold text-[#100073] flex justify-center">
+                Property For Rent
+              </h2>
               <div className="grid gap-4">
                 <input
                   type="text"

@@ -5,10 +5,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useOutletContext } from "react-router-dom";
 
+// Updated status tabs - removed "in_progress" from UI
 const statusTabs = [
   { key: "all", label: "All" },
-  { key: "pending", label: "Pending" },
-  { key: "in_progress", label: "In Progress" },
+  { key: "pending", label: "Pending" }, // This now includes both "pending" and "in_progress"
   { key: "completed", label: "Completed" },
   { key: "cancelled", label: "Cancelled" },
 ];
@@ -43,9 +43,18 @@ const RequestsPage = () => {
   // Filter by tab and search
   useEffect(() => {
     let filtered = [...requests];
+
     if (activeTab !== "all") {
-      filtered = filtered.filter((r) => r.status === activeTab);
+      if (activeTab === "pending") {
+        // Show both "pending" and "in_progress" under the "Pending" tab
+        filtered = filtered.filter(
+          (r) => r.status === "pending" || r.status === "in_progress"
+        );
+      } else {
+        filtered = filtered.filter((r) => r.status === activeTab);
+      }
     }
+
     if (searchTerm.trim()) {
       const term = searchTerm.toLowerCase();
       filtered = filtered.filter(
@@ -59,8 +68,26 @@ const RequestsPage = () => {
   }, [requests, activeTab, searchTerm]);
 
   const { agent } = useAuth();
-
   const setOpenForm = useOutletContext();
+
+  // Helper function to get display status
+  const getDisplayStatus = (status) => {
+    if (status === "in_progress") {
+      return "pending"; // Show "in_progress" as "pending" in UI
+    }
+    return status;
+  };
+
+  // Helper function to get status class
+  const getStatusClass = (status) => {
+    const displayStatus = getDisplayStatus(status);
+
+    return displayStatus === "completed"
+      ? "bg-green-100 text-green-800"
+      : displayStatus === "pending"
+      ? "bg-yellow-100 text-yellow-800"
+      : "bg-red-100 text-red-800";
+  };
 
   if (loading) return <p className="text-center py-10">Loading requests...</p>;
 
@@ -112,24 +139,15 @@ const RequestsPage = () => {
               className="border rounded-lg shadow-sm bg-white p-4"
             >
               <div className="flex justify-between">
-                <div>
+                <div className="w-[75%]">
                   <h4 className="font-semibold">{req.fullName}</h4>
-                  <p className="text-sm text-gray-500">{req.phone}</p>
-                  <p className="text-sm text-gray-500">{req.email}</p>
                 </div>
                 <span
-                  className={`px-3 py-1 h-6 text-xs font-semibold rounded-full capitalize
-                    ${
-                      req.status === "completed"
-                        ? "bg-green-100 text-green-800"
-                        : req.status === "pending"
-                        ? "bg-yellow-100 text-yellow-800"
-                        : req.status === "in_progress"
-                        ? "bg-blue-100 text-blue-800"
-                        : "bg-red-100 text-red-800"
-                    }`}
+                  className={`px-3 py-1 w-[20%] md:w-[10%] h-6 text-xs font-semibold rounded-full capitalize ${getStatusClass(
+                    req.status
+                  )}`}
                 >
-                  {req.status}
+                  {getDisplayStatus(req.status)}
                 </span>
               </div>
 
@@ -141,12 +159,12 @@ const RequestsPage = () => {
               </p>
 
               {expanded[req.id] && (
-                <p className="mt-2 text-sm text-gray-600">
+                <p className="mt-2 text-sm text-gray-600 mr-10">
                   <strong>Details:</strong> {req.additionalDetails}
                 </p>
               )}
 
-              <div className="mt-3 flex flex-wrap gap-2">
+              <div className="mt-3 ml-4 flex flex-wrap gap-2">
                 <button
                   onClick={() =>
                     setExpanded((prev) => ({
@@ -176,7 +194,7 @@ const RequestsPage = () => {
                       }
                       className="bg-[#00a256] md:w-56 mt-2 text-center text-white md:px-4 p-2 rounded-lg text-sm md:text-[1em] flex items-center gap-2 justify-center"
                     >
-                      <FontAwesomeIcon icon={faPlus} /> Address
+                      <FontAwesomeIcon icon={faPlus} /> I have
                     </button>
                   )}
                 </div>

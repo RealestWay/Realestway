@@ -56,6 +56,7 @@ export function HouseRequestProvider({ children }: { children: ReactNode }) {
       });
       const data = await res.json();
       setRequests(data.data || data);
+      console.log(data);
     } catch (err) {
       setError("Failed to fetch requests. Please try again.");
       console.error(err);

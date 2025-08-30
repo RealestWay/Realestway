@@ -22,9 +22,9 @@ import { toast } from "react-toastify";
 
 const AgentDashboard = () => {
   // House context
-  const { fetchAgentHouses, agentHouses, isLoading } = UseHouses();
+  const { fetchAgentHouses, agentHouses, isLoading, fetchAgent } = UseHouses();
   // Auth context
-  const { agent, token } = useAuth();
+  const { agent, token, user } = useAuth();
   // Chats context
   const { chats } = useChats();
   // Outlet context for form handling
@@ -35,7 +35,7 @@ const AgentDashboard = () => {
     fetchHouseRequests,
     isLoading: isLoadingRequests,
   } = useHouseRequests();
-
+  console.log(requests);
   // Filter and limit chats
   const validChats = chats
     ?.filter(
@@ -56,19 +56,25 @@ const AgentDashboard = () => {
 
   // Fetch data on component mount
   useEffect(() => {
-    if (!agentHouses && agent?.id) {
-      fetchAgentHouses(agent.id);
+    if (!agent && user) fetchAgent(user?.id);
+  }, [user]);
+
+  useEffect(() => {
+    if (!agentHouses && user?.id) {
+      fetchAgentHouses(user.id);
     }
-    if (!requests && token) {
+  }, [agent, fetchAgentHouses]);
+
+  useEffect(() => {
+    if (token) {
       fetchHouseRequests(token);
     }
-  }, [agent, fetchAgentHouses, fetchHouseRequests]);
-
+  }, [token]);
   // Calculate active listings count
   const activeListingsCount = agentHouses?.filter(
     (house) => house.availability === "available"
   ).length;
-
+  console.log(requests);
   return (
     <div className="px-6 py-4">
       {/* Listing Prompt */}
@@ -218,11 +224,11 @@ const AgentDashboard = () => {
                         : req.status === "pending"
                         ? "bg-yellow-100 text-yellow-800"
                         : req.status === "in_progress"
-                        ? "bg-blue-100 text-blue-800"
+                        ? "bg-yellow-100 text-yellow-800"
                         : "bg-red-100 text-red-800"
                     }`}
                   >
-                    {req.status === "in_progress" ? "In progress" : req.status}
+                    {req.status === "in_progress" ? "pending" : req.status}
                   </span>
                 </div>
 
@@ -258,7 +264,7 @@ const AgentDashboard = () => {
                       }
                       className="bg-[#00a256] md:w-56 mt-2 text-center text-white md:px-4 p-2 rounded-lg text-sm md:text-[1em] flex items-center gap-2 justify-center"
                     >
-                      <FontAwesomeIcon icon={faPlus} /> Address
+                      <FontAwesomeIcon icon={faPlus} /> Post
                     </button>
                   )}
                 </div>
